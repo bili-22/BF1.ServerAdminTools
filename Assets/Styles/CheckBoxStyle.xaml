@@ -76,7 +76,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-    <Style x:Key="SliderCheckBox" TargetType="{x:Type CheckBox}">
+    <Style x:Key="CheckBox_Slider" TargetType="{x:Type CheckBox}">
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Cursor" Value="Hand" />

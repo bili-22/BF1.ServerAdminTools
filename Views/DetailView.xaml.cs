@@ -376,7 +376,7 @@ namespace BF1.ServerAdminTools.Views
                 ListBox_Spectator.Items.Add(new SpectatorInfo()
                 {
                     Index = index++,
-                    Avatar = @"\Assets\Images\Avatar.jpg",
+                    Avatar = @"\Assets\Images\Other\Avatar.jpg",
                     Name = item.Name,
                     PersonaId = item.PersonaId
                 });

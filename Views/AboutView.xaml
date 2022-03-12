@@ -13,13 +13,18 @@
     <Grid>
         <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
             <StackPanel Margin="10" Orientation="Vertical">
-                <TextBlock
+                <!--<TextBlock
                     Margin="5"
                     HorizontalAlignment="Center"
                     FontSize="150"
                     Foreground="#2196F3"
                     Style="{StaticResource IconFontNormalStyle}"
-                    Text="&#xe622;" />
+                    Text="&#xe622;" />-->
+                <Image
+                    Height="175"
+                    Margin="5"
+                    Source="/Assets/Images/Battlefield-1-512.png"
+                    Style="{StaticResource ImageStyle_HQ}" />
                 <TextBlock
                     Margin="5,10,5,5"
                     HorizontalAlignment="Center"

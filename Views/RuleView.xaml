@@ -318,7 +318,7 @@
                     HorizontalAlignment="Center"
                     Click="CheckBox_RunAutoKick_Click"
                     IsChecked="False"
-                    Style="{StaticResource SliderCheckBox}" />
+                    Style="{StaticResource CheckBox_Slider}" />
                 <TextBlock />
                 <TextBlock
                     Margin="5"

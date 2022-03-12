@@ -7,7 +7,7 @@
     <UseWPF>true</UseWPF>
     <Platforms>x64</Platforms>
     <DebugType>full</DebugType>
-    <ApplicationIcon>Assets\Images\origin.ico</ApplicationIcon>
+    <ApplicationIcon>Assets\Images\Battlefield-1-Favicon.ico</ApplicationIcon>
     <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
     <StartupObject>BF1.ServerAdminTools.App</StartupObject>
     <FileVersion>1.0.0.5</FileVersion>
@@ -16,19 +16,16 @@
 
   <ItemGroup>
     <None Remove="Assets\Fonts\iconfont.ttf" />
-    <None Remove="Assets\Images\afdian.png" />
     <None Remove="Assets\Images\Avatar.jpg" />
-    <None Remove="Assets\Images\bfban.png" />
+    <None Remove="Assets\Images\Battlefield-1-512.png" />
+    <None Remove="Assets\Images\Battlefield-1-Favicon.ico" />
     <None Remove="Assets\Images\DLC\bf1_00.png" />
     <None Remove="Assets\Images\DLC\bf1_01.jpg" />
     <None Remove="Assets\Images\DLC\bf1_02.jpg" />
     <None Remove="Assets\Images\DLC\bf1_03.jpg" />
     <None Remove="Assets\Images\DLC\bf1_04.jpg" />
     <None Remove="Assets\Images\DLC\bf1_05.jpg" />
-    <None Remove="Assets\Images\favicon.ico" />
     <None Remove="Assets\Images\loading.gif" />
-    <None Remove="Assets\Images\origin.ico" />
-    <None Remove="Assets\Images\origin.png" />
     <None Remove="Assets\Images\splash-bf1-launch.jpg" />
     <None Remove="Assets\Images\Temp\Classes2\Assault.png" />
     <None Remove="Assets\Images\Temp\Classes2\Cavalry.png" />
@@ -514,12 +511,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Assets\Images\origin.ico" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Resource Include="Assets\Images\afdian.png" />
-    <Resource Include="Assets\Images\loading.gif" />
+    <Resource Include="Assets\Images\Battlefield-1-512.png" />
+    <Resource Include="Assets\Images\Battlefield-1-Favicon.ico" />
+    <Resource Include="Assets\Images\Other\Loading.gif" />
     <Resource Include="Assets\Images\Temp\Classes2\Assault.png" />
     <Resource Include="Assets\Images\Temp\Classes2\Cavalry.png" />
     <Resource Include="Assets\Images\Temp\Classes2\Medic.png" />
@@ -539,17 +533,13 @@
 
   <ItemGroup>
     <Resource Include="Assets\Fonts\iconfont.ttf" />
-    <Resource Include="Assets\Images\Avatar.jpg" />
-    <Resource Include="Assets\Images\bfban.png" />
+    <Resource Include="Assets\Images\Other\Avatar.jpg" />
     <Resource Include="Assets\Images\DLC\bf1_00.png" />
     <Resource Include="Assets\Images\DLC\bf1_01.jpg" />
     <Resource Include="Assets\Images\DLC\bf1_02.jpg" />
     <Resource Include="Assets\Images\DLC\bf1_03.jpg" />
     <Resource Include="Assets\Images\DLC\bf1_04.jpg" />
     <Resource Include="Assets\Images\DLC\bf1_05.jpg" />
-    <Resource Include="Assets\Images\favicon.ico" />
-    <Resource Include="Assets\Images\origin.ico" />
-    <Resource Include="Assets\Images\origin.png" />
     <Resource Include="Assets\Images\splash-bf1-launch.jpg" />
     <Resource Include="Assets\Images\Temp\Classes\Assault.png" />
     <Resource Include="Assets\Images\Temp\Classes\Cavalry.png" />

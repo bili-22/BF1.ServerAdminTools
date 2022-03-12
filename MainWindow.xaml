@@ -22,7 +22,10 @@
         </Grid.RowDefinitions>
 
         <!--  #############################################################################  -->
-        <TabControl x:Name="TabControl_Main" Grid.Row="0" Margin="5,3,5,5">
+        <TabControl
+            x:Name="TabControl_Main"
+            Grid.Row="0"
+            Margin="5,3,5,5">
             <TabControl.Resources>
                 <Style TargetType="{x:Type TabPanel}">
                     <Setter Property="HorizontalAlignment" Value="Center" />

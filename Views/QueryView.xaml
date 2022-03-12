@@ -157,7 +157,7 @@
                 <Image
                     Width="64"
                     Height="64"
-                    gif:AnimationBehavior.SourceUri="/Assets/Images/loading.gif"
+                    gif:AnimationBehavior.SourceUri="/Assets/Images/Other/loading.gif"
                     Style="{StaticResource ImageStyle_HQ}" />
             </Border>
         </Grid>
