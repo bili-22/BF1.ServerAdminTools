@@ -19,6 +19,11 @@ namespace BF1.ServerAdminTools.Views
 
         public RelayCommand QueryPlayerCommand { get; set; }
 
+        ////////////////////////////////////////////
+        
+        public delegate void QuickQueryPalyerDelegate(string playerName);
+        public static QuickQueryPalyerDelegate queryPalyerDelegate;
+
         public QueryView()
         {
             InitializeComponent();
@@ -36,6 +41,16 @@ namespace BF1.ServerAdminTools.Views
             QueryModel.LoadingVisibility = Visibility.Collapsed;
 
             QueryModel.PlayerName = "CrazyZhang666";
+
+            queryPalyerDelegate = QuickQueryPlayerData;
+        }
+
+        private void QuickQueryPlayerData(string playerName)
+        {
+            AudioUtil.ClickSound();
+
+            QueryModel.PlayerName = playerName;
+            QueryPlayer();
         }
 
         private async void QueryPlayer()

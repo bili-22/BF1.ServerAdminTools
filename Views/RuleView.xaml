@@ -205,7 +205,7 @@
                             x:Name="ListBox_Custom_BlackList"
                             Margin="5"
                             DockPanel.Dock="Top"
-                            ItemContainerStyle="{StaticResource ListBoxItemNoramlStyle}" />
+                            ItemContainerStyle="{StaticResource ListBoxItemStyle_Noraml}" />
                     </DockPanel>
                     <DockPanel LastChildFill="True">
                         <TextBlock
@@ -242,7 +242,7 @@
                             x:Name="ListBox_Custom_WhiteList"
                             Margin="5"
                             DockPanel.Dock="Top"
-                            ItemContainerStyle="{StaticResource ListBoxItemNoramlStyle}" />
+                            ItemContainerStyle="{StaticResource ListBoxItemStyle_Noraml}" />
                     </DockPanel>
                 </UniformGrid>
             </TabItem>

@@ -62,6 +62,9 @@ namespace BF1.ServerAdminTools.Views
                     DetailModel.ServerDescription = "获取中...";
                     DetailModel.ServerOwnerName = "获取中...";
                     DetailModel.ServerOwnerPersonaId = "获取中...";
+                    DetailModel.ServerID = "获取中...";
+                    DetailModel.ServerGameID = "获取中...";
+
                     DetailModel.ServerOwnerImage = null;
                     DetailModel.ServerCurrentMap = null;
 

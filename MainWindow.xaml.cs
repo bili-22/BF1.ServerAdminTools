@@ -18,6 +18,9 @@ namespace BF1.ServerAdminTools
         public delegate void ClosingDispose();
         public static event ClosingDispose ClosingDisposeEvent;
 
+        public delegate void DTabControlSelect();
+        public static DTabControlSelect dTabControlSelect;
+
         public static MainWindow ThisMainWindow;
 
         public MainModel MainModel { get; set; }
@@ -36,6 +39,8 @@ namespace BF1.ServerAdminTools
         {
             // 提示信息委托
             dSetOperatingState = SetOperatingState;
+
+            dTabControlSelect = TabControlSelect;
 
             MainModel = new MainModel();
 
@@ -165,5 +170,9 @@ namespace BF1.ServerAdminTools
 
         ///////////////////////////////////////////////////////
 
+        private void TabControlSelect()
+        {
+            TabControl_Main.SelectedIndex = 3;
+        }
     }
 }

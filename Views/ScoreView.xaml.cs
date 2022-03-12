@@ -691,7 +691,7 @@ namespace BF1.ServerAdminTools.Views
                         {
                             Name = PlayerUtil.GetNameNoMark(playerData.Name),
                             PersonaId = playerData.PersonaId,
-                            Reason = $"KD Limit {ServerRule.MaxKD}"
+                            Reason = $"KD Limit {ServerRule.MaxKD:0.00}"
                         });
                     }
 
@@ -708,7 +708,7 @@ namespace BF1.ServerAdminTools.Views
                         {
                             Name = PlayerUtil.GetNameNoMark(playerData.Name),
                             PersonaId = playerData.PersonaId,
-                            Reason = $"KPM Limit {ServerRule.MaxKPM}"
+                            Reason = $"KPM Limit {ServerRule.MaxKPM:0.00}"
                         });
                     }
 
@@ -894,15 +894,30 @@ namespace BF1.ServerAdminTools.Views
 
         private void MenuItem_CopyPlayerName_Click(object sender, RoutedEventArgs e)
         {
-            // 复制玩家ID
-            Clipboard.SetText(dataGridSelcContent.Name);
-            MainWindow.dSetOperatingState(1, $"复制玩家ID {dataGridSelcContent.Name} 到剪切板成功");
+            if (dataGridSelcContent.IsOK)
+            {
+                // 复制玩家ID
+                Clipboard.SetText(dataGridSelcContent.Name);
+                MainWindow.dSetOperatingState(1, $"复制玩家ID {PlayerUtil.GetNameNoMark(dataGridSelcContent.Name)} 到剪切板成功");
+            }
+            else
+            {
+                MainWindow.dSetOperatingState(2, "请选择正确的玩家，操作取消");
+            }
         }
 
         private void MenuItem_QueryPlayerRecord_Click(object sender, RoutedEventArgs e)
         {
-            // 查询玩家战绩
-            MainWindow.dSetOperatingState(1, $"该功能未实现");
+            if (dataGridSelcContent.IsOK)
+            {
+                // 查询玩家战绩
+                MainWindow.dTabControlSelect();
+                QueryView.queryPalyerDelegate(PlayerUtil.GetNameNoMark(dataGridSelcContent.Name));
+            }
+            else
+            {
+                MainWindow.dSetOperatingState(2, "请选择正确的玩家，操作取消");
+            }
         }
 
         private void MenuItem_QueryPlayerRecordWeb_Click(object sender, RoutedEventArgs e)

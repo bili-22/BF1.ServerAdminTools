@@ -48,11 +48,11 @@
             <MenuItem
                 Name="MenuItem_QueryPlayerRecord"
                 Click="MenuItem_QueryPlayerRecord_Click"
-                Header="查询玩家战绩" />
+                Header="查询玩家数据" />
             <MenuItem
                 Name="MenuItem_QueryPlayerRecordWeb"
                 Click="MenuItem_QueryPlayerRecordWeb_Click"
-                Header="查询玩家战绩（网页）" />
+                Header="查询玩家数据（网页）" />
             <MenuItem Header="其他">
                 <MenuItem
                     Name="MenuItem_ClearScoreSort"
