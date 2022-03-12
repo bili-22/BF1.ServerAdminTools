@@ -932,7 +932,7 @@ namespace BF1.ServerAdminTools.Views
             }
             else
             {
-                MainWindow.dSetOperatingState(2, $"查询失败，玩家ID为空");
+                MainWindow.dSetOperatingState(2, "请选择正确的玩家，操作取消");
             }
         }
 

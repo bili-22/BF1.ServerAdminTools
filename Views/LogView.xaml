@@ -11,7 +11,17 @@
     mc:Ignorable="d">
 
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
         <UniformGrid Columns="2">
+            <TextBlock Style="{StaticResource TextBlockTitleStyle}" Text="踢出成功" />
+            <TextBlock Style="{StaticResource TextBlockTitleStyle}" Text="踢出失败" />
+        </UniformGrid>
+
+        <UniformGrid Grid.Row="1" Columns="2">
             <TextBox
                 x:Name="TextBox_Log1"
                 Margin="5,5,2.5,5"
