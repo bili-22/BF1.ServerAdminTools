@@ -45,12 +45,41 @@
                     <ColumnDefinition Width="0.7*" />
                 </Grid.ColumnDefinitions>
 
-                <ListBox
-                    Grid.Column="0"
-                    Margin="5,0,0,5"
-                    ItemContainerStyle="{StaticResource ListBoxItemStyle_PlayerDataNormal}"
-                    ItemsSource="{Binding PlayerDatas}"
-                    Style="{StaticResource ListBoxStyle_PlayerData}" />
+                <DockPanel Grid.Column="0" LastChildFill="True">
+                    <StackPanel DockPanel.Dock="Top">
+                        <DockPanel LastChildFill="True">
+                            <Image
+                                Height="70"
+                                Margin="5"
+                                DockPanel.Dock="Left"
+                                Source="{Binding QueryModel.Avatar}" />
+                            <UniformGrid
+                                Margin="5,0,0,0"
+                                DockPanel.Dock="Right"
+                                Rows="2">
+                                <TextBlock
+                                    VerticalAlignment="Bottom"
+                                    FontSize="18"
+                                    Text="{Binding QueryModel.UserName}" />
+                                <StackPanel VerticalAlignment="Top" Orientation="Horizontal">
+                                    <Image Height="35" Source="{Binding QueryModel.RankImg}" />
+                                    <TextBlock
+                                        Margin="10,0,10,0"
+                                        VerticalAlignment="Center"
+                                        Text="{Binding QueryModel.Rank}" />
+                                    <TextBlock VerticalAlignment="Center" Text="{Binding QueryModel.PlayerTime}" />
+                                </StackPanel>
+                            </UniformGrid>
+                        </DockPanel>
+                    </StackPanel>
+
+                    <ListBox
+                        Margin="5,5,0,5"
+                        DockPanel.Dock="Bottom"
+                        ItemContainerStyle="{StaticResource ListBoxItemStyle_PlayerDataNormal}"
+                        ItemsSource="{Binding PlayerDatas}"
+                        Style="{StaticResource ListBoxStyle_PlayerData}" />
+                </DockPanel>
 
                 <ListBox
                     Grid.Column="1"
@@ -60,7 +89,10 @@
                     Style="{StaticResource ListBoxStyle_PlayerDataWeapon}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <Border BorderBrush="Gray" BorderThickness="0,0,0,0.5">
+                            <Border
+                                Height="50"
+                                BorderBrush="Gray"
+                                BorderThickness="0,0,0,0.5">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="80" />
@@ -78,24 +110,35 @@
                                         Grid.Column="1"
                                         Margin="5,0,0,0"
                                         Rows="2">
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock Margin="5" Text="{Binding weaponName}" />
+                                        <UniformGrid.Resources>
+                                            <Style TargetType="{x:Type TextBlock}">
+                                                <Setter Property="VerticalAlignment" Value="Center" />
+                                            </Style>
+                                        </UniformGrid.Resources>
+                                        <StackPanel
+                                            Margin="0,0,0,2.5"
+                                            VerticalAlignment="Bottom"
+                                            Orientation="Horizontal">
+                                            <TextBlock FontWeight="Bold" Text="{Binding weaponName}" />
                                             <TextBlock
-                                                Margin="5"
+                                                Margin="10,0,0,0"
                                                 Foreground="#ffa200"
                                                 Text="{Binding type}" />
                                         </StackPanel>
-                                        <StackPanel Grid.Row="1" Orientation="Horizontal">
-                                            <TextBlock Margin="5,5,0,5" Text="击杀 : " />
-                                            <TextBlock Margin="0,5,5,5" Text="{Binding kills}" />
-                                            <TextBlock Margin="5,5,0,5" Text="KPM : " />
-                                            <TextBlock Margin="0,5,5,5" Text="{Binding killsPerMinute}" />
-                                            <TextBlock Margin="5,5,0,5" Text="命中率 : " />
-                                            <TextBlock Margin="0,5,5,5" Text="{Binding accuracy}" />
-                                            <TextBlock Margin="5,5,0,5" Text="爆头率 : " />
-                                            <TextBlock Margin="0,5,5,5" Text="{Binding headshots}" />
-                                            <TextBlock Margin="5,5,0,5" Text="效率 : " />
-                                            <TextBlock Margin="0,5,5,5" Text="{Binding hitVKills}" />
+                                        <StackPanel
+                                            Margin="0,2.5,0,0"
+                                            VerticalAlignment="Top"
+                                            Orientation="Horizontal">
+                                            <TextBlock Text="击杀 : " />
+                                            <TextBlock Margin="0,0,10,0" Text="{Binding kills}" />
+                                            <TextBlock Text="KPM : " />
+                                            <TextBlock Margin="0,0,10,0" Text="{Binding killsPerMinute}" />
+                                            <TextBlock Text="命中率 : " />
+                                            <TextBlock Margin="0,0,10,0" Text="{Binding accuracy}" />
+                                            <TextBlock Text="爆头率 : " />
+                                            <TextBlock Margin="0,0,10,0" Text="{Binding headshots}" />
+                                            <TextBlock Text="效率 : " />
+                                            <TextBlock Margin="0,0,10,0" Text="{Binding hitVKills}" />
                                         </StackPanel>
                                     </UniformGrid>
                                 </Grid>
@@ -112,7 +155,10 @@
                     Style="{StaticResource ListBoxStyle_PlayerDataVehicle}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <Border BorderBrush="Gray" BorderThickness="0,0,0,0.5">
+                            <Border
+                                Height="50"
+                                BorderBrush="Gray"
+                                BorderThickness="0,0,0,0.5">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="80" />
@@ -130,20 +176,31 @@
                                         Grid.Column="1"
                                         Margin="5,0,0,0"
                                         Rows="2">
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock Margin="5" Text="{Binding vehicleName}" />
+                                        <UniformGrid.Resources>
+                                            <Style TargetType="{x:Type TextBlock}">
+                                                <Setter Property="VerticalAlignment" Value="Center" />
+                                            </Style>
+                                        </UniformGrid.Resources>
+                                        <StackPanel
+                                            Margin="0,0,0,2.5"
+                                            VerticalAlignment="Bottom"
+                                            Orientation="Horizontal">
+                                            <TextBlock FontWeight="Bold" Text="{Binding vehicleName}" />
                                             <TextBlock
-                                                Margin="5"
+                                                Margin="10,0,0,0"
                                                 Foreground="#ffa200"
                                                 Text="{Binding type}" />
                                         </StackPanel>
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock Margin="5,5,0,5" Text="击杀 : " />
-                                            <TextBlock Margin="0,5,5,5" Text="{Binding kills}" />
-                                            <TextBlock Margin="5,5,0,5" Text="KPM : " />
-                                            <TextBlock Margin="0,5,5,5" Text="{Binding killsPerMinute}" />
-                                            <TextBlock Margin="5,5,0,5" Text="摧毁 : " />
-                                            <TextBlock Margin="0,5,5,5" Text="{Binding destroyed}" />
+                                        <StackPanel
+                                            Margin="0,2.5,0,0"
+                                            VerticalAlignment="Top"
+                                            Orientation="Horizontal">
+                                            <TextBlock Text="击杀 : " />
+                                            <TextBlock Margin="0,0,10,0" Text="{Binding kills}" />
+                                            <TextBlock Text="KPM : " />
+                                            <TextBlock Margin="0,0,10,0" Text="{Binding killsPerMinute}" />
+                                            <TextBlock Text="摧毁 : " />
+                                            <TextBlock Margin="0,0,10,0" Text="{Binding destroyed}" />
                                         </StackPanel>
                                     </UniformGrid>
                                 </Grid>
@@ -155,9 +212,9 @@
 
             <Border Visibility="{Binding QueryModel.LoadingVisibility}">
                 <Image
-                    Width="64"
-                    Height="64"
-                    gif:AnimationBehavior.SourceUri="/Assets/Images/Other/loading.gif"
+                    Width="100"
+                    Height="100"
+                    gif:AnimationBehavior.SourceUri="/Assets/Images/Other/Loading.gif"
                     Style="{StaticResource ImageStyle_HQ}" />
             </Border>
         </Grid>

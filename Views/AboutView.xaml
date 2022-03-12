@@ -3,7 +3,6 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:BF1.ServerAdminTools.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Name="View_About"
     d:DesignHeight="900"
@@ -21,7 +20,7 @@
                     Style="{StaticResource IconFontNormalStyle}"
                     Text="&#xe622;" />-->
                 <Image
-                    Height="175"
+                    Height="150"
                     Margin="5"
                     Source="/Assets/Images/Battlefield-1-512.png"
                     Style="{StaticResource ImageStyle_HQ}" />
@@ -43,15 +42,23 @@
                     BorderThickness="0,1,0,1">
                     <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                         <!--  ################################  -->
-                        <TextBlock Margin="10" Style="{StaticResource IconFontAboutlStyle}">
+                        <TextBlock
+                            Margin="10"
+                            Style="{StaticResource IconFontAboutlStyle}"
+                            ToolTip="QQ群 : 710801277">
                             <Hyperlink NavigateUri="https://jq.qq.com/?_wv=1027&amp;k=ajEymecs" RequestNavigate="Hyperlink_RequestNavigate">
                                 &#xe604;
                             </Hyperlink>
-                            <TextBlock.ToolTip>
-                                QQ群 : 710801277
-                            </TextBlock.ToolTip>
                         </TextBlock>
                         <!--  ################################  -->
+                        <TextBlock
+                            Margin="10"
+                            Style="{StaticResource IconFontAboutlStyle}"
+                            ToolTip="官方网站">
+                            <Hyperlink NavigateUri="https://bfkits.neocities.org" RequestNavigate="Hyperlink_RequestNavigate">
+                                &#xe65b;
+                            </Hyperlink>
+                        </TextBlock>
                     </StackPanel>
                 </Border>
                 <!--  ################################  -->

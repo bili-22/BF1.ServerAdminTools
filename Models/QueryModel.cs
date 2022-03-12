@@ -4,24 +4,76 @@ namespace BF1.ServerAdminTools.Models
 {
     public class QueryModel : ObservableObject
     {
-        private string playerName;
+        private string _playerName;
         /// <summary>
         /// 玩家名称
         /// </summary>
         public string PlayerName
         {
-            get { return playerName; }
-            set { playerName = value; OnPropertyChanged(); }
+            get { return _playerName; }
+            set { _playerName = value; OnPropertyChanged(); }
         }
 
-        private Visibility loadingVisibility;
+        private Visibility _loadingVisibility;
         /// <summary>
         /// 加载动画
         /// </summary>
         public Visibility LoadingVisibility
         {
-            get { return loadingVisibility; }
-            set { loadingVisibility = value; OnPropertyChanged(); }
+            get { return _loadingVisibility; }
+            set { _loadingVisibility = value; OnPropertyChanged(); }
+        }
+
+        //////////////////////////////////////
+
+        private string _avatar;
+        /// <summary>
+        /// 玩家头像
+        /// </summary>
+        public string Avatar
+        {
+            get { return _avatar; }
+            set { _avatar = value; OnPropertyChanged(); }
+        }
+
+        private string _userName;
+        /// <summary>
+        /// 玩家名称
+        /// </summary>
+        public string UserName
+        {
+            get { return _userName; }
+            set { _userName = value; OnPropertyChanged(); }
+        }
+
+        private string _rank;
+        /// <summary>
+        /// 玩家等级
+        /// </summary>
+        public string Rank
+        {
+            get { return _rank; }
+            set { _rank = value; OnPropertyChanged(); }
+        }
+
+        private string _rankImg;
+        /// <summary>
+        /// 玩家等级图片
+        /// </summary>
+        public string RankImg
+        {
+            get { return _rankImg; }
+            set { _rankImg = value; OnPropertyChanged(); }
+        }
+
+        private string _playerTime;
+        /// <summary>
+        /// 玩家游玩时间
+        /// </summary>
+        public string PlayerTime
+        {
+            get { return _playerTime; }
+            set { _playerTime = value; OnPropertyChanged(); }
         }
     }
 }

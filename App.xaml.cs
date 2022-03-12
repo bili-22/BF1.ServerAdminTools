@@ -79,7 +79,7 @@ namespace BF1.ServerAdminTools
             {
                 sb.AppendLine("【异常类型】：" + ex.GetType().Name);
                 sb.AppendLine("【异常信息】：" + ex.Message);
-                sb.AppendLine("【堆栈调用】：" + ex.StackTrace);
+                sb.AppendLine("【堆栈调用】：\n" + ex.StackTrace);
             }
             else
             {

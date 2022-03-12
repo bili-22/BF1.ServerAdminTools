@@ -20,7 +20,7 @@ namespace BF1.ServerAdminTools.Views
         public RelayCommand QueryPlayerCommand { get; set; }
 
         ////////////////////////////////////////////
-        
+
         public delegate void QuickQueryPalyerDelegate(string playerName);
         public static QuickQueryPalyerDelegate queryPalyerDelegate;
 
@@ -62,6 +62,13 @@ namespace BF1.ServerAdminTools.Views
                 PlayerDatas.Clear();
                 WeaponsItems.Clear();
                 VehiclesItems.Clear();
+
+                QueryModel.Avatar = string.Empty;
+                QueryModel.UserName = string.Empty;
+                QueryModel.Rank = string.Empty;
+                QueryModel.RankImg = string.Empty;
+                QueryModel.PlayerTime = string.Empty;
+
                 QueryModel.LoadingVisibility = Visibility.Visible;
 
                 QueryModel.PlayerName = QueryModel.PlayerName.Trim();
@@ -74,10 +81,13 @@ namespace BF1.ServerAdminTools.Views
                 {
                     var all = JsonUtil.JsonDese<All>(result.Message);
 
-                    PlayerDatas.Add($"玩家ID : {all.userName}");
+                    QueryModel.Avatar = all.avatar;
+                    QueryModel.UserName = all.userName;
+                    QueryModel.Rank = $"等级 : {all.rank}";
+                    QueryModel.RankImg = all.rankImg;
+                    QueryModel.PlayerTime = $"游戏时间 : {PlayerUtil.GetPlayTime(all.secondsPlayed)} 小时";
+
                     PlayerDatas.Add($"数字ID : {all.id}");
-                    PlayerDatas.Add($"等级 : {all.rank}");
-                    PlayerDatas.Add($"游戏时间 : {PlayerUtil.GetPlayTime(all.timePlayed)} 小时");
 
                     PlayerDatas.Add("");
 

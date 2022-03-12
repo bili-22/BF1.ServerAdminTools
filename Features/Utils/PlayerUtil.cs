@@ -219,22 +219,16 @@ namespace BF1.ServerAdminTools.Features.Utils
             return list.IndexOf(personaId) != -1 ? "✔" : "";
         }
 
-        public static string GetPlayTime(string timeStr)
+        /// <summary>
+        /// 秒数转小时数
+        /// </summary>
+        /// <param name="second"></param>
+        /// <returns></returns>
+        public static string GetPlayTime(double second)
         {
-            string[] array = timeStr.Split(new string[] { "days,", "day," }, StringSplitOptions.RemoveEmptyEntries);
-            if (array.Length == 1)
-            {
-                var d0 = Convert.ToDateTime(array[0].Trim());
-                return d0.Hour.ToString();
-            }
-            else if (array.Length == 2)
-            {
-                var d0 = Convert.ToInt32(array[0].Trim());
-                var d1 = Convert.ToDateTime(array[1].Trim());
-                return (d0 * 24 + d1.Hour).ToString();
-            }
+            var ts = TimeSpan.FromSeconds(second);
 
-            return "";
+            return ts.TotalHours.ToString("0");
         }
 
         /// <summary>

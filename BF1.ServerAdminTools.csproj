@@ -7,11 +7,11 @@
     <UseWPF>true</UseWPF>
     <Platforms>x64</Platforms>
     <DebugType>full</DebugType>
-    <ApplicationIcon>Assets\Images\Battlefield-1-Favicon.ico</ApplicationIcon>
-    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
     <StartupObject>BF1.ServerAdminTools.App</StartupObject>
     <FileVersion>1.0.0.5</FileVersion>
     <AssemblyVersion>1.0.0.5</AssemblyVersion>
+    <ApplicationIcon>Assets\Images\Battlefield-1-Favicon.ico</ApplicationIcon>
+    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
   </PropertyGroup>
 
   <ItemGroup>
@@ -508,6 +508,10 @@
     <None Remove="Resources\Click_03.wav" />
     <None Remove="Resources\Click_04.wav" />
     <None Remove="Resources\Click_05.wav" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Assets\Images\Battlefield-1-Favicon.ico" />
   </ItemGroup>
 
   <ItemGroup>

@@ -299,6 +299,10 @@
                             <Setter TargetName="border" Property="Background" Value="Gray" />
                             <Setter TargetName="border" Property="Opacity" Value="0.2" />
                         </Trigger>
+                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Content}" Value="">
+                            <Setter TargetName="border" Property="Background" Value="Transparent" />
+                            <Setter TargetName="border" Property="Opacity" Value="1" />
+                        </DataTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
