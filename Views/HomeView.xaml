@@ -1,0 +1,21 @@
+﻿<UserControl
+    x:Class="BF1.ServerAdminTools.Views.HomeView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Name="View_Home"
+    d:DesignHeight="900"
+    d:DesignWidth="1600"
+    mc:Ignorable="d">
+
+    <Grid>
+        <TextBox
+            x:Name="TextBox_Notice"
+            Margin="5"
+            Padding="5"
+            Cursor="Arrow"
+            IsReadOnly="True"
+            Text="" />
+    </Grid>
+</UserControl>
