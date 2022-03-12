@@ -49,7 +49,7 @@ namespace BF1.ServerAdminTools.Views
                 AppendLog1("踢出理由: " + info.Reason);
                 AppendLog1("状态: " + info.Status + "\n");
 
-                InsertSQLite("kick1", info);
+                InsertSQLite("Kick_OK", info);
             });
         }
 
@@ -75,7 +75,7 @@ namespace BF1.ServerAdminTools.Views
                 AppendLog2("踢出理由: " + info.Reason);
                 AppendLog2("状态: " + info.Status + "\n");
 
-                InsertSQLite("kick2", info);
+                InsertSQLite("Kick_Err", info);
             });
         }
 
@@ -83,7 +83,7 @@ namespace BF1.ServerAdminTools.Views
 
         private void InsertSQLite(string sheetName, BreakRuleInfo info)
         {
-            string sql = $"INSERT INTO kick1 ( Name, PersonaId, Reason, Status, Date ) VALUES ( '{info.Name}', '{info.PersonaId}', '{info.Reason}', '{info.Status}', '{DateTime.Now}' )";
+            string sql = $"INSERT INTO {sheetName} ( Name, PersonaId, Reason, Status, Date ) VALUES ( '{info.Name}', '{info.PersonaId}', '{info.Reason}', '{info.Status}', '{DateTime.Now}' )";
             SQLiteHelper.ExecuteNonQuery(sql);
         }
     }
