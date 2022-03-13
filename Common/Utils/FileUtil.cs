@@ -19,7 +19,7 @@
         public static string F_WhiteList_Path = D_Admin_Path + @"\WhiteList.txt";
 
         /// <summary>
-        /// 保存指定Log文件到本地
+        /// 保存错误Log日志文件到本地
         /// </summary>
         /// <param name="logContent">保存内容</param>
         public static void SaveErrorLog(string logContent)

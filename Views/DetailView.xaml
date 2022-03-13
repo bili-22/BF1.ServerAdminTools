@@ -49,7 +49,8 @@
                             Height="80"
                             Margin="25,5,5,5"
                             HorizontalAlignment="Left"
-                            Source="{Binding ElementName=ListBox_Admin, Path=SelectedItem.avatar}" />
+                            Source="{Binding ElementName=ListBox_Admin, Path=SelectedItem.avatar}"
+                            Style="{StaticResource ImageStyle_HQ}" />
                         <TextBlock
                             Margin="5"
                             FontWeight="Bold"
@@ -138,7 +139,8 @@
                             Height="80"
                             Margin="25,5,5,5"
                             HorizontalAlignment="Left"
-                            Source="{Binding ElementName=ListBox_VIP, Path=SelectedItem.avatar}" />
+                            Source="{Binding ElementName=ListBox_VIP, Path=SelectedItem.avatar}"
+                            Style="{StaticResource ImageStyle_HQ}" />
                         <TextBlock
                             Margin="5"
                             FontWeight="Bold"
@@ -221,7 +223,8 @@
                             Height="80"
                             Margin="25,5,5,5"
                             HorizontalAlignment="Left"
-                            Source="{Binding ElementName=ListBox_BAN, Path=SelectedItem.avatar}" />
+                            Source="{Binding ElementName=ListBox_BAN, Path=SelectedItem.avatar}"
+                            Style="{StaticResource ImageStyle_HQ}" />
                         <TextBlock
                             Margin="5"
                             FontWeight="Bold"
@@ -304,7 +307,8 @@
                             Height="80"
                             Margin="25,5,5,5"
                             HorizontalAlignment="Left"
-                            Source="{Binding ElementName=ListBox_Spectator, Path=SelectedItem.Avatar}" />
+                            Source="{Binding ElementName=ListBox_Spectator, Path=SelectedItem.Avatar}"
+                            Style="{StaticResource ImageStyle_HQ}" />
                         <TextBlock
                             Margin="5"
                             FontWeight="Bold"
@@ -409,7 +413,8 @@
                     Height="160"
                     Margin="25,5,5,5"
                     HorizontalAlignment="Left"
-                    Source="{Binding DetailModel.ServerCurrentMap}" />
+                    Source="{Binding DetailModel.ServerCurrentMap}"
+                    Style="{StaticResource ImageStyle_HQ}" />
                 <!--  ################################  -->
                 <TextBlock
                     Margin="5"
@@ -440,7 +445,8 @@
                     Height="80"
                     Margin="25,5,5,5"
                     HorizontalAlignment="Left"
-                    Source="{Binding DetailModel.ServerOwnerImage}" />
+                    Source="{Binding DetailModel.ServerOwnerImage}"
+                    Style="{StaticResource ImageStyle_HQ}" />
                 <!--  ################################  -->
 
             </StackPanel>

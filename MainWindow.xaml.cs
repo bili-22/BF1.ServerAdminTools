@@ -89,6 +89,8 @@ namespace BF1.ServerAdminTools
                     File.Create(FileUtil.F_WhiteList_Path).Close();
 
                 SQLiteHelper.Initialize();
+
+                ChatMsg.AllocateMemory();
             }
             catch (Exception ex)
             {
@@ -106,8 +108,8 @@ namespace BF1.ServerAdminTools
 
             SQLiteHelper.CloseConnection();
 
-            Memory.CloseHandle();
             ChatMsg.FreeMemory();
+            Memory.CloseHandle();
         }
 
         private void InitThread()

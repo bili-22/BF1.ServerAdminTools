@@ -22,7 +22,7 @@
                 <Image
                     Height="150"
                     Margin="5"
-                    Source="/Assets/Images/Battlefield-1-512.png"
+                    Source="/Assets/Images/Battlefield-1-256.png"
                     Style="{StaticResource ImageStyle_HQ}" />
                 <TextBlock
                     Margin="5,10,5,5"

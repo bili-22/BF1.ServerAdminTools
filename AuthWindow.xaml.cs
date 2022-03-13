@@ -4,6 +4,7 @@ using BF1.ServerAdminTools.Features.API;
 using BF1.ServerAdminTools.Features.API2;
 using BF1.ServerAdminTools.Features.Core;
 using BF1.ServerAdminTools.Features.Data;
+using Chinese;
 
 namespace BF1.ServerAdminTools
 {
@@ -73,6 +74,8 @@ namespace BF1.ServerAdminTools
                         BF1API.Init();
                         GTAPI.Init();
                         ImageData.InitDict();
+
+                        ChineseConverter.ToTraditional("免费，跨平台，开源！");
 
                         Task.Delay(500).Wait();
 

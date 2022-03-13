@@ -2,6 +2,7 @@
 {
     public class Memory
     {
+        private static IntPtr windowHandle;
         private static IntPtr processHandle;
         private static long processBaseAddress;
 
@@ -16,6 +17,7 @@
             if (pArray.Length > 0)
             {
                 var process = pArray[0];
+                windowHandle = process.MainWindowHandle;
                 processHandle = WinAPI.OpenProcess(
                     ProcessAccessFlags.VirtualMemoryRead |
                     ProcessAccessFlags.VirtualMemoryWrite |
@@ -51,6 +53,16 @@
         public static long GetBaseAddress()
         {
             return processBaseAddress;
+        }
+
+        public static bool IsTopMostWindow()
+        {
+            return windowHandle == WinAPI.GetForegroundWindow();
+        }
+
+        public static void SetForegroundWindow()
+        {
+            WinAPI.SetForegroundWindow(windowHandle);
         }
 
         private static long GetPtrAddress(long pointer, int[] offset)
@@ -137,6 +149,12 @@
         public static void WriteString(long basePtr, int[] offsets, string str)
         {
             byte[] buffer = new ASCIIEncoding().GetBytes(str);
+            WinAPI.WriteProcessMemory(processHandle, GetPtrAddress(basePtr, offsets), buffer, buffer.Length, out _);
+        }
+
+        public static void WriteStringUTF8(long basePtr, int[] offsets, string str)
+        {
+            byte[] buffer = new UTF8Encoding().GetBytes(str);
             WinAPI.WriteProcessMemory(processHandle, GetPtrAddress(basePtr, offsets), buffer, buffer.Length, out _);
         }
 

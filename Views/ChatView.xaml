@@ -12,7 +12,13 @@
 
     <Grid>
         <UniformGrid Columns="3">
-            <StackPanel />
+            <StackPanel>
+                <TextBox Style="{StaticResource TextBoxNormalStyle}" />
+                <Button
+                    Click="Button_Click"
+                    Content="发送中文聊天"
+                    Style="{StaticResource ButtonNormalStyle}" />
+            </StackPanel>
             <StackPanel />
             <StackPanel />
         </UniformGrid>

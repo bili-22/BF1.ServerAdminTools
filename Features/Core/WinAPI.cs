@@ -25,6 +25,12 @@
 
         [DllImport("user32.dll")]
         public static extern uint MapVirtualKey(WinVK uCode, uint uMapType);
+
+        [DllImport("user32.dll")]
+        public static extern IntPtr GetForegroundWindow();
+
+        [DllImport("user32.dll")]
+        public static extern int SetForegroundWindow(IntPtr hwnd);
     }
 
     // OpenProcess signture https://www.pinvoke.net/default.aspx/kernel32.openprocess

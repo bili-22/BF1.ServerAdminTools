@@ -52,7 +52,8 @@
                                 Height="70"
                                 Margin="5"
                                 DockPanel.Dock="Left"
-                                Source="{Binding QueryModel.Avatar}" />
+                                Source="{Binding QueryModel.Avatar}"
+                                Style="{StaticResource ImageStyle_HQ}" />
                             <UniformGrid
                                 Margin="5,0,0,0"
                                 DockPanel.Dock="Right"
@@ -62,7 +63,10 @@
                                     FontSize="18"
                                     Text="{Binding QueryModel.UserName}" />
                                 <StackPanel VerticalAlignment="Top" Orientation="Horizontal">
-                                    <Image Height="35" Source="{Binding QueryModel.RankImg}" />
+                                    <Image
+                                        Height="35"
+                                        Source="{Binding QueryModel.RankImg}"
+                                        Style="{StaticResource ImageStyle_HQ}" />
                                     <TextBlock
                                         Margin="10,0,10,0"
                                         VerticalAlignment="Center"

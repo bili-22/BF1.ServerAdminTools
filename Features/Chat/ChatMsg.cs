@@ -14,6 +14,9 @@ namespace BF1.ServerAdminTools.Features.Chat
         /// </summary>
         public const int OFFSET_CHAT_MESSAGE_END = 0x188;
 
+        /// <summary>
+        /// 申请的内存地址
+        /// </summary>
         private static IntPtr AllocateMemoryAddress = IntPtr.Zero;
 
         /// <summary>
@@ -49,8 +52,8 @@ namespace BF1.ServerAdminTools.Features.Chat
             address = Memory.Read<long>(address + 0x40);
             if (!Memory.IsValid(address))
                 return false;
-            address = Memory.Read<long>(address + 0x30);
-            return address == 1;
+            address = Memory.Read<byte>(address + 0x30);
+            return address == 0 ? false : true;
         }
 
         /// <summary>
