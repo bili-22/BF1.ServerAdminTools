@@ -8,10 +8,10 @@ namespace BF1.ServerAdminTools.Common.Utils
 
         public const string WindowTitle = "战地1服务器管理工具 v";
 
-        public const string Download_Address = "https://bfkits.neocities.org";
+        public const string Download_Address = "https://battlefield.vip";
 
-        public const string Version_Address = "https://bfkits.neocities.org/Server/Version.txt";
-        public const string Notice_Address = "https://bfkits.neocities.org/Server/Notice.txt";
+        public const string Version_Address = "https://battlefield.vip/server/version.txt";
+        public const string Notice_Address = "https://battlefield.vip/server/notice.txt";
 
         /// <summary>
         /// 程序当前版本号，如：1.2.3.4

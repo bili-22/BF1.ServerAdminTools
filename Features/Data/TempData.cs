@@ -2,7 +2,7 @@
 {
     public class TempData
     {
-        public struct ClientPlayerTemp
+        public struct ClientPlayer
         {
             public long BaseAddress;
 
@@ -15,10 +15,10 @@
             public string[] WeaponSlot;
         }
 
-        public struct ClientSoldierEntityTemp
+        public struct ClientSoldierEntity
         {
             public long pClientVehicleEntity;
-            public long VehicleEntityData;
+            public long pVehicleEntityData;
 
             public long pClientSoldierEntity;
             public long pClientSoldierWeaponComponent;
@@ -27,7 +27,7 @@
             public long pWeaponEntityData;
         }
 
-        public struct ClientPlayerScoreTemp
+        public struct ClientPlayerScore
         {
             public long BaseAddress;
 

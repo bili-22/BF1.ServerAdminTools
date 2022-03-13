@@ -28,8 +28,8 @@ namespace BF1.ServerAdminTools.Views
 
         private const int MaxPlayer = 74;
 
-        private TempData.ClientPlayerTemp clientPlayerTemp;
-        private TempData.ClientSoldierEntityTemp clientSoldierEntityTemp;
+        private TempData.ClientPlayer tdCP;
+        private TempData.ClientSoldierEntity tdCSE;
 
         private struct ClientPlayer
         {
@@ -101,7 +101,7 @@ namespace BF1.ServerAdminTools.Views
             DataGrid_PlayerList_Team1 = new ObservableCollection<PlayerListModel>();
             DataGrid_PlayerList_Team2 = new ObservableCollection<PlayerListModel>();
 
-            clientPlayerTemp.WeaponSlot = new string[8] { "", "", "", "", "", "", "", "" };
+            tdCP.WeaponSlot = new string[8] { "", "", "", "", "", "", "", "" };
 
             this.DataContext = this;
 
@@ -126,7 +126,7 @@ namespace BF1.ServerAdminTools.Views
 
                 Globals.Server_SpectatorList.Clear();
 
-                Array.Clear(clientPlayerTemp.WeaponSlot, 0, clientPlayerTemp.WeaponSlot.Length);
+                Array.Clear(tdCP.WeaponSlot, 0, tdCP.WeaponSlot.Length);
 
                 statisticData_Team1.MaxPlayerCount = 0;
                 statisticData_Team1.PlayerCount = 0;
@@ -165,51 +165,56 @@ namespace BF1.ServerAdminTools.Views
 
                 for (int i = 0; i < MaxPlayer; i++)
                 {
-                    clientPlayerTemp.BaseAddress = Player.GetPlayerById(i);
-                    if (!Memory.IsValid(clientPlayerTemp.BaseAddress))
+                    tdCP.BaseAddress = Player.GetPlayerById(i);
+                    if (!Memory.IsValid(tdCP.BaseAddress))
                         continue;
 
-                    clientPlayerTemp.Mark = Memory.Read<byte>(clientPlayerTemp.BaseAddress + 0x1D7C);
-                    clientPlayerTemp.TeamID = Memory.Read<int>(clientPlayerTemp.BaseAddress + 0x1C34);
-                    clientPlayerTemp.Spectator = Memory.Read<byte>(clientPlayerTemp.BaseAddress + 0x1C31);
-                    clientPlayerTemp.PersonaId = Memory.Read<long>(clientPlayerTemp.BaseAddress + 0x38);
-                    clientPlayerTemp.Name = Memory.ReadString(clientPlayerTemp.BaseAddress + 0x2156, 64);
+                    tdCP.Mark = Memory.Read<byte>(tdCP.BaseAddress + 0x1D7C);
+                    tdCP.TeamID = Memory.Read<int>(tdCP.BaseAddress + 0x1C34);
+                    tdCP.Spectator = Memory.Read<byte>(tdCP.BaseAddress + 0x1C31);
+                    tdCP.PersonaId = Memory.Read<long>(tdCP.BaseAddress + 0x38);
+                    tdCP.Name = Memory.ReadString(tdCP.BaseAddress + 0x2156, 64);
 
-                    clientSoldierEntityTemp.pClientVehicleEntity = Memory.Read<long>(clientPlayerTemp.BaseAddress + 0x1D38);
-                    if (Memory.IsValid(clientSoldierEntityTemp.pClientVehicleEntity))
+                    tdCSE.pClientVehicleEntity = Memory.Read<long>(tdCP.BaseAddress + 0x1D38);
+                    if (Memory.IsValid(tdCSE.pClientVehicleEntity))
                     {
-                        clientSoldierEntityTemp.VehicleEntityData = Memory.Read<long>(clientSoldierEntityTemp.pClientVehicleEntity + 0x30);
-                        clientPlayerTemp.WeaponSlot[0] = Memory.ReadString(Memory.Read<long>(clientSoldierEntityTemp.VehicleEntityData + 0x2F8), 64);
+                        tdCSE.pVehicleEntityData = Memory.Read<long>(tdCSE.pClientVehicleEntity + 0x30);
+                        tdCP.WeaponSlot[0] = Memory.ReadString(Memory.Read<long>(tdCSE.pVehicleEntityData + 0x2F8), 64);
 
                         for (int j = 1; j < 8; j++)
                         {
-                            clientPlayerTemp.WeaponSlot[j] = "";
+                            tdCP.WeaponSlot[j] = "";
                         }
                     }
                     else
                     {
-                        clientSoldierEntityTemp.pClientSoldierEntity = Memory.Read<long>(clientPlayerTemp.BaseAddress + 0x1D48);
-                        clientSoldierEntityTemp.pClientSoldierWeaponComponent = Memory.Read<long>(clientSoldierEntityTemp.pClientSoldierEntity + 0x698);
-                        clientSoldierEntityTemp.m_handler = Memory.Read<long>(clientSoldierEntityTemp.pClientSoldierWeaponComponent + 0x8A8);
+                        tdCSE.pClientSoldierEntity = Memory.Read<long>(tdCP.BaseAddress + 0x1D48);
+                        tdCSE.pClientSoldierWeaponComponent = Memory.Read<long>(tdCSE.pClientSoldierEntity + 0x698);
+                        tdCSE.m_handler = Memory.Read<long>(tdCSE.pClientSoldierWeaponComponent + 0x8A8);
 
                         for (int j = 0; j < 8; j++)
                         {
-                            clientSoldierEntityTemp.pClientSoldierWeapon = Memory.Read<long>(clientSoldierEntityTemp.m_handler + j * 0x8);
-                            clientSoldierEntityTemp.pWeaponEntityData = Memory.Read<long>(clientSoldierEntityTemp.pClientSoldierWeapon + 0x30);
-                            clientPlayerTemp.WeaponSlot[j] = Memory.ReadString(Memory.Read<long>(clientSoldierEntityTemp.pWeaponEntityData + 0x180), 64);
+                            var offset0 = Memory.Read<long>(tdCSE.m_handler + j * 0x8);
+
+                            offset0 = Memory.Read<long>(offset0 + 0x4A30);
+                            offset0 = Memory.Read<long>(offset0 + 0x20);
+                            offset0 = Memory.Read<long>(offset0 + 0x38);
+                            offset0 = Memory.Read<long>(offset0 + 0x20);
+
+                            tdCP.WeaponSlot[j] = Memory.ReadString(offset0, 64);
                         }
                     }
 
-                    int index = PlayerList_All.FindIndex(val => val.Name == clientPlayerTemp.Name);
+                    int index = PlayerList_All.FindIndex(val => val.Name == tdCP.Name);
                     if (index == -1)
                     {
                         PlayerList_All.Add(new PlayerData()
                         {
-                            Mark = clientPlayerTemp.Mark,
-                            TeamID = clientPlayerTemp.TeamID,
-                            Spectator = clientPlayerTemp.Spectator,
-                            Name = clientPlayerTemp.Name,
-                            PersonaId = clientPlayerTemp.PersonaId,
+                            Mark = tdCP.Mark,
+                            TeamID = tdCP.TeamID,
+                            Spectator = tdCP.Spectator,
+                            Name = tdCP.Name,
+                            PersonaId = tdCP.PersonaId,
 
                             Rank = 0,
                             Kill = 0,
@@ -219,14 +224,14 @@ namespace BF1.ServerAdminTools.Views
                             KD = 0,
                             KPM = 0,
 
-                            WeaponS0 = clientPlayerTemp.WeaponSlot[0],
-                            WeaponS1 = clientPlayerTemp.WeaponSlot[1],
-                            WeaponS2 = clientPlayerTemp.WeaponSlot[2],
-                            WeaponS3 = clientPlayerTemp.WeaponSlot[3],
-                            WeaponS4 = clientPlayerTemp.WeaponSlot[4],
-                            WeaponS5 = clientPlayerTemp.WeaponSlot[5],
-                            WeaponS6 = clientPlayerTemp.WeaponSlot[6],
-                            WeaponS7 = clientPlayerTemp.WeaponSlot[7],
+                            WeaponS0 = tdCP.WeaponSlot[0],
+                            WeaponS1 = tdCP.WeaponSlot[1],
+                            WeaponS2 = tdCP.WeaponSlot[2],
+                            WeaponS3 = tdCP.WeaponSlot[3],
+                            WeaponS4 = tdCP.WeaponSlot[4],
+                            WeaponS5 = tdCP.WeaponSlot[5],
+                            WeaponS6 = tdCP.WeaponSlot[6],
+                            WeaponS7 = tdCP.WeaponSlot[7],
                         });
 
                     }
