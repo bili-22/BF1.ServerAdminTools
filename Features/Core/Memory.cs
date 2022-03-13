@@ -45,6 +45,11 @@
                 WinAPI.CloseHandle(processHandle);
         }
 
+        public static IntPtr GetWindowHandle()
+        {
+            return windowHandle;
+        }
+
         public static IntPtr GetHandle()
         {
             return processHandle;

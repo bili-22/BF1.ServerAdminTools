@@ -17,5 +17,10 @@ namespace BF1.ServerAdminTools.Views
             ProcessUtil.OpenLink(e.Uri.OriginalString);
             e.Handled = true;
         }
+
+        private void TextBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            ProcessUtil.OpenLink("https://afdian.net/@crazyzhang");
+        }
     }
 }

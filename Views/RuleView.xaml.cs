@@ -192,7 +192,7 @@ namespace BF1.ServerAdminTools.Views
                     }
                 }
 
-                Thread.Sleep(2000);
+                Thread.Sleep(3000);
             }
         }
 

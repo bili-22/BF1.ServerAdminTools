@@ -23,17 +23,18 @@ namespace BF1.ServerAdminTools
             Task.Run(() =>
             {
                 UpdateState("欢迎来到《BATTLEFIELD 1》...");
-
-                Task.Delay(500).Wait();
+                Task.Delay(800).Wait();
 
                 try
                 {
+                    UpdateState("正在检测版本更新...");
+                    Task.Delay(200).Wait();
+
                     // 获取版本更新
                     var web = HttpHelper.HttpClientGET(CoreUtil.Version_Address).Result;
                     if (string.IsNullOrEmpty(web))
                     {
                         UpdateState("获取新版本信息失败！程序即将关闭");
-
                         Task.Delay(2000).Wait();
 
                         Application.Current.Dispatcher.BeginInvoke(() =>
@@ -68,20 +69,17 @@ namespace BF1.ServerAdminTools
                     else
                     {
                         UpdateState("正在为您营造个性化体验...");
+                        Task.Delay(200).Wait();
 
                         // 初始化
                         Memory.Initialize(CoreUtil.AppName);
                         BF1API.Init();
                         GTAPI.Init();
                         ImageData.InitDict();
-
                         ChineseConverter.ToTraditional("免费，跨平台，开源！");
 
-                        Task.Delay(500).Wait();
-
                         UpdateState("连线中...");
-
-                        Task.Delay(500).Wait();
+                        Task.Delay(200).Wait();
 
                         Application.Current.Dispatcher.BeginInvoke(() =>
                         {
@@ -96,7 +94,6 @@ namespace BF1.ServerAdminTools
                 catch (Exception)
                 {
                     UpdateState("发生了未知异常！程序即将关闭");
-
                     Task.Delay(2000).Wait();
 
                     Application.Current.Dispatcher.BeginInvoke(() =>

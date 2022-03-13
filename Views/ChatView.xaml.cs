@@ -1,6 +1,8 @@
-﻿using BF1.ServerAdminTools.Common.Utils;
+﻿using BF1.ServerAdminTools.Common.Helper;
+using BF1.ServerAdminTools.Common.Utils;
 using BF1.ServerAdminTools.Features.Chat;
 using BF1.ServerAdminTools.Features.Core;
+using BF1.ServerAdminTools.Features.Utils;
 using Chinese;
 
 namespace BF1.ServerAdminTools.Views
@@ -10,57 +12,68 @@ namespace BF1.ServerAdminTools.Views
     /// </summary>
     public partial class ChatView : UserControl
     {
+        private string[] defaultMsg = new string[10];
+
         public ChatView()
         {
             InitializeComponent();
-        }
 
-        #region 工具类
-        private void KeyPress(WinVK winVK)
-        {
-            Thread.Sleep(20);
-            WinAPI.Keybd_Event(winVK, WinAPI.MapVirtualKey(winVK, 0), 0, 0);
-            Thread.Sleep(20);
-            WinAPI.Keybd_Event(winVK, WinAPI.MapVirtualKey(winVK, 0), 2, 0);
-        }
+            defaultMsg[0] = IniHelper.ReadString("ChatMsg", "Msg0", "", FileUtil.F_Settings_Path);
+            defaultMsg[1] = IniHelper.ReadString("ChatMsg", "Msg1", "", FileUtil.F_Settings_Path);
+            defaultMsg[2] = IniHelper.ReadString("ChatMsg", "Msg2", "", FileUtil.F_Settings_Path);
+            defaultMsg[3] = IniHelper.ReadString("ChatMsg", "Msg3", "", FileUtil.F_Settings_Path);
+            defaultMsg[4] = IniHelper.ReadString("ChatMsg", "Msg4", "", FileUtil.F_Settings_Path);
+            defaultMsg[5] = IniHelper.ReadString("ChatMsg", "Msg5", "", FileUtil.F_Settings_Path);
+            defaultMsg[6] = IniHelper.ReadString("ChatMsg", "Msg6", "", FileUtil.F_Settings_Path);
+            defaultMsg[7] = IniHelper.ReadString("ChatMsg", "Msg7", "", FileUtil.F_Settings_Path);
+            defaultMsg[8] = IniHelper.ReadString("ChatMsg", "Msg8", "", FileUtil.F_Settings_Path);
+            defaultMsg[9] = IniHelper.ReadString("ChatMsg", "Msg9", "", FileUtil.F_Settings_Path);
 
-        private string ToDBC(string input)
-        {
-            char[] c = input.ToCharArray();
-
-            for (int i = 0; i < c.Length; i++)
+            if (string.IsNullOrEmpty(defaultMsg[0]))
             {
-                if (c[i] == 12288)
-                {
-                    c[i] = (char)32;
-                    continue;
-                }
-
-                if (c[i] > 65280 && c[i] < 65375)
-                {
-                    c[i] = (char)(c[i] - 65248);
-                }
+                defaultMsg[0] = "战地1中文输入测试，最大30个汉字";
             }
 
-            return new string(c);
-        }
-        #endregion
+            TextBox_InputMsg.Text = defaultMsg[0];
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+            MainWindow.ClosingDisposeEvent += MainWindow_ClosingDisposeEvent;
+        }
+
+        private void MainWindow_ClosingDisposeEvent()
         {
+            IniHelper.WriteString("ChatMsg", "Msg0", defaultMsg[0], FileUtil.F_Settings_Path);
+            IniHelper.WriteString("ChatMsg", "Msg1", defaultMsg[1], FileUtil.F_Settings_Path);
+            IniHelper.WriteString("ChatMsg", "Msg2", defaultMsg[2], FileUtil.F_Settings_Path);
+            IniHelper.WriteString("ChatMsg", "Msg3", defaultMsg[3], FileUtil.F_Settings_Path);
+            IniHelper.WriteString("ChatMsg", "Msg4", defaultMsg[4], FileUtil.F_Settings_Path);
+            IniHelper.WriteString("ChatMsg", "Msg5", defaultMsg[5], FileUtil.F_Settings_Path);
+            IniHelper.WriteString("ChatMsg", "Msg6", defaultMsg[6], FileUtil.F_Settings_Path);
+            IniHelper.WriteString("ChatMsg", "Msg7", defaultMsg[7], FileUtil.F_Settings_Path);
+            IniHelper.WriteString("ChatMsg", "Msg8", defaultMsg[8], FileUtil.F_Settings_Path);
+            IniHelper.WriteString("ChatMsg", "Msg9", defaultMsg[9], FileUtil.F_Settings_Path);
+        }
+
+        private void Button_SendMsg2Bf1Game_Click(object sender, RoutedEventArgs e)
+        {
+            AudioUtil.ClickSound();
+
+            if (string.IsNullOrEmpty(TextBox_InputMsg.Text.Trim()))
+            {
+                MainWindow.dSetOperatingState(2, "聊天框内容为空，操作取消");
+                return;
+            }
+
             if (ChatMsg.GetAllocateMemoryAddress() != 0)
             {
                 Memory.SetForegroundWindow();
-
                 Thread.Sleep(20);
 
-                string msg = "中文聊天测试";
-                msg = ToDBC(msg);
-                msg = ChineseConverter.ToTraditional(msg);
+                string msg = TextBox_InputMsg.Text.Trim();
+                msg = ChineseConverter.ToTraditional(ChatHelper.ToDBC(msg));
 
                 Memory.WriteStringUTF8(ChatMsg.GetAllocateMemoryAddress(), null, msg);
 
-                KeyPress(WinVK.J);
+                ChatHelper.KeyPress(WinVK.J);
 
                 if (ChatMsg.GetChatIsOpen())
                 {
@@ -73,23 +86,46 @@ namespace BF1.ServerAdminTools.Views
                         var oldEndPtr = Memory.Read<long>(endPtr);
 
                         Memory.Write<long>(startPtr, ChatMsg.GetAllocateMemoryAddress());
-                        Memory.Write<long>(endPtr, ChatMsg.GetAllocateMemoryAddress() + 18);
+                        Memory.Write<long>(endPtr, ChatMsg.GetAllocateMemoryAddress() + PlayerUtil.GetStrLength(msg));
 
-                        KeyPress(WinVK.RETURN);
+                        ChatHelper.KeyPress(WinVK.RETURN);
 
                         Memory.Write<long>(startPtr, oldStartPtr);
                         Memory.Write<long>(endPtr, oldEndPtr);
+
+                        MainWindow.dSetOperatingState(1, "发送文本到战地1聊天框成功");
                     }
                     else
                     {
-                        MsgBoxUtil.InformationMsgBox("聊天框指针为0");
+                        MainWindow.dSetOperatingState(2, "聊天框消息指针未发现");
                     }
                 }
                 else
                 {
-                    MsgBoxUtil.InformationMsgBox("聊天框未开启");
+                    MainWindow.dSetOperatingState(2, "聊天框未开启");
                 }
             }
+            else
+            {
+                MainWindow.dSetOperatingState(3, "聊天功能初始化失败，请重启程序");
+            }
+        }
+
+        private void TextBox_InputMsg_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            TextBlock_TxtLength.Text = $"当前文本长度 : {PlayerUtil.GetStrLength(TextBox_InputMsg.Text)} 字符";
+
+            if (ComboBox_DefaultText != null)
+            {
+                int index = ComboBox_DefaultText.SelectedIndex;
+                defaultMsg[index] = TextBox_InputMsg.Text;
+            }
+        }
+
+        private void ComboBox_DefaultText_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            int index = ComboBox_DefaultText.SelectedIndex;
+            TextBox_InputMsg.Text = defaultMsg[index];
         }
     }
 }

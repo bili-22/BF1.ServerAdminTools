@@ -7,7 +7,7 @@
     Name="Window_CustomKick"
     Title="自定义踢人理由"
     Width="400"
-    Height="200"
+    Height="170"
     ResizeMode="NoResize"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
@@ -20,7 +20,7 @@
         <Grid>
             <TextBlock
                 x:Name="TextBlock_PlayerName"
-                Margin="5"
+                Margin="5,5,5,0"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 FontSize="18"

@@ -2,6 +2,18 @@
 {
     public class WinAPI
     {
+        public const int WM_ACTIVATE = 0x0006;
+        public const int WM_KILLFOCUS = 0x0008;
+        public const int WM_ACTIVATEAPP = 0x001C;
+
+        public const int WM_KEYDOWN = 0x0100;
+        public const int WM_KEYUP = 0x0101;
+        public const int WM_CHAR = 0x0102;
+
+        public const int WM_MOUSEMOVE = 0x0200;
+        public const int WM_LBUTTONDOWN = 0x0201;
+        public const int WM_LBUTTONUP = 0x0202;
+
         [DllImport("kernel32.dll")]
         public static extern IntPtr OpenProcess(ProcessAccessFlags processAccess, bool bInheritHandle, int processId);
 

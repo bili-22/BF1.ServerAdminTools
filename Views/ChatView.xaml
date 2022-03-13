@@ -13,11 +13,59 @@
     <Grid>
         <UniformGrid Columns="3">
             <StackPanel>
-                <TextBox Style="{StaticResource TextBoxNormalStyle}" />
+                <TextBlock
+                    x:Name="TextBlock_TxtLength"
+                    Margin="5"
+                    HorizontalAlignment="Left"
+                    FontSize="18"
+                    FontWeight="Bold"
+                    Text="当前文本长度 : 0 字符" />
+                <TextBox
+                    x:Name="TextBox_InputMsg"
+                    Height="100"
+                    Margin="5,0,5,0"
+                    Padding="5"
+                    InputLanguageManager.InputLanguage="zh-CN"
+                    Text="战地1中文输入测试，最大30个汉字"
+                    TextChanged="TextBox_InputMsg_TextChanged"
+                    TextWrapping="Wrap" />
+                <ComboBox
+                    x:Name="ComboBox_DefaultText"
+                    Margin="5,5,5,0"
+                    Padding="10,5,10,5"
+                    SelectionChanged="ComboBox_DefaultText_SelectionChanged">
+                    <ComboBox.Resources>
+                        <Style TargetType="{x:Type ComboBoxItem}">
+                            <Setter Property="Padding" Value="10,5,10,5" />
+                        </Style>
+                    </ComboBox.Resources>
+                    <ComboBoxItem IsSelected="True">预设文本框 0</ComboBoxItem>
+                    <ComboBoxItem>预设文本框 1</ComboBoxItem>
+                    <ComboBoxItem>预设文本框 2</ComboBoxItem>
+                    <ComboBoxItem>预设文本框 3</ComboBoxItem>
+                    <ComboBoxItem>预设文本框 4</ComboBoxItem>
+                    <ComboBoxItem>预设文本框 5</ComboBoxItem>
+                    <ComboBoxItem>预设文本框 6</ComboBoxItem>
+                    <ComboBoxItem>预设文本框 7</ComboBoxItem>
+                    <ComboBoxItem>预设文本框 8</ComboBoxItem>
+                    <ComboBoxItem>预设文本框 9</ComboBoxItem>
+                </ComboBox>
                 <Button
-                    Click="Button_Click"
-                    Content="发送中文聊天"
+                    x:Name="Button_SendMsg2Bf1Game"
+                    Click="Button_SendMsg2Bf1Game_Click"
+                    Content="发送文本到战地1聊天框"
                     Style="{StaticResource ButtonNormalStyle}" />
+                <TextBlock />
+                <TextBlock
+                    Margin="5"
+                    Foreground="Green"
+                    Text="说明：最大支持90个字符，汉字一个占3字符，英文字母数字符合占1个字符，不要超过90个字符，否则可能会导致游戏崩溃"
+                    TextWrapping="Wrap" />
+                <TextBlock
+                    Margin="5"
+                    Foreground="Green"
+                    Text="说明：使用此功能前，游戏不能全屏和最小化，否则会无效果"
+                    TextWrapping="Wrap" />
             </StackPanel>
             <StackPanel />
             <StackPanel />
