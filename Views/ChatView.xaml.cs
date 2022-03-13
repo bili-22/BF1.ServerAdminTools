@@ -41,6 +41,9 @@ namespace BF1.ServerAdminTools.Views
 
         private void MainWindow_ClosingDisposeEvent()
         {
+            int index = ComboBox_DefaultText.SelectedIndex;
+            defaultMsg[index] = TextBox_InputMsg.Text;
+
             IniHelper.WriteString("ChatMsg", "Msg0", defaultMsg[0], FileUtil.F_Settings_Path);
             IniHelper.WriteString("ChatMsg", "Msg1", defaultMsg[1], FileUtil.F_Settings_Path);
             IniHelper.WriteString("ChatMsg", "Msg2", defaultMsg[2], FileUtil.F_Settings_Path);

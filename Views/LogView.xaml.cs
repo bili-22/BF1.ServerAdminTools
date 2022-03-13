@@ -34,6 +34,13 @@ namespace BF1.ServerAdminTools.Views
             TextBox_Log1.AppendText(msg + "\n");
         }
 
+        private void AppendLog2(string msg)
+        {
+            TextBox_Log2.AppendText(msg + "\n");
+        }
+
+        /////////////////////////////////////////////////////
+
         private void AddKickLog1(BreakRuleInfo info)
         {
             Application.Current.Dispatcher.BeginInvoke(() =>
@@ -49,15 +56,8 @@ namespace BF1.ServerAdminTools.Views
                 AppendLog1("踢出理由: " + info.Reason);
                 AppendLog1("状态: " + info.Status + "\n");
 
-                InsertSQLite("Kick_OK", info);
+                SQLiteHelper.AddLog2SQLite("Kick_OK", info);
             });
-        }
-
-        /////////////////////////////////////////////////////
-
-        private void AppendLog2(string msg)
-        {
-            TextBox_Log2.AppendText(msg + "\n");
         }
 
         private void AddKickLog2(BreakRuleInfo info)
@@ -75,16 +75,8 @@ namespace BF1.ServerAdminTools.Views
                 AppendLog2("踢出理由: " + info.Reason);
                 AppendLog2("状态: " + info.Status + "\n");
 
-                InsertSQLite("Kick_Err", info);
+                SQLiteHelper.AddLog2SQLite("Kick_Err", info);
             });
-        }
-
-        /////////////////////////////////////////////////////
-
-        private void InsertSQLite(string sheetName, BreakRuleInfo info)
-        {
-            string sql = $"INSERT INTO {sheetName} ( Name, PersonaId, Reason, Status, Date ) VALUES ( '{info.Name}', '{info.PersonaId}', '{info.Reason}', '{info.Status}', '{DateTime.Now}' )";
-            SQLiteHelper.ExecuteNonQuery(sql);
         }
     }
 }

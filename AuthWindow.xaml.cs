@@ -5,6 +5,7 @@ using BF1.ServerAdminTools.Features.API2;
 using BF1.ServerAdminTools.Features.Core;
 using BF1.ServerAdminTools.Features.Data;
 using Chinese;
+using RestSharp;
 
 namespace BF1.ServerAdminTools
 {
@@ -23,12 +24,57 @@ namespace BF1.ServerAdminTools
             Task.Run(() =>
             {
                 UpdateState("欢迎来到《BATTLEFIELD 1》...");
-                Task.Delay(800).Wait();
+                Task.Delay(1000).Wait();
+
+                UpdateState("正在为您营造个性化体验...");
+                Task.Delay(500).Wait();
+
+                // 初始化
+                Memory.Initialize(CoreUtil.AppName);
+                BF1API.Init();
+                GTAPI.Init();
+                ImageData.InitDict();
+                ChineseConverter.ToTraditional("免费，跨平台，开源！");
 
                 try
                 {
+                    UpdateState("正在验证玩家授权...");
+                    Task.Delay(500).Wait();
+
+                    var baseAddress = Player.GetLocalPlayer();
+                    // 带队标 0x2156，不带队标 0x40
+                    var personaId = Memory.Read<long>(baseAddress + 0x38);
+                    var playerName = Memory.ReadString(baseAddress + 0x40, 64);
+
+                    var str = "https://api.battlefield.vip/bf1/checkauth";
+                    var options = new RestClientOptions(str)
+                    {
+                        Timeout = 5000
+                    };
+
+                    var client = new RestClient(options);
+                    var request = new RestRequest()
+                        .AddQueryParameter("playername", playerName)
+                        .AddQueryParameter("personaid", personaId);
+
+                    var response = client.ExecutePostAsync(request).Result;
+                    if (response.StatusCode != HttpStatusCode.OK)
+                    {
+                        UpdateState("验证玩家授权失败！程序即将关闭");
+                        Task.Delay(2000).Wait();
+
+                        Application.Current.Dispatcher.BeginInvoke(() =>
+                        {
+                            Application.Current.Shutdown();
+                        });
+
+                        return;
+                    }
+
+                    ////////////////////////////////////////////////////////////////////
+
                     UpdateState("正在检测版本更新...");
-                    Task.Delay(200).Wait();
+                    Task.Delay(500).Wait();
 
                     // 获取版本更新
                     var web = HttpHelper.HttpClientGET(CoreUtil.Version_Address).Result;
@@ -68,18 +114,8 @@ namespace BF1.ServerAdminTools
                     }
                     else
                     {
-                        UpdateState("正在为您营造个性化体验...");
-                        Task.Delay(200).Wait();
-
-                        // 初始化
-                        Memory.Initialize(CoreUtil.AppName);
-                        BF1API.Init();
-                        GTAPI.Init();
-                        ImageData.InitDict();
-                        ChineseConverter.ToTraditional("免费，跨平台，开源！");
-
                         UpdateState("连线中...");
-                        Task.Delay(200).Wait();
+                        Task.Delay(500).Wait();
 
                         Application.Current.Dispatcher.BeginInvoke(() =>
                         {
