@@ -29,7 +29,10 @@
             new WeaponName(){ English="U_LugerP08_Wep_Preorder", Chinese="紅男爵的 P08", ShortTxt="12g JC" },
             new WeaponName(){ English="U_M1911_Suppressed", Chinese="M1911（消音器）", ShortTxt="12g JC" },
 
+            new WeaponName(){ English="U_SingleActionArmy", Chinese="维和左轮 Peacekeeper", ShortTxt="12g JC" },
+
             // 手榴弹
+            new WeaponName(){ English="U_FragGrenade", Chinese="棒式手榴彈", ShortTxt="12g JC" },
             new WeaponName(){ English="U_GermanStick", Chinese="破片手榴彈", ShortTxt="12g JC" },
             new WeaponName(){ English="U_GasGrenade", Chinese="毒氣手榴彈", ShortTxt="12g JC" },
             new WeaponName(){ English="U_ImpactGrenade", Chinese="衝擊手榴彈", ShortTxt="12g JC" },
@@ -40,6 +43,8 @@
 
             new WeaponName(){ English="U_ImprovisedGrenade", Chinese="土製手榴彈", ShortTxt="12g JC" },
             new WeaponName(){ English="123", Chinese="俄羅斯標準手榴彈", ShortTxt="12g JC" },
+
+            new WeaponName(){ English="U_Incendiary_Hero", Chinese="喷火兵 燃燒手榴彈", ShortTxt="12g JC" },
 
             // 近战
             new WeaponName(){ English="123", Chinese="野戰刀", ShortTxt="12g JC" },
@@ -129,6 +134,7 @@
             new WeaponName(){ English="U_FarquharHill_Wep_Stability", Chinese="Farquhar-Hill 步槍（衝鋒）", ShortTxt="12g JC" },
             new WeaponName(){ English="U_BSAHowellM1916", Chinese="Howell 自動步槍（原廠）", ShortTxt="12g JC" },
             new WeaponName(){ English="U_BSAHowellM1916_Wep_Scope", Chinese="Howell 自動步槍（狙擊手）", ShortTxt="12g JC" },
+            new WeaponName(){ English="U_FedorovDegtyarev", Chinese="費德洛夫 Degtyarev", ShortTxt="12g JC" },
 
             // 配枪
             new WeaponName(){ English="U_WebFosAutoRev_455Webley", Chinese="自動左輪手槍", ShortTxt="12g JC" },
@@ -140,9 +146,18 @@
             new WeaponName(){ English="U_MedicBag", Chinese="醫護箱", ShortTxt="12g JC" },
             new WeaponName(){ English="U_Bandages", Chinese="繃帶包", ShortTxt="12g JC" },
 
-            // 步枪手榴弹
+            // 步枪手榴弹（破片）
             new WeaponName(){ English="U_CeiRigottiM1895_RGL_Frag", Chinese="步槍手榴彈（破片）", ShortTxt="12g JC" },
+            new WeaponName(){ English="U_GeneralLiuRifle_RGL_Frag", Chinese="步槍手榴彈（破片）", ShortTxt="12g JC" },
+            new WeaponName(){ English="U_RSC1917_RGL_Frag", Chinese="步槍手榴彈（破片）", ShortTxt="12g JC" },
+            new WeaponName(){ English="U_FedorovAvtomat_RGL_Frag", Chinese="步槍手榴彈（破片）", ShortTxt="12g JC" },
+            new WeaponName(){ English="U_CeiRigottiM1895_RGL_Frag_Grip", Chinese="步槍手榴彈（破片）", ShortTxt="12g JC" },
+            new WeaponName(){ English="U_MauserSL1916_RGL_Frag_Grip", Chinese="步槍手榴彈（破片）", ShortTxt="12g JC" },
+            
+            // 步枪手榴弹（煙霧）
             new WeaponName(){ English="U_MauserSL1916_RGL_Smoke_Grip", Chinese="步槍手榴彈（煙霧）", ShortTxt="12g JC" },
+            
+            // 步枪手榴弹（高爆）
             new WeaponName(){ English="U_MauserSL1916_RGL_HE", Chinese="步槍手榴彈（高爆）", ShortTxt="12g JC" },
 
             ////////////////////////////////// 支援兵 Support //////////////////////////////////
@@ -222,7 +237,7 @@
             new WeaponName(){ English="U_LeeEnfieldSMLE_Wep_Preorder", Chinese="阿拉伯的勞倫斯的 SMLE", ShortTxt="12g JC" },
             new WeaponName(){ English="U_Lebel1886_Wep_LongRange", Chinese="勒貝爾 M1886（狙擊手）", ShortTxt="12g JC" },
             new WeaponName(){ English="U_Lebel1886", Chinese="勒貝爾 M1886（步兵）", ShortTxt="12g JC" },
-            new WeaponName(){ English="MosinNagant1891", Chinese="莫辛-納甘 M91（步兵）", ShortTxt="12g JC" },
+            new WeaponName(){ English="U_MosinNagant1891", Chinese="莫辛-納甘 M91（步兵）", ShortTxt="12g JC" },
             new WeaponName(){ English="U_MosinNagant1891_Wep_Scope", Chinese="莫辛-納甘 M91（神射手）", ShortTxt="12g JC" },
             new WeaponName(){ English="U_VetterliVitaliM1870", Chinese="Vetterli-Vitali M1870/87（步兵）", ShortTxt="12g JC" },
             new WeaponName(){ English="U_VetterliVitaliM1870_Wep_Med", Chinese="Vetterli-Vitali M1870/87（卡賓槍）", ShortTxt="12g JC" },
@@ -231,7 +246,7 @@
             new WeaponName(){ English="U_CarcanoCarbine", Chinese="卡爾卡諾 M91 卡賓槍", ShortTxt="12g JC" },
             new WeaponName(){ English="U_CarcanoCarbine_Wep_Scope", Chinese="卡爾卡諾 M91 卡賓槍（巡邏）", ShortTxt="12g JC" },
             new WeaponName(){ English="U_RossMkIII", Chinese="羅斯 MKIII（步兵）", ShortTxt="12g JC" },
-            new WeaponName(){ English="U_CarcanoCarbine_Wep_Scope", Chinese="羅斯 MKIII（神射手）", ShortTxt="12g JC" },
+            new WeaponName(){ English="U_RossMkIII_Wep_Scope", Chinese="羅斯 MKIII（神射手）", ShortTxt="12g JC" },
             new WeaponName(){ English="U_Enfield1917", Chinese="M1917 Enfield（步兵）", ShortTxt="12g JC" },
             new WeaponName(){ English="U_Enfield1917_Wep_LongRange", Chinese="M1917 Enfield（消音器）", ShortTxt="12g JC" },
 
@@ -257,8 +272,21 @@
             new WeaponName(){ English="U_Gewehr98_KBullet_4x", Chinese="K 彈", ShortTxt="12g JC" },
             new WeaponName(){ English="U_Gewehr98_KBullet_6x", Chinese="K 彈", ShortTxt="12g JC" },
             new WeaponName(){ English="U_Gewehr98_KBullet", Chinese="K 彈", ShortTxt="12g JC" },
+            new WeaponName(){ English="U_BSAHowellM1916_RGL_Frag", Chinese="K 彈", ShortTxt="12g JC" },
+            new WeaponName(){ English="U_Type38Arisaka_KBullet_Scope", Chinese="K 彈", ShortTxt="12g JC" },
+            new WeaponName(){ English="U_LeeEnfieldSMLE_KBullet_4x", Chinese="K 彈", ShortTxt="12g JC" },
+            new WeaponName(){ English="U_MartiniHenry_KBullet_Scope", Chinese="K 彈", ShortTxt="12g JC" },
 
-            ///////////////////////////////////////////////////////////////////////////////////
+            /////////////////////////////////////////////////////////////////////////////
+
+            // 精英兵
+            new WeaponName(){ English="U_MaximMG0815", Chinese="哨兵 MG 08/15", ShortTxt="MaximMG0815" },
+            new WeaponName(){ English="U_FlameThrower", Chinese="喷火兵 Wex", ShortTxt="Wex" },
+
+            new WeaponName(){ English="Royal Club", Chinese="战壕奇兵 奇兵棒", ShortTxt="Royal Club" },
+            new WeaponName(){ English="MartiniGrenadeLauncher", Chinese="入侵者 马提尼·亨利步兵榴弹发射器", ShortTxt="Martini GL" },
+
+            new WeaponName(){ English="SpawnBeacon", Chinese="重生信标", ShortTxt="SpawnBeacon" },
 
             ///////////////////////////////////////////////////////////////////////////////////
 
@@ -309,17 +337,6 @@
             new WeaponName(){ English="ID_P_VNAME_MODEL30", Chinese="运输载具 M30 侦察车", ShortTxt="MODEL30" },
 
             new WeaponName(){ English="ID_P_VNAME_MAS15", Chinese="运输载具 M.A.S 鱼雷快艇", ShortTxt="MAS15" },
-
-            /////////////////////////////////////////////////////////////////////////////
-
-            // 精英兵
-            new WeaponName(){ English="MaximMG0815", Chinese="哨兵 MG 08/15", ShortTxt="MaximMG0815" },
-
-            new WeaponName(){ English="Royal Club", Chinese="战壕奇兵 奇兵棒", ShortTxt="Royal Club" },
-            new WeaponName(){ English="FlameThrower", Chinese="喷火兵 Wex 火焰喷射器", ShortTxt="Wex" },
-            new WeaponName(){ English="MartiniGrenadeLauncher", Chinese="入侵者 马提尼·亨利步兵榴弹发射器", ShortTxt="Martini GL" },
-
-            new WeaponName(){ English="SpawnBeacon", Chinese="重生信标", ShortTxt="SpawnBeacon" },
 
             /////////////////////////////////////////////////////////////////////////////
 
