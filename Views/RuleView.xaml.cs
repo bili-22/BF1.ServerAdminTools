@@ -600,6 +600,7 @@ namespace BF1.ServerAdminTools.Views
                 {
                     AppendLog("SessionId为空，操作取消");
                     CheckBox_RunAutoKick.IsChecked = false;
+                    MainWindow.dSetOperatingState(2, $"环境检查未通过，操作取消");
                     return;
                 }
                 else
@@ -614,6 +615,7 @@ namespace BF1.ServerAdminTools.Views
                 {
                     AppendLog("SessionId 已过期，请重新获取，操作取消");
                     CheckBox_RunAutoKick.IsChecked = false;
+                    MainWindow.dSetOperatingState(2, $"环境检查未通过，操作取消");
                     return;
                 }
                 else
@@ -627,6 +629,7 @@ namespace BF1.ServerAdminTools.Views
                 {
                     AppendLog("GameId 为空，操作取消");
                     CheckBox_RunAutoKick.IsChecked = false;
+                    MainWindow.dSetOperatingState(2, $"环境检查未通过，操作取消");
                     return;
                 }
                 else
@@ -640,6 +643,7 @@ namespace BF1.ServerAdminTools.Views
                 {
                     AppendLog("服务器管理员列表 为空，请先获取当前服务器详情数据，操作取消");
                     CheckBox_RunAutoKick.IsChecked = false;
+                    MainWindow.dSetOperatingState(2, $"环境检查未通过，操作取消");
                     return;
                 }
                 else
@@ -656,6 +660,7 @@ namespace BF1.ServerAdminTools.Views
                 {
                     AppendLog("玩家不是当前服务器管理，操作取消");
                     CheckBox_RunAutoKick.IsChecked = false;
+                    MainWindow.dSetOperatingState(2, $"环境检查未通过，操作取消");
                     return;
                 }
                 else
@@ -717,10 +722,12 @@ namespace BF1.ServerAdminTools.Views
         {
             AudioUtil.ClickSound();
 
-            foreach (var item in Globals.BreakRuleInfo_PlayerList)
+            for (int i = 0; i < Globals.BreakRuleInfo_PlayerList.Count; i++)
             {
-                ManualKickPlayer(item);
+                ManualKickPlayer(Globals.BreakRuleInfo_PlayerList[i]);
             }
+
+            MainWindow.dSetOperatingState(1, "执行手动踢人操作成功");
         }
 
         private async void Button_CheckKickEnv_Click(object sender, RoutedEventArgs e)
@@ -740,6 +747,7 @@ namespace BF1.ServerAdminTools.Views
             if (string.IsNullOrEmpty(Globals.SessionId))
             {
                 AppendLog("SessionId为空，操作取消");
+                MainWindow.dSetOperatingState(2, $"环境检查未通过，操作取消");
                 return;
             }
             else
@@ -753,6 +761,7 @@ namespace BF1.ServerAdminTools.Views
             if (!result.IsSuccess)
             {
                 AppendLog("SessionId 已过期，请重新获取，操作取消");
+                MainWindow.dSetOperatingState(2, $"环境检查未通过，操作取消");
                 return;
             }
             else
@@ -765,6 +774,7 @@ namespace BF1.ServerAdminTools.Views
             if (string.IsNullOrEmpty(Globals.GameId))
             {
                 AppendLog("GameId 为空，操作取消");
+                MainWindow.dSetOperatingState(2, $"环境检查未通过，操作取消");
                 return;
             }
             else
@@ -777,6 +787,7 @@ namespace BF1.ServerAdminTools.Views
             if (Globals.Server_AdminList.Count == 0)
             {
                 AppendLog("服务器管理员列表 为空，请先获取当前服务器详情数据，操作取消");
+                MainWindow.dSetOperatingState(2, $"环境检查未通过，操作取消");
                 return;
             }
             else
@@ -792,6 +803,7 @@ namespace BF1.ServerAdminTools.Views
             if (!Globals.Server_Admin2List.Contains(playerName))
             {
                 AppendLog("玩家不是当前服务器管理，操作取消");
+                MainWindow.dSetOperatingState(2, $"环境检查未通过，操作取消");
                 return;
             }
             else

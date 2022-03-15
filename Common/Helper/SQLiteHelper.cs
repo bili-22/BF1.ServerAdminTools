@@ -85,23 +85,46 @@ namespace BF1.ServerAdminTools.Common.Helper
         /// <param name="info"></param>
         public static void AddLog2SQLite(string sheetName, BreakRuleInfo info)
         {
-            using (var command = connection.CreateCommand())
+            switch (sheetName)
             {
-                command.CommandText =
-                @"
-                    INSERT INTO $sheetName
-                    ( Name, PersonaId, Reason, Status, Date ) 
-                    VALUES
-                    ( $name, $personaId, $reason, $status, $date )
-                ";
-                command.Parameters.AddWithValue("$sheetName", sheetName);
-                command.Parameters.AddWithValue("$name", info.Name);
-                command.Parameters.AddWithValue("$personaId", info.PersonaId);
-                command.Parameters.AddWithValue("$reason", info.Reason);
-                command.Parameters.AddWithValue("$status", info.Status);
-                command.Parameters.AddWithValue("$date", DateTime.Now.ToString());
+                case "Kick_OK":
+                    using (var command = connection.CreateCommand())
+                    {
+                        command.CommandText =
+                        @"
+                            INSERT INTO Kick_OK
+                            ( Name, PersonaId, Reason, Status, Date ) 
+                            VALUES
+                            ( $name, $personaId, $reason, $status, $date )
+                        ";
+                        command.Parameters.AddWithValue("$name", info.Name);
+                        command.Parameters.AddWithValue("$personaId", info.PersonaId);
+                        command.Parameters.AddWithValue("$reason", info.Reason);
+                        command.Parameters.AddWithValue("$status", info.Status);
+                        command.Parameters.AddWithValue("$date", DateTime.Now.ToString());
 
-                command.ExecuteNonQuery();
+                        command.ExecuteNonQuery();
+                    }
+                    break;
+                case "Kick_Err":
+                    using (var command = connection.CreateCommand())
+                    {
+                        command.CommandText =
+                        @"
+                            INSERT INTO Kick_Err
+                            ( Name, PersonaId, Reason, Status, Date ) 
+                            VALUES
+                            ( $name, $personaId, $reason, $status, $date )
+                        ";
+                        command.Parameters.AddWithValue("$name", info.Name);
+                        command.Parameters.AddWithValue("$personaId", info.PersonaId);
+                        command.Parameters.AddWithValue("$reason", info.Reason);
+                        command.Parameters.AddWithValue("$status", info.Status);
+                        command.Parameters.AddWithValue("$date", DateTime.Now.ToString());
+
+                        command.ExecuteNonQuery();
+                    }
+                    break;
             }
         }
     }

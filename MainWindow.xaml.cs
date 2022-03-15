@@ -174,7 +174,7 @@ namespace BF1.ServerAdminTools
 
         private void TabControlSelect()
         {
-            TabControl_Main.SelectedIndex = 3;
+            TabControl_Main.SelectedIndex = 1;
         }
     }
 }
