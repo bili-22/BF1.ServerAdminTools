@@ -35,6 +35,7 @@ namespace BF1.ServerAdminTools.Features.Chat
             return new string(c);
         }
 
+        // 发送中文到战地1聊天框
         public static void SendText2Bf1Game(string msg)
         {
             Memory.SetForegroundWindow();

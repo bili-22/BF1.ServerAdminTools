@@ -29,27 +29,59 @@
                     Text="战地1中文输入测试，最大30个汉字"
                     TextChanged="TextBox_InputMsg_TextChanged"
                     TextWrapping="Wrap" />
-                <ComboBox
-                    x:Name="ComboBox_DefaultText"
+                <GroupBox
                     Margin="5,5,5,0"
-                    Padding="10,5,10,5"
-                    SelectionChanged="ComboBox_DefaultText_SelectionChanged">
-                    <ComboBox.Resources>
-                        <Style TargetType="{x:Type ComboBoxItem}">
-                            <Setter Property="Padding" Value="10,5,10,5" />
-                        </Style>
-                    </ComboBox.Resources>
-                    <ComboBoxItem IsSelected="True">预设文本框 0</ComboBoxItem>
-                    <ComboBoxItem>预设文本框 1</ComboBoxItem>
-                    <ComboBoxItem>预设文本框 2</ComboBoxItem>
-                    <ComboBoxItem>预设文本框 3</ComboBoxItem>
-                    <ComboBoxItem>预设文本框 4</ComboBoxItem>
-                    <ComboBoxItem>预设文本框 5</ComboBoxItem>
-                    <ComboBoxItem>预设文本框 6</ComboBoxItem>
-                    <ComboBoxItem>预设文本框 7</ComboBoxItem>
-                    <ComboBoxItem>预设文本框 8</ComboBoxItem>
-                    <ComboBoxItem>预设文本框 9</ComboBoxItem>
-                </ComboBox>
+                    Padding="5"
+                    Header="预设文本框">
+                    <WrapPanel>
+                        <WrapPanel.Resources>
+                            <Style TargetType="{x:Type RadioButton}">
+                                <Setter Property="Margin" Value="5" />
+                            </Style>
+                        </WrapPanel.Resources>
+                        <RadioButton
+                            x:Name="RadioButton_DefaultText0"
+                            Click="RadioButton_DefaultText0_Click"
+                            Content="文本0"
+                            IsChecked="True" />
+                        <RadioButton
+                            x:Name="RadioButton_DefaultText1"
+                            Click="RadioButton_DefaultText0_Click"
+                            Content="文本1" />
+                        <RadioButton
+                            x:Name="RadioButton_DefaultText2"
+                            Click="RadioButton_DefaultText0_Click"
+                            Content="文本2" />
+                        <RadioButton
+                            x:Name="RadioButton_DefaultText3"
+                            Click="RadioButton_DefaultText0_Click"
+                            Content="文本3" />
+                        <RadioButton
+                            x:Name="RadioButton_DefaultText4"
+                            Click="RadioButton_DefaultText0_Click"
+                            Content="文本4" />
+                        <RadioButton
+                            x:Name="RadioButton_DefaultText5"
+                            Click="RadioButton_DefaultText0_Click"
+                            Content="文本5" />
+                        <RadioButton
+                            x:Name="RadioButton_DefaultText6"
+                            Click="RadioButton_DefaultText0_Click"
+                            Content="文本6" />
+                        <RadioButton
+                            x:Name="RadioButton_DefaultText7"
+                            Click="RadioButton_DefaultText0_Click"
+                            Content="文本7" />
+                        <RadioButton
+                            x:Name="RadioButton_DefaultText8"
+                            Click="RadioButton_DefaultText0_Click"
+                            Content="文本8" />
+                        <RadioButton
+                            x:Name="RadioButton_DefaultText9"
+                            Click="RadioButton_DefaultText0_Click"
+                            Content="文本9" />
+                    </WrapPanel>
+                </GroupBox>
                 <Button
                     x:Name="Button_SendMsg2Bf1Game"
                     Click="Button_SendMsg2Bf1Game_Click"
@@ -64,10 +96,90 @@
                 <TextBlock
                     Margin="5"
                     Foreground="Green"
-                    Text="说明：使用此功能前，游戏不能全屏和最小化，否则会无效果"
+                    Text="说明：使用此功能前，游戏不能全屏和最小化，否则会无效果。并把输入法调成美式键盘（不能是中文输入法状态，否则会导致发生中文失败）"
                     TextWrapping="Wrap" />
             </StackPanel>
-            <StackPanel />
+            <!--  ################################  -->
+            <StackPanel>
+                <TextBlock Style="{StaticResource TextBlockTitleStyle}" Text="定时发送指定文本" />
+                <GroupBox
+                    Margin="5"
+                    Padding="5"
+                    Header="勾选要发送的内容">
+                    <WrapPanel>
+                        <WrapPanel.Resources>
+                            <Style TargetType="{x:Type CheckBox}">
+                                <Setter Property="Margin" Value="5" />
+                            </Style>
+                        </WrapPanel.Resources>
+                        <CheckBox x:Name="CheckBox_DefaultText0" Content="文本0" />
+                        <CheckBox x:Name="CheckBox_DefaultText1" Content="文本1" />
+                        <CheckBox x:Name="CheckBox_DefaultText2" Content="文本2" />
+                        <CheckBox x:Name="CheckBox_DefaultText3" Content="文本3" />
+                        <CheckBox x:Name="CheckBox_DefaultText4" Content="文本4" />
+                        <CheckBox x:Name="CheckBox_DefaultText5" Content="文本5" />
+                        <CheckBox x:Name="CheckBox_DefaultText6" Content="文本6" />
+                        <CheckBox x:Name="CheckBox_DefaultText7" Content="文本7" />
+                        <CheckBox x:Name="CheckBox_DefaultText8" Content="文本8" />
+                        <CheckBox x:Name="CheckBox_DefaultText9" Content="文本9" />
+                    </WrapPanel>
+                </GroupBox>
+                <GroupBox
+                    Margin="5,0,5,5"
+                    Padding="5"
+                    Header="周期设置">
+                    <StackPanel>
+                        <StackPanel.Resources>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="Margin" Value="5" />
+                            </Style>
+                            <Style TargetType="{x:Type Slider}">
+                                <Setter Property="Margin" Value="5" />
+                                <Setter Property="IsSnapToTickEnabled" Value="True" />
+                            </Style>
+                        </StackPanel.Resources>
+                        <TextBlock Text="{Binding ElementName=Slider_AutoSendMsgSleep, Path=Value, StringFormat=文本间隔时间 : {0:0} 秒, FallbackValue='文本间隔时间 : NULL 秒'}" />
+                        <Slider
+                            x:Name="Slider_AutoSendMsgSleep"
+                            Maximum="5"
+                            Minimum="1"
+                            TickFrequency="1"
+                            TickPlacement="None" />
+                        <TextBlock Text="{Binding ElementName=Slider_AutoSendMsg, Path=Value, StringFormat=定时器周期 : {0:0} 分钟, FallbackValue='定时器周期 : NULL 分钟'}" />
+                        <Slider
+                            x:Name="Slider_AutoSendMsg"
+                            Maximum="10"
+                            Minimum="1"
+                            TickFrequency="1"
+                            TickPlacement="None" />
+                    </StackPanel>
+                </GroupBox>
+                <CheckBox
+                    x:Name="CheckBox_ActiveAutoSendMsg"
+                    Margin="10,5,10,5"
+                    VerticalAlignment="Center"
+                    Click="CheckBox_ActiveAutoSendMsg_Click"
+                    Content="启用定时发送指定文本" />
+                <TextBlock
+                    Margin="5"
+                    Foreground="Green"
+                    Text="说明：上述设置如果调整了需要重新勾选《激活定时发送指定文本》才会生效"
+                    TextWrapping="Wrap" />
+                <!--  ################  -->
+                <TextBlock Style="{StaticResource TextBlockTitleStyle}" Text="挂机防踢" />
+                <CheckBox
+                    x:Name="CheckBox_ActiveNoAFK"
+                    Margin="10,5,10,5"
+                    VerticalAlignment="Center"
+                    Click="CheckBox_ActiveNoAFK_Click"
+                    Content="启用游戏内挂机防踢" />
+                <TextBlock
+                    Margin="5"
+                    Foreground="Green"
+                    Text="原理：每隔30秒自动按一次Tab键持续3秒并把游戏窗口置前"
+                    TextWrapping="Wrap" />
+            </StackPanel>
+            <!--  ################################  -->
             <StackPanel />
         </UniformGrid>
     </Grid>

@@ -58,7 +58,23 @@ namespace BF1.ServerAdminTools
                         .AddQueryParameter("personaid", personaId);
 
                     var response = client.ExecutePostAsync(request).Result;
-                    if (response.StatusCode != HttpStatusCode.OK)
+                    if (response.StatusCode == HttpStatusCode.OK)
+                    {
+
+                    }
+                    else if (response.StatusCode == HttpStatusCode.Forbidden)
+                    {
+                        UpdateState($"玩家 {playerName} 未授权！程序即将关闭");
+                        Task.Delay(2000).Wait();
+
+                        Application.Current.Dispatcher.BeginInvoke(() =>
+                        {
+                            Application.Current.Shutdown();
+                        });
+
+                        return;
+                    }
+                    else
                     {
                         UpdateState("验证玩家授权失败！程序即将关闭");
                         Task.Delay(2000).Wait();

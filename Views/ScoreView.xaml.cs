@@ -289,6 +289,7 @@ namespace BF1.ServerAdminTools.Views
                         PlayerList_Team2.Add(item);
                     }
 
+                    // 检查违规玩家
                     if (item.TeamID == 1 || item.TeamID == 2)
                     {
                         CheckPlayerIsBreakRule(item);

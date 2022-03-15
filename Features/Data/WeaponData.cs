@@ -153,6 +153,7 @@
             new WeaponName(){ English="U_FedorovAvtomat_RGL_Frag", Chinese="步槍手榴彈（破片）", ShortTxt="RGL Frag" },
             new WeaponName(){ English="U_CeiRigottiM1895_RGL_Frag_Grip", Chinese="步槍手榴彈（破片）", ShortTxt="RGL Frag" },
             new WeaponName(){ English="U_MauserSL1916_RGL_Frag_Grip", Chinese="步槍手榴彈（破片）", ShortTxt="RGL Frag" },
+            new WeaponName(){ English="U_RemingtonModel8_RGL_Frag_Grip", Chinese="步槍手榴彈（破片）", ShortTxt="RGL Frag" },
             
             // 步枪手榴弹（煙霧）
             new WeaponName(){ English="U_MauserSL1916_RGL_Smoke_Grip", Chinese="步槍手榴彈（煙霧）", ShortTxt="RGL Smoke" },
@@ -279,6 +280,8 @@
             new WeaponName(){ English="U_Type38Arisaka_KBullet", Chinese="K 彈", ShortTxt="KBullet" },
             new WeaponName(){ English="U_MosinNagant1891_KBullet", Chinese="K 彈", ShortTxt="KBullet" },
             new WeaponName(){ English="U_LeeEnfieldSMLE_KBullet", Chinese="K 彈", ShortTxt="KBullet" },
+            new WeaponName(){ English="U_SpringfieldM1903_KBullet_Scope", Chinese="K 彈", ShortTxt="KBullet" },
+            new WeaponName(){ English="U_Enfield1917_KBullet_Scope", Chinese="K 彈", ShortTxt="KBullet" },
 
             /////////////////////////////////////////////////////////////////////////////
 
@@ -287,7 +290,7 @@
             new WeaponName(){ English="U_FlameThrower", Chinese="喷火兵 Wex", ShortTxt="Wex" },
 
             new WeaponName(){ English="Royal Club", Chinese="战壕奇兵 奇兵棒", ShortTxt="Royal Club" },
-            new WeaponName(){ English="MartiniGrenadeLauncher", Chinese="入侵者 马提尼·亨利步兵榴弹发射器", ShortTxt="Martini GL" },
+            new WeaponName(){ English="U_MartiniGrenadeLauncher", Chinese="入侵者 马提尼·亨利步枪榴弹发射器", ShortTxt="Martini GL" },
 
             new WeaponName(){ English="SpawnBeacon", Chinese="重生信标", ShortTxt="SpawnBeacon" },
 

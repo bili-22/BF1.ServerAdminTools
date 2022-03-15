@@ -14,6 +14,13 @@ namespace BF1.ServerAdminTools.Views
     {
         private string[] defaultMsg = new string[10];
 
+        private Timer timerAutoSendMsg;
+        private List<string> queueMsg;
+
+        private int queueMsgSleep = 1;
+
+        private Timer timerNoAFK;
+
         public ChatView()
         {
             InitializeComponent();
@@ -37,12 +44,22 @@ namespace BF1.ServerAdminTools.Views
             TextBox_InputMsg.Text = defaultMsg[0];
 
             MainWindow.ClosingDisposeEvent += MainWindow_ClosingDisposeEvent;
+
+            timerAutoSendMsg = new Timer();
+            timerAutoSendMsg.AutoReset = true;
+            timerAutoSendMsg.Elapsed += TimerAutoSendMsg_Elapsed;
+
+            queueMsg = new List<string>();
+
+            timerNoAFK = new Timer();
+            timerNoAFK.AutoReset = true;
+            timerNoAFK.Interval = 1000 * 30;
+            timerNoAFK.Elapsed += TimerNoAFK_Elapsed;
         }
 
         private void MainWindow_ClosingDisposeEvent()
         {
-            int index = ComboBox_DefaultText.SelectedIndex;
-            defaultMsg[index] = TextBox_InputMsg.Text;
+            defaultMsg[RadioButtonWhoIsChecked()] = TextBox_InputMsg.Text;
 
             IniHelper.WriteString("ChatMsg", "Msg0", defaultMsg[0], FileUtil.F_Settings_Path);
             IniHelper.WriteString("ChatMsg", "Msg1", defaultMsg[1], FileUtil.F_Settings_Path);
@@ -54,6 +71,26 @@ namespace BF1.ServerAdminTools.Views
             IniHelper.WriteString("ChatMsg", "Msg7", defaultMsg[7], FileUtil.F_Settings_Path);
             IniHelper.WriteString("ChatMsg", "Msg8", defaultMsg[8], FileUtil.F_Settings_Path);
             IniHelper.WriteString("ChatMsg", "Msg9", defaultMsg[9], FileUtil.F_Settings_Path);
+        }
+
+        private void TimerAutoSendMsg_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            for (int i = 0; i < queueMsg.Count; i++)
+            {
+                ChatHelper.SendText2Bf1Game(queueMsg[i]);
+                Thread.Sleep(queueMsgSleep * 1000);
+            }
+        }
+
+        private void TimerNoAFK_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            Memory.SetForegroundWindow();
+            Thread.Sleep(20);
+
+            WinAPI.Keybd_Event(WinVK.TAB, WinAPI.MapVirtualKey(WinVK.TAB, 0), 0, 0);
+            Thread.Sleep(3000);
+            WinAPI.Keybd_Event(WinVK.TAB, WinAPI.MapVirtualKey(WinVK.TAB, 0), 2, 0);
+            Thread.Sleep(20);
         }
 
         private void Button_SendMsg2Bf1Game_Click(object sender, RoutedEventArgs e)
@@ -118,17 +155,113 @@ namespace BF1.ServerAdminTools.Views
         {
             TextBlock_TxtLength.Text = $"当前文本长度 : {PlayerUtil.GetStrLength(TextBox_InputMsg.Text)} 字符";
 
-            if (ComboBox_DefaultText != null)
+            defaultMsg[RadioButtonWhoIsChecked()] = TextBox_InputMsg.Text;
+        }
+
+        private void RadioButton_DefaultText0_Click(object sender, RoutedEventArgs e)
+        {
+            AudioUtil.ClickSound();
+
+            TextBox_InputMsg.Text = defaultMsg[RadioButtonWhoIsChecked()];
+        }
+
+        private int RadioButtonWhoIsChecked()
+        {
+            if (RadioButton_DefaultText0 != null && RadioButton_DefaultText0.IsChecked == true)
+                return 0;
+
+            if (RadioButton_DefaultText1 != null && RadioButton_DefaultText1.IsChecked == true)
+                return 1;
+
+            if (RadioButton_DefaultText2 != null && RadioButton_DefaultText2.IsChecked == true)
+                return 2;
+
+            if (RadioButton_DefaultText3 != null && RadioButton_DefaultText3.IsChecked == true)
+                return 3;
+
+            if (RadioButton_DefaultText4 != null && RadioButton_DefaultText4.IsChecked == true)
+                return 4;
+
+            if (RadioButton_DefaultText5 != null && RadioButton_DefaultText5.IsChecked == true)
+                return 5;
+
+            if (RadioButton_DefaultText6 != null && RadioButton_DefaultText6.IsChecked == true)
+                return 6;
+
+            if (RadioButton_DefaultText7 != null && RadioButton_DefaultText7.IsChecked == true)
+                return 7;
+
+            if (RadioButton_DefaultText8 != null && RadioButton_DefaultText8.IsChecked == true)
+                return 8;
+
+            if (RadioButton_DefaultText9 != null && RadioButton_DefaultText9.IsChecked == true)
+                return 9;
+
+            return 0;
+        }
+
+        private void CheckBox_ActiveAutoSendMsg_Click(object sender, RoutedEventArgs e)
+        {
+            if (CheckBox_ActiveAutoSendMsg.IsChecked == true)
             {
-                int index = ComboBox_DefaultText.SelectedIndex;
-                defaultMsg[index] = TextBox_InputMsg.Text;
+                queueMsg.Clear();
+
+                if (CheckBox_DefaultText0 != null && CheckBox_DefaultText0.IsChecked == true)
+                    queueMsg.Add(defaultMsg[0]);
+
+                if (CheckBox_DefaultText1 != null && CheckBox_DefaultText1.IsChecked == true)
+                    queueMsg.Add(defaultMsg[1]);
+
+                if (CheckBox_DefaultText2 != null && CheckBox_DefaultText2.IsChecked == true)
+                    queueMsg.Add(defaultMsg[2]);
+
+                if (CheckBox_DefaultText3 != null && CheckBox_DefaultText3.IsChecked == true)
+                    queueMsg.Add(defaultMsg[3]);
+
+                if (CheckBox_DefaultText4 != null && CheckBox_DefaultText4.IsChecked == true)
+                    queueMsg.Add(defaultMsg[4]);
+
+                if (CheckBox_DefaultText5 != null && CheckBox_DefaultText5.IsChecked == true)
+                    queueMsg.Add(defaultMsg[5]);
+
+                if (CheckBox_DefaultText6 != null && CheckBox_DefaultText6.IsChecked == true)
+                    queueMsg.Add(defaultMsg[6]);
+
+                if (CheckBox_DefaultText7 != null && CheckBox_DefaultText7.IsChecked == true)
+                    queueMsg.Add(defaultMsg[7]);
+
+                if (CheckBox_DefaultText8 != null && CheckBox_DefaultText8.IsChecked == true)
+                    queueMsg.Add(defaultMsg[8]);
+
+                if (CheckBox_DefaultText9 != null && CheckBox_DefaultText9.IsChecked == true)
+                    queueMsg.Add(defaultMsg[9]);
+
+                queueMsgSleep = (int)Slider_AutoSendMsgSleep.Value;
+
+                timerAutoSendMsg.Interval = Slider_AutoSendMsg.Value * 1000 * 60;
+                timerAutoSendMsg.Start();
+
+                MainWindow.dSetOperatingState(1, "已启用定时发送指定文本功能");
+            }
+            else
+            {
+                timerAutoSendMsg.Stop();
+                MainWindow.dSetOperatingState(1, "已关闭定时发送指定文本功能");
             }
         }
 
-        private void ComboBox_DefaultText_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void CheckBox_ActiveNoAFK_Click(object sender, RoutedEventArgs e)
         {
-            int index = ComboBox_DefaultText.SelectedIndex;
-            TextBox_InputMsg.Text = defaultMsg[index];
+            if (CheckBox_ActiveNoAFK.IsChecked == true)
+            {
+                timerNoAFK.Start();
+                MainWindow.dSetOperatingState(1, "已启用游戏内挂机防踢功能");
+            }
+            else
+            {
+                timerNoAFK.Stop();
+                MainWindow.dSetOperatingState(1, "已关闭游戏内挂机防踢功能");
+            }
         }
     }
 }
