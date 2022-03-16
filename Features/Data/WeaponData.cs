@@ -358,6 +358,8 @@
             new WeaponName(){ English="U_Bandages_Cav", Chinese="绷带包", ShortTxt="Bandages" },
             new WeaponName(){ English="U_Grenade_AT_Cavalry", Chinese="轻型反坦克手榴弹", ShortTxt="Grenade AT" },
 
+            new WeaponName(){ English="U_LugerP08_VhKit", Chinese="P08 手枪", ShortTxt="LugerP08 VhKit" },
+
             ////////////////
             
             new WeaponName(){ English="======== 特殊载具 ========", Chinese="", ShortTxt="" },
@@ -376,6 +378,9 @@
             new WeaponName(){ English="ID_P_VNAME_ROMFELL", Chinese="运输载具 Romfell 装甲车", ShortTxt="ROMFELL" },
             new WeaponName(){ English="ID_P_VNAME_ROLLS", Chinese="运输载具 RNAS 装甲车", ShortTxt="ROLLS" },
             new WeaponName(){ English="ID_P_VNAME_MODEL30", Chinese="运输载具 M30 侦察车", ShortTxt="MODEL30" },
+            new WeaponName(){ English="ID_P_VNAME_TERNI", Chinese="运输载具 F.T. 侦察车", ShortTxt="TERNI" },
+            new WeaponName(){ English="ID_P_VNAME_MERCEDES_37", Chinese="运输载具 37/95 侦察车", ShortTxt="MERCEDES 37" },
+            new WeaponName(){ English="ID_P_VNAME_BENZ_MG", Chinese="运输载具 KFT 侦察车", ShortTxt="BENZ MG" },
 
             new WeaponName(){ English="ID_P_VNAME_MAS15", Chinese="运输载具 M.A.S 鱼雷快艇", ShortTxt="MAS15" },
             new WeaponName(){ English="ID_P_VNAME_YLIGHTER", Chinese="运输载具 Y-Lighter 登陆艇", ShortTxt="MAS15" },

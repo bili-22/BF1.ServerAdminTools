@@ -67,6 +67,7 @@
                     Name="MenuItem_ClearScoreSort"
                     Click="MenuItem_ClearScoreSort_Click"
                     Header="清理得分板标题排序" />
+                <Separator />
                 <MenuItem
                     Name="MenuItem_ShowWeaponNameZHCN"
                     Click="MenuItem_ShowWeaponNameZHCN_Click"

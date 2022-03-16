@@ -192,13 +192,14 @@ namespace BF1.ServerAdminTools.Views
                 // 自动踢出违规玩家
                 if (Globals.AutoKickBreakPlayer)
                 {
-                    for (int i = 0; i < Globals.BreakRuleInfo_PlayerList.Count; i++)
+                    var temp = Globals.BreakRuleInfo_PlayerList;
+                    for (int i = 0; i < temp.Count; i++)
                     {
                         // 先检查踢出玩家是否在已踢出列表中
-                        int index = Kicked_PlayerList.FindIndex(var => var.PersonaId == Globals.BreakRuleInfo_PlayerList[i].PersonaId);
+                        int index = Kicked_PlayerList.FindIndex(var => var.PersonaId == temp[i].PersonaId);
                         if (index == -1)
                         {
-                            AutoKickPlayer(Globals.BreakRuleInfo_PlayerList[i]);
+                            AutoKickPlayer(temp[i]);
                         }
                     }
 

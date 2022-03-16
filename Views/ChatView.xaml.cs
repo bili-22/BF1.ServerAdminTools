@@ -108,17 +108,19 @@ namespace BF1.ServerAdminTools.Views
                 Memory.SetForegroundWindow();
                 Thread.Sleep(20);
 
-                string msg = TextBox_InputMsg.Text.Trim();
-                msg = ChineseConverter.ToTraditional(ChatHelper.ToDBC(msg));
-
-                Memory.WriteStringUTF8(ChatMsg.GetAllocateMemoryAddress(), null, msg);
-
                 ChatHelper.KeyPress(WinVK.J);
 
                 if (ChatMsg.GetChatIsOpen())
                 {
                     if (ChatMsg.ChatMessagePointer() != 0)
                     {
+                        // 挂起战地1进程
+                        WinAPI.NtSuspendProcess(Memory.GetHandle());
+                        string msg = TextBox_InputMsg.Text.Trim();
+                        msg = ChineseConverter.ToTraditional(ChatHelper.ToDBC(msg));
+                        var length = PlayerUtil.GetStrLength(msg);
+                        Memory.WriteStringUTF8(ChatMsg.GetAllocateMemoryAddress(), null, msg);
+
                         var startPtr = ChatMsg.ChatMessagePointer() + ChatMsg.OFFSET_CHAT_MESSAGE_START;
                         var endPtr = ChatMsg.ChatMessagePointer() + ChatMsg.OFFSET_CHAT_MESSAGE_END;
 
@@ -126,12 +128,18 @@ namespace BF1.ServerAdminTools.Views
                         var oldEndPtr = Memory.Read<long>(endPtr);
 
                         Memory.Write<long>(startPtr, ChatMsg.GetAllocateMemoryAddress());
-                        Memory.Write<long>(endPtr, ChatMsg.GetAllocateMemoryAddress() + PlayerUtil.GetStrLength(msg));
+                        Memory.Write<long>(endPtr, ChatMsg.GetAllocateMemoryAddress() + length);
 
+                        // 恢复战地1进程
+                        WinAPI.NtResumeProcess(Memory.GetHandle());
                         ChatHelper.KeyPress(WinVK.RETURN);
 
+                        // 挂起战地1进程
+                        WinAPI.NtSuspendProcess(Memory.GetHandle());
                         Memory.Write<long>(startPtr, oldStartPtr);
                         Memory.Write<long>(endPtr, oldEndPtr);
+                        // 恢复战地1进程
+                        WinAPI.NtResumeProcess(Memory.GetHandle());
 
                         MainWindow.dSetOperatingState(1, "发送文本到战地1聊天框成功");
                     }
