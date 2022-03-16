@@ -42,6 +42,17 @@ namespace BF1.ServerAdminTools
                     Task.Delay(500).Wait();
 
                     var baseAddress = Player.GetLocalPlayer();
+                    if (!Memory.IsValid(baseAddress))
+                    {
+                        UpdateState($"未获取到玩家数据，请稍后再试！程序即将关闭");
+                        Task.Delay(2000).Wait();
+
+                        Application.Current.Dispatcher.BeginInvoke(() =>
+                        {
+                            Application.Current.Shutdown();
+                        });
+                    }
+
                     // 带队标 0x2156，不带队标 0x40
                     var personaId = Memory.Read<long>(baseAddress + 0x38);
                     var playerName = Memory.ReadString(baseAddress + 0x40, 64);

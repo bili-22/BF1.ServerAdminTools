@@ -158,5 +158,53 @@ namespace BF1.ServerAdminTools.Features.API2
 
             return respContent;
         }
+
+        /// <summary>
+        /// 获取最近天数在线人数
+        /// </summary>
+        /// <param name="days"></param>
+        /// <param name="region">ALL, EU, Asia, NAm, SAm, AU, OC</param>
+        /// <returns></returns>
+        public static async Task<RespContent> GetStatusArray(string days, string region)
+        {
+            // Possible regions are: ALL, EU, Asia, NAm, SAm, AU, OC. For platform there is pc, xboxone, ps4 and all
+
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+
+            RespContent respContent = new RespContent();
+
+            try
+            {
+                respContent.IsSuccess = false;
+
+                var request = new RestRequest("/bf1/statusarray")
+                    .AddHeaders(headers)
+                    .AddParameter("days", days)
+                    .AddParameter("region", region)
+                    .AddParameter("platform", "pc");
+
+                var response = await client.ExecuteGetAsync(request);
+
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    respContent.IsSuccess = true;
+                    respContent.Message = response.Content;
+                }
+                else
+                {
+                    respContent.Message = $"{response.StatusCode} {response.Content}";
+                }
+            }
+            catch (Exception ex)
+            {
+                respContent.Message = ex.Message;
+            }
+
+            sw.Stop();
+            respContent.ExecTime = sw.Elapsed.TotalSeconds;
+
+            return respContent;
+        }
     }
 }

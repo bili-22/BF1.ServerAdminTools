@@ -3,6 +3,9 @@ using BF1.ServerAdminTools.Common.Data;
 using BF1.ServerAdminTools.Common.Utils;
 using BF1.ServerAdminTools.Features.API;
 using BF1.ServerAdminTools.Features.API.RespJson;
+using BF1.ServerAdminTools.Features.API2;
+using BF1.ServerAdminTools.Features.API2.RespJson;
+using ScottPlot;
 
 namespace BF1.ServerAdminTools.Views
 {
@@ -18,6 +21,18 @@ namespace BF1.ServerAdminTools.Views
             InitializeComponent();
 
             MainWindow.ClosingDisposeEvent += MainWindow_ClosingDisposeEvent;
+
+            WpfPlot_Main1.Plot.Title("战地1 PC端 亚服周报", true, System.Drawing.Color.Black, 18, "微软雅黑");
+            WpfPlot_Main2.Plot.Title("战地1 PC端 全服周报", true, System.Drawing.Color.Black, 18, "微软雅黑");
+
+            UpdateWpfPlot(WpfPlot_Main1, "Asia");
+            UpdateWpfPlot(WpfPlot_Main2, "ALL");
+
+            WpfPlot_Main1.RightClicked -= WpfPlot_Main1.DefaultRightClickEvent;
+            WpfPlot_Main2.RightClicked -= WpfPlot_Main2.DefaultRightClickEvent;
+
+            WpfPlot_Main1.RightClicked += DeployCustomMenu1;
+            WpfPlot_Main2.RightClicked += DeployCustomMenu2;
         }
 
         private void MainWindow_ClosingDisposeEvent()
@@ -99,6 +114,131 @@ namespace BF1.ServerAdminTools.Views
         {
             ProcessUtil.OpenLink(e.Uri.OriginalString);
             e.Handled = true;
+        }
+
+        private async void UpdateWpfPlot(WpfPlot wpfPlot, string region)
+        {
+            var result = await GTAPI.GetStatusArray("7", region);
+
+            if (result.IsSuccess)
+            {
+                var statusArray = JsonUtil.JsonDese<StatusArray>(result.Message);
+
+                int count = statusArray.timeStamps.Count;
+
+                double[] dates = new double[count];
+                for (int i = 0; i < count; i++)
+                {
+                    var d0 = Convert.ToDateTime(statusArray.timeStamps[i]).ToLocalTime();
+                    dates[i] = d0.ToOADate();
+                }
+
+                double[] as_values = new double[count];
+                for (int i = 0; i < count; i++)
+                {
+                    as_values[i] = statusArray.soldierAmount[i];
+                }
+
+                double[] cs_values = new double[count];
+                for (int i = 0; i < count; i++)
+                {
+                    cs_values[i] = statusArray.communitySoldierAmount[i];
+                }
+
+                double[] ds_values = new double[count];
+                for (int i = 0; i < count; i++)
+                {
+                    ds_values[i] = statusArray.diceSoldierAmount[i];
+                }
+                wpfPlot.Plot.Clear();
+
+                wpfPlot.Plot.AxisAuto();
+                wpfPlot.Plot.SetOuterViewLimits(dates[0], dates[count - 1], 0, as_values.Max() + 1000);
+
+                wpfPlot.Plot.Style(ScottPlot.Style.Monospace);
+                wpfPlot.Plot.Palette = Palette.Category10;
+
+                wpfPlot.Plot.XAxis.Label("时间日期", System.Drawing.Color.Black, 14, false, "微软雅黑");
+                wpfPlot.Plot.YAxis.Label("在线人数", System.Drawing.Color.Black, 14, false, "微软雅黑");
+
+                wpfPlot.Plot.AddScatterLines(dates, as_values, System.Drawing.Color.Blue, 2, LineStyle.Solid, "所有玩家");
+                wpfPlot.Plot.AddScatterLines(dates, cs_values, System.Drawing.Color.Green, 3, LineStyle.Solid, "私服玩家");
+                wpfPlot.Plot.AddScatterLines(dates, ds_values, System.Drawing.Color.Red, 1, LineStyle.Solid, "官服玩家");
+
+                wpfPlot.Plot.Legend(location: Alignment.UpperRight);
+
+                wpfPlot.Plot.XAxis.DateTimeFormat(true);
+                wpfPlot.Plot.XAxis.TickLabelFormat("MM.dd HH:mm", true);
+
+                // 定义刻度间隔
+                //wpfPlot.Plot.XAxis.ManualTickSpacing(6, ScottPlot.Ticks.DateTimeUnit.Hour);
+                wpfPlot.Plot.XAxis.TickLabelStyle(rotation: 45);
+
+                // 为旋转的刻度添加额外的空间
+                //wpfPlot.Plot.XAxis.SetSizeLimit(min: 25);
+
+                wpfPlot.Refresh();
+
+                MainWindow.dSetOperatingState(1, $"获取战地1玩家人数成功  |  耗时: {result.ExecTime:0.00} 秒");
+            }
+            else
+            {
+                MainWindow.dSetOperatingState(3, $"获取战地1玩家人数失败  |  耗时: {result.ExecTime:0.00} 秒");
+            }
+        }
+
+        private void DeployCustomMenu1(object sender, EventArgs e)
+        {
+            MenuItem updateDataMenuItem = new MenuItem() { Header = "更新表格数据" };
+            updateDataMenuItem.Click += UpdateData1;
+
+            MenuItem defaultViewMenuItem = new MenuItem() { Header = "恢复默认视图" };
+            defaultViewMenuItem.Click += DefaultView1;
+
+            ContextMenu rightClickMenu = new ContextMenu();
+            rightClickMenu.Items.Add(updateDataMenuItem);
+            rightClickMenu.Items.Add(defaultViewMenuItem);
+
+            rightClickMenu.IsOpen = true;
+        }
+
+        private void UpdateData1(object sender, RoutedEventArgs e)
+        {
+            MainWindow.dSetOperatingState(2, $"正在更新表格数据中...");
+            UpdateWpfPlot(WpfPlot_Main1, "Asia");
+        }
+
+        private void DefaultView1(object sender, RoutedEventArgs e)
+        {
+            WpfPlot_Main1.Plot.AxisAuto();
+            WpfPlot_Main1.Refresh();
+        }
+
+        private void DeployCustomMenu2(object sender, EventArgs e)
+        {
+            MenuItem updateDataMenuItem = new MenuItem() { Header = "更新表格数据" };
+            updateDataMenuItem.Click += UpdateData2;
+
+            MenuItem defaultViewMenuItem = new MenuItem() { Header = "恢复默认视图" };
+            defaultViewMenuItem.Click += DefaultView2;
+
+            ContextMenu rightClickMenu = new ContextMenu();
+            rightClickMenu.Items.Add(updateDataMenuItem);
+            rightClickMenu.Items.Add(defaultViewMenuItem);
+
+            rightClickMenu.IsOpen = true;
+        }
+
+        private void UpdateData2(object sender, RoutedEventArgs e)
+        {
+            MainWindow.dSetOperatingState(2, $"正在更新表格数据中...");
+            UpdateWpfPlot(WpfPlot_Main2, "ALL");
+        }
+
+        private void DefaultView2(object sender, RoutedEventArgs e)
+        {
+            WpfPlot_Main1.Plot.AxisAuto();
+            WpfPlot_Main1.Refresh();
         }
     }
 }

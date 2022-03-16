@@ -238,6 +238,13 @@ namespace BF1.ServerAdminTools.Views
 
             if (ListBox_WeaponInfo.SelectedIndex != -1)
             {
+                var wi = ListBox_WeaponInfo.SelectedItem as WeaponInfo;
+                if (string.IsNullOrEmpty(wi.Chinese))
+                {
+                    MainWindow.dSetOperatingState(2, "请不要把分类项添加到限制武器列表");
+                    return;
+                }
+
                 foreach (var item in ListBox_BreakWeaponInfo.Items)
                 {
                     if (ListBox_WeaponInfo.SelectedItem == item)
@@ -250,7 +257,16 @@ namespace BF1.ServerAdminTools.Views
                 if (!isContains)
                 {
                     ListBox_BreakWeaponInfo.Items.Add(ListBox_WeaponInfo.SelectedItem);
+                    MainWindow.dSetOperatingState(1, "添加限制武器成功");
                 }
+                else
+                {
+                    MainWindow.dSetOperatingState(2, "当前限制武器已存在，请不要重复添加");
+                }
+            }
+            else
+            {
+                MainWindow.dSetOperatingState(2, "请选择正确的内容");
             }
         }
 
@@ -261,6 +277,11 @@ namespace BF1.ServerAdminTools.Views
             if (ListBox_BreakWeaponInfo.SelectedIndex != -1)
             {
                 ListBox_BreakWeaponInfo.Items.RemoveAt(ListBox_BreakWeaponInfo.SelectedIndex);
+                MainWindow.dSetOperatingState(1, "移除限制武器成功");
+            }
+            else
+            {
+                MainWindow.dSetOperatingState(2, "请选择正确的内容");
             }
         }
 
@@ -271,6 +292,8 @@ namespace BF1.ServerAdminTools.Views
             // 清空限制武器列表
             Globals.Custom_WeaponList.Clear();
             ListBox_BreakWeaponInfo.Items.Clear();
+
+            MainWindow.dSetOperatingState(1, "清空限制武器列表成功");
         }
 
         private void AppendLog(string msg)

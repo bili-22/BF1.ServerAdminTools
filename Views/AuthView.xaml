@@ -2,6 +2,7 @@
     x:Class="BF1.ServerAdminTools.Views.AuthView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ScottPlot="clr-namespace:ScottPlot;assembly=ScottPlot.WPF"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Name="View_Auth"
@@ -11,8 +12,7 @@
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition />
+            <ColumnDefinition Width="0.4*" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <!--  ################################  -->
@@ -81,7 +81,20 @@
                 Foreground="Green"
                 Text="提示：欢迎语如果不是中文，请重新获取（必须是中文，英文不可以）"
                 TextWrapping="Wrap" />
+            <TextBlock
+                Margin="5"
+                Foreground="Green"
+                Text="提示：右侧表格如果没有加载出来，可以点击右键菜单更新"
+                TextWrapping="Wrap" />
         </StackPanel>
+        <!--  ################################  -->
+        <Grid Grid.Column="1">
+            <UniformGrid Rows="2">
+                <ScottPlot:WpfPlot x:Name="WpfPlot_Main1" Margin="5,5,5,2.5" />
+                <ScottPlot:WpfPlot x:Name="WpfPlot_Main2" Margin="5,2.5,5,5" />
+            </UniformGrid>
+        </Grid>
+
     </Grid>
 
 </UserControl>

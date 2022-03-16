@@ -912,6 +912,20 @@ namespace BF1.ServerAdminTools.Views
             }
         }
 
+        private void MenuItem_CopyPlayerName_PID_Click(object sender, RoutedEventArgs e)
+        {
+            if (dataGridSelcContent.IsOK)
+            {
+                // 复制玩家数字ID
+                Clipboard.SetText(dataGridSelcContent.PersonaId.ToString());
+                MainWindow.dSetOperatingState(1, $"复制玩家数字ID {dataGridSelcContent.PersonaId} 到剪切板成功");
+            }
+            else
+            {
+                MainWindow.dSetOperatingState(2, "请选择正确的玩家，操作取消");
+            }
+        }
+
         private void MenuItem_QueryPlayerRecord_Click(object sender, RoutedEventArgs e)
         {
             if (dataGridSelcContent.IsOK)
@@ -926,14 +940,30 @@ namespace BF1.ServerAdminTools.Views
             }
         }
 
-        private void MenuItem_QueryPlayerRecordWeb_Click(object sender, RoutedEventArgs e)
+        private void MenuItem_QueryPlayerRecordWeb_BT_Click(object sender, RoutedEventArgs e)
         {
-            // 查询玩家战绩（网页）
+            // 查询玩家战绩（BT）
             if (dataGridSelcContent.IsOK)
             {
                 string playerName = PlayerUtil.GetNameNoMark(dataGridSelcContent.Name);
 
                 ProcessUtil.OpenLink(@"https://battlefieldtracker.com/bf1/profile/pc/" + playerName);
+                MainWindow.dSetOperatingState(1, $"查询玩家（{dataGridSelcContent.Name}）战绩成功，请前往浏览器查看");
+            }
+            else
+            {
+                MainWindow.dSetOperatingState(2, "请选择正确的玩家，操作取消");
+            }
+        }
+
+        private void MenuItem_QueryPlayerRecordWeb_GT_Click(object sender, RoutedEventArgs e)
+        {
+            // 查询玩家战绩（GT）
+            if (dataGridSelcContent.IsOK)
+            {
+                string playerName = PlayerUtil.GetNameNoMark(dataGridSelcContent.Name);
+
+                ProcessUtil.OpenLink(@"https://gametools.network/stats/pc/name/" + playerName + "?game=bf1");
                 MainWindow.dSetOperatingState(1, $"查询玩家（{dataGridSelcContent.Name}）战绩成功，请前往浏览器查看");
             }
             else

@@ -110,6 +110,8 @@ namespace BF1.ServerAdminTools
 
             ChatMsg.FreeMemory();
             Memory.CloseHandle();
+
+            Application.Current.Shutdown();
         }
 
         private void InitThread()
