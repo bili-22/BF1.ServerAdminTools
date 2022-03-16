@@ -119,6 +119,24 @@ namespace BF1.ServerAdminTools.Views
             }
 
             MainWindow.ClosingDisposeEvent += MainWindow_ClosingDisposeEvent;
+
+            for (int i = 0; i < ListBox_BreakWeaponInfo.Items.Count; i++)
+            {
+                var bwi = ListBox_BreakWeaponInfo.Items[i] as WeaponInfo;
+                for (int j = 0; j < ListBox_WeaponInfo.Items.Count; j++)
+                {
+                    var wi = ListBox_WeaponInfo.Items[j] as WeaponInfo;
+                    if (bwi.English == wi.English)
+                    {
+                        ListBox_WeaponInfo.Items[j] = new WeaponInfo()
+                        {
+                            English = wi.English,
+                            Chinese = wi.Chinese,
+                            Mark = "✔"
+                        };
+                    }
+                }
+            }
         }
 
         private void MainWindow_ClosingDisposeEvent()

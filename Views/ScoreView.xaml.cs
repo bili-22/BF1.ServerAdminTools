@@ -756,6 +756,98 @@ namespace BF1.ServerAdminTools.Views
                 // 从武器规则里遍历限制武器名称
                 foreach (var item in Globals.Custom_WeaponList)
                 {
+                    // K 弹
+                    if (item == "_KBullet")
+                    {
+                        if (playerData.WeaponS0.Contains("_KBullet") ||
+                            playerData.WeaponS1.Contains("_KBullet") ||
+                            playerData.WeaponS2.Contains("_KBullet") ||
+                            playerData.WeaponS3.Contains("_KBullet") ||
+                            playerData.WeaponS4.Contains("_KBullet") ||
+                            playerData.WeaponS5.Contains("_KBullet") ||
+                            playerData.WeaponS6.Contains("_KBullet") ||
+                            playerData.WeaponS7.Contains("_KBullet"))
+                        {
+                            Globals.BreakRuleInfo_PlayerList.Add(new BreakRuleInfo
+                            {
+                                Name = PlayerUtil.GetNameNoMark(playerData.Name),
+                                PersonaId = playerData.PersonaId,
+                                Reason = $"Weapon Limit K Bullet"
+                            });
+
+                            return;
+                        }
+                    }
+
+                    // 步枪手榴弹（破片）
+                    if (item == "_RGL_Frag")
+                    {
+                        if (playerData.WeaponS0.Contains("_RGL_Frag") ||
+                            playerData.WeaponS1.Contains("_RGL_Frag") ||
+                            playerData.WeaponS2.Contains("_RGL_Frag") ||
+                            playerData.WeaponS3.Contains("_RGL_Frag") ||
+                            playerData.WeaponS4.Contains("_RGL_Frag") ||
+                            playerData.WeaponS5.Contains("_RGL_Frag") ||
+                            playerData.WeaponS6.Contains("_RGL_Frag") ||
+                            playerData.WeaponS7.Contains("_RGL_Frag"))
+                        {
+                            Globals.BreakRuleInfo_PlayerList.Add(new BreakRuleInfo
+                            {
+                                Name = PlayerUtil.GetNameNoMark(playerData.Name),
+                                PersonaId = playerData.PersonaId,
+                                Reason = $"Weapon Limit RGL Frag"
+                            });
+
+                            return;
+                        }
+                    }
+
+                    // 步枪手榴弹（烟雾）
+                    if (item == "_RGL_Smoke")
+                    {
+                        if (playerData.WeaponS0.Contains("_RGL_Smoke") ||
+                            playerData.WeaponS1.Contains("_RGL_Smoke") ||
+                            playerData.WeaponS2.Contains("_RGL_Smoke") ||
+                            playerData.WeaponS3.Contains("_RGL_Smoke") ||
+                            playerData.WeaponS4.Contains("_RGL_Smoke") ||
+                            playerData.WeaponS5.Contains("_RGL_Smoke") ||
+                            playerData.WeaponS6.Contains("_RGL_Smoke") ||
+                            playerData.WeaponS7.Contains("_RGL_Smoke"))
+                        {
+                            Globals.BreakRuleInfo_PlayerList.Add(new BreakRuleInfo
+                            {
+                                Name = PlayerUtil.GetNameNoMark(playerData.Name),
+                                PersonaId = playerData.PersonaId,
+                                Reason = $"Weapon Limit RGL Smoke"
+                            });
+
+                            return;
+                        }
+                    }
+
+                    // 步枪手榴弹（高爆）
+                    if (item == "_RGL_HE")
+                    {
+                        if (playerData.WeaponS0.Contains("_RGL_HE") ||
+                            playerData.WeaponS1.Contains("_RGL_HE") ||
+                            playerData.WeaponS2.Contains("_RGL_HE") ||
+                            playerData.WeaponS3.Contains("_RGL_HE") ||
+                            playerData.WeaponS4.Contains("_RGL_HE") ||
+                            playerData.WeaponS5.Contains("_RGL_HE") ||
+                            playerData.WeaponS6.Contains("_RGL_HE") ||
+                            playerData.WeaponS7.Contains("_RGL_HE"))
+                        {
+                            Globals.BreakRuleInfo_PlayerList.Add(new BreakRuleInfo
+                            {
+                                Name = PlayerUtil.GetNameNoMark(playerData.Name),
+                                PersonaId = playerData.PersonaId,
+                                Reason = $"Weapon Limit RGL HE"
+                            });
+
+                            return;
+                        }
+                    }
+
                     if (playerData.WeaponS0 == item ||
                         playerData.WeaponS1 == item ||
                         playerData.WeaponS2 == item ||

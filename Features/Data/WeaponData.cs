@@ -18,17 +18,17 @@
             new WeaponName(){ English="======== 公用配枪 ========", Chinese="", ShortTxt="" },
             ////
             new WeaponName(){ English="U_M1911", Chinese="M1911", ShortTxt="M1911" },
-            new WeaponName(){ English="U_LugerP08", Chinese="P08 手槍", ShortTxt="P08" },
+            new WeaponName(){ English="U_LugerP08", Chinese="P08 手枪", ShortTxt="P08" },
             new WeaponName(){ English="U_FN1903", Chinese="Mle 1903", ShortTxt="M1903" },
             new WeaponName(){ English="U_BorchardtC93", Chinese="C93", ShortTxt="C93" },
-            new WeaponName(){ English="U_SmithWesson", Chinese="3 號左輪手槍", ShortTxt="No3 Rev" },
+            new WeaponName(){ English="U_SmithWesson", Chinese="3 号左轮手枪", ShortTxt="No3 Rev" },
             new WeaponName(){ English="U_Kolibri", Chinese="Kolibri", ShortTxt="Kolibri" },
-            new WeaponName(){ English="U_NagantM1895", Chinese="納甘左輪手槍", ShortTxt="Nagant Rev" },
-            new WeaponName(){ English="U_Obrez", Chinese="Obrez 手槍", ShortTxt="Obrez" },
-            new WeaponName(){ English="U_Webley_Mk6", Chinese="Mk VI 左輪手槍", ShortTxt="Mk VI" },
+            new WeaponName(){ English="U_NagantM1895", Chinese="纳甘左轮手枪", ShortTxt="Nagant Rev" },
+            new WeaponName(){ English="U_Obrez", Chinese="Obrez 手枪", ShortTxt="Obrez" },
+            new WeaponName(){ English="U_Webley_Mk6", Chinese="Mk VI 左轮手枪", ShortTxt="Mk VI" },
 
-            new WeaponName(){ English="U_M1911_Preorder_Hellfighter", Chinese="地獄戰士 M1911", ShortTxt="M1911 HF" },
-            new WeaponName(){ English="U_LugerP08_Wep_Preorder", Chinese="紅男爵的 P08", ShortTxt="P08 HNJ" },
+            new WeaponName(){ English="U_M1911_Preorder_Hellfighter", Chinese="地狱战士 M1911", ShortTxt="M1911 HF" },
+            new WeaponName(){ English="U_LugerP08_Wep_Preorder", Chinese="红男爵的 P08", ShortTxt="P08 HNJ" },
             new WeaponName(){ English="U_M1911_Suppressed", Chinese="M1911（消音器）", ShortTxt="M1911 XYQ" },
 
             new WeaponName(){ English="U_SingleActionArmy", Chinese="维和左轮 Peacekeeper", ShortTxt="Peacekeeper" },
@@ -36,74 +36,72 @@
             // 手榴弹
             new WeaponName(){ English="======== 手榴弹 ========", Chinese="", ShortTxt="" },
             ////
-            new WeaponName(){ English="U_FragGrenade", Chinese="棒式手榴彈", ShortTxt="Frag Grenade" },
-            new WeaponName(){ English="U_GermanStick", Chinese="破片手榴彈", ShortTxt="German Stick" },
-            new WeaponName(){ English="U_GasGrenade", Chinese="毒氣手榴彈", ShortTxt="Gas Grenade" },
-            new WeaponName(){ English="U_ImpactGrenade", Chinese="衝擊手榴彈", ShortTxt="Impact Grenade" },
-            new WeaponName(){ English="U_Incendiary", Chinese="燃燒手榴彈", ShortTxt="Incendiary" },
-            new WeaponName(){ English="U_MiniGrenade", Chinese="小型手榴彈", ShortTxt="Mini Grenade" },
-            new WeaponName(){ English="U_SmokeGrenade", Chinese="煙霧手榴彈", ShortTxt="Smoke Grenade" },
-            new WeaponName(){ English="U_Grenade_AT", Chinese="輕型反坦克手榴彈", ShortTxt="Grenade AT" },
+            new WeaponName(){ English="U_FragGrenade", Chinese="棒式手榴弹", ShortTxt="Frag Grenade" },
+            new WeaponName(){ English="U_GermanStick", Chinese="破片手榴弹", ShortTxt="German Stick" },
+            new WeaponName(){ English="U_GasGrenade", Chinese="毒气手榴弹", ShortTxt="Gas Grenade" },
+            new WeaponName(){ English="U_ImpactGrenade", Chinese="衝击手榴弹", ShortTxt="Impact Grenade" },
+            new WeaponName(){ English="U_Incendiary", Chinese="燃烧手榴弹", ShortTxt="Incendiary" },
+            new WeaponName(){ English="U_MiniGrenade", Chinese="小型手榴弹", ShortTxt="Mini Grenade" },
+            new WeaponName(){ English="U_SmokeGrenade", Chinese="烟雾手榴弹", ShortTxt="Smoke Grenade" },
+            new WeaponName(){ English="U_Grenade_AT", Chinese="轻型反坦克手榴弹", ShortTxt="Grenade AT" },
 
-            new WeaponName(){ English="U_ImprovisedGrenade", Chinese="土製手榴彈", ShortTxt="Imsp Grenade" },
-            new WeaponName(){ English="U_RussianBox", Chinese="俄羅斯標準手榴彈", ShortTxt="Russian Box" },
-
-            new WeaponName(){ English="U_Incendiary_Hero", Chinese="喷火兵 燃燒手榴彈", ShortTxt="Incendiary Hero" },
+            new WeaponName(){ English="U_ImprovisedGrenade", Chinese="土制手榴弹", ShortTxt="Imsp Grenade" },
+            new WeaponName(){ English="U_RussianBox", Chinese="俄罗斯标准手榴弹", ShortTxt="Russian Box" },
 
             ////////////////////////////////// 突击兵 Assault //////////////////////////////////
 
             // 主要武器
             new WeaponName(){ English="======== 突击兵 主要武器 ========", Chinese="", ShortTxt="" },
             ////
-            new WeaponName(){ English="U_RemingtonM10_Wep_Slug", Chinese="Model 10-A（霰彈塊）", ShortTxt="10A XDK" },
-            new WeaponName(){ English="U_RemingtonM10_Wep_Choke", Chinese="Model 10-A（獵人）", ShortTxt="10A LR" },
-            new WeaponName(){ English="U_RemingtonM10", Chinese="Model 10-A（原廠）", ShortTxt="10A YC" },
-            new WeaponName(){ English="U_Winchester1897_Wep_Sweeper", Chinese="M97 戰壕槍（掃蕩）", ShortTxt="M97 SD" },
-            new WeaponName(){ English="U_Winchester1897_Wep_LowRecoil", Chinese="M97 戰壕槍（Back-Bored）", ShortTxt="M97 BB" },
-            new WeaponName(){ English="U_Winchester1897_Wep_Choke", Chinese="M97 戰壕槍（獵人）", ShortTxt="M97 LR" },
-            new WeaponName(){ English="U_MP18_Wep_Trench", Chinese="MP 18（壕溝戰）", ShortTxt="MP18 HGZ" },
-            new WeaponName(){ English="U_MP18_Wep_Burst", Chinese="MP 18（實驗）", ShortTxt="MP18 SY" },
-            new WeaponName(){ English="U_MP18_Wep_Accuracy", Chinese="MP 18（瞄準鏡）", ShortTxt="MP18 MZJ" },
-            new WeaponName(){ English="U_BerettaM1918_Wep_Trench", Chinese="M1918 自動衝鋒槍（壕溝戰）", ShortTxt="MP1918 HGZ" },
-            new WeaponName(){ English="U_BerettaM1918_Wep_Stability", Chinese="M1918 自動衝鋒槍（衝鋒）", ShortTxt="MP1918 CF" },
-            new WeaponName(){ English="U_BerettaM1918", Chinese="M1918 自動衝鋒槍（原廠）", ShortTxt="MP1918 YC" },
-            new WeaponName(){ English="U_BrowningA5_Wep_LowRecoil", Chinese="12g 自動霰彈槍（Back-Bored）", ShortTxt="12g BB" },
-            new WeaponName(){ English="U_BrowningA5_Wep_Choke", Chinese="12g 自動霰彈槍（獵人）", ShortTxt="12g LR" },
-            new WeaponName(){ English="U_BrowningA5_Wep_ExtensionTube", Chinese="12g 自動霰彈槍（加長）", ShortTxt="12g JC" },
-            new WeaponName(){ English="U_Hellriegel1915", Chinese="Hellriegel 1915（原廠）", ShortTxt="H1915 YC" },
-            new WeaponName(){ English="U_Hellriegel1915_Wep_Accuracy", Chinese="Hellriegel 1915（防禦）", ShortTxt="H1915 FY" },
-            new WeaponName(){ English="U_Winchester1897_Wep_Preorder", Chinese="地獄戰士戰壕霰彈槍", ShortTxt="M97 DYZS" },
-            new WeaponName(){ English="U_SjogrenShotgun", Chinese="Sjögren Inertial（原廠）", ShortTxt="RDP YC" },
-            new WeaponName(){ English="U_SjogrenShotgun_Wep_Slug", Chinese="Sjögren Inertial（霰彈塊）", ShortTxt="RDP XDK" },
-            new WeaponName(){ English="U_Ribeyrolles", Chinese="利貝羅勒 1918（原廠）", ShortTxt="L1918 YC" },
-            new WeaponName(){ English="U_Ribeyrolles_Wep_Optical", Chinese="Ribeyrolles 1918（瞄準鏡）", ShortTxt="L1918 MZJ" },
-            new WeaponName(){ English="U_RemingtonModel1900", Chinese="Model 1900（原廠）", ShortTxt="M1900 YC" },
-            new WeaponName(){ English="U_RemingtonModel1900_Wep_Slug", Chinese="Model 1900（霰彈塊）", ShortTxt="M1900 XDK" },
-            new WeaponName(){ English="U_MaximSMG", Chinese="SMG 08/18（原廠）", ShortTxt="SMG0818 YC" },
-            new WeaponName(){ English="U_MaximSMG_Wep_Accuracy", Chinese="SMG 08/18（瞄準鏡）", ShortTxt="SMG0818 MZJ" },
-            new WeaponName(){ English="U_SteyrM1912_P16", Chinese="M1912/P.16（衝鋒）", ShortTxt="M1912 P.16 CF" },
-            new WeaponName(){ English="U_SteyrM1912_P16_Wep_Burst", Chinese="Maschinenpistole M1912/P.16（實驗）", ShortTxt="M1912 P.16 SY" },
-            new WeaponName(){ English="U_Mauser1917Trench", Chinese="M1917 戰壕卡賓槍", ShortTxt="M1917 KBQ ZH" },
-            new WeaponName(){ English="U_Mauser1917Trench_Wep_Scope", Chinese="M1917 卡賓槍（巡邏）", ShortTxt="M1917 KBQ XL" },
-            new WeaponName(){ English="U_ChauchatSMG", Chinese="RSC 衝鋒槍（原廠）", ShortTxt="RSC YC" },
-            new WeaponName(){ English="U_ChauchatSMG_Wep_Optical", Chinese="RSC 衝鋒槍（瞄準鏡）", ShortTxt="RSC MZJ" },
-            new WeaponName(){ English="U_M1919Thompson_Wep_Trench", Chinese="Annihilator（壕溝）", ShortTxt="Annihilator HG" },
-            new WeaponName(){ English="U_M1919Thompson_Wep_Stability", Chinese="Annihilator（衝鋒）", ShortTxt="Annihilator CF" },
-            new WeaponName(){ English="U_FrommerStopAuto", Chinese="費羅梅爾停止手槍（自動）", ShortTxt="FrommerStopAuto" },
-            new WeaponName(){ English="U_SawnOffShotgun", Chinese="短管霰彈槍", ShortTxt="SawnOffShotgun" },
+            new WeaponName(){ English="U_RemingtonM10_Wep_Slug", Chinese="Model 10-A（霰弹块）", ShortTxt="10A XDK" },
+            new WeaponName(){ English="U_RemingtonM10_Wep_Choke", Chinese="Model 10-A（猎人）", ShortTxt="10A LR" },
+            new WeaponName(){ English="U_RemingtonM10", Chinese="Model 10-A（原厂）", ShortTxt="10A YC" },
+            new WeaponName(){ English="U_Winchester1897_Wep_Sweeper", Chinese="M97 战壕枪（扫荡）", ShortTxt="M97 SD" },
+            new WeaponName(){ English="U_Winchester1897_Wep_LowRecoil", Chinese="M97 战壕枪（Back-Bored）", ShortTxt="M97 BB" },
+            new WeaponName(){ English="U_Winchester1897_Wep_Choke", Chinese="M97 战壕枪（猎人）", ShortTxt="M97 LR" },
+            new WeaponName(){ English="U_MP18_Wep_Trench", Chinese="MP 18（壕沟战）", ShortTxt="MP18 HGZ" },
+            new WeaponName(){ English="U_MP18_Wep_Burst", Chinese="MP 18（实验）", ShortTxt="MP18 SY" },
+            new WeaponName(){ English="U_MP18_Wep_Accuracy", Chinese="MP 18（瞄准镜）", ShortTxt="MP18 MZJ" },
+            new WeaponName(){ English="U_BerettaM1918_Wep_Trench", Chinese="M1918 自动衝锋枪（壕沟战）", ShortTxt="MP1918 HGZ" },
+            new WeaponName(){ English="U_BerettaM1918_Wep_Stability", Chinese="M1918 自动衝锋枪（衝锋）", ShortTxt="MP1918 CF" },
+            new WeaponName(){ English="U_BerettaM1918", Chinese="M1918 自动衝锋枪（原厂）", ShortTxt="MP1918 YC" },
+            new WeaponName(){ English="U_BrowningA5_Wep_LowRecoil", Chinese="12g 自动霰弹枪（Back-Bored）", ShortTxt="12g BB" },
+            new WeaponName(){ English="U_BrowningA5_Wep_Choke", Chinese="12g 自动霰弹枪（猎人）", ShortTxt="12g LR" },
+            new WeaponName(){ English="U_BrowningA5_Wep_ExtensionTube", Chinese="12g 自动霰弹枪（加长）", ShortTxt="12g JC" },
+            new WeaponName(){ English="U_Hellriegel1915", Chinese="Hellriegel 1915（原厂）", ShortTxt="H1915 YC" },
+            new WeaponName(){ English="U_Hellriegel1915_Wep_Accuracy", Chinese="Hellriegel 1915（防御）", ShortTxt="H1915 FY" },
+            new WeaponName(){ English="U_Winchester1897_Wep_Preorder", Chinese="地狱战士战壕霰弹枪", ShortTxt="M97 DYZS" },
+            new WeaponName(){ English="U_SjogrenShotgun", Chinese="Sjögren Inertial（原厂）", ShortTxt="RDP YC" },
+            new WeaponName(){ English="U_SjogrenShotgun_Wep_Slug", Chinese="Sjögren Inertial（霰弹块）", ShortTxt="RDP XDK" },
+            new WeaponName(){ English="U_Ribeyrolles", Chinese="利贝罗勒 1918（原厂）", ShortTxt="L1918 YC" },
+            new WeaponName(){ English="U_Ribeyrolles_Wep_Optical", Chinese="Ribeyrolles 1918（瞄准镜）", ShortTxt="L1918 MZJ" },
+            new WeaponName(){ English="U_RemingtonModel1900", Chinese="Model 1900（原厂）", ShortTxt="M1900 YC" },
+            new WeaponName(){ English="U_RemingtonModel1900_Wep_Slug", Chinese="Model 1900（霰弹块）", ShortTxt="M1900 XDK" },
+            new WeaponName(){ English="U_MaximSMG", Chinese="SMG 08/18（原厂）", ShortTxt="SMG0818 YC" },
+            new WeaponName(){ English="U_MaximSMG_Wep_Accuracy", Chinese="SMG 08/18（瞄准镜）", ShortTxt="SMG0818 MZJ" },
+            new WeaponName(){ English="U_SteyrM1912_P16", Chinese="M1912/P.16（衝锋）", ShortTxt="M1912 P.16 CF" },
+            new WeaponName(){ English="U_SteyrM1912_P16_Wep_Burst", Chinese="Maschinenpistole M1912/P.16（实验）", ShortTxt="M1912 P.16 SY" },
+            new WeaponName(){ English="U_Mauser1917Trench", Chinese="M1917 战壕卡宾枪", ShortTxt="M1917 KBQ ZH" },
+            new WeaponName(){ English="U_Mauser1917Trench_Wep_Scope", Chinese="M1917 卡宾枪（巡逻）", ShortTxt="M1917 KBQ XL" },
+            new WeaponName(){ English="U_ChauchatSMG", Chinese="RSC 衝锋枪（原厂）", ShortTxt="RSC YC" },
+            new WeaponName(){ English="U_ChauchatSMG_Wep_Optical", Chinese="RSC 衝锋枪（瞄准镜）", ShortTxt="RSC MZJ" },
+            new WeaponName(){ English="U_M1919Thompson_Wep_Trench", Chinese="Annihilator（壕沟）", ShortTxt="Annihilator HG" },
+            new WeaponName(){ English="U_M1919Thompson_Wep_Stability", Chinese="Annihilator（衝锋）", ShortTxt="Annihilator CF" },
+            new WeaponName(){ English="U_FrommerStopAuto", Chinese="费罗梅尔停止手枪（自动）", ShortTxt="FrommerStopAuto" },
+            new WeaponName(){ English="U_SawnOffShotgun", Chinese="短管霰弹枪", ShortTxt="SawnOffShotgun" },
 
             // 配枪
             new WeaponName(){ English="======== 突击兵 配枪 ========", Chinese="", ShortTxt="" },
             ////
             new WeaponName(){ English="U_GasserM1870", Chinese="加塞 M1870", ShortTxt="M1870" },
-            new WeaponName(){ English="U_LancasterHowdah", Chinese="Howdah 手槍", ShortTxt="Howdah" },
+            new WeaponName(){ English="U_LancasterHowdah", Chinese="Howdah 手枪", ShortTxt="Howdah" },
             new WeaponName(){ English="U_Hammerless", Chinese="1903 Hammerless", ShortTxt="1903" },
 
             // 配备一二
             new WeaponName(){ English="======== 突击兵 配备一二 ========", Chinese="", ShortTxt="" },
             ////
-            new WeaponName(){ English="U_Dynamite", Chinese="炸藥", ShortTxt="Dynamite" },
-            new WeaponName(){ English="U_ATGrenade", Chinese="反坦克手榴彈", ShortTxt="ATGrenade" },
+            new WeaponName(){ English="U_Dynamite", Chinese="炸药", ShortTxt="Dynamite" },
+            new WeaponName(){ English="U_ATGrenade", Chinese="反坦克手榴弹", ShortTxt="ATGrenade" },
             new WeaponName(){ English="U_ATMine", Chinese="反坦克地雷", ShortTxt="ATMine" },
             new WeaponName(){ English="U_BreechGun", Chinese="反坦克火箭砲", ShortTxt="AT" },
             new WeaponName(){ English="U_BreechGun_Flak", Chinese="防空火箭砲", ShortTxt="AAT" },
@@ -113,212 +111,169 @@
             // 主要武器
             new WeaponName(){ English="======== 医疗兵 主要武器 ========", Chinese="", ShortTxt="" },
             ////
-            new WeaponName(){ English="U_CeiRigottiM1895_Wep_Trench", Chinese="Cei-Rigotti（壕溝戰）", ShortTxt="M1895 HGZ" },
-            new WeaponName(){ English="U_CeiRigottiM1895_Wep_Range", Chinese="Cei-Rigotti（瞄準鏡）", ShortTxt="M1895 MZJ" },
-            new WeaponName(){ English="U_CeiRigottiM1895", Chinese="Cei-Rigotti（原廠）", ShortTxt="M1895 YC" },
+            new WeaponName(){ English="U_CeiRigottiM1895_Wep_Trench", Chinese="Cei-Rigotti（壕沟战）", ShortTxt="M1895 HGZ" },
+            new WeaponName(){ English="U_CeiRigottiM1895_Wep_Range", Chinese="Cei-Rigotti（瞄准镜）", ShortTxt="M1895 MZJ" },
+            new WeaponName(){ English="U_CeiRigottiM1895", Chinese="Cei-Rigotti（原厂）", ShortTxt="M1895 YC" },
             new WeaponName(){ English="U_MauserSL1916_Wep_Scope", Chinese="Selbstlader M1916（神射手）", ShortTxt="M1916 SSS" },
-            new WeaponName(){ English="U_MauserSL1916_Wep_Range", Chinese="Selbstlader M1916（瞄準鏡）", ShortTxt="M1916 MZJ" },
-            new WeaponName(){ English="U_MauserSL1916", Chinese="Selbstlader M1916（原廠）", ShortTxt="M1916 YC" },
-            new WeaponName(){ English="U_WinchesterM1907_Wep_Trench", Chinese="M1907 半自動步槍（壕溝戰）", ShortTxt="M1907 JGZ" },
-            new WeaponName(){ English="U_WinchesterM1907_Wep_Auto", Chinese="M1907 半自動步槍（掃蕩）", ShortTxt="M1907 SD" },
-            new WeaponName(){ English="U_WinchesterM1907", Chinese="M1907 半自動步槍（原廠）", ShortTxt="M1907 YC" },
-            new WeaponName(){ English="U_Mondragon_Wep_Range", Chinese="蒙德拉貢步槍（瞄準鏡）", ShortTxt="Mondragon MZJ" },
-            new WeaponName(){ English="U_Mondragon_Wep_Stability", Chinese="蒙德拉貢步槍（衝鋒）", ShortTxt="Mondragon CF" },
-            new WeaponName(){ English="U_Mondragon_Wep_Bipod", Chinese="蒙德拉貢步槍（狙擊手）", ShortTxt="Mondragon JJS" },
-            new WeaponName(){ English="U_RemingtonModel8", Chinese="自動裝填步槍 8.35（原廠）", ShortTxt="8.35 YC" },
-            new WeaponName(){ English="U_RemingtonModel8_Wep_Scope", Chinese="自動裝填步槍 8.35（神射手）", ShortTxt="8.35 SSS" },
-            new WeaponName(){ English="U_RemingtonModel8_Wep_ExtendedMag", Chinese="自動裝填步槍 8.25（加長）", ShortTxt="8.25 JC" },
-            new WeaponName(){ English="U_Luger1906", Chinese="Selbstlader 1906（原廠）", ShortTxt="1906 YC" },
-            new WeaponName(){ English="U_Luger1906_Wep_Scope", Chinese="Selbstlader 1906（狙擊手）", ShortTxt="1906 JJS" },
-            new WeaponName(){ English="U_RSC1917_Wep_Range", Chinese="RSC 1917（瞄準鏡）", ShortTxt="RSC 1917 MZJ" },
-            new WeaponName(){ English="U_RSC1917", Chinese="RSC 1917（原廠）", ShortTxt="RSC 1917 YC" },
-            new WeaponName(){ English="U_FedorovAvtomat_Wep_Trench", Chinese="費德洛夫自動步槍（壕溝戰）", ShortTxt="Fedorov HGZ" },
-            new WeaponName(){ English="U_FedorovAvtomat_Wep_Range", Chinese="費德洛夫自動步槍（瞄準鏡）", ShortTxt="Fedorov MZJ" },
-            new WeaponName(){ English="U_GeneralLiuRifle", Chinese="劉將軍步槍（原廠）", ShortTxt="GeneralLiu YC" },
-            new WeaponName(){ English="U_GeneralLiuRifle_Wep_Stability", Chinese="劉將軍步槍（衝鋒）", ShortTxt="GeneralLiu CF" },
-            new WeaponName(){ English="U_FarquharHill_Wep_Range", Chinese="Farquhar-Hill 步槍（瞄準鏡）", ShortTxt="Farquhar MZJ" },
-            new WeaponName(){ English="U_FarquharHill_Wep_Stability", Chinese="Farquhar-Hill 步槍（衝鋒）", ShortTxt="Farquhar CF" },
-            new WeaponName(){ English="U_BSAHowellM1916", Chinese="Howell 自動步槍（原廠）", ShortTxt="Howell YC" },
-            new WeaponName(){ English="U_BSAHowellM1916_Wep_Scope", Chinese="Howell 自動步槍（狙擊手）", ShortTxt="Howell JJS" },
-            new WeaponName(){ English="U_FedorovDegtyarev", Chinese="費德洛夫 Degtyarev", ShortTxt="Fedorov SL" },
+            new WeaponName(){ English="U_MauserSL1916_Wep_Range", Chinese="Selbstlader M1916（瞄准镜）", ShortTxt="M1916 MZJ" },
+            new WeaponName(){ English="U_MauserSL1916", Chinese="Selbstlader M1916（原厂）", ShortTxt="M1916 YC" },
+            new WeaponName(){ English="U_WinchesterM1907_Wep_Trench", Chinese="M1907 半自动步枪（壕沟战）", ShortTxt="M1907 JGZ" },
+            new WeaponName(){ English="U_WinchesterM1907_Wep_Auto", Chinese="M1907 半自动步枪（扫荡）", ShortTxt="M1907 SD" },
+            new WeaponName(){ English="U_WinchesterM1907", Chinese="M1907 半自动步枪（原厂）", ShortTxt="M1907 YC" },
+            new WeaponName(){ English="U_Mondragon_Wep_Range", Chinese="蒙德拉贡步枪（瞄准镜）", ShortTxt="Mondragon MZJ" },
+            new WeaponName(){ English="U_Mondragon_Wep_Stability", Chinese="蒙德拉贡步枪（衝锋）", ShortTxt="Mondragon CF" },
+            new WeaponName(){ English="U_Mondragon_Wep_Bipod", Chinese="蒙德拉贡步枪（狙击手）", ShortTxt="Mondragon JJS" },
+            new WeaponName(){ English="U_RemingtonModel8", Chinese="自动装填步枪 8.35（原厂）", ShortTxt="8.35 YC" },
+            new WeaponName(){ English="U_RemingtonModel8_Wep_Scope", Chinese="自动装填步枪 8.35（神射手）", ShortTxt="8.35 SSS" },
+            new WeaponName(){ English="U_RemingtonModel8_Wep_ExtendedMag", Chinese="自动装填步枪 8.25（加长）", ShortTxt="8.25 JC" },
+            new WeaponName(){ English="U_Luger1906", Chinese="Selbstlader 1906（原厂）", ShortTxt="1906 YC" },
+            new WeaponName(){ English="U_Luger1906_Wep_Scope", Chinese="Selbstlader 1906（狙击手）", ShortTxt="1906 JJS" },
+            new WeaponName(){ English="U_RSC1917_Wep_Range", Chinese="RSC 1917（瞄准镜）", ShortTxt="RSC 1917 MZJ" },
+            new WeaponName(){ English="U_RSC1917", Chinese="RSC 1917（原厂）", ShortTxt="RSC 1917 YC" },
+            new WeaponName(){ English="U_FedorovAvtomat_Wep_Trench", Chinese="费德洛夫自动步枪（壕沟战）", ShortTxt="Fedorov HGZ" },
+            new WeaponName(){ English="U_FedorovAvtomat_Wep_Range", Chinese="费德洛夫自动步枪（瞄准镜）", ShortTxt="Fedorov MZJ" },
+            new WeaponName(){ English="U_GeneralLiuRifle", Chinese="刘将军步枪（原厂）", ShortTxt="GeneralLiu YC" },
+            new WeaponName(){ English="U_GeneralLiuRifle_Wep_Stability", Chinese="刘将军步枪（衝锋）", ShortTxt="GeneralLiu CF" },
+            new WeaponName(){ English="U_FarquharHill_Wep_Range", Chinese="Farquhar-Hill 步枪（瞄准镜）", ShortTxt="Farquhar MZJ" },
+            new WeaponName(){ English="U_FarquharHill_Wep_Stability", Chinese="Farquhar-Hill 步枪（衝锋）", ShortTxt="Farquhar CF" },
+            new WeaponName(){ English="U_BSAHowellM1916", Chinese="Howell 自动步枪（原厂）", ShortTxt="Howell YC" },
+            new WeaponName(){ English="U_BSAHowellM1916_Wep_Scope", Chinese="Howell 自动步枪（狙击手）", ShortTxt="Howell JJS" },
+            new WeaponName(){ English="U_FedorovDegtyarev", Chinese="费德洛夫 Degtyarev", ShortTxt="Fedorov SL" },
 
             // 配枪
             new WeaponName(){ English="======== 医疗兵 配枪 ========", Chinese="", ShortTxt="" },
             ////
-            new WeaponName(){ English="U_WebFosAutoRev_455Webley", Chinese="自動左輪手槍", ShortTxt="Auto Rev" },
+            new WeaponName(){ English="U_WebFosAutoRev_455Webley", Chinese="自动左轮手枪", ShortTxt="Auto Rev" },
             new WeaponName(){ English="U_MauserC96", Chinese="C96", ShortTxt="C96" },
             new WeaponName(){ English="U_Mauser1914", Chinese="Taschenpistole M1914", ShortTxt="M1914" },
 
             // 配备一二
             new WeaponName(){ English="======== 医疗兵 配备一二 ========", Chinese="", ShortTxt="" },
             ////
-            new WeaponName(){ English="U_Syringe", Chinese="醫療用針筒", ShortTxt="Syringe" },
-            new WeaponName(){ English="U_MedicBag", Chinese="醫護箱", ShortTxt="MedicBag" },
-            new WeaponName(){ English="U_Bandages", Chinese="繃帶包", ShortTxt="Bandages" },
-
-            // 步枪手榴弹（破片）
-            new WeaponName(){ English="======== 医疗兵 步枪手榴弹（破片） ========", Chinese="", ShortTxt="" },
-            ////
-            new WeaponName(){ English="U_CeiRigottiM1895_RGL_Frag", Chinese="步槍手榴彈（破片）", ShortTxt="RGL Frag" },
-            new WeaponName(){ English="U_GeneralLiuRifle_RGL_Frag", Chinese="步槍手榴彈（破片）", ShortTxt="RGL Frag" },
-            new WeaponName(){ English="U_RSC1917_RGL_Frag", Chinese="步槍手榴彈（破片）", ShortTxt="RGL Frag" },
-            new WeaponName(){ English="U_FedorovAvtomat_RGL_Frag", Chinese="步槍手榴彈（破片）", ShortTxt="RGL Frag" },
-            new WeaponName(){ English="U_CeiRigottiM1895_RGL_Frag_Grip", Chinese="步槍手榴彈（破片）", ShortTxt="RGL Frag" },
-            new WeaponName(){ English="U_MauserSL1916_RGL_Frag_Grip", Chinese="步槍手榴彈（破片）", ShortTxt="RGL Frag" },
-            new WeaponName(){ English="U_RemingtonModel8_RGL_Frag_Grip", Chinese="步槍手榴彈（破片）", ShortTxt="RGL Frag" },
-            new WeaponName(){ English="U_MauserSL1916_RGL_Frag", Chinese="步槍手榴彈（破片）", ShortTxt="RGL Frag" },
-            new WeaponName(){ English="U_Mondragon_RGL_Frag_Grip", Chinese="步槍手榴彈（破片）", ShortTxt="RGL Frag" },
-            
-            // 步枪手榴弹（煙霧）
-            new WeaponName(){ English="======== 医疗兵 步枪手榴弹（煙霧） ========", Chinese="", ShortTxt="" },
-            ////
-            new WeaponName(){ English="U_MauserSL1916_RGL_Smoke_Grip", Chinese="步槍手榴彈（煙霧）", ShortTxt="RGL Smoke" },
-            
-            // 步枪手榴弹（高爆）
-            new WeaponName(){ English="======== 医疗兵 步枪手榴弹（高爆） ========", Chinese="", ShortTxt="" },
-            ////
-            new WeaponName(){ English="U_MauserSL1916_RGL_HE", Chinese="步槍手榴彈（高爆）", ShortTxt="RGL HE" },
+            new WeaponName(){ English="U_Syringe", Chinese="医疗用针筒", ShortTxt="Syringe" },
+            new WeaponName(){ English="U_MedicBag", Chinese="医护箱", ShortTxt="MedicBag" },
+            new WeaponName(){ English="U_Bandages", Chinese="绷带包", ShortTxt="Bandages" },
+            new WeaponName(){ English="_RGL_Frag", Chinese="步枪手榴弹（破片）", ShortTxt="RGL Frag" },
+            new WeaponName(){ English="_RGL_Smoke", Chinese="步枪手榴弹（烟雾）", ShortTxt="RGL Smoke" },
+            new WeaponName(){ English="_RGL_HE", Chinese="步枪手榴弹（高爆）", ShortTxt="RGL HE" },
 
             ////////////////////////////////// 支援兵 Support //////////////////////////////////
 
             // 主要武器
             new WeaponName(){ English="======== 支援兵 主要武器 ========", Chinese="", ShortTxt="" },
             ////
-            new WeaponName(){ English="U_LewisMG_Wep_Suppression", Chinese="路易士機槍（壓制）", ShortTxt="LewisMG YZ" },
-            new WeaponName(){ English="U_LewisMG_Wep_Range", Chinese="路易士機槍（瞄準鏡）", ShortTxt="LewisMG MZJ" },
-            new WeaponName(){ English="U_LewisMG", Chinese="路易士機槍（輕量化）", ShortTxt="LewisMG QLH" },
-            new WeaponName(){ English="U_HotchkissM1909_Wep_Stability", Chinese="M1909 貝內特·梅西耶機槍（衝鋒）", ShortTxt="M1909 CF" },
-            new WeaponName(){ English="U_HotchkissM1909_Wep_Range", Chinese="M1909 貝內特·梅西耶機槍（瞄準鏡）", ShortTxt="M1909 MZJ" },
-            new WeaponName(){ English="U_HotchkissM1909_Wep_Bipod", Chinese="M1909 貝內特·梅西耶機槍（望遠瞄具）", ShortTxt="M1909 WYMJ" },
-            new WeaponName(){ English="U_MadsenMG_Wep_Trench", Chinese="麥德森機槍（壕溝戰）", ShortTxt="MadsenMG HGZ" },
-            new WeaponName(){ English="U_MadsenMG_Wep_Stability", Chinese="麥德森機槍（衝鋒）", ShortTxt="MadsenMG CF" },
-            new WeaponName(){ English="U_MadsenMG", Chinese="麥德森機槍（輕量化）", ShortTxt="MadsenMG QLH" },
-            new WeaponName(){ English="U_Bergmann1915MG_Wep_Suppression", Chinese="MG15 n.A.（壓制）", ShortTxt="MG15 YZ" },
-            new WeaponName(){ English="U_Bergmann1915MG_Wep_Stability", Chinese="MG15 n.A.（衝鋒）", ShortTxt="MG15 CF" },
-            new WeaponName(){ English="U_Bergmann1915MG", Chinese="MG15 n.A.（輕量化）", ShortTxt="MG15 QLH" },
-            new WeaponName(){ English="U_BARM1918_Wep_Trench", Chinese="M1918 白朗寧自動步槍（壕溝戰）", ShortTxt="M1918 HGZ" },
-            new WeaponName(){ English="U_BARM1918_Wep_Stability", Chinese="M1918 白朗寧自動步槍（衝鋒）", ShortTxt="M1918 CF" },
-            new WeaponName(){ English="U_BARM1918_Wep_Bipod", Chinese="M1918 白朗寧自動步槍（望遠瞄具）", ShortTxt="M1918 WYMJ" },
-            new WeaponName(){ English="U_HuotAutoRifle", Chinese="Huot 自動步槍（輕量化）", ShortTxt="Huot QLH" },
-            new WeaponName(){ English="U_HuotAutoRifle_Wep_Range", Chinese="Huot 自動步槍（瞄準鏡）", ShortTxt="Huot HGZ" },
-            new WeaponName(){ English="U_Chauchat", Chinese="紹沙輕機槍（輕量化）", ShortTxt="Chauchat QLH" },
-            new WeaponName(){ English="U_Chauchat_Wep_Bipod", Chinese="紹沙輕機槍（望遠瞄具）", ShortTxt="Chauchat WYMJ" },
-            new WeaponName(){ English="U_ParabellumLMG", Chinese="Parabellum MG14/17（輕量化）", ShortTxt="MG1417 QLH" },
-            new WeaponName(){ English="U_ParabellumLMG_Wep_Suppression", Chinese="Parabellum MG14/17（壓制）", ShortTxt="MG1417 YZ" },
-            new WeaponName(){ English="U_PerinoM1908", Chinese="Perino Model 1908（輕量化）", ShortTxt="M1908 QLH" },
-            new WeaponName(){ English="U_PerinoM1908_Wep_Defensive", Chinese="Perino Model 1908（防禦）", ShortTxt="M1908 FY" },
-            new WeaponName(){ English="U_BrowningM1917", Chinese="M1917 機槍（輕量化）", ShortTxt="M1917 QLH" },
-            new WeaponName(){ English="U_BrowningM1917_Wep_Suppression", Chinese="M1917 機槍（望遠瞄具）", ShortTxt="M1917 WYMJ" },
-            new WeaponName(){ English="U_MG0818", Chinese="輕機槍 08/18（輕量化）", ShortTxt="MG0818 QLH" },
-            new WeaponName(){ English="U_MG0818_Wep_Defensive", Chinese="輕機槍 08/18（壓制）", ShortTxt="MG0818 YZ" },
-            new WeaponName(){ English="U_WinchesterBurton_Wep_Trench", Chinese="波頓 LMR（戰壕）", ShortTxt="Burton LMR ZH" },
-            new WeaponName(){ English="U_WinchesterBurton_Wep_Optical", Chinese="波頓 LMR（瞄準鏡）", ShortTxt="Burton LMR HZJ" },
-            new WeaponName(){ English="U_MauserC96AutoPistol", Chinese="C96（卡賓槍）", ShortTxt="C96 KBQ" },
+            new WeaponName(){ English="U_LewisMG_Wep_Suppression", Chinese="路易士机枪（压制）", ShortTxt="LewisMG YZ" },
+            new WeaponName(){ English="U_LewisMG_Wep_Range", Chinese="路易士机枪（瞄准镜）", ShortTxt="LewisMG MZJ" },
+            new WeaponName(){ English="U_LewisMG", Chinese="路易士机枪（轻量化）", ShortTxt="LewisMG QLH" },
+            new WeaponName(){ English="U_HotchkissM1909_Wep_Stability", Chinese="M1909 贝内特·梅西耶机枪（衝锋）", ShortTxt="M1909 CF" },
+            new WeaponName(){ English="U_HotchkissM1909_Wep_Range", Chinese="M1909 贝内特·梅西耶机枪（瞄准镜）", ShortTxt="M1909 MZJ" },
+            new WeaponName(){ English="U_HotchkissM1909_Wep_Bipod", Chinese="M1909 贝内特·梅西耶机枪（望远瞄具）", ShortTxt="M1909 WYMJ" },
+            new WeaponName(){ English="U_MadsenMG_Wep_Trench", Chinese="麦德森机枪（壕沟战）", ShortTxt="MadsenMG HGZ" },
+            new WeaponName(){ English="U_MadsenMG_Wep_Stability", Chinese="麦德森机枪（衝锋）", ShortTxt="MadsenMG CF" },
+            new WeaponName(){ English="U_MadsenMG", Chinese="麦德森机枪（轻量化）", ShortTxt="MadsenMG QLH" },
+            new WeaponName(){ English="U_Bergmann1915MG_Wep_Suppression", Chinese="MG15 n.A.（压制）", ShortTxt="MG15 YZ" },
+            new WeaponName(){ English="U_Bergmann1915MG_Wep_Stability", Chinese="MG15 n.A.（衝锋）", ShortTxt="MG15 CF" },
+            new WeaponName(){ English="U_Bergmann1915MG", Chinese="MG15 n.A.（轻量化）", ShortTxt="MG15 QLH" },
+            new WeaponName(){ English="U_BARM1918_Wep_Trench", Chinese="M1918 白朗宁自动步枪（壕沟战）", ShortTxt="M1918 HGZ" },
+            new WeaponName(){ English="U_BARM1918_Wep_Stability", Chinese="M1918 白朗宁自动步枪（衝锋）", ShortTxt="M1918 CF" },
+            new WeaponName(){ English="U_BARM1918_Wep_Bipod", Chinese="M1918 白朗宁自动步枪（望远瞄具）", ShortTxt="M1918 WYMJ" },
+            new WeaponName(){ English="U_HuotAutoRifle", Chinese="Huot 自动步枪（轻量化）", ShortTxt="Huot QLH" },
+            new WeaponName(){ English="U_HuotAutoRifle_Wep_Range", Chinese="Huot 自动步枪（瞄准镜）", ShortTxt="Huot HGZ" },
+            new WeaponName(){ English="U_Chauchat", Chinese="绍沙轻机枪（轻量化）", ShortTxt="Chauchat QLH" },
+            new WeaponName(){ English="U_Chauchat_Wep_Bipod", Chinese="绍沙轻机枪（望远瞄具）", ShortTxt="Chauchat WYMJ" },
+            new WeaponName(){ English="U_ParabellumLMG", Chinese="Parabellum MG14/17（轻量化）", ShortTxt="MG1417 QLH" },
+            new WeaponName(){ English="U_ParabellumLMG_Wep_Suppression", Chinese="Parabellum MG14/17（压制）", ShortTxt="MG1417 YZ" },
+            new WeaponName(){ English="U_PerinoM1908", Chinese="Perino Model 1908（轻量化）", ShortTxt="M1908 QLH" },
+            new WeaponName(){ English="U_PerinoM1908_Wep_Defensive", Chinese="Perino Model 1908（防御）", ShortTxt="M1908 FY" },
+            new WeaponName(){ English="U_BrowningM1917", Chinese="M1917 机枪（轻量化）", ShortTxt="M1917 QLH" },
+            new WeaponName(){ English="U_BrowningM1917_Wep_Suppression", Chinese="M1917 机枪（望远瞄具）", ShortTxt="M1917 WYMJ" },
+            new WeaponName(){ English="U_MG0818", Chinese="轻机枪 08/18（轻量化）", ShortTxt="MG0818 QLH" },
+            new WeaponName(){ English="U_MG0818_Wep_Defensive", Chinese="轻机枪 08/18（压制）", ShortTxt="MG0818 YZ" },
+            new WeaponName(){ English="U_WinchesterBurton_Wep_Trench", Chinese="波顿 LMR（战壕）", ShortTxt="Burton LMR ZH" },
+            new WeaponName(){ English="U_WinchesterBurton_Wep_Optical", Chinese="波顿 LMR（瞄准镜）", ShortTxt="Burton LMR HZJ" },
+            new WeaponName(){ English="U_MauserC96AutoPistol", Chinese="C96（卡宾枪）", ShortTxt="C96 KBQ" },
             new WeaponName(){ English="U_LugerArtillery", Chinese="P08 Artillerie", ShortTxt="P08 Artillerie" },
             new WeaponName(){ English="U_PieperCarbine", Chinese="皮珀 M1893", ShortTxt="M1893" },
-            new WeaponName(){ English="U_M1911_Stock", Chinese="M1911（加長）", ShortTxt="M1911 JC" },
-            new WeaponName(){ English="U_FN1903stock", Chinese="Mle 1903（加長）", ShortTxt="Mle 1903 JC" },
-            new WeaponName(){ English="U_C93Carbine", Chinese="C93（卡賓槍）", ShortTxt="C93 KBQ" },
+            new WeaponName(){ English="U_M1911_Stock", Chinese="M1911（加长）", ShortTxt="M1911 JC" },
+            new WeaponName(){ English="U_FN1903stock", Chinese="Mle 1903（加长）", ShortTxt="Mle 1903 JC" },
+            new WeaponName(){ English="U_C93Carbine", Chinese="C93（卡宾枪）", ShortTxt="C93 KBQ" },
 
             // 配枪
             new WeaponName(){ English="======== 支援兵 配枪 ========", Chinese="", ShortTxt="" },
             ////
             new WeaponName(){ English="U_SteyrM1912", Chinese="Repetierpistole M1912", ShortTxt="M1912" },
-            new WeaponName(){ English="U_Bulldog", Chinese="鬥牛犬左輪手槍", ShortTxt="Bulldog" },
+            new WeaponName(){ English="U_Bulldog", Chinese="斗牛犬左轮手枪", ShortTxt="Bulldog" },
             new WeaponName(){ English="U_BerettaM1915", Chinese="Modello 1915", ShortTxt="Modello 1915" },
 
             // 配备一二
             new WeaponName(){ English="======== 支援兵 配备一二 ========", Chinese="", ShortTxt="" },
             ////
-            new WeaponName(){ English="U_AmmoCrate", Chinese="彈藥箱", ShortTxt="Ammo Crate" },
-            new WeaponName(){ English="U_AmmoPouch", Chinese="彈藥包", ShortTxt="Ammo Pouch" },
-            new WeaponName(){ English="U_Mortar", Chinese="迫擊砲（空爆）", ShortTxt="Mortar KB" },
-            new WeaponName(){ English="U_Mortar_HE", Chinese="迫擊砲（高爆）", ShortTxt="Mortar GB" },
-            new WeaponName(){ English="U_Wrench", Chinese="維修工具", ShortTxt="Wrench" },
+            new WeaponName(){ English="U_AmmoCrate", Chinese="弹药箱", ShortTxt="Ammo Crate" },
+            new WeaponName(){ English="U_AmmoPouch", Chinese="弹药包", ShortTxt="Ammo Pouch" },
+            new WeaponName(){ English="U_Mortar", Chinese="迫击砲（空爆）", ShortTxt="Mortar KB" },
+            new WeaponName(){ English="U_Mortar_HE", Chinese="迫击砲（高爆）", ShortTxt="Mortar GB" },
+            new WeaponName(){ English="U_Wrench", Chinese="维修工具", ShortTxt="Wrench" },
             new WeaponName(){ English="U_LimpetMine", Chinese="磁吸地雷", ShortTxt="Limpet Mine" },
-            new WeaponName(){ English="U_Crossbow", Chinese="十字弓發射器（破片）", ShortTxt="Crossbow PP" },
-            new WeaponName(){ English="U_Crossbow_HE", Chinese="十字弓發射器（高爆）", ShortTxt="Crossbow GB" },
+            new WeaponName(){ English="U_Crossbow", Chinese="十字弓发射器（破片）", ShortTxt="Crossbow PP" },
+            new WeaponName(){ English="U_Crossbow_HE", Chinese="十字弓发射器（高爆）", ShortTxt="Crossbow GB" },
 
             ////////////////////////////////// 侦察兵 Scout   //////////////////////////////////
 
             // 主要武器
             new WeaponName(){ English="======== 侦察兵 主要武器 ========", Chinese="", ShortTxt="" },
             ////
-            new WeaponName(){ English="U_WinchesterM1895_Wep_Trench", Chinese="Russian 1895（壕溝戰）", ShortTxt="1895 HGZ" },
-            new WeaponName(){ English="U_WinchesterM1895_Wep_Long", Chinese="Russian 1895（狙擊手）", ShortTxt="1895 JJS" },
+            new WeaponName(){ English="U_WinchesterM1895_Wep_Trench", Chinese="Russian 1895（壕沟战）", ShortTxt="1895 HGZ" },
+            new WeaponName(){ English="U_WinchesterM1895_Wep_Long", Chinese="Russian 1895（狙击手）", ShortTxt="1895 JJS" },
             new WeaponName(){ English="U_WinchesterM1895", Chinese="Russian 1895（步兵）", ShortTxt="1895 BB" },
             new WeaponName(){ English="U_Gewehr98_Wep_Scope", Chinese="Gewehr 98（神射手）", ShortTxt="G98 SSS" },
-            new WeaponName(){ English="U_Gewehr98_Wep_LongRange", Chinese="Gewehr 98（狙擊手）", ShortTxt="G98 JJS" },
+            new WeaponName(){ English="U_Gewehr98_Wep_LongRange", Chinese="Gewehr 98（狙击手）", ShortTxt="G98 JJS" },
             new WeaponName(){ English="U_Gewehr98", Chinese="Gewehr 98（步兵）", ShortTxt="G98 BB" },
             new WeaponName(){ English="U_LeeEnfieldSMLE_Wep_Scope", Chinese="SMLE MKIII（神射手）", ShortTxt="MKIII SSS" },
-            new WeaponName(){ English="U_LeeEnfieldSMLE_Wep_Med", Chinese="SMLE MKIII（卡賓槍）", ShortTxt="MKIII KBQ" },
+            new WeaponName(){ English="U_LeeEnfieldSMLE_Wep_Med", Chinese="SMLE MKIII（卡宾枪）", ShortTxt="MKIII KBQ" },
             new WeaponName(){ English="U_LeeEnfieldSMLE", Chinese="SMLE MKIII（步兵）", ShortTxt="MKIII BB" },
             new WeaponName(){ English="U_SteyrManM1895_Wep_Scope", Chinese="Gewehr M.95（神射手）", ShortTxt="G95 SSS" },
-            new WeaponName(){ English="U_SteyrManM1895_Wep_Med", Chinese="Gewehr M.95（卡賓槍）", ShortTxt="G95 KBQ" },
+            new WeaponName(){ English="U_SteyrManM1895_Wep_Med", Chinese="Gewehr M.95（卡宾枪）", ShortTxt="G95 KBQ" },
             new WeaponName(){ English="U_SteyrManM1895", Chinese="Gewehr M.95（步兵）", ShortTxt="G95 BB" },
             new WeaponName(){ English="U_SpringfieldM1903_Wep_Scope", Chinese="M1903（神射手）", ShortTxt="M1903 SSS" },
-            new WeaponName(){ English="U_SpringfieldM1903_Wep_LongRange", Chinese="M1903（狙擊手）", ShortTxt="M1903 JJS" },
-            new WeaponName(){ English="U_SpringfieldM1903_Wep_Pedersen", Chinese="M1903（實驗）", ShortTxt="M1903 SY" },
-            new WeaponName(){ English="U_MartiniHenry", Chinese="馬提尼·亨利步槍（步兵）", ShortTxt="MartiniHenry BB" },
-            new WeaponName(){ English="U_MartiniHenry_Wep_LongRange", Chinese="馬提尼·亨利步槍（狙擊手）", ShortTxt="MartiniHenry JJS" },
-            new WeaponName(){ English="U_LeeEnfieldSMLE_Wep_Preorder", Chinese="阿拉伯的勞倫斯的 SMLE", ShortTxt="SMLE LLS" },
-            new WeaponName(){ English="U_Lebel1886_Wep_LongRange", Chinese="勒貝爾 M1886（狙擊手）", ShortTxt="M1886 JJS" },
-            new WeaponName(){ English="U_Lebel1886", Chinese="勒貝爾 M1886（步兵）", ShortTxt="M1886 BB" },
-            new WeaponName(){ English="U_MosinNagant1891", Chinese="莫辛-納甘 M91（步兵）", ShortTxt="M91 BB" },
-            new WeaponName(){ English="U_MosinNagant1891_Wep_Scope", Chinese="莫辛-納甘 M91（神射手）", ShortTxt="M91 SSS" },
+            new WeaponName(){ English="U_SpringfieldM1903_Wep_LongRange", Chinese="M1903（狙击手）", ShortTxt="M1903 JJS" },
+            new WeaponName(){ English="U_SpringfieldM1903_Wep_Pedersen", Chinese="M1903（实验）", ShortTxt="M1903 SY" },
+            new WeaponName(){ English="U_MartiniHenry", Chinese="马提尼·亨利步枪（步兵）", ShortTxt="MartiniHenry BB" },
+            new WeaponName(){ English="U_MartiniHenry_Wep_LongRange", Chinese="马提尼·亨利步枪（狙击手）", ShortTxt="MartiniHenry JJS" },
+            new WeaponName(){ English="U_LeeEnfieldSMLE_Wep_Preorder", Chinese="阿拉伯的劳伦斯的 SMLE", ShortTxt="SMLE LLS" },
+            new WeaponName(){ English="U_Lebel1886_Wep_LongRange", Chinese="勒贝尔 M1886（狙击手）", ShortTxt="M1886 JJS" },
+            new WeaponName(){ English="U_Lebel1886", Chinese="勒贝尔 M1886（步兵）", ShortTxt="M1886 BB" },
+            new WeaponName(){ English="U_MosinNagant1891", Chinese="莫辛-纳甘 M91（步兵）", ShortTxt="M91 BB" },
+            new WeaponName(){ English="U_MosinNagant1891_Wep_Scope", Chinese="莫辛-纳甘 M91（神射手）", ShortTxt="M91 SSS" },
             new WeaponName(){ English="U_VetterliVitaliM1870", Chinese="Vetterli-Vitali M1870/87（步兵）", ShortTxt="M1870 BB" },
-            new WeaponName(){ English="U_VetterliVitaliM1870_Wep_Med", Chinese="Vetterli-Vitali M1870/87（卡賓槍）", ShortTxt="M1870 KBQ" },
-            new WeaponName(){ English="U_Type38Arisaka", Chinese="三八式步槍（步兵）", ShortTxt="Type38 BB" },
-            new WeaponName(){ English="U_Type38Arisaka_Wep_Scope", Chinese="三八式步槍（巡邏）", ShortTxt="Type38 XL" },
-            new WeaponName(){ English="U_CarcanoCarbine", Chinese="卡爾卡諾 M91 卡賓槍", ShortTxt="M91 KBQ" },
-            new WeaponName(){ English="U_CarcanoCarbine_Wep_Scope", Chinese="卡爾卡諾 M91 卡賓槍（巡邏）", ShortTxt="M91 KBQ XL" },
-            new WeaponName(){ English="U_RossMkIII", Chinese="羅斯 MKIII（步兵）", ShortTxt="RossMkIII BB" },
-            new WeaponName(){ English="U_RossMkIII_Wep_Scope", Chinese="羅斯 MKIII（神射手）", ShortTxt="RossMkIII SSS" },
+            new WeaponName(){ English="U_VetterliVitaliM1870_Wep_Med", Chinese="Vetterli-Vitali M1870/87（卡宾枪）", ShortTxt="M1870 KBQ" },
+            new WeaponName(){ English="U_Type38Arisaka", Chinese="三八式步枪（步兵）", ShortTxt="Type38 BB" },
+            new WeaponName(){ English="U_Type38Arisaka_Wep_Scope", Chinese="三八式步枪（巡逻）", ShortTxt="Type38 XL" },
+            new WeaponName(){ English="U_CarcanoCarbine", Chinese="卡尔卡诺 M91 卡宾枪", ShortTxt="M91 KBQ" },
+            new WeaponName(){ English="U_CarcanoCarbine_Wep_Scope", Chinese="卡尔卡诺 M91 卡宾枪（巡逻）", ShortTxt="M91 KBQ XL" },
+            new WeaponName(){ English="U_RossMkIII", Chinese="罗斯 MKIII（步兵）", ShortTxt="RossMkIII BB" },
+            new WeaponName(){ English="U_RossMkIII_Wep_Scope", Chinese="罗斯 MKIII（神射手）", ShortTxt="RossMkIII SSS" },
             new WeaponName(){ English="U_Enfield1917", Chinese="M1917 Enfield（步兵）", ShortTxt="M1917 BB" },
             new WeaponName(){ English="U_Enfield1917_Wep_LongRange", Chinese="M1917 Enfield（消音器）", ShortTxt="M1917 XYQ" },
 
             // 配枪
             new WeaponName(){ English="======== 侦察兵 配枪 ========", Chinese="", ShortTxt="" },
             ////
-            new WeaponName(){ English="U_MarsAutoPistol", Chinese="Mars 自動手槍", ShortTxt="MarsAutoPistol" },
+            new WeaponName(){ English="U_MarsAutoPistol", Chinese="Mars 自动手枪", ShortTxt="MarsAutoPistol" },
             new WeaponName(){ English="U_Bodeo1889", Chinese="Bodeo 1889", ShortTxt="Bodeo 1889" },
-            new WeaponName(){ English="U_FrommerStop", Chinese="費羅梅爾停止手槍", ShortTxt="Frommer Stop" },
+            new WeaponName(){ English="U_FrommerStop", Chinese="费罗梅尔停止手枪", ShortTxt="Frommer Stop" },
 
             // 配备一二
             new WeaponName(){ English="======== 侦察兵 配备一二 ========", Chinese="", ShortTxt="" },
             ////
-            new WeaponName(){ English="U_FlareGun", Chinese="信號槍（偵察）", ShortTxt="Flare Gun ZC" },
-            new WeaponName(){ English="U_FlareGun_Flash", Chinese="信號槍（閃光）", ShortTxt="Flare Gun SG" },
-            new WeaponName(){ English="U_TrPeriscope", Chinese="戰壕潛望鏡", ShortTxt="Tr Periscope" },
-            new WeaponName(){ English="U_Shield", Chinese="狙擊手護盾", ShortTxt="Shield" },
-            new WeaponName(){ English="U_HelmetDecoy", Chinese="狙擊手誘餌", ShortTxt="Helmet Decoy" },
-            new WeaponName(){ English="U_TripWireBomb", Chinese="絆索炸彈（高爆）", ShortTxt="Trip Wire Bomb" },
-            new WeaponName(){ English="U_TripWireGas", Chinese="絆索炸彈（毒氣）", ShortTxt="Trip Wire Gas" },
-            new WeaponName(){ English="U_TripWireBurn", Chinese="絆索炸彈（燃燒）", ShortTxt="Trip Wire Burn" },
-
-            // K弹
-            new WeaponName(){ English="======== 侦察兵 K弹 ========", Chinese="", ShortTxt="" },
-            ////
-            new WeaponName(){ English="U_WinchesterM1895_KBullet", Chinese="K 彈", ShortTxt="KBullet" },
-            new WeaponName(){ English="U_WinchesterM1895_KBullet_6x", Chinese="K 彈", ShortTxt="KBullet" },
-            new WeaponName(){ English="U_WinchesterM1895_KBullet", Chinese="K 彈", ShortTxt="KBullet" },
-            new WeaponName(){ English="U_Gewehr98_KBullet_4x", Chinese="K 彈", ShortTxt="KBullet" },
-            new WeaponName(){ English="U_Gewehr98_KBullet_6x", Chinese="K 彈", ShortTxt="KBullet" },
-            new WeaponName(){ English="U_Gewehr98_KBullet", Chinese="K 彈", ShortTxt="KBullet" },
-            new WeaponName(){ English="U_BSAHowellM1916_RGL_Frag", Chinese="K 彈", ShortTxt="KBullet" },
-            new WeaponName(){ English="U_Type38Arisaka_KBullet_Scope", Chinese="K 彈", ShortTxt="KBullet" },
-            new WeaponName(){ English="U_LeeEnfieldSMLE_KBullet_4x", Chinese="K 彈", ShortTxt="KBullet" },
-            new WeaponName(){ English="U_MartiniHenry_KBullet_Scope", Chinese="K 彈", ShortTxt="KBullet" },
-            new WeaponName(){ English="U_Type38Arisaka_KBullet", Chinese="K 彈", ShortTxt="KBullet" },
-            new WeaponName(){ English="U_MosinNagant1891_KBullet", Chinese="K 彈", ShortTxt="KBullet" },
-            new WeaponName(){ English="U_LeeEnfieldSMLE_KBullet", Chinese="K 彈", ShortTxt="KBullet" },
-            new WeaponName(){ English="U_SpringfieldM1903_KBullet_Scope", Chinese="K 彈", ShortTxt="KBullet" },
-            new WeaponName(){ English="U_Enfield1917_KBullet_Scope", Chinese="K 彈", ShortTxt="KBullet" },
-            new WeaponName(){ English="U_RossMkIII_KBullet", Chinese="K 彈", ShortTxt="KBullet" },
-            new WeaponName(){ English="U_MartiniHenry_KBullet", Chinese="K 彈", ShortTxt="KBullet" },
-            new WeaponName(){ English="U_SpringfieldM1903_KBullet", Chinese="K 彈", ShortTxt="KBullet" },
-            new WeaponName(){ English="U_SteyrManM1895_KBullet", Chinese="K 彈", ShortTxt="KBullet" },
-            new WeaponName(){ English="U_RossMkIII_KBullet_4x", Chinese="K 彈", ShortTxt="KBullet" },
+            new WeaponName(){ English="U_FlareGun", Chinese="信号枪（侦察）", ShortTxt="Flare Gun ZC" },
+            new WeaponName(){ English="U_FlareGun_Flash", Chinese="信号枪（闪光）", ShortTxt="Flare Gun SG" },
+            new WeaponName(){ English="U_TrPeriscope", Chinese="战壕潜望镜", ShortTxt="Tr Periscope" },
+            new WeaponName(){ English="U_Shield", Chinese="狙击手护盾", ShortTxt="Shield" },
+            new WeaponName(){ English="U_HelmetDecoy", Chinese="狙击手诱饵", ShortTxt="Helmet Decoy" },
+            new WeaponName(){ English="U_TripWireBomb", Chinese="绊索炸弹（高爆）", ShortTxt="Trip Wire Bomb" },
+            new WeaponName(){ English="U_TripWireGas", Chinese="绊索炸弹（毒气）", ShortTxt="Trip Wire Gas" },
+            new WeaponName(){ English="U_TripWireBurn", Chinese="绊索炸弹（燃烧）", ShortTxt="Trip Wire Burn" },
+            new WeaponName(){ English="_KBullet", Chinese="K 弹", ShortTxt="K Bullet" },
 
             /////////////////////////////////////////////////////////////////////////////
 
@@ -326,12 +281,21 @@
             new WeaponName(){ English="======== 精英兵 ========", Chinese="", ShortTxt="" },
             ////
             new WeaponName(){ English="U_MaximMG0815", Chinese="哨兵 MG 08/15", ShortTxt="Maxim MG0815" },
+
             new WeaponName(){ English="U_FlameThrower", Chinese="喷火兵 Wex", ShortTxt="Wex" },
+            new WeaponName(){ English="U_Incendiary_Hero", Chinese="燃烧手榴弹", ShortTxt="Incendiary Hero" },
 
             new WeaponName(){ English="Royal Club", Chinese="战壕奇兵 奇兵棒", ShortTxt="Royal Club" },
-            new WeaponName(){ English="U_MartiniGrenadeLauncher", Chinese="入侵者 馬提尼·亨利步槍榴彈發射器", ShortTxt="Martini GL" },
 
-            new WeaponName(){ English="SpawnBeacon", Chinese="重生信标", ShortTxt="SpawnBeacon" },
+            new WeaponName(){ English="U_MartiniGrenadeLauncher", Chinese="入侵者 马提尼·亨利步枪榴弹发射器", ShortTxt="Martini GL" },
+            new WeaponName(){ English="U_SawnOffShotgun_FK", Chinese="短管霰弹枪", ShortTxt="SawnOffShotgun" },
+            new WeaponName(){ English="U_FlareGun_Elite", Chinese="信号枪 — 信号", ShortTxt="FlareGun Elite" },
+            new WeaponName(){ English="U_SpawnBeacon", Chinese="重生信标", ShortTxt="Spawn Beacon" },
+
+            new WeaponName(){ English="U_TankGewehr", Chinese="坦克猎手 TankGewehr M1918", ShortTxt="Tank Gewehr" },
+            new WeaponName(){ English="U_SawnOffShotgun_FK", Chinese="短管霰弹枪", ShortTxt="SawnOffShotgun" },
+            new WeaponName(){ English="U_TrPeriscope_Elite", Chinese="战壕潜望镜", ShortTxt="Tr Periscope" },
+            new WeaponName(){ English="U_ATGrenade_VhKit", Chinese="反坦克手榴弹", ShortTxt="AT Grenade" },
 
             ///////////////////////////////////////////////////////////////////////////////////
 
@@ -371,6 +335,14 @@
 
             new WeaponName(){ English="ID_P_VNAME_ILYAMUROMETS", Chinese="重型轰炸机 伊利亚·穆罗梅茨", ShortTxt="ILYAMUROMETS" },
 
+            new WeaponName(){ English="ID_P_VNAME_ASTRATORRES", Chinese="飞船 C 级飞船", ShortTxt="ASTRATORRES" },
+
+            ////////////////
+
+            new WeaponName(){ English="======== 船 ========", Chinese="", ShortTxt="" },
+            ////
+            new WeaponName(){ English="ID_P_VNAME_HMS_LANCE", Chinese="船 L 级驱逐舰", ShortTxt="Mark V" },
+
             ////////////////
             
             new WeaponName(){ English="======== 骑兵 ========", Chinese="", ShortTxt="" },
@@ -379,10 +351,19 @@
 
             ////////////////
             
+            new WeaponName(){ English="======== 驾驶员下车 ========", Chinese="", ShortTxt="" },
+            ////
+            new WeaponName(){ English="U_WinchesterM1895_Horse", Chinese="Russian 1895（骑兵）", ShortTxt="M1895 Horse" },
+            new WeaponName(){ English="U_AmmoPouch_Cav", Chinese="弹药包", ShortTxt="Ammo Pouch" },
+            new WeaponName(){ English="U_Bandages_Cav", Chinese="绷带包", ShortTxt="Bandages" },
+            new WeaponName(){ English="U_Grenade_AT_Cavalry", Chinese="轻型反坦克手榴弹", ShortTxt="Grenade AT" },
+
+            ////////////////
+            
             new WeaponName(){ English="======== 特殊载具 ========", Chinese="", ShortTxt="" },
             ////
-            new WeaponName(){ English="ID_P_INAME_U_MORTAR", Chinese="空爆迫击炮", ShortTxt="MORTAR" },
-            new WeaponName(){ English="ID_P_INAME_MORTAR_HE", Chinese="高爆迫击炮", ShortTxt="MORTAR HE" },
+            new WeaponName(){ English="ID_P_INAME_U_MORTAR", Chinese="特殊载具 空爆迫击炮", ShortTxt="MORTAR" },
+            new WeaponName(){ English="ID_P_INAME_MORTAR_HE", Chinese="特殊载具 高爆迫击炮", ShortTxt="MORTAR HE" },
 
             /////////////////////////////////////////////////////////////////////////////
 
@@ -397,6 +378,7 @@
             new WeaponName(){ English="ID_P_VNAME_MODEL30", Chinese="运输载具 M30 侦察车", ShortTxt="MODEL30" },
 
             new WeaponName(){ English="ID_P_VNAME_MAS15", Chinese="运输载具 M.A.S 鱼雷快艇", ShortTxt="MAS15" },
+            new WeaponName(){ English="ID_P_VNAME_YLIGHTER", Chinese="运输载具 Y-Lighter 登陆艇", ShortTxt="MAS15" },
 
             /////////////////////////////////////////////////////////////////////////////
 
@@ -408,6 +390,8 @@
             new WeaponName(){ English="ID_P_VNAME_AASTATION", Chinese="定点武器 QF 1 防空炮", ShortTxt="AASTATION" },
             new WeaponName(){ English="ID_P_VNAME_FIELDGUN", Chinese="定点武器 FK 96 野战炮", ShortTxt="FIELDGUN" },
             new WeaponName(){ English="ID_P_INAME_MAXIM", Chinese="定点武器 重机枪", ShortTxt="MAXIM" },
+            new WeaponName(){ English="ID_P_VNAME_COASTALBATTERY", Chinese="定点武器 350/52 O 岸防炮", ShortTxt="COASTALBATTERY" },
+            new WeaponName(){ English="ID_P_VNAME_SK45GUN", Chinese="定点武器 泽布吕赫岸防炮", ShortTxt="SK45GUN" },
 
             /////////////////////////////////////////////////////////////////////////////
 
@@ -424,7 +408,8 @@
             // 近战
             new WeaponName(){ English="======== 近战武器 ========", Chinese="", ShortTxt="" },
             ////
-            new WeaponName(){ English="123", Chinese="野戰刀", ShortTxt="12g JC" },
+            new WeaponName(){ English="123", Chinese="野战刀", ShortTxt="12g JC" },
+            new WeaponName(){ English="U_Club", Chinese="棍棒", ShortTxt="Club" },
 
             // 其他
             new WeaponName(){ English="======== 其他 ========", Chinese="", ShortTxt="" },

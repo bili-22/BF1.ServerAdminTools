@@ -173,15 +173,26 @@ namespace BF1.ServerAdminTools.Features.Utils
         /// <returns></returns>
         public static string GetCHSWeaponName(string originWeaponName)
         {
+            if (string.IsNullOrEmpty(originWeaponName))
+                return "";
+
+            if (originWeaponName.Contains("_KBullet"))
+                return "K 弹";
+
+            if (originWeaponName.Contains("_RGL_Frag"))
+                return "步枪手榴弹（破片）";
+
+            if (originWeaponName.Contains("_RGL_Smoke"))
+                return "步枪手榴弹（烟雾）";
+
+            if (originWeaponName.Contains("_RGL_HE"))
+                return "步枪手榴弹（高爆）";
+
             int index = WeaponData.AllWeaponInfo.FindIndex(var => var.English == originWeaponName);
             if (index != -1)
-            {
                 return WeaponData.AllWeaponInfo[index].Chinese;
-            }
             else
-            {
                 return originWeaponName;
-            }
         }
 
         /// <summary>
