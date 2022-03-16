@@ -11,6 +11,7 @@
             public byte Spectator;
             public string Name;
             public long PersonaId;
+            public int PartyId;
 
             public string[] WeaponSlot;
         }

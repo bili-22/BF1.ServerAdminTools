@@ -327,6 +327,12 @@
                                 IsReadOnly="False" />
                             <DataGridTextColumn
                                 Width="Auto"
+                                Binding="{Binding SquadId}"
+                                ElementStyle="{StaticResource CenterAlignmentStyle2}"
+                                Header="小队"
+                                IsReadOnly="True" />
+                            <DataGridTextColumn
+                                Width="Auto"
                                 Binding="{Binding Admin}"
                                 ElementStyle="{StaticResource CenterAlignmentStyle2}"
                                 Header="管理员"
@@ -466,6 +472,12 @@
                                 ElementStyle="{StaticResource CenterAlignmentStyle1}"
                                 Header="玩家ID"
                                 IsReadOnly="False" />
+                            <DataGridTextColumn
+                                Width="Auto"
+                                Binding="{Binding SquadId}"
+                                ElementStyle="{StaticResource CenterAlignmentStyle2}"
+                                Header="小队"
+                                IsReadOnly="True" />
                             <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding Admin}"

@@ -119,13 +119,23 @@
                         Margin="5,5,0,5">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <UniformGrid Height="40" Rows="2">
+                                <DockPanel Height="40" LastChildFill="True">
                                     <TextBlock
+                                        Width="25"
+                                        Margin="5,0,5,0"
+                                        HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
-                                        FontWeight="Bold"
-                                        Text="{Binding English}" />
-                                    <TextBlock VerticalAlignment="Center" Text="{Binding Chinese}" />
-                                </UniformGrid>
+                                        DockPanel.Dock="Left"
+                                        Text="{Binding Mark}"
+                                        TextAlignment="Center" />
+                                    <UniformGrid DockPanel.Dock="Right" Rows="2">
+                                        <TextBlock
+                                            VerticalAlignment="Center"
+                                            FontWeight="Bold"
+                                            Text="{Binding English}" />
+                                        <TextBlock VerticalAlignment="Center" Text="{Binding Chinese}" />
+                                    </UniformGrid>
+                                </DockPanel>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>

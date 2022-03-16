@@ -63,6 +63,9 @@
             public int shotsHit { get; set; }
             public string accuracy { get; set; }
             public float hitVKills { get; set; }
+
+            public string star { get; set; }
+            public string time { get; set; }
         }
 
         public class VehiclesItem
@@ -74,6 +77,9 @@
             public float killsPerMinute { get; set; }
             public int destroyed { get; set; }
             public int timeIn { get; set; }
+
+            public string star { get; set; }
+            public string time { get; set; }
         }
 
         public class ActivePlatoon

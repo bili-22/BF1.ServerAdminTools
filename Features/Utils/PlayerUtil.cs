@@ -214,13 +214,19 @@ namespace BF1.ServerAdminTools.Features.Utils
             }
         }
 
+        /// <summary>
+        /// 检查玩是否是管理员或者VIP
+        /// </summary>
+        /// <param name="personaId"></param>
+        /// <param name="list"></param>
+        /// <returns></returns>
         public static string CheckAdminVIP(string personaId, List<string> list)
         {
             return list.IndexOf(personaId) != -1 ? "✔" : "";
         }
 
         /// <summary>
-        /// 秒数转小时数
+        /// 获取玩家游玩时间，返回分钟数或小时数
         /// </summary>
         /// <param name="second"></param>
         /// <returns></returns>
@@ -228,7 +234,12 @@ namespace BF1.ServerAdminTools.Features.Utils
         {
             var ts = TimeSpan.FromSeconds(second);
 
-            return ts.TotalHours.ToString("0");
+            if (ts.TotalHours < 1)
+            {
+                return ts.TotalMinutes.ToString("0") + " 分钟";
+            }
+
+            return ts.TotalHours.ToString("0") + " 小时";
         }
 
         /// <summary>

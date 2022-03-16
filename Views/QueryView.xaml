@@ -127,7 +127,7 @@
                                             <TextBlock
                                                 Margin="10,0,0,0"
                                                 Foreground="#ffa200"
-                                                Text="{Binding type}" />
+                                                Text="{Binding star}" />
                                         </StackPanel>
                                         <StackPanel
                                             Margin="0,2.5,0,0"
@@ -143,6 +143,8 @@
                                             <TextBlock Margin="0,0,10,0" Text="{Binding headshots}" />
                                             <TextBlock Text="效率 : " />
                                             <TextBlock Margin="0,0,10,0" Text="{Binding hitVKills}" />
+                                            <TextBlock Text="时长 : " />
+                                            <TextBlock Margin="0,0,10,0" Text="{Binding time}" />
                                         </StackPanel>
                                     </UniformGrid>
                                 </Grid>
@@ -193,7 +195,7 @@
                                             <TextBlock
                                                 Margin="10,0,0,0"
                                                 Foreground="#ffa200"
-                                                Text="{Binding type}" />
+                                                Text="{Binding star}" />
                                         </StackPanel>
                                         <StackPanel
                                             Margin="0,2.5,0,0"
@@ -205,6 +207,8 @@
                                             <TextBlock Margin="0,0,10,0" Text="{Binding killsPerMinute}" />
                                             <TextBlock Text="摧毁 : " />
                                             <TextBlock Margin="0,0,10,0" Text="{Binding destroyed}" />
+                                            <TextBlock Text="时长 : " />
+                                            <TextBlock Margin="0,0,10,0" Text="{Binding time}" />
                                         </StackPanel>
                                     </UniformGrid>
                                 </Grid>

@@ -10,6 +10,7 @@
         public byte Spectator { get; set; }
         public string Name { get; set; }
         public long PersonaId { get; set; }
+        public string SquadId { get; set; }
 
         public int Rank { get; set; }
         public int Kill { get; set; }

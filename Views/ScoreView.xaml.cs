@@ -174,6 +174,7 @@ namespace BF1.ServerAdminTools.Views
                     tdCP.Spectator = Memory.Read<byte>(tdCP.BaseAddress + 0x1C31);
                     tdCP.PersonaId = Memory.Read<long>(tdCP.BaseAddress + 0x38);
                     tdCP.Name = Memory.ReadString(tdCP.BaseAddress + 0x2156, 64);
+                    tdCP.PartyId = Memory.Read<int>(tdCP.BaseAddress + 0x1E50);
 
                     tdCSE.pClientVehicleEntity = Memory.Read<long>(tdCP.BaseAddress + 0x1D38);
                     if (Memory.IsValid(tdCSE.pClientVehicleEntity))
@@ -215,6 +216,7 @@ namespace BF1.ServerAdminTools.Views
                             Spectator = tdCP.Spectator,
                             Name = tdCP.Name,
                             PersonaId = tdCP.PersonaId,
+                            SquadId = tdCP.PartyId.ToString(),
 
                             Rank = 0,
                             Kill = 0,
@@ -533,6 +535,7 @@ namespace BF1.ServerAdminTools.Views
                         DataGrid_PlayerList_Team1[i].Rank = PlayerList_Team1[index].Rank;
                         DataGrid_PlayerList_Team1[i].Admin = PlayerList_Team1[index].Admin;
                         DataGrid_PlayerList_Team1[i].VIP = PlayerList_Team1[index].VIP;
+                        DataGrid_PlayerList_Team1[i].SquadId = PlayerList_Team1[index].SquadId;
                         DataGrid_PlayerList_Team1[i].Kill = PlayerList_Team1[index].Kill;
                         DataGrid_PlayerList_Team1[i].Dead = PlayerList_Team1[index].Dead;
                         DataGrid_PlayerList_Team1[i].KD = PlayerList_Team1[index].KD.ToString("0.00");
@@ -566,6 +569,7 @@ namespace BF1.ServerAdminTools.Views
                             PersonaId = PlayerList_Team1[i].PersonaId,
                             Admin = PlayerList_Team1[i].Admin,
                             VIP = PlayerList_Team1[i].VIP,
+                            SquadId = PlayerList_Team1[i].SquadId,
                             Kill = PlayerList_Team1[i].Kill,
                             Dead = PlayerList_Team1[i].Dead,
                             KD = PlayerList_Team1[i].KD.ToString("0.00"),
@@ -610,6 +614,7 @@ namespace BF1.ServerAdminTools.Views
                         DataGrid_PlayerList_Team2[i].Rank = PlayerList_Team2[index].Rank;
                         DataGrid_PlayerList_Team2[i].Admin = PlayerList_Team2[index].Admin;
                         DataGrid_PlayerList_Team2[i].VIP = PlayerList_Team2[index].VIP;
+                        DataGrid_PlayerList_Team2[i].SquadId = PlayerList_Team2[index].SquadId;
                         DataGrid_PlayerList_Team2[i].Kill = PlayerList_Team2[index].Kill;
                         DataGrid_PlayerList_Team2[i].Dead = PlayerList_Team2[index].Dead;
                         DataGrid_PlayerList_Team2[i].KD = PlayerList_Team2[index].KD.ToString("0.00");
@@ -643,6 +648,7 @@ namespace BF1.ServerAdminTools.Views
                             PersonaId = PlayerList_Team2[i].PersonaId,
                             Admin = PlayerList_Team2[i].Admin,
                             VIP = PlayerList_Team2[i].VIP,
+                            SquadId = PlayerList_Team2[i].SquadId,
                             Kill = PlayerList_Team2[i].Kill,
                             Dead = PlayerList_Team2[i].Dead,
                             KD = PlayerList_Team2[i].KD.ToString("0.00"),
@@ -902,8 +908,8 @@ namespace BF1.ServerAdminTools.Views
         {
             if (dataGridSelcContent.IsOK)
             {
-                // 复制玩家ID
-                Clipboard.SetText(dataGridSelcContent.Name);
+                // 复制玩家ID（无队标）
+                Clipboard.SetText(PlayerUtil.GetNameNoMark(dataGridSelcContent.Name));
                 MainWindow.dSetOperatingState(1, $"复制玩家ID {PlayerUtil.GetNameNoMark(dataGridSelcContent.Name)} 到剪切板成功");
             }
             else

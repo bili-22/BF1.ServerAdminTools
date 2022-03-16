@@ -166,6 +166,8 @@
             new WeaponName(){ English="U_CeiRigottiM1895_RGL_Frag_Grip", Chinese="步槍手榴彈（破片）", ShortTxt="RGL Frag" },
             new WeaponName(){ English="U_MauserSL1916_RGL_Frag_Grip", Chinese="步槍手榴彈（破片）", ShortTxt="RGL Frag" },
             new WeaponName(){ English="U_RemingtonModel8_RGL_Frag_Grip", Chinese="步槍手榴彈（破片）", ShortTxt="RGL Frag" },
+            new WeaponName(){ English="U_MauserSL1916_RGL_Frag", Chinese="步槍手榴彈（破片）", ShortTxt="RGL Frag" },
+            new WeaponName(){ English="U_Mondragon_RGL_Frag_Grip", Chinese="步槍手榴彈（破片）", ShortTxt="RGL Frag" },
             
             // 步枪手榴弹（煙霧）
             new WeaponName(){ English="======== 医疗兵 步枪手榴弹（煙霧） ========", Chinese="", ShortTxt="" },
@@ -312,6 +314,11 @@
             new WeaponName(){ English="U_LeeEnfieldSMLE_KBullet", Chinese="K 彈", ShortTxt="KBullet" },
             new WeaponName(){ English="U_SpringfieldM1903_KBullet_Scope", Chinese="K 彈", ShortTxt="KBullet" },
             new WeaponName(){ English="U_Enfield1917_KBullet_Scope", Chinese="K 彈", ShortTxt="KBullet" },
+            new WeaponName(){ English="U_RossMkIII_KBullet", Chinese="K 彈", ShortTxt="KBullet" },
+            new WeaponName(){ English="U_MartiniHenry_KBullet", Chinese="K 彈", ShortTxt="KBullet" },
+            new WeaponName(){ English="U_SpringfieldM1903_KBullet", Chinese="K 彈", ShortTxt="KBullet" },
+            new WeaponName(){ English="U_SteyrManM1895_KBullet", Chinese="K 彈", ShortTxt="KBullet" },
+            new WeaponName(){ English="U_RossMkIII_KBullet_4x", Chinese="K 彈", ShortTxt="KBullet" },
 
             /////////////////////////////////////////////////////////////////////////////
 

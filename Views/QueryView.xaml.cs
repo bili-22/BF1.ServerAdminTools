@@ -85,7 +85,7 @@ namespace BF1.ServerAdminTools.Views
                     QueryModel.UserName = all.userName;
                     QueryModel.Rank = $"等级 : {all.rank}";
                     QueryModel.RankImg = all.rankImg;
-                    QueryModel.PlayerTime = $"游戏时间 : {PlayerUtil.GetPlayTime(all.secondsPlayed)} 小时";
+                    QueryModel.PlayerTime = $"游戏时间 : {PlayerUtil.GetPlayTime(all.secondsPlayed)}";
 
                     PlayerDatas.Add($"数字ID : {all.id}");
 
@@ -144,8 +144,9 @@ namespace BF1.ServerAdminTools.Views
                     {
                         if (item.kills != 0)
                         {
-                            item.type = PlayerUtil.GetKillStar(item.kills);
                             item.image = PlayerUtil.GetTempImagePath(item.image, "weapons2");
+                            item.star = PlayerUtil.GetKillStar(item.kills);
+                            item.time = PlayerUtil.GetPlayTime(item.timeEquipped);
                             WeaponsItems.Add(item);
                         }
                     }
@@ -154,8 +155,9 @@ namespace BF1.ServerAdminTools.Views
                     {
                         if (item.kills != 0)
                         {
-                            item.type = PlayerUtil.GetKillStar(item.kills);
                             item.image = PlayerUtil.GetTempImagePath(item.image, "vehicles2");
+                            item.star = PlayerUtil.GetKillStar(item.kills);
+                            item.time = PlayerUtil.GetPlayTime(item.timeIn);
                             VehiclesItems.Add(item);
                         }
                     }

@@ -17,6 +17,7 @@ namespace BF1.ServerAdminTools.Views
         {
             public string English { get; set; }
             public string Chinese { get; set; }
+            public string Mark { get; set; }
         }
 
         // 已经踢出的玩家列表，保留指定时间秒数
@@ -32,7 +33,8 @@ namespace BF1.ServerAdminTools.Views
                 ListBox_WeaponInfo.Items.Add(new WeaponInfo()
                 {
                     English = item.English,
-                    Chinese = item.Chinese
+                    Chinese = item.Chinese,
+                    Mark = ""
                 });
             }
             ListBox_WeaponInfo.SelectedIndex = 0;
@@ -236,13 +238,24 @@ namespace BF1.ServerAdminTools.Views
 
             bool isContains = false;
 
-            if (ListBox_WeaponInfo.SelectedIndex != -1)
+            int index = ListBox_WeaponInfo.SelectedIndex;
+            if (index != -1)
             {
                 var wi = ListBox_WeaponInfo.SelectedItem as WeaponInfo;
                 if (string.IsNullOrEmpty(wi.Chinese))
                 {
                     MainWindow.dSetOperatingState(2, "请不要把分类项添加到限制武器列表");
                     return;
+                }
+
+                for (int i = 0; i < ListBox_BreakWeaponInfo.Items.Count; i++)
+                {
+                    var bwi = ListBox_BreakWeaponInfo.SelectedItem as WeaponInfo;
+                    if (wi.English == bwi.English)
+                    {
+                        isContains = true;
+                        break;
+                    }
                 }
 
                 foreach (var item in ListBox_BreakWeaponInfo.Items)
@@ -257,6 +270,21 @@ namespace BF1.ServerAdminTools.Views
                 if (!isContains)
                 {
                     ListBox_BreakWeaponInfo.Items.Add(ListBox_WeaponInfo.SelectedItem);
+                    ListBox_WeaponInfo.Items[ListBox_WeaponInfo.SelectedIndex] = new WeaponInfo()
+                    {
+                        English = wi.English,
+                        Chinese = wi.Chinese,
+                        Mark = "✔"
+                    };
+
+                    ListBox_WeaponInfo.SelectedIndex = index;
+
+                    int count = ListBox_BreakWeaponInfo.Items.Count;
+                    if (count != 0)
+                    {
+                        ListBox_BreakWeaponInfo.SelectedIndex = count - 1;
+                    }
+
                     MainWindow.dSetOperatingState(1, "添加限制武器成功");
                 }
                 else
@@ -274,9 +302,35 @@ namespace BF1.ServerAdminTools.Views
         {
             AudioUtil.ClickSound();
 
-            if (ListBox_BreakWeaponInfo.SelectedIndex != -1)
+            int index1 = ListBox_WeaponInfo.SelectedIndex;
+            int index2 = ListBox_BreakWeaponInfo.SelectedIndex;
+            if (index2 != -1)
             {
+                var bwi = ListBox_BreakWeaponInfo.SelectedItem as WeaponInfo;
+                for (int i = 0; i < ListBox_WeaponInfo.Items.Count; i++)
+                {
+                    var wi = ListBox_WeaponInfo.Items[i] as WeaponInfo;
+                    if (bwi.English == wi.English)
+                    {
+                        ListBox_WeaponInfo.Items[i] = new WeaponInfo()
+                        {
+                            English = bwi.English,
+                            Chinese = bwi.Chinese,
+                            Mark = ""
+                        };
+                    }
+                }
+
                 ListBox_BreakWeaponInfo.Items.RemoveAt(ListBox_BreakWeaponInfo.SelectedIndex);
+
+                int count = ListBox_BreakWeaponInfo.Items.Count;
+                if (count != 1)
+                {
+                    ListBox_BreakWeaponInfo.SelectedIndex = count - 1;
+                }
+
+                ListBox_WeaponInfo.SelectedIndex = index1;
+
                 MainWindow.dSetOperatingState(1, "移除限制武器成功");
             }
             else
@@ -289,9 +343,24 @@ namespace BF1.ServerAdminTools.Views
         {
             AudioUtil.ClickSound();
 
+            int index = ListBox_WeaponInfo.SelectedIndex;
+
             // 清空限制武器列表
             Globals.Custom_WeaponList.Clear();
             ListBox_BreakWeaponInfo.Items.Clear();
+
+            for (int i = 0; i < ListBox_WeaponInfo.Items.Count; i++)
+            {
+                var wi = ListBox_WeaponInfo.Items[i] as WeaponInfo;
+                ListBox_WeaponInfo.Items[i] = new WeaponInfo()
+                {
+                    English = wi.English,
+                    Chinese = wi.Chinese,
+                    Mark = ""
+                };
+            }
+
+            ListBox_WeaponInfo.SelectedIndex = index;
 
             MainWindow.dSetOperatingState(1, "清空限制武器列表成功");
         }

@@ -14,6 +14,40 @@ namespace BF1.ServerAdminTools.Models
             set { _index = value; OnPropertyChanged(); }
         }
 
+        ///////////////////////////////////////////////////////////////////////
+
+        private string _name;
+        /// <summary>
+        /// 玩家ID
+        /// </summary>
+        public string Name
+        {
+            get { return _name; }
+            set { _name = value; OnPropertyChanged(); }
+        }
+
+        private long _personaId;
+        /// <summary>
+        /// 玩家数字ID
+        /// </summary>
+        public long PersonaId
+        {
+            get { return _personaId; }
+            set { _personaId = value; OnPropertyChanged(); }
+        }
+
+        private string _squadId;
+        /// <summary>
+        /// 玩家小队ID
+        /// </summary>
+        public string SquadId
+        {
+            get { return _squadId; }
+            set { _squadId = value; OnPropertyChanged(); }
+        }
+
+        ///////////////////////////////////////////////////////////////////////
+
         private string _admin;
         /// <summary>
         /// 管理员
@@ -44,26 +78,6 @@ namespace BF1.ServerAdminTools.Models
         {
             get { return _rank; }
             set { _rank = value; OnPropertyChanged(); }
-        }
-
-        private string _name;
-        /// <summary>
-        /// 玩家ID
-        /// </summary>
-        public string Name
-        {
-            get { return _name; }
-            set { _name = value; OnPropertyChanged(); }
-        }
-
-        private long _personaId;
-        /// <summary>
-        /// 玩家数字ID
-        /// </summary>
-        public long PersonaId
-        {
-            get { return _personaId; }
-            set { _personaId = value; OnPropertyChanged(); }
         }
 
         private int _kill;
