@@ -754,8 +754,10 @@ namespace BF1.ServerAdminTools.Views
                 }
 
                 // 从武器规则里遍历限制武器名称
-                foreach (var item in Globals.Custom_WeaponList)
+                for (int i = 0; i < Globals.Custom_WeaponList.Count; i++)
                 {
+                    var item = Globals.Custom_WeaponList[i];
+
                     // K 弹
                     if (item == "_KBullet")
                     {
@@ -869,8 +871,9 @@ namespace BF1.ServerAdminTools.Views
                 }
 
                 // 黑名单
-                foreach (var item in Globals.Custom_BlackList)
+                for (int i = 0; i < Globals.Custom_BlackList.Count; i++)
                 {
+                    var item = Globals.Custom_BlackList[i];
                     if (PlayerUtil.GetNameNoMark(playerData.Name) == item)
                     {
                         Globals.BreakRuleInfo_PlayerList.Add(new BreakRuleInfo

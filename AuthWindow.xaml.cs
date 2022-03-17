@@ -55,7 +55,8 @@ namespace BF1.ServerAdminTools
 
                     // 带队标 0x2156，不带队标 0x40
                     var personaId = Memory.Read<long>(baseAddress + 0x38);
-                    var playerName = Memory.ReadString(baseAddress + 0x40, 64);
+                    var offset = Memory.Read<long>(baseAddress + 0x18);
+                    var playerName = Memory.ReadString(offset, 64);
 
                     var str = "https://api.battlefield.vip/bf1/checkauth";
                     var options = new RestClientOptions(str)

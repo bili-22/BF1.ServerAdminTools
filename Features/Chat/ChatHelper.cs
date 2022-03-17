@@ -69,6 +69,15 @@ namespace BF1.ServerAdminTools.Features.Chat
                     WinAPI.NtResumeProcess(Memory.GetHandle());
                     KeyPress(WinVK.RETURN);
 
+                    int count = 0;
+                    while (count++ <= 10)
+                    { 
+                        // wait for 200ms max
+                        if (!Memory.Read<bool>(ChatMsg.GetAllocateMemoryAddress()))
+                            break;
+                        Thread.Sleep(20);
+                    }
+
                     // 挂起战地1进程
                     WinAPI.NtSuspendProcess(Memory.GetHandle());
                     Memory.Write<long>(startPtr, oldStartPtr);

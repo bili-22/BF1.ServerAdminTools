@@ -4,6 +4,7 @@
     {
         private static IntPtr windowHandle;
         private static IntPtr processHandle;
+        private static int processId;
         private static long processBaseAddress;
 
         public Memory()
@@ -18,11 +19,12 @@
             {
                 var process = pArray[0];
                 windowHandle = process.MainWindowHandle;
+                processId = process.Id;
                 processHandle = WinAPI.OpenProcess(
                     ProcessAccessFlags.VirtualMemoryRead |
                     ProcessAccessFlags.VirtualMemoryWrite |
                     ProcessAccessFlags.VirtualMemoryOperation,
-                    false, process.Id);
+                    false, processId);
                 if (process.MainModule != null)
                 {
                     processBaseAddress = process.MainModule.BaseAddress.ToInt64();
@@ -68,6 +70,11 @@
         public static void SetForegroundWindow()
         {
             WinAPI.SetForegroundWindow(windowHandle);
+        }
+
+        public static int GetProcessId()
+        {
+            return processId;
         }
 
         private static long GetPtrAddress(long pointer, int[] offset)

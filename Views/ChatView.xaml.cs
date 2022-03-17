@@ -114,7 +114,9 @@ namespace BF1.ServerAdminTools.Views
                     if (ChatMsg.ChatMessagePointer() != 0)
                     {
                         // 挂起战地1进程
-                        WinAPI.NtSuspendProcess(Memory.GetHandle());
+                        //WinAPI.NtSuspendProcess(Memory.GetHandle());
+                        NtProc.SuspendProcess(Memory.GetProcessId());
+
                         string msg = TextBox_InputMsg.Text.Trim();
                         msg = ChsUtil.ToTraditionalChinese(ChatHelper.ToDBC(msg));
                         var length = PlayerUtil.GetStrLength(msg);
@@ -130,15 +132,30 @@ namespace BF1.ServerAdminTools.Views
                         Memory.Write<long>(endPtr, ChatMsg.GetAllocateMemoryAddress() + length);
 
                         // 恢复战地1进程
-                        WinAPI.NtResumeProcess(Memory.GetHandle());
+                        //WinAPI.NtResumeProcess(Memory.GetHandle());
+                        NtProc.ResumeProcess(Memory.GetProcessId());
+
                         ChatHelper.KeyPress(WinVK.RETURN);
 
+                        // 循环等待游戏清除字符串
+                        int count = 0;
+                        while (count++ <= 10)
+                        {
+                            // 最大等待 200ms
+                            if (!Memory.Read<bool>(ChatMsg.GetAllocateMemoryAddress()))
+                                break;
+                            Thread.Sleep(20);
+                        }
+
                         // 挂起战地1进程
-                        WinAPI.NtSuspendProcess(Memory.GetHandle());
+                        //WinAPI.NtSuspendProcess(Memory.GetHandle());
+                        NtProc.SuspendProcess(Memory.GetProcessId());
+
                         Memory.Write<long>(startPtr, oldStartPtr);
                         Memory.Write<long>(endPtr, oldEndPtr);
                         // 恢复战地1进程
                         WinAPI.NtResumeProcess(Memory.GetHandle());
+                        NtProc.ResumeProcess(Memory.GetProcessId());
 
                         MainWindow.dSetOperatingState(1, "发送文本到战地1聊天框成功");
                     }

@@ -11,7 +11,7 @@ namespace BF1.ServerAdminTools.Common.Utils
         /// <returns></returns>
         public static string ToTraditionalChinese(string strSimple)
         {
-            return ChineseConverter.ToSimplified(strSimple);
+            return ChineseConverter.ToTraditional(strSimple);
         }
 
         /// <summary>
