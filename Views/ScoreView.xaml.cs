@@ -216,7 +216,7 @@ namespace BF1.ServerAdminTools.Views
                             Spectator = tdCP.Spectator,
                             Name = tdCP.Name,
                             PersonaId = tdCP.PersonaId,
-                            SquadId = tdCP.PartyId.ToString(),
+                            SquadId = PlayerUtil.GetSquadChsName(tdCP.PartyId),
 
                             Rank = 0,
                             Kill = 0,
@@ -371,26 +371,26 @@ namespace BF1.ServerAdminTools.Views
                 {
                     for (int i = 0; i < PlayerList_Team1.Count; i++)
                     {
-                        PlayerList_Team1[i].WeaponS0 = PlayerUtil.GetCHSWeaponName(PlayerList_Team1[i].WeaponS0);
-                        PlayerList_Team1[i].WeaponS1 = PlayerUtil.GetCHSWeaponName(PlayerList_Team1[i].WeaponS1);
-                        PlayerList_Team1[i].WeaponS2 = PlayerUtil.GetCHSWeaponName(PlayerList_Team1[i].WeaponS2);
-                        PlayerList_Team1[i].WeaponS3 = PlayerUtil.GetCHSWeaponName(PlayerList_Team1[i].WeaponS3);
-                        PlayerList_Team1[i].WeaponS4 = PlayerUtil.GetCHSWeaponName(PlayerList_Team1[i].WeaponS4);
-                        PlayerList_Team1[i].WeaponS5 = PlayerUtil.GetCHSWeaponName(PlayerList_Team1[i].WeaponS5);
-                        PlayerList_Team1[i].WeaponS6 = PlayerUtil.GetCHSWeaponName(PlayerList_Team1[i].WeaponS6);
-                        PlayerList_Team1[i].WeaponS7 = PlayerUtil.GetCHSWeaponName(PlayerList_Team1[i].WeaponS7);
+                        PlayerList_Team1[i].WeaponS0 = PlayerUtil.GetWeaponChsName(PlayerList_Team1[i].WeaponS0);
+                        PlayerList_Team1[i].WeaponS1 = PlayerUtil.GetWeaponChsName(PlayerList_Team1[i].WeaponS1);
+                        PlayerList_Team1[i].WeaponS2 = PlayerUtil.GetWeaponChsName(PlayerList_Team1[i].WeaponS2);
+                        PlayerList_Team1[i].WeaponS3 = PlayerUtil.GetWeaponChsName(PlayerList_Team1[i].WeaponS3);
+                        PlayerList_Team1[i].WeaponS4 = PlayerUtil.GetWeaponChsName(PlayerList_Team1[i].WeaponS4);
+                        PlayerList_Team1[i].WeaponS5 = PlayerUtil.GetWeaponChsName(PlayerList_Team1[i].WeaponS5);
+                        PlayerList_Team1[i].WeaponS6 = PlayerUtil.GetWeaponChsName(PlayerList_Team1[i].WeaponS6);
+                        PlayerList_Team1[i].WeaponS7 = PlayerUtil.GetWeaponChsName(PlayerList_Team1[i].WeaponS7);
                     }
 
                     for (int i = 0; i < PlayerList_Team2.Count; i++)
                     {
-                        PlayerList_Team2[i].WeaponS0 = PlayerUtil.GetCHSWeaponName(PlayerList_Team2[i].WeaponS0);
-                        PlayerList_Team2[i].WeaponS1 = PlayerUtil.GetCHSWeaponName(PlayerList_Team2[i].WeaponS1);
-                        PlayerList_Team2[i].WeaponS2 = PlayerUtil.GetCHSWeaponName(PlayerList_Team2[i].WeaponS2);
-                        PlayerList_Team2[i].WeaponS3 = PlayerUtil.GetCHSWeaponName(PlayerList_Team2[i].WeaponS3);
-                        PlayerList_Team2[i].WeaponS4 = PlayerUtil.GetCHSWeaponName(PlayerList_Team2[i].WeaponS4);
-                        PlayerList_Team2[i].WeaponS5 = PlayerUtil.GetCHSWeaponName(PlayerList_Team2[i].WeaponS5);
-                        PlayerList_Team2[i].WeaponS6 = PlayerUtil.GetCHSWeaponName(PlayerList_Team2[i].WeaponS6);
-                        PlayerList_Team2[i].WeaponS7 = PlayerUtil.GetCHSWeaponName(PlayerList_Team2[i].WeaponS7);
+                        PlayerList_Team2[i].WeaponS0 = PlayerUtil.GetWeaponChsName(PlayerList_Team2[i].WeaponS0);
+                        PlayerList_Team2[i].WeaponS1 = PlayerUtil.GetWeaponChsName(PlayerList_Team2[i].WeaponS1);
+                        PlayerList_Team2[i].WeaponS2 = PlayerUtil.GetWeaponChsName(PlayerList_Team2[i].WeaponS2);
+                        PlayerList_Team2[i].WeaponS3 = PlayerUtil.GetWeaponChsName(PlayerList_Team2[i].WeaponS3);
+                        PlayerList_Team2[i].WeaponS4 = PlayerUtil.GetWeaponChsName(PlayerList_Team2[i].WeaponS4);
+                        PlayerList_Team2[i].WeaponS5 = PlayerUtil.GetWeaponChsName(PlayerList_Team2[i].WeaponS5);
+                        PlayerList_Team2[i].WeaponS6 = PlayerUtil.GetWeaponChsName(PlayerList_Team2[i].WeaponS6);
+                        PlayerList_Team2[i].WeaponS7 = PlayerUtil.GetWeaponChsName(PlayerList_Team2[i].WeaponS7);
                     }
                 }
 

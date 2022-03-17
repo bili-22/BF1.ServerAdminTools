@@ -79,7 +79,7 @@ namespace BF1.ServerAdminTools.Views
                             ListBox_BreakWeaponInfo.Items.Add(new WeaponInfo()
                             {
                                 English = s,
-                                Chinese = PlayerUtil.GetCHSWeaponName(s)
+                                Chinese = PlayerUtil.GetWeaponChsName(s)
                             });
                         }
                     }

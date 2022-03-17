@@ -282,18 +282,19 @@
             ////
             new WeaponName(){ English="U_MaximMG0815", Chinese="哨兵 MG 08/15", ShortTxt="Maxim MG0815" },
 
+            new WeaponName(){ English="U_VillarPerosa", Chinese="哨兵 维拉·佩罗萨衝锋枪", ShortTxt="Villar Perosa" },
+
             new WeaponName(){ English="U_FlameThrower", Chinese="喷火兵 Wex", ShortTxt="Wex" },
             new WeaponName(){ English="U_Incendiary_Hero", Chinese="燃烧手榴弹", ShortTxt="Incendiary Hero" },
 
-            new WeaponName(){ English="Royal Club", Chinese="战壕奇兵 奇兵棒", ShortTxt="Royal Club" },
+            new WeaponName(){ English="U_RoyalClub", Chinese="战壕奇兵 奇兵棒", ShortTxt="Royal Club" },
 
             new WeaponName(){ English="U_MartiniGrenadeLauncher", Chinese="入侵者 马提尼·亨利步枪榴弹发射器", ShortTxt="Martini GL" },
             new WeaponName(){ English="U_SawnOffShotgun_FK", Chinese="短管霰弹枪", ShortTxt="SawnOffShotgun" },
             new WeaponName(){ English="U_FlareGun_Elite", Chinese="信号枪 — 信号", ShortTxt="FlareGun Elite" },
             new WeaponName(){ English="U_SpawnBeacon", Chinese="重生信标", ShortTxt="Spawn Beacon" },
 
-            new WeaponName(){ English="U_TankGewehr", Chinese="坦克猎手 TankGewehr M1918", ShortTxt="Tank Gewehr" },
-            new WeaponName(){ English="U_SawnOffShotgun_FK", Chinese="短管霰弹枪", ShortTxt="SawnOffShotgun" },
+            new WeaponName(){ English="U_TankGewehr", Chinese="坦克猎手 Tankgewehr M1918", ShortTxt="Tank Gewehr" },
             new WeaponName(){ English="U_TrPeriscope_Elite", Chinese="战壕潜望镜", ShortTxt="Tr Periscope" },
             new WeaponName(){ English="U_ATGrenade_VhKit", Chinese="反坦克手榴弹", ShortTxt="AT Grenade" },
 
@@ -395,8 +396,8 @@
             new WeaponName(){ English="ID_P_VNAME_AASTATION", Chinese="定点武器 QF 1 防空炮", ShortTxt="AASTATION" },
             new WeaponName(){ English="ID_P_VNAME_FIELDGUN", Chinese="定点武器 FK 96 野战炮", ShortTxt="FIELDGUN" },
             new WeaponName(){ English="ID_P_INAME_MAXIM", Chinese="定点武器 重机枪", ShortTxt="MAXIM" },
-            new WeaponName(){ English="ID_P_VNAME_COASTALBATTERY", Chinese="定点武器 350/52 O 岸防炮", ShortTxt="COASTALBATTERY" },
-            new WeaponName(){ English="ID_P_VNAME_SK45GUN", Chinese="定点武器 泽布吕赫岸防炮", ShortTxt="SK45GUN" },
+            new WeaponName(){ English="ID_P_VNAME_COASTALBATTERY", Chinese="定点武器 350/52 o 岸防炮", ShortTxt="COASTALBATTERY" },
+            new WeaponName(){ English="ID_P_VNAME_SK45GUN", Chinese="定点武器 SK45 岸防炮", ShortTxt="SK45GUN" },
 
             /////////////////////////////////////////////////////////////////////////////
 
@@ -404,7 +405,7 @@
             new WeaponName(){ English="======== 战争巨兽 ========", Chinese="", ShortTxt="" },
             ////
             new WeaponName(){ English="ID_P_VNAME_ARMOREDTRAIN", Chinese="战争巨兽 装甲列车", ShortTxt="ARMOREDTRAIN" },
-            new WeaponName(){ English="ID_P_VNAME_ZEPPELIN", Chinese="战争巨兽 飞船 L30", ShortTxt="ZEPPELIN" },
+            new WeaponName(){ English="ID_P_VNAME_ZEPPELIN", Chinese="战争巨兽 飞船 l30", ShortTxt="ZEPPELIN" },
             new WeaponName(){ English="ID_P_VNAME_IRONDUKE", Chinese="战争巨兽 无畏舰", ShortTxt="IRONDUKE" },
             new WeaponName(){ English="ID_P_VNAME_CHAR", Chinese="战争巨兽 Char 2C", ShortTxt="CHAR" },
 
@@ -413,7 +414,7 @@
             // 近战
             new WeaponName(){ English="======== 近战武器 ========", Chinese="", ShortTxt="" },
             ////
-            new WeaponName(){ English="123", Chinese="野战刀", ShortTxt="12g JC" },
+            new WeaponName(){ English="U_GrenadeClub", Chinese="哑弹棒", ShortTxt="Grenade Club" },
             new WeaponName(){ English="U_Club", Chinese="棍棒", ShortTxt="Club" },
 
             // 其他

@@ -171,7 +171,7 @@ namespace BF1.ServerAdminTools.Features.Utils
         /// </summary>
         /// <param name="originWeaponName"></param>
         /// <returns></returns>
-        public static string GetCHSWeaponName(string originWeaponName)
+        public static string GetWeaponChsName(string originWeaponName)
         {
             if (string.IsNullOrEmpty(originWeaponName))
                 return "";
@@ -267,6 +267,44 @@ namespace BF1.ServerAdminTools.Features.Utils
             }
 
             return weaponName;
+        }
+
+        /// <summary>
+        /// 获取小队的中文名称
+        /// </summary>
+        /// <param name="squadID"></param>
+        /// <returns></returns>
+        public static string GetSquadChsName(int squadID)
+        {
+            switch (squadID)
+            {
+                case 0:
+                    return "无";
+                case 1:
+                    return "苹果";
+                case 2:
+                    return "奶油";
+                case 3:
+                    return "查理";
+                case 4:
+                    return "达夫";
+                case 5:
+                    return "爱德华";
+                case 6:
+                    return "弗莱迪";
+                case 7:
+                    return "乔治";
+                case 8:
+                    return "哈利";
+                case 9:
+                    return "墨水";
+                case 10:
+                    return "强尼";
+                case 11:
+                    return "国王";
+                default:
+                    return squadID.ToString();
+            }
         }
     }
 }
