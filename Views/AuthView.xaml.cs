@@ -5,6 +5,7 @@ using BF1.ServerAdminTools.Features.API;
 using BF1.ServerAdminTools.Features.API.RespJson;
 using BF1.ServerAdminTools.Features.API2;
 using BF1.ServerAdminTools.Features.API2.RespJson;
+using BF1.ServerAdminTools.Features.Utils;
 using ScottPlot;
 
 namespace BF1.ServerAdminTools.Views
@@ -91,10 +92,12 @@ namespace BF1.ServerAdminTools.Views
                 {
                     var welcomeMsg = JsonUtil.JsonDese<WelcomeMsg>(result.Message);
 
-                    TextBlock_CheckSessionStatus.Text = welcomeMsg.result.firstMessage;
+                    var msg = ChsUtil.ToSimplifiedChinese(welcomeMsg.result.firstMessage);
+
+                    TextBlock_CheckSessionStatus.Text = msg;
                     TextBlock_CheckSessionStatus.Background = Brushes.Green;
 
-                    MainWindow.dSetOperatingState(1, $"验证成功 {welcomeMsg.result.firstMessage}  |  耗时: {result.ExecTime:0.00} 秒");
+                    MainWindow.dSetOperatingState(1, $"验证成功 {msg}  |  耗时: {result.ExecTime:0.00} 秒");
                 }
                 else
                 {

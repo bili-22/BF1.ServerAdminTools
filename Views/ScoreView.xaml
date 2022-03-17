@@ -360,7 +360,7 @@
                                 Width="Auto"
                                 Binding="{Binding KD}"
                                 ElementStyle="{StaticResource CenterAlignmentStyle2}"
-                                Header="K/D"
+                                Header="KD"
                                 IsReadOnly="True" />
                             <DataGridTextColumn
                                 Width="Auto"
@@ -507,7 +507,7 @@
                                 Width="Auto"
                                 Binding="{Binding KD}"
                                 ElementStyle="{StaticResource CenterAlignmentStyle2}"
-                                Header="K/D"
+                                Header="KD"
                                 IsReadOnly="True" />
                             <DataGridTextColumn
                                 Width="Auto"

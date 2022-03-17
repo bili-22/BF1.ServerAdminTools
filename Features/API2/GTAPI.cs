@@ -133,7 +133,7 @@ namespace BF1.ServerAdminTools.Features.API2
                     .AddParameter("name", serverName)
                     .AddParameter("region", "all")
                     .AddParameter("platform", "pc")
-                    .AddParameter("limit", "20")
+                    .AddParameter("limit", "30")
                     .AddParameter("lang", "zh-tw");
 
                 var response = await client.ExecuteGetAsync(request);

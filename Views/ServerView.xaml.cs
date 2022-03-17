@@ -50,15 +50,23 @@ namespace BF1.ServerAdminTools.Views
 
                 var result = await GTAPI.GetServersData(ServerModel.ServerName);
 
+                ServerModel.LoadingVisibility = Visibility.Collapsed;
+
                 if (result.IsSuccess)
                 {
                     var servers = JsonUtil.JsonDese<Servers>(result.Message);
 
                     foreach (var item in servers.servers)
                     {
+                        item.mode = ChsUtil.ToSimplifiedChinese(item.mode);
+                        item.currentMap = ChsUtil.ToSimplifiedChinese(item.currentMap);
                         item.url = PlayerUtil.GetTempImagePath(item.url, "maps");
                         item.platform = new Random().Next(25, 45).ToString();
-                        ServersItems.Add(item);
+
+                        Dispatcher.Invoke(DispatcherPriority.Background, new Action(() =>
+                        {
+                            ServersItems.Add(item);
+                        }));
                     }
 
                     MainWindow.dSetOperatingState(1, $"服务器 {ServerModel.ServerName} 数据查询成功  |  耗时: {result.ExecTime:0.00} 秒");
@@ -67,8 +75,6 @@ namespace BF1.ServerAdminTools.Views
                 {
                     MainWindow.dSetOperatingState(3, $"服务器 {ServerModel.ServerName} 数据查询失败  |  耗时: {result.ExecTime:0.00} 秒");
                 }
-
-                ServerModel.LoadingVisibility = Visibility.Collapsed;
             }
             else
             {

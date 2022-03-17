@@ -24,7 +24,14 @@ namespace BF1.ServerAdminTools.Windows
         {
             MainWindow.dSetOperatingState(2, $"正在踢出玩家 {PlayerName} 中...");
 
-            var result = await BF1API.AdminKickPlayer(PersonaId, TextBox_CustomReason.Text);
+            var reason = TextBox_CustomReason.Text.Trim();
+
+            if (reason == "@Kick")
+            {
+                reason = "ADMINPRIORITY";
+            }
+
+            var result = await BF1API.AdminKickPlayer(PersonaId, reason);
 
             if (result.IsSuccess)
             {

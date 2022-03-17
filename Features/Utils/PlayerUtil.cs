@@ -1,4 +1,5 @@
 ﻿using BF1.ServerAdminTools.Features.Data;
+using Chinese;
 
 namespace BF1.ServerAdminTools.Features.Utils
 {
@@ -302,6 +303,14 @@ namespace BF1.ServerAdminTools.Features.Utils
                     return "强尼";
                 case 11:
                     return "国王";
+                case 12:
+                    return "伦敦";
+                case 13:
+                    return "猿猴";
+                case 14:
+                    return "疯子";
+                case 15:
+                    return "橘子";
                 default:
                     return squadID.ToString();
             }

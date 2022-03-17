@@ -107,9 +107,9 @@ namespace BF1.ServerAdminTools.Views
                         {
                             ListBox_Map.Items.Add(new Map()
                             {
-                                mapPrettyName = item.mapPrettyName,
                                 mapImage = PlayerUtil.GetTempImagePath(item.mapImage, "maps"),
-                                modePrettyName = item.modePrettyName
+                                mapPrettyName = ChsUtil.ToSimplifiedChinese(item.mapPrettyName),
+                                modePrettyName = ChsUtil.ToSimplifiedChinese(item.modePrettyName)
                             });
                         }
 
@@ -220,6 +220,9 @@ namespace BF1.ServerAdminTools.Views
                     MainWindow.dSetOperatingState(2, "PersistedGameId异常，请重新获取服务器详细信息");
                 }
             }
+
+            // 使ListBox能够相应重复点击
+            ListBox_Map.SelectedIndex = -1;
         }
 
         private async void Button_RemoveSelectedAdmin_Click(object sender, RoutedEventArgs e)

@@ -35,8 +35,6 @@ namespace BF1.ServerAdminTools.Windows
 
         private void Button_Cancel_Click(object sender, RoutedEventArgs e)
         {
-            AudioUtil.ClickSound();
-
             this.DialogResult = false;
             this.Close();
         }

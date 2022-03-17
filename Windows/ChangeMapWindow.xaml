@@ -22,8 +22,16 @@
         <Grid>
             <Image
                 VerticalAlignment="Center"
+                RenderTransformOrigin="0.5,0.5"
                 Source="{Binding MapImage}"
-                Stretch="UniformToFill" />
+                Stretch="UniformToFill">
+                <Image.Effect>
+                    <BlurEffect
+                        KernelType="Gaussian"
+                        Radius="20"
+                        RenderingBias="Quality" />
+                </Image.Effect>
+            </Image>
             <UniformGrid Rows="2">
                 <TextBlock
                     Margin="0,0,0,5"

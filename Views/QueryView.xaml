@@ -40,9 +40,9 @@
         <Grid Grid.Row="1">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="0.5*" />
+                    <ColumnDefinition Width="0.4*" />
                     <ColumnDefinition />
-                    <ColumnDefinition Width="0.7*" />
+                    <ColumnDefinition Width="0.6*" />
                 </Grid.ColumnDefinitions>
 
                 <DockPanel Grid.Column="0" LastChildFill="True">
@@ -137,10 +137,16 @@
                                             <TextBlock Margin="0,0,10,0" Text="{Binding kills}" />
                                             <TextBlock Text="KPM : " />
                                             <TextBlock Margin="0,0,10,0" Text="{Binding killsPerMinute}" />
-                                            <TextBlock Text="命中率 : " />
-                                            <TextBlock Margin="0,0,10,0" Text="{Binding accuracy}" />
+                                            <TextBlock Text="爆头数 : " />
+                                            <TextBlock Margin="0,0,10,0" Text="{Binding headshotKills}" />
                                             <TextBlock Text="爆头率 : " />
                                             <TextBlock Margin="0,0,10,0" Text="{Binding headshots}" />
+                                            <TextBlock Text="射击数 : " />
+                                            <TextBlock Margin="0,0,10,0" Text="{Binding shotsFired}" />
+                                            <TextBlock Text="命中数 : " />
+                                            <TextBlock Margin="0,0,10,0" Text="{Binding shotsHit}" />
+                                            <TextBlock Text="命中率 : " />
+                                            <TextBlock Margin="0,0,10,0" Text="{Binding accuracy}" />
                                             <TextBlock Text="效率 : " />
                                             <TextBlock Margin="0,0,10,0" Text="{Binding hitVKills}" />
                                             <TextBlock Text="时长 : " />

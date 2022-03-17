@@ -3,7 +3,6 @@ using BF1.ServerAdminTools.Common.Helper;
 using BF1.ServerAdminTools.Features.Chat;
 using BF1.ServerAdminTools.Features.Core;
 using BF1.ServerAdminTools.Features.Utils;
-using Chinese;
 
 namespace BF1.ServerAdminTools.Views
 {
@@ -117,7 +116,7 @@ namespace BF1.ServerAdminTools.Views
                         // 挂起战地1进程
                         WinAPI.NtSuspendProcess(Memory.GetHandle());
                         string msg = TextBox_InputMsg.Text.Trim();
-                        msg = ChineseConverter.ToTraditional(ChatHelper.ToDBC(msg));
+                        msg = ChsUtil.ToTraditionalChinese(ChatHelper.ToDBC(msg));
                         var length = PlayerUtil.GetStrLength(msg);
                         Memory.WriteStringUTF8(ChatMsg.GetAllocateMemoryAddress(), null, msg);
 
