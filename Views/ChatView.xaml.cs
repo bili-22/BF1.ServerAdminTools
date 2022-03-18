@@ -104,9 +104,17 @@ namespace BF1.ServerAdminTools.Views
 
             if (ChatMsg.GetAllocateMemoryAddress() != 0)
             {
+                Debug.Print(ChatMsg.GetAllocateMemoryAddress().ToString());
+
+                // 将窗口置顶
                 Memory.SetForegroundWindow();
                 Thread.Sleep(20);
 
+                // 如果聊天框开启，让他关闭
+                if (ChatMsg.GetChatIsOpen())
+                    ChatHelper.KeyPress(WinVK.RETURN);
+
+                // 模拟按键，开启聊天框
                 ChatHelper.KeyPress(WinVK.J);
 
                 if (ChatMsg.GetChatIsOpen())
@@ -114,7 +122,6 @@ namespace BF1.ServerAdminTools.Views
                     if (ChatMsg.ChatMessagePointer() != 0)
                     {
                         // 挂起战地1进程
-                        //WinAPI.NtSuspendProcess(Memory.GetHandle());
                         NtProc.SuspendProcess(Memory.GetProcessId());
 
                         string msg = TextBox_InputMsg.Text.Trim();
@@ -132,9 +139,7 @@ namespace BF1.ServerAdminTools.Views
                         Memory.Write<long>(endPtr, ChatMsg.GetAllocateMemoryAddress() + length);
 
                         // 恢复战地1进程
-                        //WinAPI.NtResumeProcess(Memory.GetHandle());
                         NtProc.ResumeProcess(Memory.GetProcessId());
-
                         ChatHelper.KeyPress(WinVK.RETURN);
 
                         // 循环等待游戏清除字符串
@@ -148,13 +153,10 @@ namespace BF1.ServerAdminTools.Views
                         }
 
                         // 挂起战地1进程
-                        //WinAPI.NtSuspendProcess(Memory.GetHandle());
                         NtProc.SuspendProcess(Memory.GetProcessId());
-
                         Memory.Write<long>(startPtr, oldStartPtr);
                         Memory.Write<long>(endPtr, oldEndPtr);
                         // 恢复战地1进程
-                        WinAPI.NtResumeProcess(Memory.GetHandle());
                         NtProc.ResumeProcess(Memory.GetProcessId());
 
                         MainWindow.dSetOperatingState(1, "发送文本到战地1聊天框成功");

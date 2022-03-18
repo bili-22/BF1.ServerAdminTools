@@ -5,7 +5,6 @@ using BF1.ServerAdminTools.Features.API;
 using BF1.ServerAdminTools.Features.API.RespJson;
 using BF1.ServerAdminTools.Features.API2;
 using BF1.ServerAdminTools.Features.API2.RespJson;
-using BF1.ServerAdminTools.Features.Utils;
 using ScottPlot;
 
 namespace BF1.ServerAdminTools.Views

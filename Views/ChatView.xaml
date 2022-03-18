@@ -98,6 +98,16 @@
                     Foreground="Green"
                     Text="说明：使用此功能前，游戏不能全屏和最小化，否则会无效果。并把输入法调成美式键盘（不能是中文输入法状态，否则会导致发生中文失败）"
                     TextWrapping="Wrap" />
+                <TextBlock
+                    Margin="5"
+                    Foreground="Red"
+                    Text="警告：输入法必须处于美式键盘状态才可以正常使用中文输入"
+                    TextWrapping="Wrap" />
+                <Image
+                    Height="100"
+                    Margin="5"
+                    HorizontalAlignment="Left"
+                    Source="/Assets/Images/Other/InputMethod.png" />
             </StackPanel>
             <!--  ################################  -->
             <StackPanel>

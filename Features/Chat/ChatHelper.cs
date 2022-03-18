@@ -38,12 +38,19 @@ namespace BF1.ServerAdminTools.Features.Chat
         // 发送中文到战地1聊天框
         public static void SendText2Bf1Game(string msg)
         {
+            // 如果内容为空，则跳过
             if (string.IsNullOrEmpty(msg))
                 return;
 
+            // 将窗口置顶
             Memory.SetForegroundWindow();
             Thread.Sleep(20);
 
+            // 如果聊天框开启，让他关闭
+            if (ChatMsg.GetChatIsOpen())
+                KeyPress(WinVK.RETURN);
+
+            // 模拟按键，开启聊天框
             KeyPress(WinVK.J);
 
             if (ChatMsg.GetChatIsOpen())
@@ -51,8 +58,9 @@ namespace BF1.ServerAdminTools.Features.Chat
                 if (ChatMsg.ChatMessagePointer() != 0)
                 {
                     // 挂起战地1进程
-                    WinAPI.NtSuspendProcess(Memory.GetHandle());
-                    msg = ChsUtil.ToTraditionalChinese(ToDBC(msg.Trim()));
+                    NtProc.SuspendProcess(Memory.GetProcessId());
+
+                    msg = ChsUtil.ToTraditionalChinese(ToDBC(msg).Trim());
                     var length = PlayerUtil.GetStrLength(msg);
                     Memory.WriteStringUTF8(ChatMsg.GetAllocateMemoryAddress(), null, msg);
 
@@ -66,24 +74,25 @@ namespace BF1.ServerAdminTools.Features.Chat
                     Memory.Write<long>(endPtr, ChatMsg.GetAllocateMemoryAddress() + length);
 
                     // 恢复战地1进程
-                    WinAPI.NtResumeProcess(Memory.GetHandle());
+                    NtProc.ResumeProcess(Memory.GetProcessId());
                     KeyPress(WinVK.RETURN);
 
+                    // 循环等待游戏清除字符串，不一定有效果
                     int count = 0;
                     while (count++ <= 10)
-                    { 
-                        // wait for 200ms max
-                        if (!Memory.Read<bool>(ChatMsg.GetAllocateMemoryAddress()))
+                    {
+                        // 最大等待 200ms
+                        if (Memory.Read<byte>(ChatMsg.GetAllocateMemoryAddress()) != 0)
                             break;
                         Thread.Sleep(20);
                     }
 
                     // 挂起战地1进程
-                    WinAPI.NtSuspendProcess(Memory.GetHandle());
+                    NtProc.SuspendProcess(Memory.GetProcessId());
                     Memory.Write<long>(startPtr, oldStartPtr);
                     Memory.Write<long>(endPtr, oldEndPtr);
                     // 恢复战地1进程
-                    WinAPI.NtResumeProcess(Memory.GetHandle());
+                    NtProc.ResumeProcess(Memory.GetProcessId());
                 }
             }
         }

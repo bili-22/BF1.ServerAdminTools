@@ -27,6 +27,7 @@
     <None Remove="Assets\Images\DLC\bf1_04.jpg" />
     <None Remove="Assets\Images\DLC\bf1_05.jpg" />
     <None Remove="Assets\Images\loading.gif" />
+    <None Remove="Assets\Images\Other\InputMethod.png" />
     <None Remove="Assets\Images\splash-bf1-launch.jpg" />
     <None Remove="Assets\Images\Temp\Classes2\Assault.png" />
     <None Remove="Assets\Images\Temp\Classes2\Cavalry.png" />
@@ -519,6 +520,7 @@
     <Resource Include="Assets\Images\afdian-logo.png" />
     <Resource Include="Assets\Images\Battlefield-1-256.png" />
     <Resource Include="Assets\Images\Battlefield-1-Favicon.ico" />
+    <Resource Include="Assets\Images\Other\InputMethod.png" />
     <Resource Include="Assets\Images\Other\Loading.gif" />
     <Resource Include="Assets\Images\Temp\Classes2\Assault.png" />
     <Resource Include="Assets\Images\Temp\Classes2\Cavalry.png" />

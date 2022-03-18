@@ -43,12 +43,6 @@
 
         [DllImport("user32.dll")]
         public static extern int SetForegroundWindow(IntPtr hwnd);
-
-        [DllImport("ntdll.dll")]
-        public static extern uint NtResumeProcess([In] IntPtr processHandle);
-
-        [DllImport("ntdll.dll")]
-        public static extern uint NtSuspendProcess([In] IntPtr processHandle);
     }
 
     // OpenProcess signture https://www.pinvoke.net/default.aspx/kernel32.openprocess

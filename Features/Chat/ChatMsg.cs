@@ -101,7 +101,7 @@ namespace BF1.ServerAdminTools.Features.Chat
         {
             // 单例原则
             if (AllocateMemoryAddress == IntPtr.Zero)
-                AllocateMemoryAddress = WinAPI.VirtualAllocEx(Memory.GetHandle(), IntPtr.Zero, (IntPtr)1024, AllocationType.Commit, MemoryProtection.ExecuteReadWrite);
+                AllocateMemoryAddress = WinAPI.VirtualAllocEx(Memory.GetHandle(), IntPtr.Zero, (IntPtr)0x300, AllocationType.Commit, MemoryProtection.ReadWrite);
 
             return AllocateMemoryAddress != IntPtr.Zero;
         }
