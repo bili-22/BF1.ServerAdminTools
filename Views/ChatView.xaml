@@ -104,10 +104,14 @@
                     Text="警告：输入法必须处于美式键盘状态才可以正常使用中文输入"
                     TextWrapping="Wrap" />
                 <Image
-                    Height="100"
+                    Height="150"
                     Margin="5"
                     HorizontalAlignment="Left"
-                    Source="/Assets/Images/Other/InputMethod.png" />
+                    Source="/Assets/Images/Other/InputMethod.png">
+                    <Image.ToolTip>
+                        <Image Source="/Assets/Images/Other/InputMethod.png" />
+                    </Image.ToolTip>
+                </Image>
             </StackPanel>
             <!--  ################################  -->
             <StackPanel>

@@ -95,10 +95,6 @@
                         Foreground="Green"
                         Text="说明：如果设置0则代表忽略该规则。假如设置玩家最大击杀数为50，那么玩家击杀数为51及以上则会被踢出，其他同理"
                         TextWrapping="Wrap" />
-                    <TextBlock
-                        Foreground="Green"
-                        Text="提示：无法踢出管理员和服主（即使用游戏内部的管理员菜单也无法踢出，这是游戏机制）"
-                        TextWrapping="Wrap" />
                     <TextBlock Foreground="Green" TextWrapping="Wrap">
                         提示：KD和KPM的最低击杀数，假如设置10，那么玩家击杀数到达11及以上才会计算设置的KD，避免错误踢出玩家。
                         如果没有设置最低击杀数，那么玩家可能开局摧毁一辆运兵车就会触发KD检测。如果要限制KD或者KPM，强烈建议设置最低击杀数
@@ -339,6 +335,11 @@
                     Margin="5"
                     Foreground="Green"
                     Text="提示：黑名单和白名单不能加队标"
+                    TextWrapping="Wrap" />
+                <TextBlock
+                    Margin="5"
+                    Foreground="Green"
+                    Text="提示：无法踢出管理员和服主（即使用游戏内部的管理员菜单也无法踢出，这是战地1游戏机制），自动踢人会跳过服主、管理员和白名单玩家，但是他们还是会在出现违规列表中，这样会有个提醒作用"
                     TextWrapping="Wrap" />
                 <!--  ################################  -->
 

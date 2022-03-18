@@ -142,15 +142,7 @@ namespace BF1.ServerAdminTools.Views
                         NtProc.ResumeProcess(Memory.GetProcessId());
                         ChatHelper.KeyPress(WinVK.RETURN);
 
-                        // 循环等待游戏清除字符串
-                        int count = 0;
-                        while (count++ <= 10)
-                        {
-                            // 最大等待 200ms
-                            if (!Memory.Read<bool>(ChatMsg.GetAllocateMemoryAddress()))
-                                break;
-                            Thread.Sleep(20);
-                        }
+                        Thread.Sleep(20);
 
                         // 挂起战地1进程
                         NtProc.SuspendProcess(Memory.GetProcessId());
