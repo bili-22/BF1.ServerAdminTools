@@ -104,8 +104,6 @@ namespace BF1.ServerAdminTools.Views
 
             if (ChatMsg.GetAllocateMemoryAddress() != 0)
             {
-                Debug.Print(ChatMsg.GetAllocateMemoryAddress().ToString());
-
                 // 将窗口置顶
                 Memory.SetForegroundWindow();
                 Thread.Sleep(20);

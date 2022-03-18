@@ -34,6 +34,9 @@ namespace BF1.ServerAdminTools.Views
             public string accountId { get; set; }
         }
 
+        private ServerDetails serverDetails = null;
+        private bool isGetServerDetailsOK = false;
+
         public DetailView()
         {
             InitializeComponent();
@@ -384,6 +387,164 @@ namespace BF1.ServerAdminTools.Views
                     PersonaId = item.PersonaId
                 });
             }
+        }
+
+        private async void Button_GetServerDetails_Click(object sender, RoutedEventArgs e)
+        {
+            AudioUtil.ClickSound();
+
+            if (!string.IsNullOrEmpty(Globals.SessionId))
+            {
+                if (!string.IsNullOrEmpty(Globals.ServerId))
+                {
+                    MainWindow.dSetOperatingState(2, $"正在获取服务器 {Globals.ServerId} 数据中...");
+
+                    var result = await BF1API.GetServerDetails();
+
+                    if (result.IsSuccess)
+                    {
+                        serverDetails = JsonUtil.JsonDese<ServerDetails>(result.Message);
+
+                        TextBox_ServerName.Text = serverDetails.result.serverSettings.name;
+                        TextBox_ServerDescription.Text = serverDetails.result.serverSettings.description;
+
+                        isGetServerDetailsOK = true;
+
+                        MainWindow.dSetOperatingState(1, $"获取服务器 {Globals.ServerId} 数据成功  |  耗时: {result.ExecTime:0.00} 秒");
+                    }
+                    else
+                    {
+                        MainWindow.dSetOperatingState(3, $"获取服务器 {Globals.ServerId} 数据失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
+                    }
+                }
+                else
+                {
+                    MainWindow.dSetOperatingState(2, "请先进入服务器获取ServerID");
+                }
+            }
+            else
+            {
+                MainWindow.dSetOperatingState(2, "请先获取玩家SessionID");
+            }
+        }
+
+        private void Button_SetServerDetails2Traditional_Click(object sender, RoutedEventArgs e)
+        {
+            AudioUtil.ClickSound();
+
+            var serverDescription = TextBox_ServerDescription.Text.Trim();
+
+            if (string.IsNullOrEmpty(serverDescription))
+            {
+                MainWindow.dSetOperatingState(2, $"服务器描述不能为空");
+                return;
+            }
+
+            TextBox_ServerDescription.Text = ChsUtil.ToTraditionalChinese(serverDescription);
+
+            MainWindow.dSetOperatingState(1, $"转换服务器描述文本为繁体中文成功");
+        }
+
+        private async void Button_UpdateServer_Click(object sender, RoutedEventArgs e)
+        {
+            AudioUtil.ClickSound();
+
+            if (!isGetServerDetailsOK)
+            {
+                MainWindow.dSetOperatingState(2, $"请先获取服务器信息后，再执行本操作");
+                return;
+            }
+
+            var serverName = TextBox_ServerName.Text.Trim();
+            var serverDescription = TextBox_ServerDescription.Text.Trim();
+
+            if (string.IsNullOrEmpty(serverName))
+            {
+                MainWindow.dSetOperatingState(2, $"服务器名称不能为空");
+                return;
+            }
+
+            if (!string.IsNullOrEmpty(Globals.SessionId))
+            {
+                if (!string.IsNullOrEmpty(Globals.ServerId))
+                {
+                    MainWindow.dSetOperatingState(2, $"正在更新服务器 {Globals.ServerId} 数据中...");
+
+                    UpdateServerReqBody reqBody = new UpdateServerReqBody();
+                    reqBody.jsonrpc = "2.0";
+                    reqBody.method = "RSP.updateServer";
+
+                    var tempParams = new UpdateServerReqBody.Params();
+
+                    tempParams.deviceIdMap = new UpdateServerReqBody.Params.DeviceIdMap()
+                    {
+                        machash = Guid.NewGuid().ToString()
+                    };
+                    tempParams.game = "tunguska";
+                    tempParams.serverId = Globals.ServerId;
+                    tempParams.bannerSettings = new UpdateServerReqBody.Params.BannerSettings()
+                    {
+                        bannerUrl = "",
+                        clearBanner = true
+                    };
+
+                    var tempMapRotation = new UpdateServerReqBody.Params.MapRotation();
+                    var temp = serverDetails.result.mapRotations[0];
+                    var tempMaps = new List<UpdateServerReqBody.Params.MapRotation.MapsItem>();
+                    foreach (var item in temp.maps)
+                    {
+                        tempMaps.Add(new UpdateServerReqBody.Params.MapRotation.MapsItem()
+                        {
+                            gameMode = item.gameMode,
+                            mapName = item.mapName
+                        });
+                    }
+                    tempMapRotation.maps = tempMaps;
+                    tempMapRotation.rotationType = temp.rotationType;
+                    tempMapRotation.mod = temp.mod;
+                    tempMapRotation.name = temp.name;
+                    tempMapRotation.description = temp.description;
+                    tempMapRotation.id = "100";
+
+                    tempParams.mapRotation = tempMapRotation;
+
+                    tempParams.serverSettings = new UpdateServerReqBody.Params.ServerSettings()
+                    {
+                        name = serverName,
+                        description = serverDescription,
+
+                        message = serverDetails.result.serverSettings.message,
+                        password = serverDetails.result.serverSettings.password,
+                        bannerUrl = serverDetails.result.serverSettings.bannerUrl,
+                        mapRotationId = serverDetails.result.serverSettings.mapRotationId,
+                        customGameSettings = serverDetails.result.serverSettings.customGameSettings
+                    };
+
+                    reqBody.@params = tempParams;
+                    reqBody.id = Guid.NewGuid().ToString();
+
+                    var result = await BF1API.UpdateServer(reqBody);
+
+                    if (result.IsSuccess)
+                    {
+                        MainWindow.dSetOperatingState(1, $"更新服务器 {Globals.ServerId} 数据成功  |  耗时: {result.ExecTime:0.00} 秒");
+                    }
+                    else
+                    {
+                        MainWindow.dSetOperatingState(3, $"更新服务器 {Globals.ServerId} 数据失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
+                    }
+                }
+                else
+                {
+                    MainWindow.dSetOperatingState(2, "请先进入服务器获取ServerID");
+                }
+            }
+            else
+            {
+                MainWindow.dSetOperatingState(2, "请先获取玩家SessionID");
+            }
+
+            isGetServerDetailsOK = false;
         }
     }
 }

@@ -721,5 +721,105 @@ namespace BF1.ServerAdminTools.Features.API
 
             return respContent;
         }
+
+        /// <summary>
+        /// 获取服务器RSP信息
+        /// </summary>
+        public static async Task<RespContent> GetServerDetails()
+        {
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+
+            RespContent respContent = new RespContent();
+
+            try
+            {
+                headers["X-GatewaySession"] = Globals.SessionId;
+                respContent.IsSuccess = false;
+
+                var reqBody = new
+                {
+                    jsonrpc = "2.0",
+                    method = "RSP.getServerDetails",
+                    @params = new
+                    {
+                        game = "tunguska",
+                        serverId = Globals.ServerId
+                    },
+                    id = Guid.NewGuid()
+                };
+
+                var request = new RestRequest()
+                    .AddHeaders(headers)
+                    .AddJsonBody(reqBody);
+
+                var response = await client.ExecutePostAsync(request);
+
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    respContent.IsSuccess = true;
+                    respContent.Message = response.Content;
+                }
+                else
+                {
+                    var respError = JsonUtil.JsonDese<RespError>(response.Content);
+
+                    respContent.Message = $"{respError.error.code} {respError.error.message}";
+                }
+            }
+            catch (Exception ex)
+            {
+                respContent.Message = ex.Message;
+            }
+
+            sw.Stop();
+            respContent.ExecTime = sw.Elapsed.TotalSeconds;
+
+            return respContent;
+        }
+
+        /// <summary>
+        /// 更新服务器信息
+        /// </summary>
+        public static async Task<RespContent> UpdateServer(UpdateServerReqBody reqBody)
+        {
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+
+            RespContent respContent = new RespContent();
+
+            try
+            {
+                headers["X-GatewaySession"] = Globals.SessionId;
+                respContent.IsSuccess = false;
+
+                var request = new RestRequest()
+                    .AddHeaders(headers)
+                    .AddJsonBody(reqBody);
+
+                var response = await client.ExecutePostAsync(request);
+
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    respContent.IsSuccess = true;
+                    respContent.Message = response.Content;
+                }
+                else
+                {
+                    var respError = JsonUtil.JsonDese<RespError>(response.Content);
+
+                    respContent.Message = $"{respError.error.code} {respError.error.message}";
+                }
+            }
+            catch (Exception ex)
+            {
+                respContent.Message = ex.Message;
+            }
+
+            sw.Stop();
+            respContent.ExecTime = sw.Elapsed.TotalSeconds;
+
+            return respContent;
+        }
     }
 }
