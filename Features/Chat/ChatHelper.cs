@@ -6,12 +6,18 @@ namespace BF1.ServerAdminTools.Features.Chat
 {
     public class ChatHelper
     {
-        public static void KeyPress(WinVK winVK)
+        /// <summary>
+        /// 按键间隔延迟，单位：毫秒
+        /// </summary>
+        public static int KeyPressDelay = 20;
+
+        public static void KeyPress(WinVK winVK, int delay)
         {
+            Thread.Sleep(delay);
             WinAPI.Keybd_Event(winVK, WinAPI.MapVirtualKey(winVK, 0), 0, 0);
-            Thread.Sleep(20);
+            Thread.Sleep(delay);
             WinAPI.Keybd_Event(winVK, WinAPI.MapVirtualKey(winVK, 0), 2, 0);
-            Thread.Sleep(20);
+            Thread.Sleep(delay);
         }
 
         public static string ToDBC(string input)
@@ -44,14 +50,13 @@ namespace BF1.ServerAdminTools.Features.Chat
 
             // 将窗口置顶
             Memory.SetForegroundWindow();
-            Thread.Sleep(20);
 
             // 如果聊天框开启，让他关闭
             if (ChatMsg.GetChatIsOpen())
-                KeyPress(WinVK.RETURN);
+                KeyPress(WinVK.RETURN, KeyPressDelay);
 
             // 模拟按键，开启聊天框
-            KeyPress(WinVK.J);
+            KeyPress(WinVK.J, KeyPressDelay);
 
             if (ChatMsg.GetChatIsOpen())
             {
@@ -75,9 +80,7 @@ namespace BF1.ServerAdminTools.Features.Chat
 
                     // 恢复战地1进程
                     NtProc.ResumeProcess(Memory.GetProcessId());
-                    KeyPress(WinVK.RETURN);
-
-                    Thread.Sleep(20);
+                    KeyPress(WinVK.RETURN, KeyPressDelay);
 
                     // 挂起战地1进程
                     NtProc.SuspendProcess(Memory.GetProcessId());

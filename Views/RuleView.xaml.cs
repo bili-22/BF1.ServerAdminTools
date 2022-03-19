@@ -86,6 +86,11 @@ namespace BF1.ServerAdminTools.Views
                 }
             }
 
+            if (ListBox_BreakWeaponInfo.Items.Count != 0)
+            {
+                ListBox_BreakWeaponInfo.SelectedIndex = 0;
+            }
+
             if (File.Exists(FileUtil.F_BlackList_Path))
             {
                 using (StreamReader file = new StreamReader(FileUtil.F_BlackList_Path, Encoding.Default))
@@ -343,7 +348,7 @@ namespace BF1.ServerAdminTools.Views
                 ListBox_BreakWeaponInfo.Items.RemoveAt(ListBox_BreakWeaponInfo.SelectedIndex);
 
                 int count = ListBox_BreakWeaponInfo.Items.Count;
-                if (count != 1)
+                if (count != 0)
                 {
                     ListBox_BreakWeaponInfo.SelectedIndex = count - 1;
                 }

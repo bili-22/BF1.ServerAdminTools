@@ -96,6 +96,8 @@ namespace BF1.ServerAdminTools.Views
         {
             AudioUtil.ClickSound();
 
+            ChatHelper.KeyPressDelay = (int)Slider_KeyPressDelay.Value;
+
             if (string.IsNullOrEmpty(TextBox_InputMsg.Text.Trim()))
             {
                 MainWindow.dSetOperatingState(2, "聊天框内容为空，操作取消");
@@ -106,14 +108,13 @@ namespace BF1.ServerAdminTools.Views
             {
                 // 将窗口置顶
                 Memory.SetForegroundWindow();
-                Thread.Sleep(20);
 
                 // 如果聊天框开启，让他关闭
                 if (ChatMsg.GetChatIsOpen())
-                    ChatHelper.KeyPress(WinVK.RETURN);
+                    ChatHelper.KeyPress(WinVK.RETURN, ChatHelper.KeyPressDelay);
 
                 // 模拟按键，开启聊天框
-                ChatHelper.KeyPress(WinVK.J);
+                ChatHelper.KeyPress(WinVK.J, ChatHelper.KeyPressDelay);
 
                 if (ChatMsg.GetChatIsOpen())
                 {
@@ -138,9 +139,7 @@ namespace BF1.ServerAdminTools.Views
 
                         // 恢复战地1进程
                         NtProc.ResumeProcess(Memory.GetProcessId());
-                        ChatHelper.KeyPress(WinVK.RETURN);
-
-                        Thread.Sleep(20);
+                        ChatHelper.KeyPress(WinVK.RETURN, ChatHelper.KeyPressDelay);
 
                         // 挂起战地1进程
                         NtProc.SuspendProcess(Memory.GetProcessId());
@@ -176,8 +175,6 @@ namespace BF1.ServerAdminTools.Views
 
         private void RadioButton_DefaultText0_Click(object sender, RoutedEventArgs e)
         {
-            AudioUtil.ClickSound();
-
             TextBox_InputMsg.Text = defaultMsg[RadioButtonWhoIsChecked()];
         }
 
@@ -251,6 +248,8 @@ namespace BF1.ServerAdminTools.Views
 
                 if (CheckBox_DefaultText9 != null && CheckBox_DefaultText9.IsChecked == true)
                     queueMsg.Add(defaultMsg[9]);
+
+                ChatHelper.KeyPressDelay = (int)Slider_KeyPressDelay.Value;
 
                 queueMsgSleep = (int)Slider_AutoSendMsgSleep.Value;
 
