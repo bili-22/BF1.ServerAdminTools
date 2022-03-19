@@ -2,8 +2,9 @@
 using BF1.ServerAdminTools.Common.Data;
 using BF1.ServerAdminTools.Common.Utils;
 using BF1.ServerAdminTools.Common.Helper;
-using BF1.ServerAdminTools.Features.Chat;
 using BF1.ServerAdminTools.Features.Core;
+using BF1.ServerAdminTools.Features.Chat;
+using BF1.ServerAdminTools.Views;
 
 namespace BF1.ServerAdminTools
 {
@@ -103,8 +104,12 @@ namespace BF1.ServerAdminTools
             // 关闭事件
             ClosingDisposeEvent();
 
-            // 读取SessionId
+            // 写入SessionId
             IniHelper.WriteString("Globals", "SessionId", Globals.SessionId, FileUtil.F_Settings_Path);
+            // 写入Remid
+            IniHelper.WriteString("Globals", "Remid", Globals.Remid, FileUtil.F_Settings_Path);
+            // 写入Sid
+            IniHelper.WriteString("Globals", "Sid", Globals.Sid, FileUtil.F_Settings_Path);
 
             SQLiteHelper.CloseConnection();
 
@@ -116,8 +121,15 @@ namespace BF1.ServerAdminTools
 
         private void InitThread()
         {
-            // 写入SessionId
+            // 读取SessionId
             Globals.SessionId = IniHelper.ReadString("Globals", "SessionId", "", FileUtil.F_Settings_Path);
+            // 读取Remid
+            Globals.Remid = IniHelper.ReadString("Globals", "Remid", "", FileUtil.F_Settings_Path);
+            // 读取Sid
+            Globals.Sid = IniHelper.ReadString("Globals", "Sid", "", FileUtil.F_Settings_Path);
+
+            // 调用加载更新
+            AuthView.dAutoRefreshSID();
         }
 
         private void UpdateState()

@@ -26,6 +26,7 @@
                     Margin="5,0,5,0"
                     Padding="5"
                     InputLanguageManager.InputLanguage="zh-CN"
+                    InputLanguageManager.RestoreInputLanguage="True"
                     Text="战地1中文输入测试，最大30个汉字"
                     TextChanged="TextBox_InputMsg_TextChanged"
                     TextWrapping="Wrap" />

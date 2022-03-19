@@ -51,36 +51,67 @@ namespace BF1.ServerAdminTools.Windows
             deferral.Complete();
         }
 
-        private async void Button_GetLastSessionID_Click(object sender, RoutedEventArgs e)
+        private async void Button_GetPlayerAccountInfo_Click(object sender, RoutedEventArgs e)
         {
-            var session = await WebView2.CoreWebView2.ExecuteScriptAsync("localStorage.gatewaySessionId");
-
-            if (!string.IsNullOrEmpty(session) && session != "null")
+            // 获取remid、sid、sessionId
+            var cookies = await WebView2.CoreWebView2.CookieManager.GetCookiesAsync(null);
+            if (cookies != null && cookies.Count >= 3)
             {
-                session = session.Replace('\"', ' ').Trim();
-                Globals.SessionId = session;
+                foreach (var item in cookies)
+                {
+                    if (item.Name == "remid")
+                    {
+                        if (!string.IsNullOrEmpty(item.Value))
+                            Globals.Remid = item.Value;
+                        continue;
+                    }
 
-                if (MessageBox.Show($"成功获取到玩家SessionID\n\n{session}\n\n是否现在就关闭此窗口？", "提示", MessageBoxButton.YesNo, MessageBoxImage.Information) == MessageBoxResult.Yes)
+                    if (item.Name == "sid")
+                    {
+                        if (!string.IsNullOrEmpty(item.Value))
+                            Globals.Sid = item.Value;
+                        continue;
+                    }
+
+                    if (item.Name == "gatewaySessionId")
+                    {
+                        if (!string.IsNullOrEmpty(item.Value))
+                            Globals.SessionId = item.Value;
+                        continue;
+                    }
+                }
+
+                if (MessageBox.Show($"成功获取到 玩家账号信息\n\n" +
+                    $"remid\n{Globals.Remid}\n\n" +
+                    $"sid\n{Globals.Sid}\n\n" +
+                    $"sessionId\n{Globals.SessionId}\n\n" +
+                    $"是否现在就关闭此窗口？",
+                    "提示", MessageBoxButton.YesNo, MessageBoxImage.Information) == MessageBoxResult.Yes)
                 {
                     this.Close();
                 }
             }
             else
             {
-                MsgBoxUtil.ErrorMsgBox("获取玩家SessionID失败，请重新登录网页后再次尝试");
+                MsgBoxUtil.ErrorMsgBox("获取 玩家账号信息 失败，请重新登录网页后再次尝试");
             }
         }
 
         private async void Button_ClearCache_Click(object sender, RoutedEventArgs e)
         {
-            if (MessageBox.Show("你确认要清空本地缓存吗，这一般会在SessionID失效的情况下使用，你可能需要重新登录小帮手", "警告",
+            if (MessageBox.Show("你确认要清空本地缓存吗，这一般会在 玩家账号信息 失效的情况下使用，你可能需要重新登录小帮手", "警告",
                 MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
             {
                 await WebView2.CoreWebView2.ExecuteScriptAsync("localStorage.clear()");
-
                 WebView2.CoreWebView2.CookieManager.DeleteAllCookies();
+
                 WebView2.Reload();
             }
+        }
+
+        private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
+        {
+            WebView2.CoreWebView2.Navigate(e.Uri.OriginalString);
         }
     }
 }

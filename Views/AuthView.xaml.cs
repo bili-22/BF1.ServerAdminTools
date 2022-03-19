@@ -1,11 +1,13 @@
 ﻿using BF1.ServerAdminTools.Windows;
 using BF1.ServerAdminTools.Common.Data;
 using BF1.ServerAdminTools.Common.Utils;
+using BF1.ServerAdminTools.Common.Helper;
 using BF1.ServerAdminTools.Features.API;
 using BF1.ServerAdminTools.Features.API.RespJson;
 using BF1.ServerAdminTools.Features.API2;
 using BF1.ServerAdminTools.Features.API2.RespJson;
 using ScottPlot;
+using RestSharp;
 
 namespace BF1.ServerAdminTools.Views
 {
@@ -15,6 +17,9 @@ namespace BF1.ServerAdminTools.Views
     public partial class AuthView : UserControl
     {
         private WebView2Window WebView2Window = null;
+
+        public delegate void AutoRefreshSID();
+        public static AutoRefreshSID dAutoRefreshSID;
 
         public AuthView()
         {
@@ -33,11 +38,71 @@ namespace BF1.ServerAdminTools.Views
 
             WpfPlot_Main1.RightClicked += DeployCustomMenu1;
             WpfPlot_Main2.RightClicked += DeployCustomMenu2;
+
+            var timerAutoRefresh = new Timer();
+            timerAutoRefresh.AutoReset = true;
+            timerAutoRefresh.Interval = 43200000;
+            timerAutoRefresh.Elapsed += TimerAutoRefresh_Elapsed;
+            timerAutoRefresh.Start();
+
+            dAutoRefreshSID = AutoRefresh;
         }
 
         private void MainWindow_ClosingDisposeEvent()
         {
             WebView2Window?.Close();
+        }
+
+        private void AutoRefresh()
+        {
+            TimerAutoRefresh_Elapsed(null, null);
+        }
+
+        private async void TimerAutoRefresh_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(Globals.Remid))
+                {
+                    var str = "https://accounts.ea.com/connect/auth?response_type=code&locale=zh_CN&client_id=sparta-backend-as-user-pc";
+                    var options = new RestClientOptions(str)
+                    {
+                        Timeout = 5000,
+                        FollowRedirects = false
+                    };
+
+                    var client = new RestClient(options);
+                    var request = new RestRequest()
+                        .AddHeader("Cookie", $"remid={Globals.Remid}");
+
+                    var response = await client.ExecuteGetAsync(request);
+                    if (response.StatusCode == HttpStatusCode.Redirect)
+                    {
+                        string code = response.Headers.ToList()
+                            .Find(x => x.Name == "Location")
+                            .Value.ToString();
+
+                        if (code.Contains("http://127.0.0.1/success?code="))
+                        {
+                            Globals.Remid = response.Cookies[0].Value;
+                            Globals.Sid = response.Cookies[1].Value;
+
+                            IniHelper.WriteString("Globals", "Remid", Globals.Remid, FileUtil.F_Settings_Path);
+                            IniHelper.WriteString("Globals", "Sid", Globals.Sid, FileUtil.F_Settings_Path);
+
+                            code = code.Replace("http://127.0.0.1/success?code=", "");
+                            var result = await BF1API.GetEnvIdViaAuthCode(code);
+
+                            if (result.IsSuccess)
+                            {
+                                var envIdViaAuthCode = JsonUtil.JsonDese<EnvIdViaAuthCode>(result.Message);
+                                Globals.SessionId = envIdViaAuthCode.result.sessionId;
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception) { }
         }
 
         private void Button_GetPlayerSessionID_Click(object sender, RoutedEventArgs e)
@@ -74,14 +139,97 @@ namespace BF1.ServerAdminTools.Views
             }
         }
 
-        private async void Button_VerifyPlayerKey_Click(object sender, RoutedEventArgs e)
+        private async void Button_RefreshPlayerSessionId_Click(object sender, RoutedEventArgs e)
+        {
+            AudioUtil.ClickSound();
+
+            if (!string.IsNullOrEmpty(Globals.Remid))
+            {
+                TextBlock_CheckSessionIdStatus.Text = "正在获取Code中，请等待...";
+                TextBlock_CheckSessionIdStatus.Background = Brushes.Gray;
+                MainWindow.dSetOperatingState(2, "正在获取Code中，请等待...");
+
+                var str = "https://accounts.ea.com/connect/auth?response_type=code&locale=zh_CN&client_id=sparta-backend-as-user-pc";
+                var options = new RestClientOptions(str)
+                {
+                    Timeout = 5000,
+                    FollowRedirects = false
+                };
+
+                var client = new RestClient(options);
+                var request = new RestRequest()
+                    .AddHeader("Cookie", $"remid={Globals.Remid}");
+
+                var response = await client.ExecuteGetAsync(request);
+                if (response.StatusCode == HttpStatusCode.Redirect)
+                {
+                    string code = response.Headers.ToList()
+                        .Find(x => x.Name == "Location")
+                        .Value.ToString();
+
+                    if (code.Contains("http://127.0.0.1/success?code="))
+                    {
+                        TextBlock_CheckSessionIdStatus.Text = "正在刷新SessionID中，请等待...";
+                        TextBlock_CheckSessionIdStatus.Background = Brushes.Gray;
+                        MainWindow.dSetOperatingState(2, "正在刷新SessionID中，请等待...");
+
+                        Globals.Remid = response.Cookies[0].Value;
+                        Globals.Sid = response.Cookies[1].Value;
+
+                        IniHelper.WriteString("Globals", "Remid", Globals.Remid, FileUtil.F_Settings_Path);
+                        IniHelper.WriteString("Globals", "Sid", Globals.Sid, FileUtil.F_Settings_Path);
+
+                        code = code.Replace("http://127.0.0.1/success?code=", "");
+                        var result = await BF1API.GetEnvIdViaAuthCode(code);
+
+                        if (result.IsSuccess)
+                        {
+                            var envIdViaAuthCode = JsonUtil.JsonDese<EnvIdViaAuthCode>(result.Message);
+                            Globals.SessionId = envIdViaAuthCode.result.sessionId;
+
+                            TextBlock_CheckSessionIdStatus.Text = "刷新SessionID成功";
+                            TextBlock_CheckSessionIdStatus.Background = Brushes.Green;
+
+                            MainWindow.dSetOperatingState(1, $"刷新SessionID成功  |  耗时: {result.ExecTime:0.00} 秒");
+                        }
+                        else
+                        {
+                            TextBlock_CheckSessionIdStatus.Text = "刷新SessionID失败";
+                            TextBlock_CheckSessionIdStatus.Background = Brushes.Red;
+
+                            MainWindow.dSetOperatingState(3, $"刷新SessionID失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
+                        }
+                    }
+                    else
+                    {
+                        TextBlock_CheckSessionIdStatus.Text = "获取Code失败";
+                        TextBlock_CheckSessionIdStatus.Background = Brushes.Red;
+
+                        MainWindow.dSetOperatingState(3, "获取Code失败，请检查操作");
+                    }
+                }
+                else
+                {
+                    TextBlock_CheckSessionIdStatus.Text = "获取Code失败";
+                    TextBlock_CheckSessionIdStatus.Background = Brushes.Red;
+
+                    MainWindow.dSetOperatingState(3, "获取Code失败，请检查操作");
+                }
+            }
+            else
+            {
+                MainWindow.dSetOperatingState(2, "请先获取玩家Remid后，再执行本操作");
+            }
+        }
+
+        private async void Button_VerifyPlayerSessionId_Click(object sender, RoutedEventArgs e)
         {
             AudioUtil.ClickSound();
 
             if (!string.IsNullOrEmpty(Globals.SessionId))
             {
-                TextBlock_CheckSessionStatus.Text = "正在验证中，请等待...";
-                TextBlock_CheckSessionStatus.Background = Brushes.Gray;
+                TextBlock_CheckSessionIdStatus.Text = "正在验证中，请等待...";
+                TextBlock_CheckSessionIdStatus.Background = Brushes.Gray;
                 MainWindow.dSetOperatingState(2, "正在验证中，请等待...");
 
                 await BF1API.SetAPILocale();
@@ -93,15 +241,15 @@ namespace BF1.ServerAdminTools.Views
 
                     var msg = ChsUtil.ToSimplifiedChinese(welcomeMsg.result.firstMessage);
 
-                    TextBlock_CheckSessionStatus.Text = msg;
-                    TextBlock_CheckSessionStatus.Background = Brushes.Green;
+                    TextBlock_CheckSessionIdStatus.Text = msg;
+                    TextBlock_CheckSessionIdStatus.Background = Brushes.Green;
 
                     MainWindow.dSetOperatingState(1, $"验证成功 {msg}  |  耗时: {result.ExecTime:0.00} 秒");
                 }
                 else
                 {
-                    TextBlock_CheckSessionStatus.Text = "验证失败";
-                    TextBlock_CheckSessionStatus.Background = Brushes.Red;
+                    TextBlock_CheckSessionIdStatus.Text = "验证失败";
+                    TextBlock_CheckSessionIdStatus.Background = Brushes.Red;
 
                     MainWindow.dSetOperatingState(3, $"验证失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
                 }

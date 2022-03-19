@@ -6,7 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:wv2="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
     Name="Window_WebView2"
-    Title="获取玩家SessionID工具"
+    Title="获取玩家账号信息工具"
     Width="450"
     Height="800"
     Closing="Window_WebView2_Closing"
@@ -18,11 +18,11 @@
         <DockPanel LastChildFill="True">
             <UniformGrid Columns="2" DockPanel.Dock="Bottom">
                 <Button
-                    x:Name="Button_GetLastSessionID"
+                    x:Name="Button_GetPlayerAccountInfo"
                     Margin="5,5,2.5,5"
                     Padding="10"
-                    Click="Button_GetLastSessionID_Click"
-                    Content="获取最新SessionID"
+                    Click="Button_GetPlayerAccountInfo_Click"
+                    Content="获取玩家账号信息"
                     Foreground="Green" />
                 <Button
                     x:Name="Button_ClearCache"
@@ -31,6 +31,22 @@
                     Click="Button_ClearCache_Click"
                     Content="清空缓存"
                     Foreground="Red" />
+            </UniformGrid>
+            <UniformGrid Columns="2" DockPanel.Dock="Bottom">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Margin="5,5,5,0">
+                        <Hyperlink NavigateUri="https://companion-api.battlefield.com/companion/home" RequestNavigate="Hyperlink_RequestNavigate">
+                            战地1小帮手
+                        </Hyperlink>
+                    </TextBlock>
+                </StackPanel>
+                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                    <TextBlock Margin="5,5,5,0">
+                        <Hyperlink NavigateUri="https://accounts.ea.com/connect/auth?response_type=code&amp;locale=zh_CN&amp;client_id=sparta-backend-as-user-pc" RequestNavigate="Hyperlink_RequestNavigate">
+                            解决获取数据不完整
+                        </Hyperlink>
+                    </TextBlock>
+                </StackPanel>
             </UniformGrid>
             <wv2:WebView2 x:Name="WebView2" DockPanel.Dock="Top" />
         </DockPanel>

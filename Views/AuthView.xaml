@@ -32,18 +32,23 @@
             <TextBlock
                 Margin="5"
                 Foreground="Green"
-                Text="提示：然后点击下面按钮，登录战地小帮手网页，然后点击获取SessionID，提示成功获取到后即可关闭获取窗口"
+                Text="提示：然后点击下面按钮，登录战地小帮手网页，然后点击获取玩家账号信息，提示成功获取到后即可关闭获取窗口"
+                TextWrapping="Wrap" />
+            <TextBlock
+                Margin="5"
+                Foreground="Red"
+                Text="警告：除非需要更换账号，否则此功只需要使用一次"
                 TextWrapping="Wrap" />
             <Button
                 x:Name="Button_GetPlayerSessionID"
                 Margin="5"
                 Padding="10"
                 Click="Button_GetPlayerSessionID_Click"
-                Content="获取玩家SessionID" />
+                Content="获取玩家账号信息（仅第一次使用需要）" />
             <!--  ################################  -->
             <TextBlock Style="{StaticResource TextBlockTitleStyle}" Text="第二步" />
             <TextBlock
-                x:Name="TextBlock_CheckSessionStatus"
+                x:Name="TextBlock_CheckSessionIdStatus"
                 Margin="5"
                 Padding="5,30,5,30"
                 Background="Orange"
@@ -51,30 +56,31 @@
                 Foreground="White"
                 Text="等待玩家操作"
                 TextAlignment="Center" />
-            <TextBlock Margin="5" Text="获取玩家SessionID成功后，点击下面按钮验证SessionID有效性" />
+            <TextBlock Margin="5" Text="获取玩家账号信息成功后，点击下面按钮验证SessionID有效性" />
             <TextBlock
                 Margin="5"
                 Foreground="Green"
                 Text="提示：如果验证成功，会提示玩家的ID和欢迎语，否则请检查操作"
                 TextWrapping="Wrap" />
+            <TextBlock
+                Margin="5"
+                Foreground="Green"
+                Text="提示：如果SessionID过期，点击刷新玩家SessionID即可。SessionID的有效期是24小时"
+                TextWrapping="Wrap" />
             <Button
-                x:Name="Button_VerifyPlayerKey"
+                x:Name="Button_RefreshPlayerSessionId"
                 Margin="5"
                 Padding="10"
-                Click="Button_VerifyPlayerKey_Click"
+                Click="Button_RefreshPlayerSessionId_Click"
+                Content="刷新玩家SessionID"
+                Foreground="Red" />
+            <Button
+                x:Name="Button_VerifyPlayerSessionId"
+                Margin="5"
+                Padding="10"
+                Click="Button_VerifyPlayerSessionId_Click"
                 Content="验证玩家SessionID有效性" />
             <!--  ################################  -->
-            <TextBlock Style="{StaticResource TextBlockTitleStyle}" Text="提示" />
-            <TextBlock
-                Margin="5"
-                Foreground="Green"
-                Text="提示：如果SessionID过期需要重新获取的时候，打开下面的网页，等待网页完全加载出来了再点击获取，否则SessionID还可能是过期状态"
-                TextWrapping="Wrap" />
-            <TextBlock
-                Margin="5"
-                Foreground="Green"
-                Text="提示：SessionID的有效期貌似是24小时"
-                TextWrapping="Wrap" />
             <TextBlock />
             <TextBlock
                 Margin="5"
