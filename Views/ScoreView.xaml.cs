@@ -23,13 +23,19 @@ namespace BF1.ServerAdminTools.Views
         private List<PlayerData> PlayerList_Team1 = new List<PlayerData>();
         private List<PlayerData> PlayerList_Team2 = new List<PlayerData>();
 
+        public static List<PlayerData> PlayerDatas_Team1 = new List<PlayerData>();
+        public static List<PlayerData> PlayerDatas_Team2 = new List<PlayerData>();
+
+        // 正在执行踢人请求的玩家列表，保留指定时间秒数
+        private List<BreakRuleInfo> Kicking_PlayerList = new List<BreakRuleInfo>();
+
         private ObservableCollection<PlayerListModel> DataGrid_PlayerList_Team1 { get; set; }
         private ObservableCollection<PlayerListModel> DataGrid_PlayerList_Team2 { get; set; }
 
         private const int MaxPlayer = 74;
 
-        private TempData.ClientPlayer tdCP;
-        private TempData.ClientSoldierEntity tdCSE;
+        private TempData.ClientPlayer _tdCP;
+        private TempData.ClientSoldierEntity _tdCSE;
 
         private struct ClientPlayer
         {
@@ -41,7 +47,7 @@ namespace BF1.ServerAdminTools.Views
             public long PersonaId;
             public string PlayerName;
         }
-        private ClientPlayer localPlayer;
+        private ClientPlayer _localPlayer;
 
         private struct StatisticData
         {
@@ -52,8 +58,8 @@ namespace BF1.ServerAdminTools.Views
             public int AllKillCount;
             public int AllDeadCount;
         }
-        private StatisticData statisticData_Team1;
-        private StatisticData statisticData_Team2;
+        private StatisticData _statisticData_Team1;
+        private StatisticData _statisticData_Team2;
 
         private struct ServerInfo
         {
@@ -72,7 +78,7 @@ namespace BF1.ServerAdminTools.Views
             public int Team1FromeFlag;
             public int Team2FromeFlag;
         }
-        private ServerInfo serverInfo;
+        private ServerInfo _serverInfo;
 
         private struct DataGridSelcContent
         {
@@ -82,7 +88,7 @@ namespace BF1.ServerAdminTools.Views
             public string Name;
             public long PersonaId;
         }
-        private DataGridSelcContent dataGridSelcContent;
+        private DataGridSelcContent _dataGridSelcContent;
 
         ///////////////////////////////////////////////////////
 
@@ -101,7 +107,7 @@ namespace BF1.ServerAdminTools.Views
             DataGrid_PlayerList_Team1 = new ObservableCollection<PlayerListModel>();
             DataGrid_PlayerList_Team2 = new ObservableCollection<PlayerListModel>();
 
-            tdCP.WeaponSlot = new string[8] { "", "", "", "", "", "", "", "" };
+            _tdCP.WeaponSlot = new string[8] { "", "", "", "", "", "", "", "" };
 
             this.DataContext = this;
 
@@ -126,35 +132,35 @@ namespace BF1.ServerAdminTools.Views
 
                 Globals.Server_SpectatorList.Clear();
 
-                Array.Clear(tdCP.WeaponSlot, 0, tdCP.WeaponSlot.Length);
+                Array.Clear(_tdCP.WeaponSlot, 0, _tdCP.WeaponSlot.Length);
 
-                statisticData_Team1.MaxPlayerCount = 0;
-                statisticData_Team1.PlayerCount = 0;
-                statisticData_Team1.Rank150PlayerCount = 0;
-                statisticData_Team1.AllKillCount = 0;
-                statisticData_Team1.AllDeadCount = 0;
+                _statisticData_Team1.MaxPlayerCount = 0;
+                _statisticData_Team1.PlayerCount = 0;
+                _statisticData_Team1.Rank150PlayerCount = 0;
+                _statisticData_Team1.AllKillCount = 0;
+                _statisticData_Team1.AllDeadCount = 0;
 
-                statisticData_Team2.MaxPlayerCount = 0;
-                statisticData_Team2.PlayerCount = 0;
-                statisticData_Team2.Rank150PlayerCount = 0;
-                statisticData_Team2.AllKillCount = 0;
-                statisticData_Team2.AllDeadCount = 0;
+                _statisticData_Team2.MaxPlayerCount = 0;
+                _statisticData_Team2.PlayerCount = 0;
+                _statisticData_Team2.Rank150PlayerCount = 0;
+                _statisticData_Team2.AllKillCount = 0;
+                _statisticData_Team2.AllDeadCount = 0;
 
                 Globals.BreakRuleInfo_PlayerList.Clear();
 
                 //////////////////////////////// 自己数据 ////////////////////////////////
 
-                localPlayer.BaseAddress = Player.GetLocalPlayer();
+                _localPlayer.BaseAddress = Player.GetLocalPlayer();
 
-                localPlayer.TeamID = Memory.Read<int>(localPlayer.BaseAddress + 0x1C34);
-                PlayerOtherModel.MySelfTeamID = $"队伍ID : {localPlayer.TeamID}";
+                _localPlayer.TeamID = Memory.Read<int>(_localPlayer.BaseAddress + 0x1C34);
+                PlayerOtherModel.MySelfTeamID = $"队伍ID : {_localPlayer.TeamID}";
 
-                localPlayer.Spectator = Memory.Read<byte>(localPlayer.BaseAddress + 0x1C31);
-                localPlayer.PersonaId = Memory.Read<long>(localPlayer.BaseAddress + 0x38);
-                localPlayer.PlayerName = Memory.ReadString(localPlayer.BaseAddress + 0x2156, 64);
-                if (localPlayer.PlayerName != "")
+                _localPlayer.Spectator = Memory.Read<byte>(_localPlayer.BaseAddress + 0x1C31);
+                _localPlayer.PersonaId = Memory.Read<long>(_localPlayer.BaseAddress + 0x38);
+                _localPlayer.PlayerName = Memory.ReadString(_localPlayer.BaseAddress + 0x2156, 64);
+                if (_localPlayer.PlayerName != "")
                 {
-                    PlayerOtherModel.MySelfName = $"玩家ID : {localPlayer.PlayerName}";
+                    PlayerOtherModel.MySelfName = $"玩家ID : {_localPlayer.PlayerName}";
                 }
                 else
                 {
@@ -165,58 +171,58 @@ namespace BF1.ServerAdminTools.Views
 
                 for (int i = 0; i < MaxPlayer; i++)
                 {
-                    tdCP.BaseAddress = Player.GetPlayerById(i);
-                    if (!Memory.IsValid(tdCP.BaseAddress))
+                    _tdCP.BaseAddress = Player.GetPlayerById(i);
+                    if (!Memory.IsValid(_tdCP.BaseAddress))
                         continue;
 
-                    tdCP.Mark = Memory.Read<byte>(tdCP.BaseAddress + 0x1D7C);
-                    tdCP.TeamID = Memory.Read<int>(tdCP.BaseAddress + 0x1C34);
-                    tdCP.Spectator = Memory.Read<byte>(tdCP.BaseAddress + 0x1C31);
-                    tdCP.PersonaId = Memory.Read<long>(tdCP.BaseAddress + 0x38);
-                    tdCP.Name = Memory.ReadString(tdCP.BaseAddress + 0x2156, 64);
-                    tdCP.PartyId = Memory.Read<int>(tdCP.BaseAddress + 0x1E50);
+                    _tdCP.Mark = Memory.Read<byte>(_tdCP.BaseAddress + 0x1D7C);
+                    _tdCP.TeamID = Memory.Read<int>(_tdCP.BaseAddress + 0x1C34);
+                    _tdCP.Spectator = Memory.Read<byte>(_tdCP.BaseAddress + 0x1C31);
+                    _tdCP.PersonaId = Memory.Read<long>(_tdCP.BaseAddress + 0x38);
+                    _tdCP.Name = Memory.ReadString(_tdCP.BaseAddress + 0x2156, 64);
+                    _tdCP.PartyId = Memory.Read<int>(_tdCP.BaseAddress + 0x1E50);
 
-                    tdCSE.pClientVehicleEntity = Memory.Read<long>(tdCP.BaseAddress + 0x1D38);
-                    if (Memory.IsValid(tdCSE.pClientVehicleEntity))
+                    _tdCSE.pClientVehicleEntity = Memory.Read<long>(_tdCP.BaseAddress + 0x1D38);
+                    if (Memory.IsValid(_tdCSE.pClientVehicleEntity))
                     {
-                        tdCSE.pVehicleEntityData = Memory.Read<long>(tdCSE.pClientVehicleEntity + 0x30);
-                        tdCP.WeaponSlot[0] = Memory.ReadString(Memory.Read<long>(tdCSE.pVehicleEntityData + 0x2F8), 64);
+                        _tdCSE.pVehicleEntityData = Memory.Read<long>(_tdCSE.pClientVehicleEntity + 0x30);
+                        _tdCP.WeaponSlot[0] = Memory.ReadString(Memory.Read<long>(_tdCSE.pVehicleEntityData + 0x2F8), 64);
 
                         for (int j = 1; j < 8; j++)
                         {
-                            tdCP.WeaponSlot[j] = "";
+                            _tdCP.WeaponSlot[j] = "";
                         }
                     }
                     else
                     {
-                        tdCSE.pClientSoldierEntity = Memory.Read<long>(tdCP.BaseAddress + 0x1D48);
-                        tdCSE.pClientSoldierWeaponComponent = Memory.Read<long>(tdCSE.pClientSoldierEntity + 0x698);
-                        tdCSE.m_handler = Memory.Read<long>(tdCSE.pClientSoldierWeaponComponent + 0x8A8);
+                        _tdCSE.pClientSoldierEntity = Memory.Read<long>(_tdCP.BaseAddress + 0x1D48);
+                        _tdCSE.pClientSoldierWeaponComponent = Memory.Read<long>(_tdCSE.pClientSoldierEntity + 0x698);
+                        _tdCSE.m_handler = Memory.Read<long>(_tdCSE.pClientSoldierWeaponComponent + 0x8A8);
 
                         for (int j = 0; j < 8; j++)
                         {
-                            var offset0 = Memory.Read<long>(tdCSE.m_handler + j * 0x8);
+                            var offset0 = Memory.Read<long>(_tdCSE.m_handler + j * 0x8);
 
                             offset0 = Memory.Read<long>(offset0 + 0x4A30);
                             offset0 = Memory.Read<long>(offset0 + 0x20);
                             offset0 = Memory.Read<long>(offset0 + 0x38);
                             offset0 = Memory.Read<long>(offset0 + 0x20);
 
-                            tdCP.WeaponSlot[j] = Memory.ReadString(offset0, 64);
+                            _tdCP.WeaponSlot[j] = Memory.ReadString(offset0, 64);
                         }
                     }
 
-                    int index = PlayerList_All.FindIndex(val => val.Name == tdCP.Name);
+                    int index = PlayerList_All.FindIndex(val => val.Name == _tdCP.Name);
                     if (index == -1)
                     {
                         PlayerList_All.Add(new PlayerData()
                         {
-                            Mark = tdCP.Mark,
-                            TeamID = tdCP.TeamID,
-                            Spectator = tdCP.Spectator,
-                            Name = tdCP.Name,
-                            PersonaId = tdCP.PersonaId,
-                            SquadId = PlayerUtil.GetSquadChsName(tdCP.PartyId),
+                            Mark = _tdCP.Mark,
+                            TeamID = _tdCP.TeamID,
+                            Spectator = _tdCP.Spectator,
+                            Name = _tdCP.Name,
+                            PersonaId = _tdCP.PersonaId,
+                            SquadId = PlayerUtil.GetSquadChsName(_tdCP.PartyId),
 
                             Rank = 0,
                             Kill = 0,
@@ -226,14 +232,14 @@ namespace BF1.ServerAdminTools.Views
                             KD = 0,
                             KPM = 0,
 
-                            WeaponS0 = tdCP.WeaponSlot[0],
-                            WeaponS1 = tdCP.WeaponSlot[1],
-                            WeaponS2 = tdCP.WeaponSlot[2],
-                            WeaponS3 = tdCP.WeaponSlot[3],
-                            WeaponS4 = tdCP.WeaponSlot[4],
-                            WeaponS5 = tdCP.WeaponSlot[5],
-                            WeaponS6 = tdCP.WeaponSlot[6],
-                            WeaponS7 = tdCP.WeaponSlot[7],
+                            WeaponS0 = _tdCP.WeaponSlot[0],
+                            WeaponS1 = _tdCP.WeaponSlot[1],
+                            WeaponS2 = _tdCP.WeaponSlot[2],
+                            WeaponS3 = _tdCP.WeaponSlot[3],
+                            WeaponS4 = _tdCP.WeaponSlot[4],
+                            WeaponS5 = _tdCP.WeaponSlot[5],
+                            WeaponS6 = _tdCP.WeaponSlot[6],
+                            WeaponS7 = _tdCP.WeaponSlot[7],
                         });
 
                     }
@@ -267,7 +273,7 @@ namespace BF1.ServerAdminTools.Views
                         PlayerList_All[index].Dead = Dead;
                         PlayerList_All[index].Score = Score;
                         PlayerList_All[index].KD = PlayerUtil.GetPlayerKD(Kill, Dead);
-                        PlayerList_All[index].KPM = PlayerUtil.GetPlayerKPM(Kill, PlayerUtil.SecondsToMM(serverInfo.ServerTime));
+                        PlayerList_All[index].KPM = PlayerUtil.GetPlayerKPM(Kill, PlayerUtil.SecondsToMM(_serverInfo.ServerTime));
                     }
                 }
 
@@ -314,24 +320,24 @@ namespace BF1.ServerAdminTools.Views
                     // 统计当前服务器玩家数量
                     if (item.Rank != 0)
                     {
-                        statisticData_Team1.MaxPlayerCount++;
+                        _statisticData_Team1.MaxPlayerCount++;
                     }
 
                     // 统计当前服务器存活玩家数量
                     if (item.WeaponS0 != "")
                     {
-                        statisticData_Team1.PlayerCount++;
+                        _statisticData_Team1.PlayerCount++;
                     }
 
                     // 统计当前服务器150级玩家数量
                     if (item.Rank == 150)
                     {
-                        statisticData_Team1.Rank150PlayerCount++;
+                        _statisticData_Team1.Rank150PlayerCount++;
                     }
 
                     // 总击杀总死亡数统计
-                    statisticData_Team1.AllKillCount += item.Kill;
-                    statisticData_Team1.AllDeadCount += item.Dead;
+                    _statisticData_Team1.AllKillCount += item.Kill;
+                    _statisticData_Team1.AllDeadCount += item.Dead;
                 }
 
                 // 队伍2数据统计
@@ -340,7 +346,7 @@ namespace BF1.ServerAdminTools.Views
                     // 统计当前服务器玩家数量
                     if (item.Rank != 0)
                     {
-                        statisticData_Team2.MaxPlayerCount++;
+                        _statisticData_Team2.MaxPlayerCount++;
                     }
 
                     // 统计当前服务器存活玩家数量
@@ -353,17 +359,17 @@ namespace BF1.ServerAdminTools.Views
                         item.WeaponS6 != "" ||
                         item.WeaponS7 != "")
                     {
-                        statisticData_Team2.PlayerCount++;
+                        _statisticData_Team2.PlayerCount++;
                     }
 
                     // 统计当前服务器150级玩家数量
                     if (item.Rank == 150)
                     {
-                        statisticData_Team2.Rank150PlayerCount++;
+                        _statisticData_Team2.Rank150PlayerCount++;
                     }
 
-                    statisticData_Team2.AllKillCount += item.Kill;
-                    statisticData_Team2.AllDeadCount += item.Dead;
+                    _statisticData_Team2.AllKillCount += item.Kill;
+                    _statisticData_Team2.AllDeadCount += item.Dead;
                 }
 
                 // 是否显示中文武器名称
@@ -397,14 +403,14 @@ namespace BF1.ServerAdminTools.Views
                 ////////////////////////////////////////////////////////////////////////////////
 
                 // 服务器名称
-                serverInfo.ServerName = Memory.ReadString(Memory.GetBaseAddress() + Offsets.ServerName_Offset, Offsets.ServerName, 64);
-                serverInfo.ServerName = serverInfo.ServerName == "" ? "未知" : serverInfo.ServerName;
+                _serverInfo.ServerName = Memory.ReadString(Memory.GetBaseAddress() + Offsets.ServerName_Offset, Offsets.ServerName, 64);
+                _serverInfo.ServerName = _serverInfo.ServerName == "" ? "未知" : _serverInfo.ServerName;
 
                 // 如果玩家没有进入服务器，要进行一些数据清理
-                if (PlayerList_Team1.Count == 0 && PlayerList_Team2.Count == 0 && serverInfo.ServerName == "未知")
+                if (PlayerList_Team1.Count == 0 && PlayerList_Team2.Count == 0 && _serverInfo.ServerName == "未知")
                 {
                     // 清理服务器ID（GameID）
-                    serverInfo.ServerID = 0;
+                    _serverInfo.ServerID = 0;
                     Globals.GameId = string.Empty;
 
                     Globals.Server_AdminList.Clear();
@@ -414,50 +420,50 @@ namespace BF1.ServerAdminTools.Views
                 else
                 {
                     // 服务器数字ID
-                    serverInfo.ServerID = Memory.Read<long>(Memory.GetBaseAddress() + Offsets.ServerID_Offset, Offsets.ServerID);
-                    Globals.GameId = serverInfo.ServerID.ToString();
+                    _serverInfo.ServerID = Memory.Read<long>(Memory.GetBaseAddress() + Offsets.ServerID_Offset, Offsets.ServerID);
+                    Globals.GameId = _serverInfo.ServerID.ToString();
                 }
 
                 // 服务器时间
-                serverInfo.ServerTime = Memory.Read<float>(Memory.GetBaseAddress() + Offsets.ServerTime_Offset, Offsets.ServerTime);
+                _serverInfo.ServerTime = Memory.Read<float>(Memory.GetBaseAddress() + Offsets.ServerTime_Offset, Offsets.ServerTime);
 
-                serverInfo.Offset0 = Memory.Read<long>(Memory.GetBaseAddress() + Offsets.ServerScore_Offset, Offsets.ServerScoreTeam);
+                _serverInfo.Offset0 = Memory.Read<long>(Memory.GetBaseAddress() + Offsets.ServerScore_Offset, Offsets.ServerScoreTeam);
 
                 // 队伍1、队伍2分数
-                serverInfo.Team1Score = Memory.Read<int>(serverInfo.Offset0 + 0x2B0);
-                serverInfo.Team2Score = Memory.Read<int>(serverInfo.Offset0 + 0x2B0 + 0x08);
+                _serverInfo.Team1Score = Memory.Read<int>(_serverInfo.Offset0 + 0x2B0);
+                _serverInfo.Team2Score = Memory.Read<int>(_serverInfo.Offset0 + 0x2B0 + 0x08);
 
                 // 队伍1、队伍2从击杀获取得分
-                serverInfo.Team1FromeKill = Memory.Read<int>(serverInfo.Offset0 + 0x2B0 + 0x60);
-                serverInfo.Team2FromeKill = Memory.Read<int>(serverInfo.Offset0 + 0x2B0 + 0x68);
+                _serverInfo.Team1FromeKill = Memory.Read<int>(_serverInfo.Offset0 + 0x2B0 + 0x60);
+                _serverInfo.Team2FromeKill = Memory.Read<int>(_serverInfo.Offset0 + 0x2B0 + 0x68);
 
                 // 队伍1、队伍2从旗帜获取得分
-                serverInfo.Team1FromeFlag = Memory.Read<int>(serverInfo.Offset0 + 0x2B0 + 0x100);
-                serverInfo.Team2FromeFlag = Memory.Read<int>(serverInfo.Offset0 + 0x2B0 + 0x108);
+                _serverInfo.Team1FromeFlag = Memory.Read<int>(_serverInfo.Offset0 + 0x2B0 + 0x100);
+                _serverInfo.Team2FromeFlag = Memory.Read<int>(_serverInfo.Offset0 + 0x2B0 + 0x108);
 
                 ////////////////////////////////////////////////////////////////////////////////
 
-                ServerInfoModel.ServerName = $"服务器名称 : {serverInfo.ServerName}  |  GameID : {serverInfo.ServerID}";
+                ServerInfoModel.ServerName = $"服务器名称 : {_serverInfo.ServerName}  |  GameID : {_serverInfo.ServerID}";
 
-                ServerInfoModel.ServerTime = PlayerUtil.SecondsToMMSS(serverInfo.ServerTime);
+                ServerInfoModel.ServerTime = PlayerUtil.SecondsToMMSS(_serverInfo.ServerTime);
 
-                if (serverInfo.Team1Score >= 0 && serverInfo.Team1Score <= 1000 &&
-                    serverInfo.Team2Score >= 0 && serverInfo.Team2Score <= 1000)
+                if (_serverInfo.Team1Score >= 0 && _serverInfo.Team1Score <= 1000 &&
+                    _serverInfo.Team2Score >= 0 && _serverInfo.Team2Score <= 1000)
                 {
-                    ServerInfoModel.Team1ScoreWidth = serverInfo.Team1Score / 6.25;
-                    ServerInfoModel.Team2ScoreWidth = serverInfo.Team2Score / 6.25;
+                    ServerInfoModel.Team1ScoreWidth = _serverInfo.Team1Score / 6.25;
+                    ServerInfoModel.Team2ScoreWidth = _serverInfo.Team2Score / 6.25;
 
-                    ServerInfoModel.Team1Score = $"{serverInfo.Team1Score}";
-                    ServerInfoModel.Team2Score = $"{serverInfo.Team2Score}";
+                    ServerInfoModel.Team1Score = $"{_serverInfo.Team1Score}";
+                    ServerInfoModel.Team2Score = $"{_serverInfo.Team2Score}";
                 }
-                else if (serverInfo.Team1Score > 1000 && serverInfo.Team1Score <= 2000 ||
-                    serverInfo.Team2Score > 1000 && serverInfo.Team2Score <= 2000)
+                else if (_serverInfo.Team1Score > 1000 && _serverInfo.Team1Score <= 2000 ||
+                    _serverInfo.Team2Score > 1000 && _serverInfo.Team2Score <= 2000)
                 {
-                    ServerInfoModel.Team1ScoreWidth = serverInfo.Team1Score / 12.5;
-                    ServerInfoModel.Team2ScoreWidth = serverInfo.Team2Score / 12.5;
+                    ServerInfoModel.Team1ScoreWidth = _serverInfo.Team1Score / 12.5;
+                    ServerInfoModel.Team2ScoreWidth = _serverInfo.Team2Score / 12.5;
 
-                    ServerInfoModel.Team1Score = $"{serverInfo.Team1Score}";
-                    ServerInfoModel.Team2Score = $"{serverInfo.Team2Score}";
+                    ServerInfoModel.Team1Score = $"{_serverInfo.Team1Score}";
+                    ServerInfoModel.Team2Score = $"{_serverInfo.Team2Score}";
                 }
                 else
                 {
@@ -468,36 +474,36 @@ namespace BF1.ServerAdminTools.Views
                     ServerInfoModel.Team2Score = "0";
                 }
 
-                if (serverInfo.Team1FromeFlag < 0 || serverInfo.Team1FromeFlag > 2000)
+                if (_serverInfo.Team1FromeFlag < 0 || _serverInfo.Team1FromeFlag > 2000)
                 {
-                    serverInfo.Team1FromeFlag = 0;
+                    _serverInfo.Team1FromeFlag = 0;
                 }
 
-                if (serverInfo.Team1FromeKill < 0 || serverInfo.Team1FromeKill > 2000)
+                if (_serverInfo.Team1FromeKill < 0 || _serverInfo.Team1FromeKill > 2000)
                 {
-                    serverInfo.Team1FromeKill = 0;
+                    _serverInfo.Team1FromeKill = 0;
                 }
 
-                if (serverInfo.Team2FromeFlag < 0 || serverInfo.Team2FromeFlag > 2000)
+                if (_serverInfo.Team2FromeFlag < 0 || _serverInfo.Team2FromeFlag > 2000)
                 {
-                    serverInfo.Team2FromeFlag = 0;
+                    _serverInfo.Team2FromeFlag = 0;
                 }
 
-                if (serverInfo.Team2FromeKill < 0 || serverInfo.Team2FromeKill > 2000)
+                if (_serverInfo.Team2FromeKill < 0 || _serverInfo.Team2FromeKill > 2000)
                 {
-                    serverInfo.Team2FromeKill = 0;
+                    _serverInfo.Team2FromeKill = 0;
                 }
 
-                ServerInfoModel.Team1FromeFlag = $"从旗帜获取的得分 : {serverInfo.Team1FromeFlag}";
-                ServerInfoModel.Team1FromeKill = $"从击杀获取的得分 : {serverInfo.Team1FromeKill}";
+                ServerInfoModel.Team1FromeFlag = $"从旗帜获取的得分 : {_serverInfo.Team1FromeFlag}";
+                ServerInfoModel.Team1FromeKill = $"从击杀获取的得分 : {_serverInfo.Team1FromeKill}";
 
-                ServerInfoModel.Team2FromeFlag = $"从旗帜获取的得分 : {serverInfo.Team2FromeFlag}";
-                ServerInfoModel.Team2FromeKill = $"从击杀获取的得分 : {serverInfo.Team2FromeKill}";
+                ServerInfoModel.Team2FromeFlag = $"从旗帜获取的得分 : {_serverInfo.Team2FromeFlag}";
+                ServerInfoModel.Team2FromeKill = $"从击杀获取的得分 : {_serverInfo.Team2FromeKill}";
 
-                ServerInfoModel.Team1Info = $"已部署/队伍1人数 : {statisticData_Team1.PlayerCount} / {statisticData_Team1.MaxPlayerCount}  |  150等级人数 : {statisticData_Team1.Rank150PlayerCount}  |  总击杀数 : {statisticData_Team1.AllKillCount}  |  总死亡数 : {statisticData_Team1.AllDeadCount}";
-                ServerInfoModel.Team2Info = $"已部署/队伍2人数 : {statisticData_Team2.PlayerCount} / {statisticData_Team2.MaxPlayerCount}  |  150等级人数 : {statisticData_Team2.Rank150PlayerCount}  |  总击杀数 : {statisticData_Team2.AllKillCount}  |  总死亡数 : {statisticData_Team2.AllDeadCount}";
+                ServerInfoModel.Team1Info = $"已部署/队伍1人数 : {_statisticData_Team1.PlayerCount} / {_statisticData_Team1.MaxPlayerCount}  |  150等级人数 : {_statisticData_Team1.Rank150PlayerCount}  |  总击杀数 : {_statisticData_Team1.AllKillCount}  |  总死亡数 : {_statisticData_Team1.AllDeadCount}";
+                ServerInfoModel.Team2Info = $"已部署/队伍2人数 : {_statisticData_Team2.PlayerCount} / {_statisticData_Team2.MaxPlayerCount}  |  150等级人数 : {_statisticData_Team2.Rank150PlayerCount}  |  总击杀数 : {_statisticData_Team2.AllKillCount}  |  总死亡数 : {_statisticData_Team2.AllDeadCount}";
 
-                PlayerOtherModel.ServerPlayerCountInfo = $"服务器总人数 : {statisticData_Team1.MaxPlayerCount + statisticData_Team2.MaxPlayerCount}";
+                PlayerOtherModel.ServerPlayerCountInfo = $"服务器总人数 : {_statisticData_Team1.MaxPlayerCount + _statisticData_Team2.MaxPlayerCount}";
 
                 ////////////////////////////////////////////////////////////////////////////////
 
@@ -509,6 +515,10 @@ namespace BF1.ServerAdminTools.Views
                     DataGrid_PlayerList_Team1.Sort();
                     DataGrid_PlayerList_Team2.Sort();
                 });
+
+                ////////////////////////////////////////////////////////////////////////////////
+
+                AutoKickBreakPlayer();
 
                 ////////////////////////////////////////////////////////////////////////////////
 
@@ -888,6 +898,96 @@ namespace BF1.ServerAdminTools.Views
                 }
             }
         }
+
+        private void AutoKickBreakPlayer()
+        {
+            // 自动踢出违规玩家开关
+            if (Globals.AutoKickBreakPlayer)
+            {
+                // 遍历违规玩家列表
+                for (int i = 0; i < Globals.BreakRuleInfo_PlayerList.Count; i++)
+                {
+                    var item = Globals.BreakRuleInfo_PlayerList[i];
+                    item.Flag = -1;
+
+                    // 跳过管理员
+                    if (!Globals.Server_AdminList.Contains(item.PersonaId.ToString()))
+                    {
+                        // 跳过白名单玩家
+                        if (!Globals.Custom_WhiteList.Contains(item.Name))
+                        {
+                            // 先检查踢出玩家是否在 正在踢人 列表中
+                            int index = Kicking_PlayerList.FindIndex(var => var.PersonaId == item.PersonaId);
+                            if (index == -1)
+                            {
+                                // 该玩家不在 正在踢人 列表中
+                                item.Flag = 0;
+                                item.Status = "正在踢人中...";
+                                item.Time = DateTime.Now;
+                                Kicking_PlayerList.Add(item);
+
+                                // 执行踢人请求
+                                AutoKickPlayer(item);
+                            }
+                        }
+                    }
+                }
+
+                for (int i = 0; i < Kicking_PlayerList.Count; i++)
+                {
+                    if (Kicking_PlayerList.Count != 0 && Kicking_PlayerList[i].Flag == 0)
+                    {
+                        // 如果超过2秒，移除 正在踢人 玩家
+                        if (CoreUtil.DiffSeconds(Kicking_PlayerList[i].Time, DateTime.Now) > 3)
+                        {
+                            Kicking_PlayerList.RemoveAt(i);
+                        }
+                    }
+
+                    if (Kicking_PlayerList.Count != 0 && Kicking_PlayerList[i].Flag == 1)
+                    {
+                        // 如果超过10秒，移除 踢出成功 玩家
+                        if (CoreUtil.DiffSeconds(Kicking_PlayerList[i].Time, DateTime.Now) > 10)
+                        {
+                            Kicking_PlayerList.RemoveAt(i);
+                        }
+                    }
+
+                    if (Kicking_PlayerList.Count != 0 && Kicking_PlayerList[i].Flag == 2)
+                    {
+                        // 如果超过5秒，移除 踢出失败 玩家
+                        if (CoreUtil.DiffSeconds(Kicking_PlayerList[i].Time, DateTime.Now) > 5)
+                        {
+                            Kicking_PlayerList.RemoveAt(i);
+                        }
+                    }
+                }
+            }
+        }
+
+        // 自动踢出违规玩家
+        private async void AutoKickPlayer(BreakRuleInfo info)
+        {
+            var result = await BF1API.AdminKickPlayer(info.PersonaId.ToString(), info.Reason);
+
+            if (result.IsSuccess)
+            {
+                info.Flag = 1;
+                info.Status = "踢出成功";
+                info.Time = DateTime.Now;
+
+                LogView.dAddKickLog1(info);
+            }
+            else
+            {
+                info.Flag = 2;
+                info.Status = "踢出失败 " + result.Message;
+                info.Time = DateTime.Now;
+
+                LogView.dAddKickLog2(info);
+            }
+
+        }
         #endregion
 
         // 手动踢出违规玩家
@@ -895,19 +995,19 @@ namespace BF1.ServerAdminTools.Views
         {
             if (!string.IsNullOrEmpty(Globals.SessionId))
             {
-                if (dataGridSelcContent.IsOK)
+                if (_dataGridSelcContent.IsOK)
                 {
-                    MainWindow.dSetOperatingState(2, $"正在踢出玩家 {dataGridSelcContent.Name} 中...");
+                    MainWindow.dSetOperatingState(2, $"正在踢出玩家 {_dataGridSelcContent.Name} 中...");
 
-                    var result = await BF1API.AdminKickPlayer(dataGridSelcContent.PersonaId.ToString(), reason);
+                    var result = await BF1API.AdminKickPlayer(_dataGridSelcContent.PersonaId.ToString(), reason);
 
                     if (result.IsSuccess)
                     {
-                        MainWindow.dSetOperatingState(1, $"踢出玩家 {dataGridSelcContent.Name} 成功  |  耗时: {result.ExecTime:0.00} 秒");
+                        MainWindow.dSetOperatingState(1, $"踢出玩家 {_dataGridSelcContent.Name} 成功  |  耗时: {result.ExecTime:0.00} 秒");
                     }
                     else
                     {
-                        MainWindow.dSetOperatingState(3, $"踢出玩家 {dataGridSelcContent.Name} 失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
+                        MainWindow.dSetOperatingState(3, $"踢出玩家 {_dataGridSelcContent.Name} 失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
                     }
                 }
                 else
@@ -927,9 +1027,9 @@ namespace BF1.ServerAdminTools.Views
             // 右键菜单 踢出玩家 - 自定义理由
             if (!string.IsNullOrEmpty(Globals.SessionId))
             {
-                if (dataGridSelcContent.IsOK)
+                if (_dataGridSelcContent.IsOK)
                 {
-                    var customKickWindow = new CustomKickWindow(dataGridSelcContent.Name, dataGridSelcContent.PersonaId.ToString());
+                    var customKickWindow = new CustomKickWindow(_dataGridSelcContent.Name, _dataGridSelcContent.PersonaId.ToString());
                     customKickWindow.Owner = MainWindow.ThisMainWindow;
                     customKickWindow.ShowDialog();
                 }
@@ -973,19 +1073,19 @@ namespace BF1.ServerAdminTools.Views
             // 右键菜单 更换玩家队伍
             if (!string.IsNullOrEmpty(Globals.SessionId))
             {
-                if (dataGridSelcContent.IsOK)
+                if (_dataGridSelcContent.IsOK)
                 {
-                    MainWindow.dSetOperatingState(2, $"正在更换玩家 {dataGridSelcContent.Name} 队伍中...");
+                    MainWindow.dSetOperatingState(2, $"正在更换玩家 {_dataGridSelcContent.Name} 队伍中...");
 
-                    var result = await BF1API.AdminMovePlayer(dataGridSelcContent.PersonaId.ToString(), dataGridSelcContent.TeamID.ToString());
+                    var result = await BF1API.AdminMovePlayer(_dataGridSelcContent.PersonaId.ToString(), _dataGridSelcContent.TeamID.ToString());
 
                     if (result.IsSuccess)
                     {
-                        MainWindow.dSetOperatingState(1, $"更换玩家 {dataGridSelcContent.Name} 队伍成功  |  耗时: {result.ExecTime:0.00} 秒");
+                        MainWindow.dSetOperatingState(1, $"更换玩家 {_dataGridSelcContent.Name} 队伍成功  |  耗时: {result.ExecTime:0.00} 秒");
                     }
                     else
                     {
-                        MainWindow.dSetOperatingState(3, $"更换玩家 {dataGridSelcContent.Name} 队伍失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
+                        MainWindow.dSetOperatingState(3, $"更换玩家 {_dataGridSelcContent.Name} 队伍失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
                     }
                 }
                 else
@@ -1001,11 +1101,11 @@ namespace BF1.ServerAdminTools.Views
 
         private void MenuItem_CopyPlayerName_Click(object sender, RoutedEventArgs e)
         {
-            if (dataGridSelcContent.IsOK)
+            if (_dataGridSelcContent.IsOK)
             {
                 // 复制玩家ID（无队标）
-                Clipboard.SetText(PlayerUtil.GetNameNoMark(dataGridSelcContent.Name));
-                MainWindow.dSetOperatingState(1, $"复制玩家ID {PlayerUtil.GetNameNoMark(dataGridSelcContent.Name)} 到剪切板成功");
+                Clipboard.SetText(PlayerUtil.GetNameNoMark(_dataGridSelcContent.Name));
+                MainWindow.dSetOperatingState(1, $"复制玩家ID {PlayerUtil.GetNameNoMark(_dataGridSelcContent.Name)} 到剪切板成功");
             }
             else
             {
@@ -1015,11 +1115,11 @@ namespace BF1.ServerAdminTools.Views
 
         private void MenuItem_CopyPlayerName_PID_Click(object sender, RoutedEventArgs e)
         {
-            if (dataGridSelcContent.IsOK)
+            if (_dataGridSelcContent.IsOK)
             {
                 // 复制玩家数字ID
-                Clipboard.SetText(dataGridSelcContent.PersonaId.ToString());
-                MainWindow.dSetOperatingState(1, $"复制玩家数字ID {dataGridSelcContent.PersonaId} 到剪切板成功");
+                Clipboard.SetText(_dataGridSelcContent.PersonaId.ToString());
+                MainWindow.dSetOperatingState(1, $"复制玩家数字ID {_dataGridSelcContent.PersonaId} 到剪切板成功");
             }
             else
             {
@@ -1029,11 +1129,11 @@ namespace BF1.ServerAdminTools.Views
 
         private void MenuItem_QueryPlayerRecord_Click(object sender, RoutedEventArgs e)
         {
-            if (dataGridSelcContent.IsOK)
+            if (_dataGridSelcContent.IsOK)
             {
                 // 查询玩家战绩
                 MainWindow.dTabControlSelect();
-                QueryView.queryPalyerDelegate(PlayerUtil.GetNameNoMark(dataGridSelcContent.Name));
+                QueryView.queryPalyerDelegate(PlayerUtil.GetNameNoMark(_dataGridSelcContent.Name));
             }
             else
             {
@@ -1044,12 +1144,12 @@ namespace BF1.ServerAdminTools.Views
         private void MenuItem_QueryPlayerRecordWeb_BT_Click(object sender, RoutedEventArgs e)
         {
             // 查询玩家战绩（BT）
-            if (dataGridSelcContent.IsOK)
+            if (_dataGridSelcContent.IsOK)
             {
-                string playerName = PlayerUtil.GetNameNoMark(dataGridSelcContent.Name);
+                string playerName = PlayerUtil.GetNameNoMark(_dataGridSelcContent.Name);
 
                 ProcessUtil.OpenLink(@"https://battlefieldtracker.com/bf1/profile/pc/" + playerName);
-                MainWindow.dSetOperatingState(1, $"查询玩家（{dataGridSelcContent.Name}）战绩成功，请前往浏览器查看");
+                MainWindow.dSetOperatingState(1, $"查询玩家（{_dataGridSelcContent.Name}）战绩成功，请前往浏览器查看");
             }
             else
             {
@@ -1060,12 +1160,12 @@ namespace BF1.ServerAdminTools.Views
         private void MenuItem_QueryPlayerRecordWeb_GT_Click(object sender, RoutedEventArgs e)
         {
             // 查询玩家战绩（GT）
-            if (dataGridSelcContent.IsOK)
+            if (_dataGridSelcContent.IsOK)
             {
-                string playerName = PlayerUtil.GetNameNoMark(dataGridSelcContent.Name);
+                string playerName = PlayerUtil.GetNameNoMark(_dataGridSelcContent.Name);
 
                 ProcessUtil.OpenLink(@"https://gametools.network/stats/pc/name/" + playerName + "?game=bf1");
-                MainWindow.dSetOperatingState(1, $"查询玩家（{dataGridSelcContent.Name}）战绩成功，请前往浏览器查看");
+                MainWindow.dSetOperatingState(1, $"查询玩家（{_dataGridSelcContent.Name}）战绩成功，请前往浏览器查看");
             }
             else
             {
@@ -1112,19 +1212,19 @@ namespace BF1.ServerAdminTools.Views
             var item = DataGrid_Team1.SelectedItem as PlayerListModel;
             if (item != null)
             {
-                dataGridSelcContent.IsOK = true;
-                dataGridSelcContent.TeamID = 1;
-                dataGridSelcContent.Rank = item.Rank;
-                dataGridSelcContent.Name = item.Name;
-                dataGridSelcContent.PersonaId = item.PersonaId;
+                _dataGridSelcContent.IsOK = true;
+                _dataGridSelcContent.TeamID = 1;
+                _dataGridSelcContent.Rank = item.Rank;
+                _dataGridSelcContent.Name = item.Name;
+                _dataGridSelcContent.PersonaId = item.PersonaId;
             }
             else
             {
-                dataGridSelcContent.IsOK = false;
-                dataGridSelcContent.TeamID = -1;
-                dataGridSelcContent.Rank = -1;
-                dataGridSelcContent.Name = string.Empty;
-                dataGridSelcContent.PersonaId = -1;
+                _dataGridSelcContent.IsOK = false;
+                _dataGridSelcContent.TeamID = -1;
+                _dataGridSelcContent.Rank = -1;
+                _dataGridSelcContent.Name = string.Empty;
+                _dataGridSelcContent.PersonaId = -1;
             }
 
             Update_DateGrid_Selection();
@@ -1135,19 +1235,19 @@ namespace BF1.ServerAdminTools.Views
             var item = DataGrid_Team2.SelectedItem as PlayerListModel;
             if (item != null)
             {
-                dataGridSelcContent.IsOK = true;
-                dataGridSelcContent.TeamID = 2;
-                dataGridSelcContent.Rank = item.Rank;
-                dataGridSelcContent.Name = item.Name;
-                dataGridSelcContent.PersonaId = item.PersonaId;
+                _dataGridSelcContent.IsOK = true;
+                _dataGridSelcContent.TeamID = 2;
+                _dataGridSelcContent.Rank = item.Rank;
+                _dataGridSelcContent.Name = item.Name;
+                _dataGridSelcContent.PersonaId = item.PersonaId;
             }
             else
             {
-                dataGridSelcContent.IsOK = false;
-                dataGridSelcContent.TeamID = -1;
-                dataGridSelcContent.Rank = -1;
-                dataGridSelcContent.Name = string.Empty;
-                dataGridSelcContent.PersonaId = -1;
+                _dataGridSelcContent.IsOK = false;
+                _dataGridSelcContent.TeamID = -1;
+                _dataGridSelcContent.Rank = -1;
+                _dataGridSelcContent.Name = string.Empty;
+                _dataGridSelcContent.PersonaId = -1;
             }
 
             Update_DateGrid_Selection();
@@ -1157,11 +1257,11 @@ namespace BF1.ServerAdminTools.Views
         {
             StringBuilder sb = new StringBuilder();
 
-            if (dataGridSelcContent.IsOK)
+            if (_dataGridSelcContent.IsOK)
             {
-                sb.Append($"玩家ID : {dataGridSelcContent.Name}");
-                sb.Append($"  |  玩家队伍ID : {dataGridSelcContent.TeamID}");
-                sb.Append($"  |  玩家等级 : {dataGridSelcContent.Rank}");
+                sb.Append($"玩家ID : {_dataGridSelcContent.Name}");
+                sb.Append($"  |  玩家队伍ID : {_dataGridSelcContent.TeamID}");
+                sb.Append($"  |  玩家等级 : {_dataGridSelcContent.Rank}");
                 sb.Append($"  |  更新时间 : {DateTime.Now}");
             }
             else

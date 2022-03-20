@@ -24,7 +24,7 @@
                 </Style>
             </TabControl.Resources>
             <!--  ################################  -->
-            <TabItem Header="设置规则">
+            <TabItem Header="普通规则">
                 <StackPanel Margin="5">
                     <StackPanel.Resources>
                         <Style TargetType="{x:Type TextBlock}">
@@ -101,7 +101,57 @@
                     </TextBlock>
                 </StackPanel>
             </TabItem>
-            <!--  ##########  -->
+            <!--  ################################  -->
+            <TabItem Header="高级规则">
+                <StackPanel Margin="5">
+                    <StackPanel.Resources>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="Margin" Value="5" />
+                        </Style>
+                        <Style TargetType="{x:Type Slider}">
+                            <Setter Property="Margin" Value="5" />
+                            <Setter Property="IsSnapToTickEnabled" Value="True" />
+                        </Style>
+                    </StackPanel.Resources>
+                    <!--  ################################  -->
+                    <TextBlock Text="{Binding ElementName=Slider_LifeKD, Path=Value, StringFormat=最高生涯KD : {0:0.00}, FallbackValue='最高生涯KD :'}" />
+                    <Slider
+                        x:Name="Slider_LifeKD"
+                        Maximum="10"
+                        Minimum="0"
+                        TickFrequency="0.01"
+                        TickPlacement="None" />
+                    <TextBlock Text="{Binding ElementName=Slider_LifeKPM, Path=Value, StringFormat=最高生涯KPM : {0:00}, FallbackValue='最高生涯KPM :'}" />
+                    <Slider
+                        x:Name="Slider_LifeKPM"
+                        Maximum="10"
+                        Minimum="0"
+                        TickFrequency="0.01"
+                        TickPlacement="None" />
+                    <TextBlock />
+                    <!--  ################################  -->
+                    <TextBlock Text="{Binding ElementName=Slider_LifeWeaponStar, Path=Value, StringFormat=最高武器星数 : {0:0}, FallbackValue='最高武器星数 :'}" />
+                    <Slider
+                        x:Name="Slider_LifeWeaponStar"
+                        Maximum="100"
+                        Minimum="0"
+                        TickFrequency="1"
+                        TickPlacement="None" />
+                    <TextBlock Text="{Binding ElementName=Slider_LifeVehicleStar, Path=Value, StringFormat=最高载具星数 : {0:0}, FallbackValue='最高载具星数 :'}" />
+                    <Slider
+                        x:Name="Slider_LifeVehicleStar"
+                        Maximum="100"
+                        Minimum="0"
+                        TickFrequency="1"
+                        TickPlacement="None" />
+                    <!--  ################################  -->
+                    <TextBlock />
+                    <TextBlock Foreground="Green" TextWrapping="Wrap">
+                        提示：生涯KD和KPM是玩家只要进入服务器就开始查询计算
+                    </TextBlock>
+                </StackPanel>
+            </TabItem>
+            <!--  ################################  -->
             <TabItem Header="限制武器">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -173,7 +223,7 @@
                     </ListBox>
                 </Grid>
             </TabItem>
-            <!--  ##########  -->
+            <!--  ################################  -->
             <TabItem Header="玩家黑/白名单">
                 <UniformGrid Columns="2">
                     <DockPanel LastChildFill="True">
