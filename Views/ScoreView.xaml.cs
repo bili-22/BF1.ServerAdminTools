@@ -522,6 +522,21 @@ namespace BF1.ServerAdminTools.Views
 
                 ////////////////////////////////////////////////////////////////////////////////
 
+                // 暴露给外部使用
+                PlayerDatas_Team1.Clear();
+                foreach (var item in PlayerList_Team1)
+                {
+                    PlayerDatas_Team1.Add(item);
+                }
+
+                PlayerDatas_Team2.Clear();
+                foreach (var item in PlayerList_Team2)
+                {
+                    PlayerDatas_Team2.Add(item);
+                }
+
+                ////////////////////////////////////////////////////////////////////////////////
+
                 Thread.Sleep(1000);
             }
         }
@@ -697,7 +712,7 @@ namespace BF1.ServerAdminTools.Views
                     {
                         Name = PlayerUtil.GetNameNoMark(playerData.Name),
                         PersonaId = playerData.PersonaId,
-                        Reason = $"Kill Limit {ServerRule.MaxKill}"
+                        Reason = $"Kill Limit {ServerRule.MaxKill:0}"
                     });
 
                     return;
@@ -744,7 +759,7 @@ namespace BF1.ServerAdminTools.Views
                     {
                         Name = PlayerUtil.GetNameNoMark(playerData.Name),
                         PersonaId = playerData.PersonaId,
-                        Reason = $"Min Rank Limit {ServerRule.MinRank}"
+                        Reason = $"Min Rank Limit {ServerRule.MinRank:0}"
                     });
 
                     return;
@@ -757,7 +772,7 @@ namespace BF1.ServerAdminTools.Views
                     {
                         Name = PlayerUtil.GetNameNoMark(playerData.Name),
                         PersonaId = playerData.PersonaId,
-                        Reason = $"Max Rank Limit {ServerRule.MaxRank}"
+                        Reason = $"Max Rank Limit {ServerRule.MaxRank:0}"
                     });
 
                     return;

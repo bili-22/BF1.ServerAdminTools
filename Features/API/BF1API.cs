@@ -877,5 +877,61 @@ namespace BF1.ServerAdminTools.Features.API
 
             return respContent;
         }
+
+        /// <summary>
+        /// 获取玩家SessionID
+        /// </summary>
+        public static async Task<RespContent> GetCareerForOwnedGamesByPersonaId(string personaId)
+        {
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+
+            RespContent respContent = new RespContent();
+
+            try
+            {
+                headers["X-GatewaySession"] = Globals.SessionId;
+                respContent.IsSuccess = false;
+
+                var reqBody = new
+                {
+                    jsonrpc = "2.0",
+                    method = "Stats.getCareerForOwnedGamesByPersonaId",
+                    @params = new
+                    {
+                        game = "tunguska",
+                        personaId = personaId
+                    },
+                    id = Guid.NewGuid()
+                };
+
+                var request = new RestRequest()
+                    .AddHeaders(headers)
+                    .AddJsonBody(reqBody);
+
+                var response = await client.ExecutePostAsync(request);
+
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    respContent.IsSuccess = true;
+                    respContent.Message = response.Content;
+                }
+                else
+                {
+                    var respError = JsonUtil.JsonDese<RespError>(response.Content);
+
+                    respContent.Message = $"{respError.error.code} {respError.error.message}";
+                }
+            }
+            catch (Exception ex)
+            {
+                respContent.Message = ex.Message;
+            }
+
+            sw.Stop();
+            respContent.ExecTime = sw.Elapsed.TotalSeconds;
+
+            return respContent;
+        }
     }
 }

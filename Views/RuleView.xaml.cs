@@ -20,9 +20,6 @@ namespace BF1.ServerAdminTools.Views
             public string Mark { get; set; }
         }
 
-        // 已经踢出的玩家列表，保留指定时间秒数
-        private List<BreakRuleInfo> Kicked_PlayerList = new List<BreakRuleInfo>();
-
         public RuleView()
         {
             InitializeComponent();
@@ -39,7 +36,7 @@ namespace BF1.ServerAdminTools.Views
             }
             ListBox_WeaponInfo.SelectedIndex = 0;
 
-            var thread0 = new Thread(AutoKickBreakPlayer);
+            var thread0 = new Thread(AutoKickLifeBreakPlayer);
             thread0.IsBackground = true;
             thread0.Start();
 
@@ -65,6 +62,19 @@ namespace BF1.ServerAdminTools.Views
             temp = IniHelper.ReadString("Rules", "MaxRank", "0", FileUtil.F_Settings_Path);
             if (!string.IsNullOrEmpty(temp))
                 Slider_MaxRank.Value = Convert.ToInt32(temp);
+
+            temp = IniHelper.ReadString("Rules", "LifeMaxKD", "0.00", FileUtil.F_Settings_Path);
+            if (!string.IsNullOrEmpty(temp))
+                Slider_LifeMaxKD.Value = Convert.ToDouble(temp);
+            temp = IniHelper.ReadString("Rules", "LifeMaxKPM", "0.00", FileUtil.F_Settings_Path);
+            if (!string.IsNullOrEmpty(temp))
+                Slider_LifeMaxKPM.Value = Convert.ToDouble(temp);
+            temp = IniHelper.ReadString("Rules", "LifeMaxWeaponStar", "0", FileUtil.F_Settings_Path);
+            if (!string.IsNullOrEmpty(temp))
+                Slider_LifeMaxWeaponStar.Value = Convert.ToInt32(temp);
+            temp = IniHelper.ReadString("Rules", "LifeMaxVehicleStar", "0", FileUtil.F_Settings_Path);
+            if (!string.IsNullOrEmpty(temp))
+                Slider_LifeMaxVehicleStar.Value = Convert.ToInt32(temp);
 
             if (File.Exists(FileUtil.F_WeaponList_Path))
             {
@@ -154,6 +164,11 @@ namespace BF1.ServerAdminTools.Views
             IniHelper.WriteString("Rules", "MinRank", Slider_MinRank.Value.ToString("0"), FileUtil.F_Settings_Path);
             IniHelper.WriteString("Rules", "MaxRank", Slider_MaxRank.Value.ToString("0"), FileUtil.F_Settings_Path);
 
+            IniHelper.WriteString("Rules", "LifeMaxKD", Slider_LifeMaxKD.Value.ToString("0.00"), FileUtil.F_Settings_Path);
+            IniHelper.WriteString("Rules", "LifeMaxKPM", Slider_LifeMaxKPM.Value.ToString("0.00"), FileUtil.F_Settings_Path);
+            IniHelper.WriteString("Rules", "LifeMaxWeaponStar", Slider_LifeMaxWeaponStar.Value.ToString("0"), FileUtil.F_Settings_Path);
+            IniHelper.WriteString("Rules", "LifeMaxVehicleStar", Slider_LifeMaxVehicleStar.Value.ToString("0"), FileUtil.F_Settings_Path);
+
             if (File.Exists(FileUtil.F_WeaponList_Path))
             {
                 using (StreamWriter file = new StreamWriter(FileUtil.F_WeaponList_Path, false))
@@ -190,70 +205,130 @@ namespace BF1.ServerAdminTools.Views
 
         ////////////////////////////////////////////////////////////////////////////////
 
-        private void AutoKickBreakPlayer()
+        private void AutoKickLifeBreakPlayer()
         {
             while (true)
             {
                 // 自动踢出违规玩家
                 if (Globals.AutoKickBreakPlayer)
                 {
-                    var temp = Globals.BreakRuleInfo_PlayerList.ToList();
-                    for (int i = 0; i < temp.Count; i++)
+                    var team1Player = JsonSerializer.Deserialize<List<PlayerData>>(JsonSerializer.Serialize(ScoreView.PlayerDatas_Team1));
+                    var team2Player = JsonSerializer.Deserialize<List<PlayerData>>(JsonSerializer.Serialize(ScoreView.PlayerDatas_Team2));
+
+                    foreach (var item in team1Player)
                     {
-                        if (temp != null)
-                        {
-                            // 先检查踢出玩家是否在已踢出列表中
-                            int index = Kicked_PlayerList.FindIndex(var => var.PersonaId == temp[i].PersonaId);
-                            if (index == -1)
-                            {
-                                AutoKickPlayer(temp[i]);
-                            }
-                        }
+                        CheckBreakLifePlayer(item);
                     }
 
-                    for (int i = 0; i < Kicked_PlayerList.Count; i++)
+                    foreach (var item in team2Player)
                     {
-                        // 如果超过10秒，移除该玩家
-                        if (CoreUtil.DiffSeconds(Kicked_PlayerList[i].Time, DateTime.Now) > 10)
-                        {
-                            Kicked_PlayerList.RemoveAt(i);
-                        }
+                        CheckBreakLifePlayer(item);
                     }
                 }
 
-                Thread.Sleep(3000);
+                Thread.Sleep(5000);
+            }
+        }
+
+        private async void CheckBreakLifePlayer(PlayerData data)
+        {
+            // 跳过管理员
+            if (Globals.Server_AdminList.Contains(data.PersonaId.ToString()))
+                return;
+
+            // 跳过白名单玩家
+            if (Globals.Custom_WhiteList.Contains(data.Name))
+                return;
+
+            var resultTemp = await BF1API.GetCareerForOwnedGamesByPersonaId(data.PersonaId.ToString());
+
+            if (resultTemp.IsSuccess)
+            {
+                var career = JsonUtil.JsonDese<CareerForOwnedGamesByPersonaId>(resultTemp.Message);
+
+                // 拿到该玩家的生涯数据
+                int kills = career.result.gameStats.tunguska.kills;
+                int deaths = career.result.gameStats.tunguska.deaths;
+
+                float kd = (float)Math.Round((double)kills / deaths, 2);
+                float kpm = career.result.gameStats.tunguska.kpm;
+
+                int weaponStar = (int)career.result.gameStats.tunguska.highlightsByType.weapon[0].highlightDetails.stats.values.kills;
+                int vehicleStar = (int)career.result.gameStats.tunguska.highlightsByType.vehicle[0].highlightDetails.stats.values.kills;
+
+                weaponStar = weaponStar / 100;
+                vehicleStar = vehicleStar / 100;
+
+                // 限制玩家生涯KD
+                if (ServerRule.LifeMaxKD != 0 && kd > ServerRule.LifeMaxKD)
+                {
+                    AutoKickPlayer(new BreakRuleInfo
+                    {
+                        Name = PlayerUtil.GetNameNoMark(data.Name),
+                        PersonaId = data.PersonaId,
+                        Reason = $"Life KD Limit {ServerRule.LifeMaxKD:0.00}"
+                    });
+
+                    return;
+                }
+
+                // 限制玩家生涯KPM
+                if (ServerRule.LifeMaxKPM != 0 && kpm > ServerRule.LifeMaxKPM)
+                {
+                    AutoKickPlayer(new BreakRuleInfo
+                    {
+                        Name = PlayerUtil.GetNameNoMark(data.Name),
+                        PersonaId = data.PersonaId,
+                        Reason = $"Life KPM Limit {ServerRule.LifeMaxKPM:0.00}"
+                    });
+
+                    return;
+                }
+
+                // 限制玩家武器星级
+                if (ServerRule.LifeMaxWeaponStar != 0 && weaponStar > ServerRule.LifeMaxWeaponStar)
+                {
+                    AutoKickPlayer(new BreakRuleInfo
+                    {
+                        Name = PlayerUtil.GetNameNoMark(data.Name),
+                        PersonaId = data.PersonaId,
+                        Reason = $"Life Weapon Star Limit {ServerRule.LifeMaxWeaponStar:0}"
+                    });
+
+                    return;
+                }
+
+                // 限制玩家载具星级
+                if (ServerRule.LifeMaxVehicleStar != 0 && vehicleStar > ServerRule.LifeMaxVehicleStar)
+                {
+                    AutoKickPlayer(new BreakRuleInfo
+                    {
+                        Name = PlayerUtil.GetNameNoMark(data.Name),
+                        PersonaId = data.PersonaId,
+                        Reason = $"Life Vehicle Star Limit {ServerRule.LifeMaxVehicleStar:0}"
+                    });
+
+                    return;
+                }
             }
         }
 
         // 自动踢出违规玩家
         private async void AutoKickPlayer(BreakRuleInfo info)
         {
-            // 跳过管理员
-            if (!Globals.Server_AdminList.Contains(info.PersonaId.ToString()))
-            {
-                // 白名单玩家不踢出
-                if (!Globals.Custom_WhiteList.Contains(info.Name))
-                {
-                    // 先检查踢出玩家是否在已踢出列表中
-                    int index = Kicked_PlayerList.FindIndex(var => var.PersonaId == info.PersonaId);
-                    if (index == -1)
-                    {
-                        var result = await BF1API.AdminKickPlayer(info.PersonaId.ToString(), info.Reason);
+            var result = await BF1API.AdminKickPlayer(info.PersonaId.ToString(), info.Reason);
 
-                        if (result.IsSuccess)
-                        {
-                            info.Status = "踢出成功";
-                            info.Time = DateTime.Now;
-                            LogView.dAddKickLog1(info);
-                            Kicked_PlayerList.Add(info);
-                        }
-                        else
-                        {
-                            info.Status = "踢出失败 " + result.Message;
-                            LogView.dAddKickLog2(info);
-                        }
-                    }
-                }
+            if (result.IsSuccess)
+            {
+                info.Status = "踢出成功";
+                info.Time = DateTime.Now;
+                LogView.dAddKickLog1(info);
+            }
+            else
+            {
+                info.Status = "踢出失败 " + result.Message;
+                info.Time = DateTime.Now;
+                LogView.dAddKickLog2(info);
             }
         }
 
@@ -412,6 +487,12 @@ namespace BF1.ServerAdminTools.Views
             ServerRule.MinRank = Convert.ToInt32(Slider_MinRank.Value);
             ServerRule.MaxRank = Convert.ToInt32(Slider_MaxRank.Value);
 
+            ServerRule.LifeMaxKD = Convert.ToSingle(Slider_LifeMaxKD.Value);
+            ServerRule.LifeMaxKPM = Convert.ToSingle(Slider_LifeMaxKPM.Value);
+
+            ServerRule.LifeMaxWeaponStar = Convert.ToInt32(Slider_LifeMaxWeaponStar.Value);
+            ServerRule.LifeMaxVehicleStar = Convert.ToInt32(Slider_LifeMaxVehicleStar.Value);
+
             if (ServerRule.MinRank >= ServerRule.MaxRank && ServerRule.MinRank != 0 && ServerRule.MaxRank != 0)
             {
                 Globals.IsRuleSetRight = false;
@@ -474,6 +555,14 @@ namespace BF1.ServerAdminTools.Views
 
             AppendLog($"玩家最低等级限制 : {ServerRule.MinRank}");
             AppendLog($"玩家最高等级限制 : {ServerRule.MaxRank}");
+            AppendLog("");
+
+            AppendLog($"玩家最高生涯KD限制 : {ServerRule.LifeMaxKD}");
+            AppendLog($"玩家最高生涯KPM限制 : {ServerRule.LifeMaxKPM}");
+            AppendLog("");
+
+            AppendLog($"玩家最高生涯武器星数限制 : {ServerRule.LifeMaxWeaponStar}");
+            AppendLog($"玩家最高生涯载具星数限制 : {ServerRule.LifeMaxVehicleStar}");
             AppendLog("\n");
 
             AppendLog($"========== 禁武器列表 ==========");
