@@ -10,6 +10,8 @@ namespace BF1.ServerAdminTools.Views
         public AboutView()
         {
             InitializeComponent();
+
+            TextBlock_GetLastWriteTime.Text = "最后编译时间：" + File.GetLastWriteTime(Process.GetCurrentProcess().MainModule.FileName);
         }
 
         private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
