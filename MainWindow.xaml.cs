@@ -90,11 +90,14 @@ namespace BF1.ServerAdminTools
                     File.Create(FileUtil.F_WhiteList_Path).Close();
 
                 SQLiteHelper.Initialize();
+                LoggerHelper.Info($"SQLite数据库初始化成功");
 
                 ChatMsg.AllocateMemory();
+                LoggerHelper.Info($"中文聊天指针分配成功 0x{ChatMsg.GetAllocateMemoryAddress():x}");
             }
             catch (Exception ex)
             {
+                LoggerHelper.Error($"发生异常", ex);
                 MsgBoxUtil.ExceptionMsgBox(ex);
             }
         }
@@ -112,11 +115,15 @@ namespace BF1.ServerAdminTools
             IniHelper.WriteString("Globals", "Sid", Globals.Sid, FileUtil.F_Settings_Path);
 
             SQLiteHelper.CloseConnection();
+            LoggerHelper.Info($"关闭数据库链接");
 
             ChatMsg.FreeMemory();
+            LoggerHelper.Info($"释放中文聊天指针内存");
             Memory.CloseHandle();
+            LoggerHelper.Info($"释放目标进程句柄");
 
             Application.Current.Shutdown();
+            LoggerHelper.Info($"程序关闭\n\n");
         }
 
         private void InitThread()

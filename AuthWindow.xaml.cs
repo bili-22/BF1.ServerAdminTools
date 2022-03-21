@@ -24,17 +24,29 @@ namespace BF1.ServerAdminTools
             Task.Run(() =>
             {
                 UpdateState("欢迎来到《BATTLEFIELD 1》...");
+                LoggerHelper.Info("开始初始化程序...");
                 Task.Delay(1000).Wait();
 
                 UpdateState("正在为您营造个性化体验...");
                 Task.Delay(500).Wait();
 
                 // 初始化
-                Memory.Initialize(CoreUtil.AppName);
+                if (Memory.Initialize(CoreUtil.AppName))
+                    LoggerHelper.Info("战地1内存模块初始化成功");
+                else
+                    LoggerHelper.Error("战地1内存模块初始化失败");
+
                 BF1API.Init();
+                LoggerHelper.Info("战地1API模块初始化成功");
+
                 GTAPI.Init();
+                LoggerHelper.Info("GameTools API模块初始化成功");
+
                 ImageData.InitDict();
+                LoggerHelper.Info("本地图片缓存数据初始化成功");
+
                 ChineseConverter.ToTraditional("免费，跨平台，开源！");
+                LoggerHelper.Info("简繁翻译库初始化成功");
 
                 try
                 {
@@ -45,6 +57,7 @@ namespace BF1.ServerAdminTools
                     if (!Memory.IsValid(baseAddress))
                     {
                         UpdateState($"未获取到玩家数据，请稍后再试！程序即将关闭");
+                        LoggerHelper.Error($"玩家基址读取失败");
                         Task.Delay(2000).Wait();
 
                         Application.Current.Dispatcher.BeginInvoke(() =>
@@ -52,11 +65,17 @@ namespace BF1.ServerAdminTools
                             Application.Current.Shutdown();
                         });
                     }
+                    else
+                    {
+                        LoggerHelper.Info($"玩家基址读取成功 0x{baseAddress:x}");
+                    }
 
                     // 带队标 0x2156，不带队标 0x40
                     var personaId = Memory.Read<long>(baseAddress + 0x38);
+                    LoggerHelper.Info($"玩家数字ID {personaId}");
                     var offset = Memory.Read<long>(baseAddress + 0x18);
                     var playerName = Memory.ReadString(offset, 64);
+                    LoggerHelper.Info($"玩家ID {playerName}");
 
                     var str = "https://api.battlefield.vip/bf1/checkauth";
                     var options = new RestClientOptions(str)
@@ -64,6 +83,7 @@ namespace BF1.ServerAdminTools
                         Timeout = 5000
                     };
 
+                    LoggerHelper.Info($"正在验证玩家 {playerName} 授权");
                     var client = new RestClient(options);
                     var request = new RestRequest()
                         .AddQueryParameter("playername", playerName)
@@ -72,11 +92,12 @@ namespace BF1.ServerAdminTools
                     var response = client.ExecutePostAsync(request).Result;
                     if (response.StatusCode == HttpStatusCode.OK)
                     {
-
+                        LoggerHelper.Info($"验证玩家授权成功");
                     }
                     else if (response.StatusCode == HttpStatusCode.Forbidden)
                     {
                         UpdateState($"玩家 {playerName} 未授权！程序即将关闭");
+                        LoggerHelper.Error($"玩家 {playerName} 未授权");
                         Task.Delay(2000).Wait();
 
                         Application.Current.Dispatcher.BeginInvoke(() =>
@@ -89,6 +110,7 @@ namespace BF1.ServerAdminTools
                     else
                     {
                         UpdateState("验证玩家授权失败！程序即将关闭");
+                        LoggerHelper.Error($"验证玩家 {playerName} 授权失败");
                         Task.Delay(2000).Wait();
 
                         Application.Current.Dispatcher.BeginInvoke(() =>
@@ -102,6 +124,7 @@ namespace BF1.ServerAdminTools
                     ////////////////////////////////////////////////////////////////////
 
                     UpdateState("正在检测版本更新...");
+                    LoggerHelper.Info($"正在检测版本更新...");
                     Task.Delay(500).Wait();
 
                     // 获取版本更新
@@ -109,6 +132,7 @@ namespace BF1.ServerAdminTools
                     if (string.IsNullOrEmpty(web))
                     {
                         UpdateState("获取新版本信息失败！程序即将关闭");
+                        LoggerHelper.Error($"获取新版本信息失败");
                         Task.Delay(2000).Wait();
 
                         Application.Current.Dispatcher.BeginInvoke(() =>
@@ -124,6 +148,8 @@ namespace BF1.ServerAdminTools
 
                     if (webV > locV)
                     {
+                        LoggerHelper.Error($"发现新版本");
+
                         Application.Current.Dispatcher.BeginInvoke(() =>
                         {
                             this.Hide();
@@ -143,6 +169,7 @@ namespace BF1.ServerAdminTools
                     else
                     {
                         UpdateState("连线中...");
+                        LoggerHelper.Info($"当前已是最新版本");
                         Task.Delay(500).Wait();
 
                         Application.Current.Dispatcher.BeginInvoke(() =>
@@ -155,9 +182,10 @@ namespace BF1.ServerAdminTools
                         });
                     }
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     UpdateState("发生了未知异常！程序即将关闭");
+                    LoggerHelper.Error($"发生了未知异常", ex);
                     Task.Delay(2000).Wait();
 
                     Application.Current.Dispatcher.BeginInvoke(() =>
