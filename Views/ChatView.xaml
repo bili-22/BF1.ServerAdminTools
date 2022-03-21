@@ -188,7 +188,7 @@
                 <TextBlock
                     Margin="5"
                     Foreground="Green"
-                    Text="说明：上述设置如果调整了需要重新勾选《激活定时发送指定文本》才会生效"
+                    Text="说明：上述设置如果调整了需要重新勾选《启用定时发送指定文本》才会生效"
                     TextWrapping="Wrap" />
                 <!--  ################  -->
                 <TextBlock Style="{StaticResource TextBlockTitleStyle}" Text="挂机防踢" />
