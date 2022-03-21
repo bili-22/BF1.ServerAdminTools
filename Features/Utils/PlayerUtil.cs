@@ -1,5 +1,4 @@
 ﻿using BF1.ServerAdminTools.Features.Data;
-using Chinese;
 
 namespace BF1.ServerAdminTools.Features.Utils
 {
@@ -197,7 +196,7 @@ namespace BF1.ServerAdminTools.Features.Utils
         }
 
         /// <summary>
-        /// 获取本地图片路径
+        /// 获取本地图片路径，如果未找到会返回空字符串
         /// </summary>
         /// <param name="url"></param>
         /// <param name="type"></param>
@@ -208,19 +207,19 @@ namespace BF1.ServerAdminTools.Features.Utils
             switch (type)
             {
                 case "maps":
-                    return ImageData.MapsDict[extension];
+                    return ImageData.MapsDict.ContainsKey(extension) ? ImageData.MapsDict[extension] : string.Empty;
                 case "weapons":
-                    return ImageData.WeaponsDict[extension];
+                    return ImageData.WeaponsDict.ContainsKey(extension) ? ImageData.WeaponsDict[extension] : string.Empty;
                 case "weapons2":
-                    return ImageData.Weapons2Dict[extension];
+                    return ImageData.Weapons2Dict.ContainsKey(extension) ? ImageData.Weapons2Dict[extension] : string.Empty;
                 case "vehicles":
-                    return ImageData.VehiclesDict[extension];
+                    return ImageData.VehiclesDict.ContainsKey(extension) ? ImageData.VehiclesDict[extension] : string.Empty;
                 case "vehicles2":
-                    return ImageData.Vehicles2Dict[extension];
+                    return ImageData.Vehicles2Dict.ContainsKey(extension) ? ImageData.Vehicles2Dict[extension] : string.Empty;
                 case "classes":
-                    return ImageData.ClassesDict[extension];
+                    return ImageData.ClassesDict.ContainsKey(extension) ? ImageData.ClassesDict[extension] : string.Empty;
                 case "classes2":
-                    return ImageData.Classes2Dict[extension];
+                    return ImageData.Classes2Dict.ContainsKey(extension) ? ImageData.Classes2Dict[extension] : string.Empty;
                 default:
                     return string.Empty;
             }
