@@ -22,7 +22,7 @@ namespace BF1.ServerAdminTools.Windows
 
         private async void Button_KickPlayer_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow.dSetOperatingState(2, $"正在踢出玩家 {PlayerName} 中...");
+            MainWindow._dSetOperatingState(2, $"正在踢出玩家 {PlayerName} 中...");
 
             var reason = TextBox_CustomReason.Text.Trim();
 
@@ -35,12 +35,12 @@ namespace BF1.ServerAdminTools.Windows
 
             if (result.IsSuccess)
             {
-                MainWindow.dSetOperatingState(1, $"踢出玩家 {PlayerName} 成功  |  耗时: {result.ExecTime:0.00} 秒");
+                MainWindow._dSetOperatingState(1, $"踢出玩家 {PlayerName} 成功  |  耗时: {result.ExecTime:0.00} 秒");
                 this.Close();
             }
             else
             {
-                MainWindow.dSetOperatingState(3, $"踢出玩家 {PlayerName} 失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
+                MainWindow._dSetOperatingState(3, $"踢出玩家 {PlayerName} 失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
             }
         }
     }

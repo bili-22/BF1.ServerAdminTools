@@ -73,7 +73,7 @@ namespace BF1.ServerAdminTools.Views
 
                 QueryModel.PlayerName = QueryModel.PlayerName.Trim();
 
-                MainWindow.dSetOperatingState(2, $"正在查询玩家 {QueryModel.PlayerName} 数据中...");
+                MainWindow._dSetOperatingState(2, $"正在查询玩家 {QueryModel.PlayerName} 数据中...");
 
                 var result = await GTAPI.GetPlayerAllData(QueryModel.PlayerName);
 
@@ -174,16 +174,16 @@ namespace BF1.ServerAdminTools.Views
                         }
                     }
 
-                    MainWindow.dSetOperatingState(1, $"玩家 {QueryModel.PlayerName} 数据查询成功  |  耗时: {result.ExecTime:0.00} 秒");
+                    MainWindow._dSetOperatingState(1, $"玩家 {QueryModel.PlayerName} 数据查询成功  |  耗时: {result.ExecTime:0.00} 秒");
                 }
                 else
                 {
-                    MainWindow.dSetOperatingState(3, $"玩家 {QueryModel.PlayerName} 数据查询失败  |  耗时: {result.ExecTime:0.00} 秒");
+                    MainWindow._dSetOperatingState(3, $"玩家 {QueryModel.PlayerName} 数据查询失败  |  耗时: {result.ExecTime:0.00} 秒");
                 }
             }
             else
             {
-                MainWindow.dSetOperatingState(2, $"请输入正确的玩家名称");
+                MainWindow._dSetOperatingState(2, $"请输入正确的玩家名称");
             }
         }
 

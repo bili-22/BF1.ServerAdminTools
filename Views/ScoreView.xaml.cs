@@ -220,7 +220,8 @@ namespace BF1.ServerAdminTools.Views
                             Mark = _tdCP.Mark,
                             TeamID = _tdCP.TeamID,
                             Spectator = _tdCP.Spectator,
-                            Name = _tdCP.Name,
+                            Clan = PlayerUtil.GetPlayerTargetName(_tdCP.Name, true),
+                            Name = PlayerUtil.GetPlayerTargetName(_tdCP.Name, false),
                             PersonaId = _tdCP.PersonaId,
                             SquadId = PlayerUtil.GetSquadChsName(_tdCP.PartyId),
 
@@ -558,6 +559,7 @@ namespace BF1.ServerAdminTools.Views
                     if (index != -1)
                     {
                         DataGrid_PlayerList_Team1[i].Rank = PlayerList_Team1[index].Rank;
+                        DataGrid_PlayerList_Team1[i].Clan = PlayerList_Team1[index].Clan;
                         DataGrid_PlayerList_Team1[i].Admin = PlayerList_Team1[index].Admin;
                         DataGrid_PlayerList_Team1[i].VIP = PlayerList_Team1[index].VIP;
                         DataGrid_PlayerList_Team1[i].SquadId = PlayerList_Team1[index].SquadId;
@@ -590,6 +592,7 @@ namespace BF1.ServerAdminTools.Views
                         DataGrid_PlayerList_Team1.Add(new PlayerListModel()
                         {
                             Rank = PlayerList_Team1[i].Rank,
+                            Clan = PlayerList_Team1[i].Clan,
                             Name = PlayerList_Team1[i].Name,
                             PersonaId = PlayerList_Team1[i].PersonaId,
                             Admin = PlayerList_Team1[i].Admin,
@@ -637,6 +640,7 @@ namespace BF1.ServerAdminTools.Views
                     if (index != -1)
                     {
                         DataGrid_PlayerList_Team2[i].Rank = PlayerList_Team2[index].Rank;
+                        DataGrid_PlayerList_Team2[i].Clan = PlayerList_Team2[index].Clan;
                         DataGrid_PlayerList_Team2[i].Admin = PlayerList_Team2[index].Admin;
                         DataGrid_PlayerList_Team2[i].VIP = PlayerList_Team2[index].VIP;
                         DataGrid_PlayerList_Team2[i].SquadId = PlayerList_Team2[index].SquadId;
@@ -669,6 +673,7 @@ namespace BF1.ServerAdminTools.Views
                         DataGrid_PlayerList_Team2.Add(new PlayerListModel()
                         {
                             Rank = PlayerList_Team2[i].Rank,
+                            Clan = PlayerList_Team2[i].Clan,
                             Name = PlayerList_Team2[i].Name,
                             PersonaId = PlayerList_Team2[i].PersonaId,
                             Admin = PlayerList_Team2[i].Admin,
@@ -710,7 +715,7 @@ namespace BF1.ServerAdminTools.Views
                 {
                     Globals.BreakRuleInfo_PlayerList.Add(new BreakRuleInfo
                     {
-                        Name = PlayerUtil.GetNameNoMark(playerData.Name),
+                        Name = playerData.Name,
                         PersonaId = playerData.PersonaId,
                         Reason = $"Kill Limit {ServerRule.MaxKill:0}"
                     });
@@ -726,7 +731,7 @@ namespace BF1.ServerAdminTools.Views
                     {
                         Globals.BreakRuleInfo_PlayerList.Add(new BreakRuleInfo
                         {
-                            Name = PlayerUtil.GetNameNoMark(playerData.Name),
+                            Name = playerData.Name,
                             PersonaId = playerData.PersonaId,
                             Reason = $"KD Limit {ServerRule.MaxKD:0.00}"
                         });
@@ -743,7 +748,7 @@ namespace BF1.ServerAdminTools.Views
                     {
                         Globals.BreakRuleInfo_PlayerList.Add(new BreakRuleInfo
                         {
-                            Name = PlayerUtil.GetNameNoMark(playerData.Name),
+                            Name = playerData.Name,
                             PersonaId = playerData.PersonaId,
                             Reason = $"KPM Limit {ServerRule.MaxKPM:0.00}"
                         });
@@ -757,7 +762,7 @@ namespace BF1.ServerAdminTools.Views
                 {
                     Globals.BreakRuleInfo_PlayerList.Add(new BreakRuleInfo
                     {
-                        Name = PlayerUtil.GetNameNoMark(playerData.Name),
+                        Name = playerData.Name,
                         PersonaId = playerData.PersonaId,
                         Reason = $"Min Rank Limit {ServerRule.MinRank:0}"
                     });
@@ -770,7 +775,7 @@ namespace BF1.ServerAdminTools.Views
                 {
                     Globals.BreakRuleInfo_PlayerList.Add(new BreakRuleInfo
                     {
-                        Name = PlayerUtil.GetNameNoMark(playerData.Name),
+                        Name = playerData.Name,
                         PersonaId = playerData.PersonaId,
                         Reason = $"Max Rank Limit {ServerRule.MaxRank:0}"
                     });
@@ -797,7 +802,7 @@ namespace BF1.ServerAdminTools.Views
                         {
                             Globals.BreakRuleInfo_PlayerList.Add(new BreakRuleInfo
                             {
-                                Name = PlayerUtil.GetNameNoMark(playerData.Name),
+                                Name = playerData.Name,
                                 PersonaId = playerData.PersonaId,
                                 Reason = $"Weapon Limit K Bullet"
                             });
@@ -820,7 +825,7 @@ namespace BF1.ServerAdminTools.Views
                         {
                             Globals.BreakRuleInfo_PlayerList.Add(new BreakRuleInfo
                             {
-                                Name = PlayerUtil.GetNameNoMark(playerData.Name),
+                                Name = playerData.Name,
                                 PersonaId = playerData.PersonaId,
                                 Reason = $"Weapon Limit RGL Frag"
                             });
@@ -843,7 +848,7 @@ namespace BF1.ServerAdminTools.Views
                         {
                             Globals.BreakRuleInfo_PlayerList.Add(new BreakRuleInfo
                             {
-                                Name = PlayerUtil.GetNameNoMark(playerData.Name),
+                                Name = playerData.Name,
                                 PersonaId = playerData.PersonaId,
                                 Reason = $"Weapon Limit RGL Smoke"
                             });
@@ -866,7 +871,7 @@ namespace BF1.ServerAdminTools.Views
                         {
                             Globals.BreakRuleInfo_PlayerList.Add(new BreakRuleInfo
                             {
-                                Name = PlayerUtil.GetNameNoMark(playerData.Name),
+                                Name = playerData.Name,
                                 PersonaId = playerData.PersonaId,
                                 Reason = $"Weapon Limit RGL HE"
                             });
@@ -886,7 +891,7 @@ namespace BF1.ServerAdminTools.Views
                     {
                         Globals.BreakRuleInfo_PlayerList.Add(new BreakRuleInfo
                         {
-                            Name = PlayerUtil.GetNameNoMark(playerData.Name),
+                            Name = playerData.Name,
                             PersonaId = playerData.PersonaId,
                             Reason = $"Weapon Limit {PlayerUtil.GetWeaponShortTxt(item)}"
                         });
@@ -899,11 +904,11 @@ namespace BF1.ServerAdminTools.Views
                 for (int i = 0; i < Globals.Custom_BlackList.Count; i++)
                 {
                     var item = Globals.Custom_BlackList[i];
-                    if (PlayerUtil.GetNameNoMark(playerData.Name) == item)
+                    if (playerData.Name == item)
                     {
                         Globals.BreakRuleInfo_PlayerList.Add(new BreakRuleInfo
                         {
-                            Name = PlayerUtil.GetNameNoMark(playerData.Name),
+                            Name = playerData.Name,
                             PersonaId = playerData.PersonaId,
                             Reason = "Server Black List"
                         });
@@ -991,7 +996,7 @@ namespace BF1.ServerAdminTools.Views
                 info.Status = "踢出成功";
                 info.Time = DateTime.Now;
 
-                LogView.dAddKickLog1(info);
+                LogView._dAddKickOKLog(info);
             }
             else
             {
@@ -999,7 +1004,7 @@ namespace BF1.ServerAdminTools.Views
                 info.Status = "踢出失败 " + result.Message;
                 info.Time = DateTime.Now;
 
-                LogView.dAddKickLog2(info);
+                LogView._dAddKickNOLog(info);
             }
 
         }
@@ -1012,27 +1017,27 @@ namespace BF1.ServerAdminTools.Views
             {
                 if (_dataGridSelcContent.IsOK)
                 {
-                    MainWindow.dSetOperatingState(2, $"正在踢出玩家 {_dataGridSelcContent.Name} 中...");
+                    MainWindow._dSetOperatingState(2, $"正在踢出玩家 {_dataGridSelcContent.Name} 中...");
 
                     var result = await BF1API.AdminKickPlayer(_dataGridSelcContent.PersonaId.ToString(), reason);
 
                     if (result.IsSuccess)
                     {
-                        MainWindow.dSetOperatingState(1, $"踢出玩家 {_dataGridSelcContent.Name} 成功  |  耗时: {result.ExecTime:0.00} 秒");
+                        MainWindow._dSetOperatingState(1, $"踢出玩家 {_dataGridSelcContent.Name} 成功  |  耗时: {result.ExecTime:0.00} 秒");
                     }
                     else
                     {
-                        MainWindow.dSetOperatingState(3, $"踢出玩家 {_dataGridSelcContent.Name} 失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
+                        MainWindow._dSetOperatingState(3, $"踢出玩家 {_dataGridSelcContent.Name} 失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
                     }
                 }
                 else
                 {
-                    MainWindow.dSetOperatingState(2, "请选择正确的玩家");
+                    MainWindow._dSetOperatingState(2, "请选择正确的玩家");
                 }
             }
             else
             {
-                MainWindow.dSetOperatingState(2, "请先获取玩家SessionID");
+                MainWindow._dSetOperatingState(2, "请先获取玩家SessionID");
             }
         }
 
@@ -1050,12 +1055,12 @@ namespace BF1.ServerAdminTools.Views
                 }
                 else
                 {
-                    MainWindow.dSetOperatingState(2, "请选择正确的玩家");
+                    MainWindow._dSetOperatingState(2, "请选择正确的玩家");
                 }
             }
             else
             {
-                MainWindow.dSetOperatingState(2, "请先获取玩家SessionID");
+                MainWindow._dSetOperatingState(2, "请先获取玩家SessionID");
             }
         }
 
@@ -1090,27 +1095,27 @@ namespace BF1.ServerAdminTools.Views
             {
                 if (_dataGridSelcContent.IsOK)
                 {
-                    MainWindow.dSetOperatingState(2, $"正在更换玩家 {_dataGridSelcContent.Name} 队伍中...");
+                    MainWindow._dSetOperatingState(2, $"正在更换玩家 {_dataGridSelcContent.Name} 队伍中...");
 
                     var result = await BF1API.AdminMovePlayer(_dataGridSelcContent.PersonaId.ToString(), _dataGridSelcContent.TeamID.ToString());
 
                     if (result.IsSuccess)
                     {
-                        MainWindow.dSetOperatingState(1, $"更换玩家 {_dataGridSelcContent.Name} 队伍成功  |  耗时: {result.ExecTime:0.00} 秒");
+                        MainWindow._dSetOperatingState(1, $"更换玩家 {_dataGridSelcContent.Name} 队伍成功  |  耗时: {result.ExecTime:0.00} 秒");
                     }
                     else
                     {
-                        MainWindow.dSetOperatingState(3, $"更换玩家 {_dataGridSelcContent.Name} 队伍失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
+                        MainWindow._dSetOperatingState(3, $"更换玩家 {_dataGridSelcContent.Name} 队伍失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
                     }
                 }
                 else
                 {
-                    MainWindow.dSetOperatingState(2, "请选择正确的玩家，操作取消");
+                    MainWindow._dSetOperatingState(2, "请选择正确的玩家，操作取消");
                 }
             }
             else
             {
-                MainWindow.dSetOperatingState(2, "请先获取玩家SessionID后，再执行本操作");
+                MainWindow._dSetOperatingState(2, "请先获取玩家SessionID后，再执行本操作");
             }
         }
 
@@ -1119,12 +1124,12 @@ namespace BF1.ServerAdminTools.Views
             if (_dataGridSelcContent.IsOK)
             {
                 // 复制玩家ID（无队标）
-                Clipboard.SetText(PlayerUtil.GetNameNoMark(_dataGridSelcContent.Name));
-                MainWindow.dSetOperatingState(1, $"复制玩家ID {PlayerUtil.GetNameNoMark(_dataGridSelcContent.Name)} 到剪切板成功");
+                Clipboard.SetText(_dataGridSelcContent.Name);
+                MainWindow._dSetOperatingState(1, $"复制玩家ID {_dataGridSelcContent.Name} 到剪切板成功");
             }
             else
             {
-                MainWindow.dSetOperatingState(2, "请选择正确的玩家，操作取消");
+                MainWindow._dSetOperatingState(2, "请选择正确的玩家，操作取消");
             }
         }
 
@@ -1134,11 +1139,11 @@ namespace BF1.ServerAdminTools.Views
             {
                 // 复制玩家数字ID
                 Clipboard.SetText(_dataGridSelcContent.PersonaId.ToString());
-                MainWindow.dSetOperatingState(1, $"复制玩家数字ID {_dataGridSelcContent.PersonaId} 到剪切板成功");
+                MainWindow._dSetOperatingState(1, $"复制玩家数字ID {_dataGridSelcContent.PersonaId} 到剪切板成功");
             }
             else
             {
-                MainWindow.dSetOperatingState(2, "请选择正确的玩家，操作取消");
+                MainWindow._dSetOperatingState(2, "请选择正确的玩家，操作取消");
             }
         }
 
@@ -1147,12 +1152,12 @@ namespace BF1.ServerAdminTools.Views
             if (_dataGridSelcContent.IsOK)
             {
                 // 查询玩家战绩
-                MainWindow.dTabControlSelect();
-                QueryView.queryPalyerDelegate(PlayerUtil.GetNameNoMark(_dataGridSelcContent.Name));
+                MainWindow._dTabControlSelect();
+                QueryView.queryPalyerDelegate(_dataGridSelcContent.Name);
             }
             else
             {
-                MainWindow.dSetOperatingState(2, "请选择正确的玩家，操作取消");
+                MainWindow._dSetOperatingState(2, "请选择正确的玩家，操作取消");
             }
         }
 
@@ -1161,14 +1166,14 @@ namespace BF1.ServerAdminTools.Views
             // 查询玩家战绩（BT）
             if (_dataGridSelcContent.IsOK)
             {
-                string playerName = PlayerUtil.GetNameNoMark(_dataGridSelcContent.Name);
+                string playerName = _dataGridSelcContent.Name;
 
                 ProcessUtil.OpenLink(@"https://battlefieldtracker.com/bf1/profile/pc/" + playerName);
-                MainWindow.dSetOperatingState(1, $"查询玩家（{_dataGridSelcContent.Name}）战绩成功，请前往浏览器查看");
+                MainWindow._dSetOperatingState(1, $"查询玩家（{_dataGridSelcContent.Name}）战绩成功，请前往浏览器查看");
             }
             else
             {
-                MainWindow.dSetOperatingState(2, "请选择正确的玩家，操作取消");
+                MainWindow._dSetOperatingState(2, "请选择正确的玩家，操作取消");
             }
         }
 
@@ -1177,14 +1182,14 @@ namespace BF1.ServerAdminTools.Views
             // 查询玩家战绩（GT）
             if (_dataGridSelcContent.IsOK)
             {
-                string playerName = PlayerUtil.GetNameNoMark(_dataGridSelcContent.Name);
+                string playerName = _dataGridSelcContent.Name;
 
                 ProcessUtil.OpenLink(@"https://gametools.network/stats/pc/name/" + playerName + "?game=bf1");
-                MainWindow.dSetOperatingState(1, $"查询玩家（{_dataGridSelcContent.Name}）战绩成功，请前往浏览器查看");
+                MainWindow._dSetOperatingState(1, $"查询玩家（{_dataGridSelcContent.Name}）战绩成功，请前往浏览器查看");
             }
             else
             {
-                MainWindow.dSetOperatingState(2, "请选择正确的玩家，操作取消");
+                MainWindow._dSetOperatingState(2, "请选择正确的玩家，操作取消");
             }
         }
 
@@ -1197,7 +1202,7 @@ namespace BF1.ServerAdminTools.Views
                 CollectionViewSource.GetDefaultView(DataGrid_Team1.ItemsSource).SortDescriptions.Clear();
                 CollectionViewSource.GetDefaultView(DataGrid_Team2.ItemsSource).SortDescriptions.Clear();
 
-                MainWindow.dSetOperatingState(1, "清理得分板标题排序成功（默认为玩家得分从高到低排序）");
+                MainWindow._dSetOperatingState(1, "清理得分板标题排序成功（默认为玩家得分从高到低排序）");
             }));
         }
 
@@ -1210,12 +1215,12 @@ namespace BF1.ServerAdminTools.Views
                 if (item.IsChecked)
                 {
                     Globals.IsShowCHSWeaponName = true;
-                    MainWindow.dSetOperatingState(1, $"当前得分板正在显示中文武器名称");
+                    MainWindow._dSetOperatingState(1, $"当前得分板正在显示中文武器名称");
                 }
                 else
                 {
                     Globals.IsShowCHSWeaponName = false;
-                    MainWindow.dSetOperatingState(1, $"当前得分板正在显示英文武器名称");
+                    MainWindow._dSetOperatingState(1, $"当前得分板正在显示英文武器名称");
                 }
             }
         }

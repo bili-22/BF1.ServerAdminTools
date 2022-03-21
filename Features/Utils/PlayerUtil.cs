@@ -151,19 +151,30 @@ namespace BF1.ServerAdminTools.Features.Utils
         }
 
         /// <summary>
-        /// 获取玩家ID，不带队标
+        /// 获取玩家ID或队标
         /// </summary>
-        /// <param name="playerName"></param>
-        /// <returns></returns>
-        public static string GetNameNoMark(string playerName)
+        public static string GetPlayerTargetName(string originalName, bool isClan)
         {
-            int index = playerName.IndexOf("]");
+            int index = originalName.IndexOf("]");
+
+            string clan = string.Empty;
+            string name = string.Empty;
+
             if (index != -1)
             {
-                return playerName.Substring(index + 1);
+                clan = originalName.Substring(1, index - 1);
+                name = originalName.Substring(index + 1);
+            }
+            else
+            {
+                clan = "";
+                name = originalName;
             }
 
-            return playerName;
+            if (isClan)
+                return clan;
+            else
+                return name;
         }
 
         /// <summary>

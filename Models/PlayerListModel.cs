@@ -16,6 +16,16 @@ namespace BF1.ServerAdminTools.Models
 
         ///////////////////////////////////////////////////////////////////////
 
+        private string _clan;
+        /// <summary>
+        /// 玩家战队
+        /// </summary>
+        public string Clan
+        {
+            get { return _clan; }
+            set { _clan = value; OnPropertyChanged(); }
+        }
+
         private string _name;
         /// <summary>
         /// 玩家ID

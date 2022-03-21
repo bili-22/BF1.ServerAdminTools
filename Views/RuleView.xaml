@@ -391,6 +391,11 @@
                     Foreground="Green"
                     Text="提示：无法踢出管理员和服主（即使用游戏内部的管理员菜单也无法踢出，这是战地1游戏机制），自动踢人会跳过服主、管理员和白名单玩家，但是他们还是会在出现违规列表中，这样会有个提醒作用"
                     TextWrapping="Wrap" />
+                <TextBlock
+                    Margin="5"
+                    Foreground="Green"
+                    Text="提示：如果中途修改了规则，必须重新点击【应用当前规则】才能生效"
+                    TextWrapping="Wrap" />
                 <!--  ################################  -->
 
             </StackPanel>

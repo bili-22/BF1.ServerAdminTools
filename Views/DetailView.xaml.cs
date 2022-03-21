@@ -82,7 +82,7 @@ namespace BF1.ServerAdminTools.Views
 
                     /////////////////////////////////////////////////////////////////////////////////
 
-                    MainWindow.dSetOperatingState(2, $"正在获取服务器 {Globals.GameId} 详细数据中...");
+                    MainWindow._dSetOperatingState(2, $"正在获取服务器 {Globals.GameId} 详细数据中...");
 
                     await BF1API.SetAPILocale();
                     var result = await BF1API.GetFullServerDetails();
@@ -170,21 +170,21 @@ namespace BF1.ServerAdminTools.Views
                             });
                         }
 
-                        MainWindow.dSetOperatingState(1, $"获取服务器 {Globals.GameId} 详细数据成功  |  耗时: {result.ExecTime:0.00} 秒");
+                        MainWindow._dSetOperatingState(1, $"获取服务器 {Globals.GameId} 详细数据成功  |  耗时: {result.ExecTime:0.00} 秒");
                     }
                     else
                     {
-                        MainWindow.dSetOperatingState(3, $"获取服务器 {Globals.GameId} 详细数据失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
+                        MainWindow._dSetOperatingState(3, $"获取服务器 {Globals.GameId} 详细数据失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
                     }
                 }
                 else
                 {
-                    MainWindow.dSetOperatingState(2, "请先进入服务器获取GameID");
+                    MainWindow._dSetOperatingState(2, "请先进入服务器获取GameID");
                 }
             }
             else
             {
-                MainWindow.dSetOperatingState(2, "请先获取玩家SessionID");
+                MainWindow._dSetOperatingState(2, "请先获取玩家SessionID");
             }
         }
 
@@ -204,23 +204,23 @@ namespace BF1.ServerAdminTools.Views
 
                     if (changeMapWindow.ShowDialog() == true)
                     {
-                        MainWindow.dSetOperatingState(2, $"正在更换服务器 {Globals.GameId} 地图为 {currMap.mapPrettyName} 中...");
+                        MainWindow._dSetOperatingState(2, $"正在更换服务器 {Globals.GameId} 地图为 {currMap.mapPrettyName} 中...");
 
                         var result = await BF1API.ChangeServerMap(Globals.PersistedGameId, index.ToString());
 
                         if (result.IsSuccess)
                         {
-                            MainWindow.dSetOperatingState(1, $"更换服务器 {Globals.GameId} 地图为 {currMap.mapPrettyName} 成功  |  耗时: {result.ExecTime:0.00} 秒");
+                            MainWindow._dSetOperatingState(1, $"更换服务器 {Globals.GameId} 地图为 {currMap.mapPrettyName} 成功  |  耗时: {result.ExecTime:0.00} 秒");
                         }
                         else
                         {
-                            MainWindow.dSetOperatingState(3, $"更换服务器 {Globals.GameId} 地图为 {currMap.mapPrettyName} 失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
+                            MainWindow._dSetOperatingState(3, $"更换服务器 {Globals.GameId} 地图为 {currMap.mapPrettyName} 失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
                         }
                     }
                 }
                 else
                 {
-                    MainWindow.dSetOperatingState(2, "PersistedGameId异常，请重新获取服务器详细信息");
+                    MainWindow._dSetOperatingState(2, "PersistedGameId异常，请重新获取服务器详细信息");
                 }
             }
 
@@ -234,17 +234,17 @@ namespace BF1.ServerAdminTools.Views
 
             ListItem currListItem = ListBox_Admin.SelectedItem as ListItem;
 
-            MainWindow.dSetOperatingState(2, $"正在移除服务器管理员 {currListItem.displayName} 中...");
+            MainWindow._dSetOperatingState(2, $"正在移除服务器管理员 {currListItem.displayName} 中...");
 
             var result = await BF1API.RemoveServerAdmin(currListItem.personaId);
 
             if (result.IsSuccess)
             {
-                MainWindow.dSetOperatingState(1, $"移除服务器管理员 {currListItem.displayName} 成功  |  耗时: {result.ExecTime:0.00} 秒");
+                MainWindow._dSetOperatingState(1, $"移除服务器管理员 {currListItem.displayName} 成功  |  耗时: {result.ExecTime:0.00} 秒");
             }
             else
             {
-                MainWindow.dSetOperatingState(3, $"移除服务器管理员 {currListItem.displayName} 失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
+                MainWindow._dSetOperatingState(3, $"移除服务器管理员 {currListItem.displayName} 失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
             }
         }
 
@@ -252,17 +252,17 @@ namespace BF1.ServerAdminTools.Views
         {
             AudioUtil.ClickSound();
 
-            MainWindow.dSetOperatingState(2, $"正在增加服务器管理员 {TextBox_NewAdminName.Text} 中...");
+            MainWindow._dSetOperatingState(2, $"正在增加服务器管理员 {TextBox_NewAdminName.Text} 中...");
 
             var result = await BF1API.AddServerAdmin(TextBox_NewAdminName.Text);
 
             if (result.IsSuccess)
             {
-                MainWindow.dSetOperatingState(1, $"增加服务器管理员 {TextBox_NewAdminName.Text} 成功  |  耗时: {result.ExecTime:0.00} 秒");
+                MainWindow._dSetOperatingState(1, $"增加服务器管理员 {TextBox_NewAdminName.Text} 成功  |  耗时: {result.ExecTime:0.00} 秒");
             }
             else
             {
-                MainWindow.dSetOperatingState(3, $"增加服务器管理员 {TextBox_NewAdminName.Text} 失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
+                MainWindow._dSetOperatingState(3, $"增加服务器管理员 {TextBox_NewAdminName.Text} 失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
             }
         }
 
@@ -272,17 +272,17 @@ namespace BF1.ServerAdminTools.Views
 
             ListItem currListItem = ListBox_VIP.SelectedItem as ListItem;
 
-            MainWindow.dSetOperatingState(2, $"正在移除服务器VIP {currListItem.displayName} 中...");
+            MainWindow._dSetOperatingState(2, $"正在移除服务器VIP {currListItem.displayName} 中...");
 
             var result = await BF1API.RemoveServerVip(currListItem.personaId);
 
             if (result.IsSuccess)
             {
-                MainWindow.dSetOperatingState(1, $"移除服务器VIP {currListItem.displayName} 成功  |  耗时: {result.ExecTime:0.00} 秒");
+                MainWindow._dSetOperatingState(1, $"移除服务器VIP {currListItem.displayName} 成功  |  耗时: {result.ExecTime:0.00} 秒");
             }
             else
             {
-                MainWindow.dSetOperatingState(3, $"移除服务器VIP {currListItem.displayName} 失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
+                MainWindow._dSetOperatingState(3, $"移除服务器VIP {currListItem.displayName} 失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
             }
         }
 
@@ -290,17 +290,17 @@ namespace BF1.ServerAdminTools.Views
         {
             AudioUtil.ClickSound();
 
-            MainWindow.dSetOperatingState(2, $"正在增加服务器VIP {TextBox_NewVIPName.Text} 中...");
+            MainWindow._dSetOperatingState(2, $"正在增加服务器VIP {TextBox_NewVIPName.Text} 中...");
 
             var result = await BF1API.AddServerVip(TextBox_NewVIPName.Text);
 
             if (result.IsSuccess)
             {
-                MainWindow.dSetOperatingState(1, $"增加服务器VIP {TextBox_NewVIPName.Text} 成功  |  耗时: {result.ExecTime:0.00} 秒");
+                MainWindow._dSetOperatingState(1, $"增加服务器VIP {TextBox_NewVIPName.Text} 成功  |  耗时: {result.ExecTime:0.00} 秒");
             }
             else
             {
-                MainWindow.dSetOperatingState(3, $"增加服务器VIP {TextBox_NewVIPName.Text} 失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
+                MainWindow._dSetOperatingState(3, $"增加服务器VIP {TextBox_NewVIPName.Text} 失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
             }
         }
 
@@ -310,17 +310,17 @@ namespace BF1.ServerAdminTools.Views
 
             ListItem currListItem = ListBox_BAN.SelectedItem as ListItem;
 
-            MainWindow.dSetOperatingState(2, $"正在移除服务器BAN {currListItem.displayName} 中...");
+            MainWindow._dSetOperatingState(2, $"正在移除服务器BAN {currListItem.displayName} 中...");
 
             var result = await BF1API.RemoveServerBan(currListItem.personaId);
 
             if (result.IsSuccess)
             {
-                MainWindow.dSetOperatingState(1, $"移除服务器BAN {currListItem.displayName} 成功  |  耗时: {result.ExecTime:0.00} 秒");
+                MainWindow._dSetOperatingState(1, $"移除服务器BAN {currListItem.displayName} 成功  |  耗时: {result.ExecTime:0.00} 秒");
             }
             else
             {
-                MainWindow.dSetOperatingState(3, $"移除服务器BAN {currListItem.displayName} 失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
+                MainWindow._dSetOperatingState(3, $"移除服务器BAN {currListItem.displayName} 失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
             }
         }
 
@@ -328,17 +328,17 @@ namespace BF1.ServerAdminTools.Views
         {
             AudioUtil.ClickSound();
 
-            MainWindow.dSetOperatingState(2, $"正在增加服务器BAN {TextBox_NewBANName.Text} 中...");
+            MainWindow._dSetOperatingState(2, $"正在增加服务器BAN {TextBox_NewBANName.Text} 中...");
 
             var result = await BF1API.AddServerBan(TextBox_NewBANName.Text);
 
             if (result.IsSuccess)
             {
-                MainWindow.dSetOperatingState(1, $"增加服务器BAN {TextBox_NewBANName.Text} 成功  |  耗时: {result.ExecTime:0.00} 秒");
+                MainWindow._dSetOperatingState(1, $"增加服务器BAN {TextBox_NewBANName.Text} 成功  |  耗时: {result.ExecTime:0.00} 秒");
             }
             else
             {
-                MainWindow.dSetOperatingState(3, $"增加服务器BAN {TextBox_NewBANName.Text} 失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
+                MainWindow._dSetOperatingState(3, $"增加服务器BAN {TextBox_NewBANName.Text} 失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
             }
         }
 
@@ -350,22 +350,22 @@ namespace BF1.ServerAdminTools.Views
             {
                 SpectatorInfo info = ListBox_Spectator.SelectedItem as SpectatorInfo;
 
-                MainWindow.dSetOperatingState(2, $"正在踢出玩家 {info.Name} 中...");
+                MainWindow._dSetOperatingState(2, $"正在踢出玩家 {info.Name} 中...");
 
                 var result = await BF1API.AdminKickPlayer(info.PersonaId.ToString(), TextBox_KickSelectedSpectatorReason.Text);
 
                 if (result.IsSuccess)
                 {
-                    MainWindow.dSetOperatingState(1, $"踢出玩家 {info.Name} 成功  |  耗时: {result.ExecTime:0.00} 秒");
+                    MainWindow._dSetOperatingState(1, $"踢出玩家 {info.Name} 成功  |  耗时: {result.ExecTime:0.00} 秒");
                 }
                 else
                 {
-                    MainWindow.dSetOperatingState(3, $"踢出玩家 {info.Name} 失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
+                    MainWindow._dSetOperatingState(3, $"踢出玩家 {info.Name} 失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
                 }
             }
             else
             {
-                MainWindow.dSetOperatingState(2, "请先获取玩家SessionID");
+                MainWindow._dSetOperatingState(2, "请先获取玩家SessionID");
             }
         }
 
@@ -397,7 +397,7 @@ namespace BF1.ServerAdminTools.Views
             {
                 if (!string.IsNullOrEmpty(Globals.ServerId))
                 {
-                    MainWindow.dSetOperatingState(2, $"正在获取服务器 {Globals.ServerId} 数据中...");
+                    MainWindow._dSetOperatingState(2, $"正在获取服务器 {Globals.ServerId} 数据中...");
 
                     var result = await BF1API.GetServerDetails();
 
@@ -410,39 +410,22 @@ namespace BF1.ServerAdminTools.Views
 
                         isGetServerDetailsOK = true;
 
-                        MainWindow.dSetOperatingState(1, $"获取服务器 {Globals.ServerId} 数据成功  |  耗时: {result.ExecTime:0.00} 秒");
+                        MainWindow._dSetOperatingState(1, $"获取服务器 {Globals.ServerId} 数据成功  |  耗时: {result.ExecTime:0.00} 秒");
                     }
                     else
                     {
-                        MainWindow.dSetOperatingState(3, $"获取服务器 {Globals.ServerId} 数据失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
+                        MainWindow._dSetOperatingState(3, $"获取服务器 {Globals.ServerId} 数据失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
                     }
                 }
                 else
                 {
-                    MainWindow.dSetOperatingState(2, "请先进入服务器获取ServerID");
+                    MainWindow._dSetOperatingState(2, "请先进入服务器获取ServerID");
                 }
             }
             else
             {
-                MainWindow.dSetOperatingState(2, "请先获取玩家SessionID");
+                MainWindow._dSetOperatingState(2, "请先获取玩家SessionID");
             }
-        }
-
-        private void Button_SetServerDetails2Traditional_Click(object sender, RoutedEventArgs e)
-        {
-            AudioUtil.ClickSound();
-
-            var serverDescription = TextBox_ServerDescription.Text.Trim();
-
-            if (string.IsNullOrEmpty(serverDescription))
-            {
-                MainWindow.dSetOperatingState(2, $"服务器描述不能为空");
-                return;
-            }
-
-            TextBox_ServerDescription.Text = ChsUtil.ToTraditionalChinese(serverDescription);
-
-            MainWindow.dSetOperatingState(1, $"转换服务器描述文本为繁体中文成功");
         }
 
         private async void Button_UpdateServer_Click(object sender, RoutedEventArgs e)
@@ -451,7 +434,7 @@ namespace BF1.ServerAdminTools.Views
 
             if (!isGetServerDetailsOK)
             {
-                MainWindow.dSetOperatingState(2, $"请先获取服务器信息后，再执行本操作");
+                MainWindow._dSetOperatingState(2, $"请先获取服务器信息后，再执行本操作");
                 return;
             }
 
@@ -460,7 +443,7 @@ namespace BF1.ServerAdminTools.Views
 
             if (string.IsNullOrEmpty(serverName))
             {
-                MainWindow.dSetOperatingState(2, $"服务器名称不能为空");
+                MainWindow._dSetOperatingState(2, $"服务器名称不能为空");
                 return;
             }
 
@@ -468,7 +451,7 @@ namespace BF1.ServerAdminTools.Views
             {
                 if (!string.IsNullOrEmpty(Globals.ServerId))
                 {
-                    MainWindow.dSetOperatingState(2, $"正在更新服务器 {Globals.ServerId} 数据中...");
+                    MainWindow._dSetOperatingState(2, $"正在更新服务器 {Globals.ServerId} 数据中...");
 
                     UpdateServerReqBody reqBody = new UpdateServerReqBody();
                     reqBody.jsonrpc = "2.0";
@@ -527,24 +510,41 @@ namespace BF1.ServerAdminTools.Views
 
                     if (result.IsSuccess)
                     {
-                        MainWindow.dSetOperatingState(1, $"更新服务器 {Globals.ServerId} 数据成功  |  耗时: {result.ExecTime:0.00} 秒");
+                        MainWindow._dSetOperatingState(1, $"更新服务器 {Globals.ServerId} 数据成功  |  耗时: {result.ExecTime:0.00} 秒");
                     }
                     else
                     {
-                        MainWindow.dSetOperatingState(3, $"更新服务器 {Globals.ServerId} 数据失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
+                        MainWindow._dSetOperatingState(3, $"更新服务器 {Globals.ServerId} 数据失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
                     }
                 }
                 else
                 {
-                    MainWindow.dSetOperatingState(2, "请先进入服务器获取ServerID");
+                    MainWindow._dSetOperatingState(2, "请先进入服务器获取ServerID");
                 }
             }
             else
             {
-                MainWindow.dSetOperatingState(2, "请先获取玩家SessionID");
+                MainWindow._dSetOperatingState(2, "请先获取玩家SessionID");
             }
 
             isGetServerDetailsOK = false;
+        }
+
+        private void Button_SetServerDetails2Traditional_Click(object sender, RoutedEventArgs e)
+        {
+            AudioUtil.ClickSound();
+
+            var serverDescription = TextBox_ServerDescription.Text.Trim();
+
+            if (string.IsNullOrEmpty(serverDescription))
+            {
+                MainWindow._dSetOperatingState(2, $"服务器描述不能为空");
+                return;
+            }
+
+            TextBox_ServerDescription.Text = ChsUtil.ToTraditionalChinese(serverDescription);
+
+            MainWindow._dSetOperatingState(1, $"转换服务器描述文本为繁体中文成功");
         }
     }
 }

@@ -1,10 +1,10 @@
-﻿using BF1.ServerAdminTools.Models;
+﻿using BF1.ServerAdminTools.Views;
+using BF1.ServerAdminTools.Models;
 using BF1.ServerAdminTools.Common.Data;
 using BF1.ServerAdminTools.Common.Utils;
 using BF1.ServerAdminTools.Common.Helper;
 using BF1.ServerAdminTools.Features.Core;
 using BF1.ServerAdminTools.Features.Chat;
-using BF1.ServerAdminTools.Views;
 
 namespace BF1.ServerAdminTools
 {
@@ -14,13 +14,13 @@ namespace BF1.ServerAdminTools
     public partial class MainWindow : Window
     {
         public delegate void DSetOperatingState(int index, string str);
-        public static DSetOperatingState dSetOperatingState;
+        public static DSetOperatingState _dSetOperatingState;
 
         public delegate void ClosingDispose();
         public static event ClosingDispose ClosingDisposeEvent;
 
         public delegate void DTabControlSelect();
-        public static DTabControlSelect dTabControlSelect;
+        public static DTabControlSelect _dTabControlSelect;
 
         public static MainWindow ThisMainWindow;
 
@@ -39,9 +39,9 @@ namespace BF1.ServerAdminTools
         private void Window_Main_Loaded(object sender, RoutedEventArgs e)
         {
             // 提示信息委托
-            dSetOperatingState = SetOperatingState;
+            _dSetOperatingState = SetOperatingState;
 
-            dTabControlSelect = TabControlSelect;
+            _dTabControlSelect = TabControlSelect;
 
             MainModel = new MainModel();
 
@@ -51,7 +51,7 @@ namespace BF1.ServerAdminTools
 
             ////////////////////////////////
 
-            Title = CoreUtil.WindowTitle + CoreUtil.LocalVersionInfo;
+            Title = CoreUtil.WindowTitle + CoreUtil.LocalVersionInfo + " - 最后编译时间 : " + File.GetLastWriteTime(Process.GetCurrentProcess().MainModule.FileName);
 
             // 获取当前时间，存储到对于变量中
             Origin_DateTime = DateTime.Now;
@@ -129,7 +129,7 @@ namespace BF1.ServerAdminTools
             Globals.Sid = IniHelper.ReadString("Globals", "Sid", "", FileUtil.F_Settings_Path);
 
             // 调用加载更新
-            AuthView.dAutoRefreshSID();
+            AuthView._dAutoRefreshSID();
         }
 
         private void UpdateState()

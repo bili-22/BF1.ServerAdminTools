@@ -322,6 +322,12 @@
                                 IsReadOnly="True" />
                             <DataGridTextColumn
                                 Width="Auto"
+                                Binding="{Binding Clan}"
+                                ElementStyle="{StaticResource CenterAlignmentStyle1}"
+                                Header="战队"
+                                IsReadOnly="False" />
+                            <DataGridTextColumn
+                                Width="Auto"
                                 Binding="{Binding Name}"
                                 ElementStyle="{StaticResource CenterAlignmentStyle1}"
                                 Header="玩家ID"
@@ -467,6 +473,12 @@
                                 ElementStyle="{StaticResource CenterAlignmentStyle2}"
                                 Header="等级"
                                 IsReadOnly="True" />
+                            <DataGridTextColumn
+                                Width="Auto"
+                                Binding="{Binding Clan}"
+                                ElementStyle="{StaticResource CenterAlignmentStyle1}"
+                                Header="战队"
+                                IsReadOnly="False" />
                             <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding Name}"

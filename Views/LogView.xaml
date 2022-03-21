@@ -16,14 +16,15 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <UniformGrid Columns="2">
+        <UniformGrid Columns="3">
             <TextBlock Style="{StaticResource TextBlockTitleStyle}" Text="踢出成功" />
             <TextBlock Style="{StaticResource TextBlockTitleStyle}" Text="踢出失败" />
+            <TextBlock Style="{StaticResource TextBlockTitleStyle}" Text="换边记录" />
         </UniformGrid>
 
-        <UniformGrid Grid.Row="1" Columns="2">
+        <UniformGrid Grid.Row="1" Columns="3">
             <TextBox
-                x:Name="TextBox_Log1"
+                x:Name="TextBox_KickOKLog"
                 Margin="5,5,2.5,5"
                 Padding="5"
                 Cursor="Arrow"
@@ -32,11 +33,19 @@
                 IsReadOnly="True"
                 VerticalScrollBarVisibility="Auto" />
             <TextBox
-                x:Name="TextBox_Log2"
-                Margin="2.5,5,5,5"
+                x:Name="TextBox_KickNOLog"
+                Margin="2.5,5,2.5,5"
                 Padding="5"
                 Cursor="Arrow"
                 Foreground="Red"
+                HorizontalScrollBarVisibility="Disabled"
+                IsReadOnly="True"
+                VerticalScrollBarVisibility="Auto" />
+            <TextBox
+                x:Name="TextBox_ChangeTeamLog"
+                Margin="2.5,5,5,5"
+                Padding="5"
+                Cursor="Arrow"
                 HorizontalScrollBarVisibility="Disabled"
                 IsReadOnly="True"
                 VerticalScrollBarVisibility="Auto" />

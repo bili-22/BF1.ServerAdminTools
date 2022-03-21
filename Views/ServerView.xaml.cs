@@ -46,7 +46,7 @@ namespace BF1.ServerAdminTools.Views
 
                 ServerModel.ServerName = ServerModel.ServerName.Trim();
 
-                MainWindow.dSetOperatingState(2, $"正在查询服务器 {ServerModel.ServerName} 数据中...");
+                MainWindow._dSetOperatingState(2, $"正在查询服务器 {ServerModel.ServerName} 数据中...");
 
                 var result = await GTAPI.GetServersData(ServerModel.ServerName);
 
@@ -69,16 +69,16 @@ namespace BF1.ServerAdminTools.Views
                         }));
                     }
 
-                    MainWindow.dSetOperatingState(1, $"服务器 {ServerModel.ServerName} 数据查询成功  |  耗时: {result.ExecTime:0.00} 秒");
+                    MainWindow._dSetOperatingState(1, $"服务器 {ServerModel.ServerName} 数据查询成功  |  耗时: {result.ExecTime:0.00} 秒");
                 }
                 else
                 {
-                    MainWindow.dSetOperatingState(3, $"服务器 {ServerModel.ServerName} 数据查询失败  |  耗时: {result.ExecTime:0.00} 秒");
+                    MainWindow._dSetOperatingState(3, $"服务器 {ServerModel.ServerName} 数据查询失败  |  耗时: {result.ExecTime:0.00} 秒");
                 }
             }
             else
             {
-                MainWindow.dSetOperatingState(2, $"请输入正确的服务器名称");
+                MainWindow._dSetOperatingState(2, $"请输入正确的服务器名称");
             }
         }
 

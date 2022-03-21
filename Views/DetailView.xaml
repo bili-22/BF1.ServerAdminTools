@@ -321,18 +321,18 @@
                             Content="① 获取服务器信息（每次修改前都需要重新获取）"
                             Foreground="Green" />
                         <Button
-                            x:Name="Button_SetServerDetails2Traditional"
-                            Margin="5"
-                            Padding="10"
-                            Click="Button_SetServerDetails2Traditional_Click"
-                            Content="转换服务器描述文本为繁体中文（可选）" />
-                        <Button
                             x:Name="Button_UpdateServer"
                             Margin="5"
                             Padding="10"
                             Click="Button_UpdateServer_Click"
                             Content="② 更新服务器信息（需要服主权限才能修改）"
                             Foreground="Red" />
+                        <Button
+                            x:Name="Button_SetServerDetails2Traditional"
+                            Margin="5"
+                            Padding="10"
+                            Click="Button_SetServerDetails2Traditional_Click"
+                            Content="转换服务器描述文本为繁体中文（可选）" />
                         <!--  ################################  -->
                         <TextBlock />
                         <TextBlock
