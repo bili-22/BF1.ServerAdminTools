@@ -34,16 +34,16 @@
             </UniformGrid>
             <UniformGrid Columns="2" DockPanel.Dock="Bottom">
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Margin="5,5,5,0">
+                    <TextBlock Margin="5,5,5,0" ToolTip="战队1小帮手网页，和手机APP功能一样">
                         <Hyperlink NavigateUri="https://companion-api.battlefield.com/companion/home" RequestNavigate="Hyperlink_RequestNavigate">
                             战地1小帮手
                         </Hyperlink>
                     </TextBlock>
                 </StackPanel>
                 <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                    <TextBlock Margin="5,5,5,0">
+                    <TextBlock Margin="5,5,5,0" ToolTip="点击此按钮后，可能会让你登陆，然后网页会跳到127.0.0.1，这时再点击获取玩家账号信息就可以了">
                         <Hyperlink NavigateUri="https://accounts.ea.com/connect/auth?response_type=code&amp;locale=zh_CN&amp;client_id=sparta-backend-as-user-pc" RequestNavigate="Hyperlink_RequestNavigate">
-                            解决获取数据不完整
+                            修复Code获取失败
                         </Hyperlink>
                     </TextBlock>
                 </StackPanel>
