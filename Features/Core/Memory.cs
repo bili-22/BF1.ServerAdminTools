@@ -16,36 +16,44 @@ namespace BF1.ServerAdminTools.Features.Core
 
         public static bool Initialize(string ProcessName)
         {
-            LoggerHelper.Info($"目标程序名称 {ProcessName}");
-            var pArray = Process.GetProcessesByName(ProcessName);
-            if (pArray.Length > 0)
+            try
             {
-                var process = pArray[0];
-                windowHandle = process.MainWindowHandle;
-                LoggerHelper.Info($"目标程序窗口句柄 {windowHandle}");
-                processId = process.Id;
-                LoggerHelper.Info($"目标程序进程ID {processId}");
-                processHandle = WinAPI.OpenProcess(
-                    ProcessAccessFlags.VirtualMemoryRead |
-                    ProcessAccessFlags.VirtualMemoryWrite |
-                    ProcessAccessFlags.VirtualMemoryOperation,
-                    false, processId);
-                LoggerHelper.Info($"目标程序进程句柄 {processHandle}");
-                if (process.MainModule != null)
+                LoggerHelper.Info($"目标程序名称 {ProcessName}");
+                var pArray = Process.GetProcessesByName(ProcessName);
+                if (pArray.Length > 0)
                 {
-                    processBaseAddress = process.MainModule.BaseAddress.ToInt64();
-                    LoggerHelper.Info($"目标程序主模块基址 0x{processBaseAddress:x}");
-                    return true;
+                    var process = pArray[0];
+                    windowHandle = process.MainWindowHandle;
+                    LoggerHelper.Info($"目标程序窗口句柄 {windowHandle}");
+                    processId = process.Id;
+                    LoggerHelper.Info($"目标程序进程ID {processId}");
+                    processHandle = WinAPI.OpenProcess(
+                        ProcessAccessFlags.VirtualMemoryRead |
+                        ProcessAccessFlags.VirtualMemoryWrite |
+                        ProcessAccessFlags.VirtualMemoryOperation,
+                        false, processId);
+                    LoggerHelper.Info($"目标程序进程句柄 {processHandle}");
+                    if (process.MainModule != null)
+                    {
+                        processBaseAddress = process.MainModule.BaseAddress.ToInt64();
+                        LoggerHelper.Info($"目标程序主模块基址 0x{processBaseAddress:x}");
+                        return true;
+                    }
+                    else
+                    {
+                        LoggerHelper.Error($"发生错误，目标程序主模块基址为空");
+                        return false;
+                    }
                 }
                 else
                 {
-                    LoggerHelper.Error($"发生错误，目标程序主模块基址为空");
+                    LoggerHelper.Error($"发生错误，未发现目标进程");
                     return false;
                 }
             }
-            else
+            catch (Exception ex)
             {
-                LoggerHelper.Error($"发生错误，未发现目标进程");
+                LoggerHelper.Error($"战地1内存模块初始化异常", ex);
                 return false;
             }
         }

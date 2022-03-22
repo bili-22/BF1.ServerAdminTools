@@ -8,8 +8,8 @@
 		<Platforms>x64</Platforms>
 		<DebugType>full</DebugType>
 		<StartupObject>BF1.ServerAdminTools.App</StartupObject>
-		<FileVersion>1.0.0.7</FileVersion>
-		<AssemblyVersion>1.0.0.7</AssemblyVersion>
+		<FileVersion>1.0.0.8</FileVersion>
+		<AssemblyVersion>1.0.0.8</AssemblyVersion>
 		<ApplicationIcon>Assets\Images\Battlefield-1-Favicon.ico</ApplicationIcon>
 		<ApplicationManifest>Properties\app.manifest</ApplicationManifest>
 		<SignAssembly>False</SignAssembly>
@@ -535,6 +535,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Chinese" Version="0.4.6" />
+		<PackageReference Include="Downloader" Version="2.3.3" />
 		<PackageReference Include="Microsoft.Data.Sqlite" Version="6.0.3" />
 		<PackageReference Include="Microsoft.Toolkit.Mvvm" Version="7.1.2" />
 		<PackageReference Include="Microsoft.Web.WebView2" Version="1.0.1150.38" />

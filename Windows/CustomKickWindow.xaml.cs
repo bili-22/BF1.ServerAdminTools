@@ -1,4 +1,5 @@
-﻿using BF1.ServerAdminTools.Features.API;
+﻿using BF1.ServerAdminTools.Common.Utils;
+using BF1.ServerAdminTools.Features.API;
 
 namespace BF1.ServerAdminTools.Windows
 {
@@ -24,7 +25,7 @@ namespace BF1.ServerAdminTools.Windows
         {
             MainWindow._dSetOperatingState(2, $"正在踢出玩家 {PlayerName} 中...");
 
-            var reason = TextBox_CustomReason.Text.Trim();
+            var reason = ChsUtil.ToTraditionalChinese(TextBox_CustomReason.Text.Trim());
 
             if (reason == "@Kick")
             {

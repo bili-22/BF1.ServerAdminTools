@@ -33,4 +33,9 @@
         <Setter Property="HorizontalAlignment" Value="Center" />
     </Style>
 
+    <Style x:Key="TextBlockUpdate" TargetType="TextBlock">
+        <Setter Property="TextWrapping" Value="WrapWithOverflow" />
+        <Setter Property="Margin" Value="5" />
+    </Style>
+
 </ResourceDictionary>

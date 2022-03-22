@@ -44,7 +44,7 @@
             <MenuItem
                 Name="MenuItem_CopyPlayerName"
                 Click="MenuItem_CopyPlayerName_Click"
-                Header="复制玩家ID（无队标）" />
+                Header="复制玩家ID" />
             <MenuItem
                 Name="MenuItem_CopyPlayerName_PID"
                 Click="MenuItem_CopyPlayerName_PID_Click"

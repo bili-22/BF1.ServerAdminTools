@@ -139,7 +139,7 @@ namespace BF1.ServerAdminTools.Views
                 AppendKickOKLog("踢出理由: " + info.Reason);
                 AppendKickOKLog("状态: " + info.Status + "\n");
 
-                SQLiteHelper.AddLog2SQLite("KickOK", info);
+                SQLiteHelper.AddLog2SQLite("kick_ok", info);
             });
         }
 
@@ -158,7 +158,7 @@ namespace BF1.ServerAdminTools.Views
                 AppendKickNOLog("踢出理由: " + info.Reason);
                 AppendKickNOLog("状态: " + info.Status + "\n");
 
-                SQLiteHelper.AddLog2SQLite("KickON", info);
+                SQLiteHelper.AddLog2SQLite("kick_no", info);
             });
         }
 

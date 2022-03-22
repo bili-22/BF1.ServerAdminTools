@@ -14,11 +14,13 @@ namespace BF1.ServerAdminTools.Views
 
             Task.Run(() =>
             {
-                string str = HttpHelper.HttpClientGET(CoreUtil.Notice_Address).Result;
+                string notice = HttpHelper.HttpClientGET(CoreUtil.Notice_Address).Result;
+                string change = HttpHelper.HttpClientGET(CoreUtil.Change_Address).Result;
 
                 Application.Current.Dispatcher.BeginInvoke(() =>
                 {
-                    TextBox_Notice.Text = str;
+                    TextBox_Notice.Text = notice;
+                    TextBox_Change.Text = change;
                 });
             });
         }

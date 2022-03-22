@@ -1,4 +1,6 @@
-﻿using BF1.ServerAdminTools.Common.Utils;
+﻿using BF1.ServerAdminTools.Windows;
+using BF1.ServerAdminTools.Common.Data;
+using BF1.ServerAdminTools.Common.Utils;
 using BF1.ServerAdminTools.Common.Helper;
 using BF1.ServerAdminTools.Features.API;
 using BF1.ServerAdminTools.Features.API2;
@@ -25,16 +27,27 @@ namespace BF1.ServerAdminTools
             {
                 UpdateState("欢迎来到《BATTLEFIELD 1》...");
                 LoggerHelper.Info("开始初始化程序...");
-                Task.Delay(1000).Wait();
-
-                UpdateState("正在为您营造个性化体验...");
-                Task.Delay(500).Wait();
+                //Task.Delay(1000).Wait();
 
                 // 初始化
-                if (Memory.Initialize(CoreUtil.AppName))
+                if (Memory.Initialize(CoreUtil.TargetAppName))
+                {
                     LoggerHelper.Info("战地1内存模块初始化成功");
+                }
                 else
+                {
+                    UpdateState($"战地1内存模块初始化失败！程序即将关闭");
                     LoggerHelper.Error("战地1内存模块初始化失败");
+                    Task.Delay(2000).Wait();
+
+                    Application.Current.Dispatcher.BeginInvoke(() =>
+                    {
+                        Application.Current.Shutdown();
+                    });
+                }
+
+                UpdateState("正在为您营造个性化体验...");
+                //Task.Delay(500).Wait();
 
                 BF1API.Init();
                 LoggerHelper.Info("战地1API模块初始化成功");
@@ -51,7 +64,7 @@ namespace BF1.ServerAdminTools
                 try
                 {
                     UpdateState("正在验证玩家授权...");
-                    Task.Delay(500).Wait();
+                    //Task.Delay(500).Wait();
 
                     var baseAddress = Player.GetLocalPlayer();
                     if (!Memory.IsValid(baseAddress))
@@ -109,8 +122,8 @@ namespace BF1.ServerAdminTools
                     }
                     else
                     {
-                        UpdateState("验证玩家授权失败！程序即将关闭");
-                        LoggerHelper.Error($"验证玩家 {playerName} 授权失败");
+                        UpdateState($"验证玩家授权失败 {response.StatusCode}！程序即将关闭");
+                        LoggerHelper.Error($"验证玩家 {playerName} 授权失败  {response.StatusCode}，响应内容 {response.Content}");
                         Task.Delay(2000).Wait();
 
                         Application.Current.Dispatcher.BeginInvoke(() =>
@@ -125,11 +138,11 @@ namespace BF1.ServerAdminTools
 
                     UpdateState("正在检测版本更新...");
                     LoggerHelper.Info($"正在检测版本更新...");
-                    Task.Delay(500).Wait();
+                    //Task.Delay(500).Wait();
 
                     // 获取版本更新
-                    var web = HttpHelper.HttpClientGET(CoreUtil.Version_Address).Result;
-                    if (string.IsNullOrEmpty(web))
+                    var webConfig = HttpHelper.HttpClientGET(CoreUtil.Config_Address).Result;
+                    if (string.IsNullOrEmpty(webConfig))
                     {
                         UpdateState("获取新版本信息失败！程序即将关闭");
                         LoggerHelper.Error($"获取新版本信息失败");
@@ -143,23 +156,34 @@ namespace BF1.ServerAdminTools
                         return;
                     }
 
-                    Version webV = new Version(web);
-                    Version locV = new Version(CoreUtil.LocalVersionInfo);
+                    var updateInfo = JsonUtil.JsonDese<UpdateInfo>(webConfig);
 
-                    if (webV > locV)
+                    CoreUtil.ServerVersionInfo = new Version(updateInfo.Version);
+
+                    if (CoreUtil.ServerVersionInfo > CoreUtil.ClientVersionInfo)
                     {
-                        LoggerHelper.Error($"发现新版本");
+                        LoggerHelper.Error($"发现新版本 {CoreUtil.ServerVersionInfo}");
+
+                        CoreUtil.Notice_Address = updateInfo.Address.Notice;
+                        CoreUtil.Change_Address = updateInfo.Address.Change;
 
                         Application.Current.Dispatcher.BeginInvoke(() =>
                         {
                             this.Hide();
                         });
 
-                        if (MessageBox.Show($"检测到新版本已发布，是否立即前往更新？",
+                        if (MessageBox.Show($"检测到新版本已发布，是否立即前往更新？                                        " +
+                            $"\n\n{updateInfo.Latest.Date}\n{updateInfo.Latest.Change}\n\n强烈建议大家使用最新版本！点否退出程序",
                             "发现新版本", MessageBoxButton.YesNo, MessageBoxImage.Information) == MessageBoxResult.Yes)
                         {
-                            ProcessUtil.OpenLink(CoreUtil.Download_Address);
-                            Application.Current.Shutdown();
+                            Application.Current.Dispatcher.Invoke(() =>
+                            {
+                                var UpdateWindow = new UpdateWindow(updateInfo);
+                                UpdateWindow.Owner = MainWindow.ThisMainWindow;
+                                UpdateWindow.ShowDialog();
+
+                                this.Close();
+                            });
                         }
                         else
                         {
@@ -170,7 +194,7 @@ namespace BF1.ServerAdminTools
                     {
                         UpdateState("连线中...");
                         LoggerHelper.Info($"当前已是最新版本");
-                        Task.Delay(500).Wait();
+                        //Task.Delay(500).Wait();
 
                         Application.Current.Dispatcher.BeginInvoke(() =>
                         {

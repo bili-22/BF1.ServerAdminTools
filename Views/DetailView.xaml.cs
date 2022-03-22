@@ -352,7 +352,9 @@ namespace BF1.ServerAdminTools.Views
 
                 MainWindow._dSetOperatingState(2, $"正在踢出玩家 {info.Name} 中...");
 
-                var result = await BF1API.AdminKickPlayer(info.PersonaId.ToString(), TextBox_KickSelectedSpectatorReason.Text);
+                var reason = ChsUtil.ToTraditionalChinese(TextBox_KickSelectedSpectatorReason.Text);
+
+                var result = await BF1API.AdminKickPlayer(info.PersonaId.ToString(), reason);
 
                 if (result.IsSuccess)
                 {

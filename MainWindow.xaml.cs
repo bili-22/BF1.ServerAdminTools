@@ -51,7 +51,7 @@ namespace BF1.ServerAdminTools
 
             ////////////////////////////////
 
-            Title = CoreUtil.WindowTitle + CoreUtil.LocalVersionInfo + " - 最后编译时间 : " + File.GetLastWriteTime(Process.GetCurrentProcess().MainModule.FileName);
+            Title = CoreUtil.MainAppWindowName + CoreUtil.ClientVersionInfo + " - 最后编译时间 : " + File.GetLastWriteTime(Process.GetCurrentProcess().MainModule.FileName);
 
             // 获取当前时间，存储到对于变量中
             Origin_DateTime = DateTime.Now;
@@ -146,7 +146,7 @@ namespace BF1.ServerAdminTools
                 // 获取软件运行时间
                 MainModel.AppRunTime = "运行时间 : " + CoreUtil.ExecDateDiff(Origin_DateTime, DateTime.Now);
 
-                if (!ProcessUtil.IsAppRun(CoreUtil.AppName))
+                if (!ProcessUtil.IsAppRun(CoreUtil.TargetAppName))
                 {
                     Application.Current.Dispatcher.Invoke(() =>
                     {

@@ -188,6 +188,11 @@
                 <TextBlock
                     Margin="5"
                     Foreground="Green"
+                    Text="说明：配置较低的电脑请增大按键间隔和文本间隔的延迟时间"
+                    TextWrapping="Wrap" />
+                <TextBlock
+                    Margin="5"
+                    Foreground="Green"
                     Text="说明：上述设置如果调整了需要重新勾选《启用定时发送指定文本》才会生效"
                     TextWrapping="Wrap" />
                 <!--  ################  -->

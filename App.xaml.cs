@@ -7,7 +7,7 @@ namespace BF1.ServerAdminTools
     /// </summary>
     public partial class App : Application
     {
-        private static Mutex AppMainMutex;
+        public static Mutex AppMainMutex;
 
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -15,7 +15,7 @@ namespace BF1.ServerAdminTools
 
             if (createdNew)
             {
-                if (ProcessUtil.IsAppRun(CoreUtil.AppName))
+                if (ProcessUtil.IsAppRun(CoreUtil.TargetAppName))
                 {
                     RegisterEvents();
 
