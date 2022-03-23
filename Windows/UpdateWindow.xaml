@@ -33,12 +33,14 @@
                     Click="Button_CancelUpdate_Click"
                     Content="取消更新"
                     DockPanel.Dock="Right"
+                    IsEnabled="False"
                     Style="{StaticResource ButtonNormalStyle}" />
                 <Button
                     x:Name="Button_Update"
                     Click="Button_Update_Click"
                     Content="下载更新"
                     DockPanel.Dock="Right"
+                    IsEnabled="True"
                     Style="{StaticResource ButtonNormalStyle}" />
             </DockPanel>
 

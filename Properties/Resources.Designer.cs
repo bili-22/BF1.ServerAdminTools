@@ -104,5 +104,14 @@ namespace BF1.ServerAdminTools.Properties {
                 return ResourceManager.GetStream("Click_05", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   查找类似于 System.IO.MemoryStream 的 System.IO.UnmanagedMemoryStream 类型的本地化资源。
+        /// </summary>
+        public static System.IO.UnmanagedMemoryStream DownloadOK {
+            get {
+                return ResourceManager.GetStream("DownloadOK", resourceCulture);
+            }
+        }
     }
 }

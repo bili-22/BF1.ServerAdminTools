@@ -24,5 +24,23 @@ namespace BF1.ServerAdminTools.Views
                 });
             });
         }
+
+        private void MenuItem_RefushNotice_Click(object sender, RoutedEventArgs e)
+        {
+            Task.Run(() =>
+            {
+                Application.Current.Dispatcher.BeginInvoke(() =>
+                {
+                    TextBox_Notice.Text = "加载中...";
+                });
+
+                string notice = HttpHelper.HttpClientGET(CoreUtil.Notice_Address).Result;
+
+                Application.Current.Dispatcher.BeginInvoke(() =>
+                {
+                    TextBox_Notice.Text = notice;
+                });
+            });
+        }
     }
 }

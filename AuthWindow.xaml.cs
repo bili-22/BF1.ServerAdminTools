@@ -23,11 +23,13 @@ namespace BF1.ServerAdminTools
 
         private void Window_Auth_Loaded(object sender, RoutedEventArgs e)
         {
+            TextBlock_VersionInfo.Text = CoreUtil.ClientVersionInfo.ToString();
+            TextBlock_BuildDate.Text = File.GetLastWriteTime(Process.GetCurrentProcess().MainModule.FileName).ToString();
+
             Task.Run(() =>
             {
                 UpdateState("欢迎来到《BATTLEFIELD 1》...");
                 LoggerHelper.Info("开始初始化程序...");
-                //Task.Delay(1000).Wait();
 
                 // 初始化
                 if (Memory.Initialize(CoreUtil.TargetAppName))
@@ -47,7 +49,6 @@ namespace BF1.ServerAdminTools
                 }
 
                 UpdateState("正在为您营造个性化体验...");
-                //Task.Delay(500).Wait();
 
                 BF1API.Init();
                 LoggerHelper.Info("战地1API模块初始化成功");
@@ -64,7 +65,6 @@ namespace BF1.ServerAdminTools
                 try
                 {
                     UpdateState("正在验证玩家授权...");
-                    //Task.Delay(500).Wait();
 
                     var baseAddress = Player.GetLocalPlayer();
                     if (!Memory.IsValid(baseAddress))
@@ -138,7 +138,6 @@ namespace BF1.ServerAdminTools
 
                     UpdateState("正在检测版本更新...");
                     LoggerHelper.Info($"正在检测版本更新...");
-                    //Task.Delay(500).Wait();
 
                     // 获取版本更新
                     var webConfig = HttpHelper.HttpClientGET(CoreUtil.Config_Address).Result;
@@ -194,7 +193,6 @@ namespace BF1.ServerAdminTools
                     {
                         UpdateState("连线中...");
                         LoggerHelper.Info($"当前已是最新版本");
-                        //Task.Delay(500).Wait();
 
                         Application.Current.Dispatcher.BeginInvoke(() =>
                         {

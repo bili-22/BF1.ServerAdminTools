@@ -92,87 +92,7 @@ namespace BF1.ServerAdminTools.Views
                     QueryModel.RankImg = all.rankImg;
                     QueryModel.PlayerTime = $"游戏时间 : {PlayerUtil.GetPlayTime(all.secondsPlayed)}";
 
-                    AddPlayerInfo($"数字ID : {all.id}");
-
-                    AddPlayerInfo("");
-
-                    AddPlayerInfo($"KD : {all.killDeath}");
-                    AddPlayerInfo($"KPM : {all.killsPerMinute}");
-                    AddPlayerInfo($"SPM : {all.scorePerMinute}");
-
-                    AddPlayerInfo($"命中率 : {all.accuracy}");
-                    AddPlayerInfo($"爆头率 : {all.headshots}");
-                    AddPlayerInfo($"爆头数 : {all.headShots}");
-
-                    AddPlayerInfo($"最高连续击杀数 : {all.highestKillStreak}");
-                    AddPlayerInfo($"最远爆头距离 : {all.longestHeadShot}");
-
-                    AddPlayerInfo("");
-
-                    AddPlayerInfo($"击杀 : {all.kills}");
-                    AddPlayerInfo($"死亡 : {all.deaths}");
-                    AddPlayerInfo($"协助击杀数 : {all.killAssists}");
-
-                    AddPlayerInfo($"胜率 : {all.winPercent}");
-                    AddPlayerInfo($"技巧值 : {all.skill}");
-
-                    AddPlayerInfo($"步兵KD : {all.infantryKillDeath}");
-                    AddPlayerInfo($"步兵KPM : {all.infantryKillsPerMinute}");
-                    AddPlayerInfo($"最佳兵种 : {all.bestClass}");
-
-                    AddPlayerInfo("");
-
-                    AddPlayerInfo($"仇敌击杀数 : {all.avengerKills}");
-                    AddPlayerInfo($"救星击杀数 : {all.saviorKills}");
-                    AddPlayerInfo($"急救数 : {all.revives}");
-                    AddPlayerInfo($"治疗分 : {all.heals}");
-                    AddPlayerInfo($"修理分 : {all.repairs}");
-
-                    AddPlayerInfo($"取得狗牌数 : {all.dogtagsTaken}");
-                    AddPlayerInfo($"胜利场数 : {all.wins}");
-                    AddPlayerInfo($"战败场数 : {all.loses}");
-                    AddPlayerInfo($"游戏总局数 : {all.roundsPlayed}");
-
-                    AddPlayerInfo("");
-
-                    AddPlayerInfo($"小隊分数 : {all.squadScore}");
-                    AddPlayerInfo($"奖励分数 : {all.awardScore}");
-                    AddPlayerInfo($"加成分数 : {all.bonusScore}");
-
-                    AddPlayerInfo($"当前等级进度 : {all.currentRankProgress}");
-                    AddPlayerInfo($"总计等级进度 : {all.totalRankProgress}");
-
-                    foreach (var item in all.weapons)
-                    {
-                        if (item.kills != 0)
-                        {
-                            item.weaponName = ChsUtil.ToSimplifiedChinese(item.weaponName);
-                            item.image = PlayerUtil.GetTempImagePath(item.image, "weapons2");
-                            item.star = PlayerUtil.GetKillStar(item.kills);
-                            item.time = PlayerUtil.GetPlayTime(item.timeEquipped);
-
-                            Dispatcher.Invoke(DispatcherPriority.Background, new Action(() =>
-                            {
-                                WeaponsItems.Add(item);
-                            }));
-                        }
-                    }
-
-                    foreach (var item in all.vehicles)
-                    {
-                        if (item.kills != 0)
-                        {
-                            item.vehicleName = ChsUtil.ToSimplifiedChinese(item.vehicleName);
-                            item.image = PlayerUtil.GetTempImagePath(item.image, "vehicles2");
-                            item.star = PlayerUtil.GetKillStar(item.kills);
-                            item.time = PlayerUtil.GetPlayTime(item.timeIn);
-
-                            Dispatcher.Invoke(DispatcherPriority.Background, new Action(() =>
-                            {
-                                VehiclesItems.Add(item);
-                            }));
-                        }
-                    }
+                    Update(all);
 
                     MainWindow._dSetOperatingState(1, $"玩家 {QueryModel.PlayerName} 数据查询成功  |  耗时: {result.ExecTime:0.00} 秒");
                 }
@@ -185,6 +105,100 @@ namespace BF1.ServerAdminTools.Views
             {
                 MainWindow._dSetOperatingState(2, $"请输入正确的玩家名称");
             }
+        }
+
+        private void Update(All all)
+        {
+            Task.Run(() =>
+            {
+                AddPlayerInfo($"数字ID : {all.id}");
+
+                AddPlayerInfo("");
+
+                AddPlayerInfo($"KD : {all.killDeath}");
+                AddPlayerInfo($"KPM : {all.killsPerMinute}");
+                AddPlayerInfo($"SPM : {all.scorePerMinute}");
+
+                AddPlayerInfo($"命中率 : {all.accuracy}");
+                AddPlayerInfo($"爆头率 : {all.headshots}");
+                AddPlayerInfo($"爆头数 : {all.headShots}");
+
+                AddPlayerInfo($"最高连续击杀数 : {all.highestKillStreak}");
+                AddPlayerInfo($"最远爆头距离 : {all.longestHeadShot}");
+
+                AddPlayerInfo("");
+
+                AddPlayerInfo($"击杀 : {all.kills}");
+                AddPlayerInfo($"死亡 : {all.deaths}");
+                AddPlayerInfo($"协助击杀数 : {all.killAssists}");
+
+                AddPlayerInfo($"胜率 : {all.winPercent}");
+                AddPlayerInfo($"技巧值 : {all.skill}");
+
+                AddPlayerInfo($"步兵KD : {all.infantryKillDeath}");
+                AddPlayerInfo($"步兵KPM : {all.infantryKillsPerMinute}");
+                AddPlayerInfo($"最佳兵种 : {all.bestClass}");
+
+                AddPlayerInfo("");
+
+                AddPlayerInfo($"仇敌击杀数 : {all.avengerKills}");
+                AddPlayerInfo($"救星击杀数 : {all.saviorKills}");
+                AddPlayerInfo($"急救数 : {all.revives}");
+                AddPlayerInfo($"治疗分 : {all.heals}");
+                AddPlayerInfo($"修理分 : {all.repairs}");
+
+                AddPlayerInfo($"取得狗牌数 : {all.dogtagsTaken}");
+                AddPlayerInfo($"胜利场数 : {all.wins}");
+                AddPlayerInfo($"战败场数 : {all.loses}");
+                AddPlayerInfo($"游戏总局数 : {all.roundsPlayed}");
+
+                AddPlayerInfo("");
+
+                AddPlayerInfo($"小隊分数 : {all.squadScore}");
+                AddPlayerInfo($"奖励分数 : {all.awardScore}");
+                AddPlayerInfo($"加成分数 : {all.bonusScore}");
+
+                AddPlayerInfo($"当前等级进度 : {all.currentRankProgress}");
+                AddPlayerInfo($"总计等级进度 : {all.totalRankProgress}");
+            });
+
+            Task.Run(() =>
+            {
+                foreach (var item in all.weapons)
+                {
+                    if (item.kills != 0)
+                    {
+                        item.weaponName = ChsUtil.ToSimplifiedChinese(item.weaponName);
+                        item.image = PlayerUtil.GetTempImagePath(item.image, "weapons2");
+                        item.star = PlayerUtil.GetKillStar(item.kills);
+                        item.time = PlayerUtil.GetPlayTime(item.timeEquipped);
+
+                        Dispatcher.Invoke(DispatcherPriority.Background, new Action(() =>
+                        {
+                            WeaponsItems.Add(item);
+                        }));
+                    }
+                }
+            });
+
+            Task.Run(() =>
+            {
+                foreach (var item in all.vehicles)
+                {
+                    if (item.kills != 0)
+                    {
+                        item.vehicleName = ChsUtil.ToSimplifiedChinese(item.vehicleName);
+                        item.image = PlayerUtil.GetTempImagePath(item.image, "vehicles2");
+                        item.star = PlayerUtil.GetKillStar(item.kills);
+                        item.time = PlayerUtil.GetPlayTime(item.timeIn);
+
+                        Dispatcher.Invoke(DispatcherPriority.Background, new Action(() =>
+                        {
+                            VehiclesItems.Add(item);
+                        }));
+                    }
+                }
+            });
         }
 
         private void AddPlayerInfo(string str)

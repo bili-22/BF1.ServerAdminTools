@@ -1,4 +1,5 @@
 ﻿using BF1.ServerAdminTools.Common.Data;
+using BF1.ServerAdminTools.Common.Helper;
 using BF1.ServerAdminTools.Common.Utils;
 using Downloader;
 
@@ -137,6 +138,8 @@ namespace BF1.ServerAdminTools.Windows
                 {
                     try
                     {
+                        AudioUtil.SP_DownloadOK.Play();
+
                         // 下载临时文件完整路径
                         string OldPath = FileUtil.GetCurrFullPath(CoreUtil.HalfwayAppName);
                         // 下载完成后文件真正路径
@@ -161,6 +164,7 @@ namespace BF1.ServerAdminTools.Windows
                     catch (Exception ex)
                     {
                         MsgBoxUtil.ExceptionMsgBox(ex);
+                        LoggerHelper.Error("下载错误", ex);
                     }
                 }
             }));

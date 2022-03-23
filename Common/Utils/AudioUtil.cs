@@ -10,6 +10,8 @@ namespace BF1.ServerAdminTools.Common.Utils
         public static SoundPlayer SP_Click_04 = new SoundPlayer(Properties.Resources.Click_04);
         public static SoundPlayer SP_Click_05 = new SoundPlayer(Properties.Resources.Click_05);
 
+        public static SoundPlayer SP_DownloadOK = new SoundPlayer(Properties.Resources.DownloadOK);
+
         // 按钮提示音
         public static int ClickSoundIndex = 3;
 
