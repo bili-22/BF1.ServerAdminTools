@@ -155,6 +155,9 @@ namespace BF1.ServerAdminTools.Features.Utils
         /// </summary>
         public static string GetPlayerTargetName(string originalName, bool isClan)
         {
+            if (string.IsNullOrEmpty(originalName))
+                return "";
+
             int index = originalName.IndexOf("]");
 
             string clan = string.Empty;

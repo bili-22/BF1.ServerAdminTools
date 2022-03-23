@@ -70,6 +70,7 @@ namespace BF1.ServerAdminTools.Views
                     {
                         _dAddChangeTeamInfo(new ChangeTeamInfo()
                         {
+                            Rank = item.Rank,
                             Name = item.Name,
                             PersonaId = item.PersonaId,
                             Status = "从 队伍1 更换到 队伍2",
@@ -88,6 +89,7 @@ namespace BF1.ServerAdminTools.Views
                     {
                         _dAddChangeTeamInfo(new ChangeTeamInfo()
                         {
+                            Rank = item.Rank,
                             Name = item.Name,
                             PersonaId = item.PersonaId,
                             Status = "从 队伍2 更换到 队伍1",
@@ -171,6 +173,7 @@ namespace BF1.ServerAdminTools.Views
                     TextBox_ChangeTeamLog.Clear();
                 }
 
+                AppendChangeTeamLog("玩家等级: " + info.Rank);
                 AppendChangeTeamLog("操作时间: " + DateTime.Now.ToString());
                 AppendChangeTeamLog("玩家ID: " + info.Name);
                 AppendChangeTeamLog("玩家数字ID: " + info.PersonaId);

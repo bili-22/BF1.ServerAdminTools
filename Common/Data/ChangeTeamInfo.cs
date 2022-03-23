@@ -3,6 +3,10 @@
     public class ChangeTeamInfo
     {
         /// <summary>
+        /// 更换队伍的玩家等级
+        /// </summary>
+        public int Rank;
+        /// <summary>
         /// 更换队伍的玩家ID
         /// </summary>
         public string Name;

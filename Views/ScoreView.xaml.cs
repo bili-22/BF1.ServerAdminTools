@@ -179,8 +179,10 @@ namespace BF1.ServerAdminTools.Views
                     _tdCP.TeamID = Memory.Read<int>(_tdCP.BaseAddress + 0x1C34);
                     _tdCP.Spectator = Memory.Read<byte>(_tdCP.BaseAddress + 0x1C31);
                     _tdCP.PersonaId = Memory.Read<long>(_tdCP.BaseAddress + 0x38);
-                    _tdCP.Name = Memory.ReadString(_tdCP.BaseAddress + 0x2156, 64);
                     _tdCP.PartyId = Memory.Read<int>(_tdCP.BaseAddress + 0x1E50);
+                    _tdCP.Name = Memory.ReadString(_tdCP.BaseAddress + 0x2156, 64);
+                    if (string.IsNullOrEmpty(_tdCP.Name))
+                        continue;
 
                     _tdCSE.pClientVehicleEntity = Memory.Read<long>(_tdCP.BaseAddress + 0x1D38);
                     if (Memory.IsValid(_tdCSE.pClientVehicleEntity))
@@ -242,7 +244,6 @@ namespace BF1.ServerAdminTools.Views
                             WeaponS6 = _tdCP.WeaponSlot[6],
                             WeaponS7 = _tdCP.WeaponSlot[7],
                         });
-
                     }
                 }
 
@@ -955,9 +956,19 @@ namespace BF1.ServerAdminTools.Views
 
                 for (int i = 0; i < Kicking_PlayerList.Count; i++)
                 {
+                    if (Kicking_PlayerList.Count != 0)
+                    {
+                        // 如果超过15秒，清空列表
+                        if (CoreUtil.DiffSeconds(Kicking_PlayerList[i].Time, DateTime.Now) > 10)
+                        {
+                            Kicking_PlayerList.Clear();
+                            break;
+                        }
+                    }
+
                     if (Kicking_PlayerList.Count != 0 && Kicking_PlayerList[i].Flag == 0)
                     {
-                        // 如果超过2秒，移除 正在踢人 玩家
+                        // 如果超过3秒，移除 正在踢人 玩家
                         if (CoreUtil.DiffSeconds(Kicking_PlayerList[i].Time, DateTime.Now) > 3)
                         {
                             Kicking_PlayerList.RemoveAt(i);

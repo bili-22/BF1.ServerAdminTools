@@ -41,7 +41,7 @@ namespace BF1.ServerAdminTools.Common.Helper
             string selectSheet3 = @"SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name='change_team'";
             if (ExecuteScalar(selectSheet3) == 0)
             {
-                string creatSheet3 = "CREATE TABLE change_team ( id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, name TEXT, personaId TEXT, status TEXT, date TEXT )";
+                string creatSheet3 = "CREATE TABLE change_team ( id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, rank TEXT, name TEXT, personaId TEXT, status TEXT, date TEXT )";
                 ExecuteNonQuery(creatSheet3);
             }
         }
@@ -146,10 +146,11 @@ namespace BF1.ServerAdminTools.Common.Helper
                 command.CommandText =
                 @"
                     INSERT INTO change_team
-                    ( name, personaId, status, date ) 
+                    ( rank, name, personaId, status, date ) 
                     VALUES
-                    ( $name, $personaId, $status, $date )
+                    ( $rank, $name, $personaId, $status, $date )
                 ";
+                command.Parameters.AddWithValue("$rank", info.Rank);
                 command.Parameters.AddWithValue("$name", info.Name);
                 command.Parameters.AddWithValue("$personaId", info.PersonaId);
                 command.Parameters.AddWithValue("$status", info.Status);
