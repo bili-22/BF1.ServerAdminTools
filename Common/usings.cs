@@ -7,6 +7,7 @@ global using System.Numerics;
 global using System.Net;
 global using System.Net.Http;
 global using System.Diagnostics;
+global using System.Globalization;
 global using System.ComponentModel;
 global using System.Threading;
 global using System.Threading.Tasks;

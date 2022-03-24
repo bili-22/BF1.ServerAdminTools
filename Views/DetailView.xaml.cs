@@ -354,6 +354,11 @@ namespace BF1.ServerAdminTools.Views
 
                 var reason = ChsUtil.ToTraditionalChinese(TextBox_KickSelectedSpectatorReason.Text);
 
+                if (reason == "@Kick")
+                {
+                    reason = "ADMINPRIORITY";
+                }
+
                 var result = await BF1API.AdminKickPlayer(info.PersonaId.ToString(), reason);
 
                 if (result.IsSuccess)

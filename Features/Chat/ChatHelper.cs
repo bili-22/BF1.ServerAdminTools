@@ -9,7 +9,7 @@ namespace BF1.ServerAdminTools.Features.Chat
         /// <summary>
         /// 按键间隔延迟，单位：毫秒
         /// </summary>
-        public static int KeyPressDelay = 20;
+        public static int KeyPressDelay = 50;
 
         public static void KeyPress(WinVK winVK, int delay)
         {
@@ -50,6 +50,7 @@ namespace BF1.ServerAdminTools.Features.Chat
 
             // 将窗口置顶
             Memory.SetForegroundWindow();
+            Thread.Sleep(KeyPressDelay);
 
             // 如果聊天框开启，让他关闭
             if (ChatMsg.GetChatIsOpen())

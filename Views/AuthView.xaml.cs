@@ -222,18 +222,18 @@ namespace BF1.ServerAdminTools.Views
                     }
                     else
                     {
-                        TextBlock_CheckSessionIdStatus.Text = "获取Code失败";
+                        TextBlock_CheckSessionIdStatus.Text = "获取Code失败，Code无效";
                         TextBlock_CheckSessionIdStatus.Background = Brushes.Red;
 
-                        MainWindow._SetOperatingState(3, "获取Code失败，Remid不正确");
+                        MainWindow._SetOperatingState(3, "获取Code失败，Code无效");
                     }
                 }
                 else
                 {
-                    TextBlock_CheckSessionIdStatus.Text = "获取Code失败";
+                    TextBlock_CheckSessionIdStatus.Text = "获取Code失败，Remid无效";
                     TextBlock_CheckSessionIdStatus.Background = Brushes.Red;
 
-                    MainWindow._SetOperatingState(3, "获取Code失败，请检查操作");
+                    MainWindow._SetOperatingState(3, "获取Code失败，Remid无效，请执行第一步修复Code获取失败，然后重新获取玩家账号信息");
                 }
             }
             else
@@ -338,7 +338,7 @@ namespace BF1.ServerAdminTools.Views
                 wpfPlot.Plot.Legend(location: Alignment.UpperRight);
 
                 wpfPlot.Plot.XAxis.DateTimeFormat(true);
-                wpfPlot.Plot.XAxis.TickLabelFormat("MM.dd HH:mm", true);
+                wpfPlot.Plot.XAxis.TickLabelFormat("MM/dd HH:mm", true);
 
                 // 定义刻度间隔
                 //wpfPlot.Plot.XAxis.ManualTickSpacing(6, ScottPlot.Ticks.DateTimeUnit.Hour);

@@ -37,7 +37,7 @@
             <TextBlock
                 Margin="5"
                 Foreground="Red"
-                Text="警告：除非需要更换账号，否则此功只需要使用一次"
+                Text="警告：除非需要更换账号或者修复Code获取失败，否则获取玩家账号信息功能只需要点一次，因为每次点击都会刷新remid、sid和sessionId"
                 TextWrapping="Wrap" />
             <Button
                 x:Name="Button_GetPlayerSessionID"
@@ -80,26 +80,27 @@
             <TextBlock
                 Margin="5"
                 Foreground="Green"
-                Text="提示：欢迎语如果不是中文，请重新获取（必须是中文，英文不可以）"
+                Text="提示：如果欢迎语不是中文，请重新获取（必须是中文，英文可能会导致问题）"
                 TextWrapping="Wrap" />
             <TextBlock
                 Margin="5"
-                Foreground="Green"
-                Text="提示：右侧表格如果没有加载出来，可以点击右键菜单更新"
-                TextWrapping="Wrap" />
+                Foreground="HotPink"
+                TextWrapping="Wrap">
+                提示：如果SessionID过期，点击刷新玩家SessionID即可。如果提示获取Code失败，请执行第一步修复Code获取失败，然后重新获取玩家账号信息
+            </TextBlock>
             <TextBlock
                 Margin="5"
-                Foreground="Green"
-                Text="提示：如果SessionID过期，点击刷新玩家SessionID即可。SessionID的有效期是24小时"
-                TextWrapping="Wrap" />
-            <TextBlock
-                Margin="5"
-                Foreground="Green"
+                Foreground="DarkOrange"
                 TextWrapping="Wrap">
                 提示：如何让程序自动更新SessionID？首先打开获取玩家账号信息（第一步的按钮），然后点击右下角的修复Code获取失败，
                 此时网页会跳转，可能会让你登陆，然后网页变成127.0.0.1这样的显示时，点击左下角的获取玩家账号信息，这时弹窗三个数据都会发生变化，
                 点确定关闭窗口，然后点击第二步的刷新玩家SessionID，这样以后程序以后就会全自动刷新SessionID了。更换账号需要重复上面步骤
             </TextBlock>
+            <TextBlock
+                Margin="5"
+                Foreground="Green"
+                Text="提示：右侧表格如果没有加载出来，可以点击右键菜单更新"
+                TextWrapping="Wrap" />
         </StackPanel>
         <!--  ################################  -->
         <Grid Grid.Column="1">

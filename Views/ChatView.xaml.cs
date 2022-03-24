@@ -3,6 +3,7 @@ using BF1.ServerAdminTools.Common.Helper;
 using BF1.ServerAdminTools.Features.Chat;
 using BF1.ServerAdminTools.Features.Core;
 using BF1.ServerAdminTools.Features.Utils;
+using Microsoft.Toolkit.Mvvm.Input;
 
 namespace BF1.ServerAdminTools.Views
 {
@@ -20,9 +21,13 @@ namespace BF1.ServerAdminTools.Views
 
         private Timer timerNoAFK;
 
+        public RelayCommand SendChsMessageCommand { get; set; }
+
         public ChatView()
         {
             InitializeComponent();
+
+            this.DataContext = this;
 
             defaultMsg[0] = IniHelper.ReadString("ChatMsg", "Msg0", "", FileUtil.F_Settings_Path);
             defaultMsg[1] = IniHelper.ReadString("ChatMsg", "Msg1", "", FileUtil.F_Settings_Path);
@@ -52,8 +57,10 @@ namespace BF1.ServerAdminTools.Views
 
             timerNoAFK = new Timer();
             timerNoAFK.AutoReset = true;
-            timerNoAFK.Interval = 1000 * 30;
+            timerNoAFK.Interval = 30000;
             timerNoAFK.Elapsed += TimerNoAFK_Elapsed;
+
+            SendChsMessageCommand = new RelayCommand(SendChsMessage);
         }
 
         private void MainWindow_ClosingDisposeEvent()
@@ -72,8 +79,20 @@ namespace BF1.ServerAdminTools.Views
             IniHelper.WriteString("ChatMsg", "Msg9", defaultMsg[9], FileUtil.F_Settings_Path);
         }
 
+        private void SetIMEState()
+        {
+            // 设置输入法为英文
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                InputLanguageManager.Current.CurrentInputLanguage = new CultureInfo("en-US");
+            });
+        }
+
         private void TimerAutoSendMsg_Elapsed(object sender, ElapsedEventArgs e)
         {
+            SetIMEState();
+            Thread.Sleep(50);
+
             for (int i = 0; i < queueMsg.Count; i++)
             {
                 ChatHelper.SendText2Bf1Game(queueMsg[i]);
@@ -83,18 +102,24 @@ namespace BF1.ServerAdminTools.Views
 
         private void TimerNoAFK_Elapsed(object sender, ElapsedEventArgs e)
         {
+            SetIMEState();
+            Thread.Sleep(50);
+
             Memory.SetForegroundWindow();
-            Thread.Sleep(20);
+            Thread.Sleep(50);
 
             WinAPI.Keybd_Event(WinVK.TAB, WinAPI.MapVirtualKey(WinVK.TAB, 0), 0, 0);
             Thread.Sleep(3000);
             WinAPI.Keybd_Event(WinVK.TAB, WinAPI.MapVirtualKey(WinVK.TAB, 0), 2, 0);
-            Thread.Sleep(20);
+            Thread.Sleep(50);
         }
 
-        private void Button_SendMsg2Bf1Game_Click(object sender, RoutedEventArgs e)
+        private void SendChsMessage()
         {
             AudioUtil.ClickSound();
+
+            SetIMEState();
+            Thread.Sleep(20);
 
             ChatHelper.KeyPressDelay = (int)Slider_KeyPressDelay.Value;
 
@@ -108,6 +133,7 @@ namespace BF1.ServerAdminTools.Views
             {
                 // 将窗口置顶
                 Memory.SetForegroundWindow();
+                Thread.Sleep(50);
 
                 // 如果聊天框开启，让他关闭
                 if (ChatMsg.GetChatIsOpen())
