@@ -21,8 +21,7 @@ namespace BF1.ServerAdminTools.Views
 
         ////////////////////////////////////////////
 
-        public delegate void QuickQueryPalyerDelegate(string playerName);
-        public static QuickQueryPalyerDelegate queryPalyerDelegate;
+        public static Action<string> _QuickQueryPalyer;
 
         public QueryView()
         {
@@ -42,7 +41,7 @@ namespace BF1.ServerAdminTools.Views
 
             QueryModel.PlayerName = "CrazyZhang666";
 
-            queryPalyerDelegate = QuickQueryPlayerData;
+            _QuickQueryPalyer = QuickQueryPlayerData;
         }
 
         private void QuickQueryPlayerData(string playerName)
@@ -73,7 +72,7 @@ namespace BF1.ServerAdminTools.Views
 
                 QueryModel.PlayerName = QueryModel.PlayerName.Trim();
 
-                MainWindow._dSetOperatingState(2, $"正在查询玩家 {QueryModel.PlayerName} 数据中...");
+                MainWindow._SetOperatingState(2, $"正在查询玩家 {QueryModel.PlayerName} 数据中...");
 
                 var result = await GTAPI.GetPlayerAllData(QueryModel.PlayerName);
 
@@ -94,16 +93,16 @@ namespace BF1.ServerAdminTools.Views
 
                     Update(all);
 
-                    MainWindow._dSetOperatingState(1, $"玩家 {QueryModel.PlayerName} 数据查询成功  |  耗时: {result.ExecTime:0.00} 秒");
+                    MainWindow._SetOperatingState(1, $"玩家 {QueryModel.PlayerName} 数据查询成功  |  耗时: {result.ExecTime:0.00} 秒");
                 }
                 else
                 {
-                    MainWindow._dSetOperatingState(3, $"玩家 {QueryModel.PlayerName} 数据查询失败  |  耗时: {result.ExecTime:0.00} 秒");
+                    MainWindow._SetOperatingState(3, $"玩家 {QueryModel.PlayerName} 数据查询失败  |  耗时: {result.ExecTime:0.00} 秒");
                 }
             }
             else
             {
-                MainWindow._dSetOperatingState(2, $"请输入正确的玩家名称");
+                MainWindow._SetOperatingState(2, $"请输入正确的玩家名称");
             }
         }
 
@@ -173,7 +172,7 @@ namespace BF1.ServerAdminTools.Views
                         item.star = PlayerUtil.GetKillStar(item.kills);
                         item.time = PlayerUtil.GetPlayTime(item.timeEquipped);
 
-                        Dispatcher.Invoke(DispatcherPriority.Background, new Action(() =>
+                        Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
                         {
                             WeaponsItems.Add(item);
                         }));
@@ -192,7 +191,7 @@ namespace BF1.ServerAdminTools.Views
                         item.star = PlayerUtil.GetKillStar(item.kills);
                         item.time = PlayerUtil.GetPlayTime(item.timeIn);
 
-                        Dispatcher.Invoke(DispatcherPriority.Background, new Action(() =>
+                        Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
                         {
                             VehiclesItems.Add(item);
                         }));
@@ -203,7 +202,7 @@ namespace BF1.ServerAdminTools.Views
 
         private void AddPlayerInfo(string str)
         {
-            Dispatcher.Invoke(DispatcherPriority.Background, new Action(() =>
+            Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
             {
                 PlayerDatas.Add(str);
             }));

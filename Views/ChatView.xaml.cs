@@ -100,7 +100,7 @@ namespace BF1.ServerAdminTools.Views
 
             if (string.IsNullOrEmpty(TextBox_InputMsg.Text.Trim()))
             {
-                MainWindow._dSetOperatingState(2, "聊天框内容为空，操作取消");
+                MainWindow._SetOperatingState(2, "聊天框内容为空，操作取消");
                 return;
             }
 
@@ -148,21 +148,21 @@ namespace BF1.ServerAdminTools.Views
                         // 恢复战地1进程
                         NtProc.ResumeProcess(Memory.GetProcessId());
 
-                        MainWindow._dSetOperatingState(1, "发送文本到战地1聊天框成功");
+                        MainWindow._SetOperatingState(1, "发送文本到战地1聊天框成功");
                     }
                     else
                     {
-                        MainWindow._dSetOperatingState(2, "聊天框消息指针未发现");
+                        MainWindow._SetOperatingState(2, "聊天框消息指针未发现");
                     }
                 }
                 else
                 {
-                    MainWindow._dSetOperatingState(2, "聊天框未开启");
+                    MainWindow._SetOperatingState(2, "聊天框未开启");
                 }
             }
             else
             {
-                MainWindow._dSetOperatingState(3, "聊天功能初始化失败，请重启程序");
+                MainWindow._SetOperatingState(3, "聊天功能初始化失败，请重启程序");
             }
         }
 
@@ -256,12 +256,12 @@ namespace BF1.ServerAdminTools.Views
                 timerAutoSendMsg.Interval = Slider_AutoSendMsg.Value * 1000 * 60;
                 timerAutoSendMsg.Start();
 
-                MainWindow._dSetOperatingState(1, "已启用定时发送指定文本功能");
+                MainWindow._SetOperatingState(1, "已启用定时发送指定文本功能");
             }
             else
             {
                 timerAutoSendMsg.Stop();
-                MainWindow._dSetOperatingState(1, "已关闭定时发送指定文本功能");
+                MainWindow._SetOperatingState(1, "已关闭定时发送指定文本功能");
             }
         }
 
@@ -270,12 +270,12 @@ namespace BF1.ServerAdminTools.Views
             if (CheckBox_ActiveNoAFK.IsChecked == true)
             {
                 timerNoAFK.Start();
-                MainWindow._dSetOperatingState(1, "已启用游戏内挂机防踢功能");
+                MainWindow._SetOperatingState(1, "已启用游戏内挂机防踢功能");
             }
             else
             {
                 timerNoAFK.Stop();
-                MainWindow._dSetOperatingState(1, "已关闭游戏内挂机防踢功能");
+                MainWindow._SetOperatingState(1, "已关闭游戏内挂机防踢功能");
             }
         }
     }

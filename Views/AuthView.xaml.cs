@@ -18,8 +18,7 @@ namespace BF1.ServerAdminTools.Views
     {
         private WebView2Window WebView2Window = null;
 
-        public delegate void AutoRefreshSID();
-        public static AutoRefreshSID _dAutoRefreshSID;
+        public static Action _AutoRefreshSID;
 
         public AuthView()
         {
@@ -45,7 +44,7 @@ namespace BF1.ServerAdminTools.Views
             timerAutoRefresh.Elapsed += TimerAutoRefresh_Elapsed;
             timerAutoRefresh.Start();
 
-            _dAutoRefreshSID = AutoRefresh;
+            _AutoRefreshSID = AutoRefresh;
         }
 
         private void MainWindow_ClosingDisposeEvent()
@@ -56,6 +55,7 @@ namespace BF1.ServerAdminTools.Views
         private void AutoRefresh()
         {
             TimerAutoRefresh_Elapsed(null, null);
+            LoggerHelper.Info($"调用刷新SessionID事件成功");
         }
 
         private async void TimerAutoRefresh_Elapsed(object sender, ElapsedEventArgs e)
@@ -97,12 +97,32 @@ namespace BF1.ServerAdminTools.Views
                             {
                                 var envIdViaAuthCode = JsonUtil.JsonDese<EnvIdViaAuthCode>(result.Message);
                                 Globals.SessionId = envIdViaAuthCode.result.sessionId;
+                                LoggerHelper.Info($"刷新SessionID成功 {Globals.SessionId}");
+                            }
+                            else
+                            {
+                                LoggerHelper.Error($"刷新SessionID失败，code无效 {code}");
                             }
                         }
+                        else
+                        {
+                            LoggerHelper.Error($"刷新SessionID失败，code错误 {code}");
+                        }
+                    }
+                    else
+                    {
+                        LoggerHelper.Error($"刷新SessionID失败，玩家Remid不正确 {Globals.Remid}");
                     }
                 }
+                else
+                {
+                    LoggerHelper.Error($"刷新SessionID失败，玩家Remid为空");
+                }
             }
-            catch (Exception) { }
+            catch (Exception ex)
+            {
+                LoggerHelper.Error($"刷新SessionID失败", ex);
+            }
         }
 
         private void Button_GetPlayerSessionID_Click(object sender, RoutedEventArgs e)
@@ -134,7 +154,7 @@ namespace BF1.ServerAdminTools.Views
             }
             else
             {
-                MainWindow._dSetOperatingState(3, "未安装WebView2对应依赖！");
+                MainWindow._SetOperatingState(3, "未安装WebView2对应依赖！");
                 return;
             }
         }
@@ -147,7 +167,7 @@ namespace BF1.ServerAdminTools.Views
             {
                 TextBlock_CheckSessionIdStatus.Text = "正在获取Code中，请等待...";
                 TextBlock_CheckSessionIdStatus.Background = Brushes.Gray;
-                MainWindow._dSetOperatingState(2, "正在获取Code中，请等待...");
+                MainWindow._SetOperatingState(2, "正在获取Code中，请等待...");
 
                 var str = "https://accounts.ea.com/connect/auth?response_type=code&locale=zh_CN&client_id=sparta-backend-as-user-pc";
                 var options = new RestClientOptions(str)
@@ -171,7 +191,7 @@ namespace BF1.ServerAdminTools.Views
                     {
                         TextBlock_CheckSessionIdStatus.Text = "正在刷新SessionID中，请等待...";
                         TextBlock_CheckSessionIdStatus.Background = Brushes.Gray;
-                        MainWindow._dSetOperatingState(2, "正在刷新SessionID中，请等待...");
+                        MainWindow._SetOperatingState(2, "正在刷新SessionID中，请等待...");
 
                         Globals.Remid = response.Cookies[0].Value;
                         Globals.Sid = response.Cookies[1].Value;
@@ -190,14 +210,14 @@ namespace BF1.ServerAdminTools.Views
                             TextBlock_CheckSessionIdStatus.Text = "刷新SessionID成功";
                             TextBlock_CheckSessionIdStatus.Background = Brushes.Green;
 
-                            MainWindow._dSetOperatingState(1, $"刷新SessionID成功  |  耗时: {result.ExecTime:0.00} 秒");
+                            MainWindow._SetOperatingState(1, $"刷新SessionID成功  |  耗时: {result.ExecTime:0.00} 秒");
                         }
                         else
                         {
                             TextBlock_CheckSessionIdStatus.Text = "刷新SessionID失败";
                             TextBlock_CheckSessionIdStatus.Background = Brushes.Red;
 
-                            MainWindow._dSetOperatingState(3, $"刷新SessionID失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
+                            MainWindow._SetOperatingState(3, $"刷新SessionID失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
                         }
                     }
                     else
@@ -205,7 +225,7 @@ namespace BF1.ServerAdminTools.Views
                         TextBlock_CheckSessionIdStatus.Text = "获取Code失败";
                         TextBlock_CheckSessionIdStatus.Background = Brushes.Red;
 
-                        MainWindow._dSetOperatingState(3, "获取Code失败，请检查操作");
+                        MainWindow._SetOperatingState(3, "获取Code失败，Remid不正确");
                     }
                 }
                 else
@@ -213,12 +233,12 @@ namespace BF1.ServerAdminTools.Views
                     TextBlock_CheckSessionIdStatus.Text = "获取Code失败";
                     TextBlock_CheckSessionIdStatus.Background = Brushes.Red;
 
-                    MainWindow._dSetOperatingState(3, "获取Code失败，请检查操作");
+                    MainWindow._SetOperatingState(3, "获取Code失败，请检查操作");
                 }
             }
             else
             {
-                MainWindow._dSetOperatingState(2, "请先获取玩家Remid后，再执行本操作");
+                MainWindow._SetOperatingState(2, "请先获取玩家Remid后，再执行本操作");
             }
         }
 
@@ -230,7 +250,7 @@ namespace BF1.ServerAdminTools.Views
             {
                 TextBlock_CheckSessionIdStatus.Text = "正在验证中，请等待...";
                 TextBlock_CheckSessionIdStatus.Background = Brushes.Gray;
-                MainWindow._dSetOperatingState(2, "正在验证中，请等待...");
+                MainWindow._SetOperatingState(2, "正在验证中，请等待...");
 
                 await BF1API.SetAPILocale();
                 var result = await BF1API.GetWelcomeMessage();
@@ -244,19 +264,19 @@ namespace BF1.ServerAdminTools.Views
                     TextBlock_CheckSessionIdStatus.Text = msg;
                     TextBlock_CheckSessionIdStatus.Background = Brushes.Green;
 
-                    MainWindow._dSetOperatingState(1, $"验证成功 {msg}  |  耗时: {result.ExecTime:0.00} 秒");
+                    MainWindow._SetOperatingState(1, $"验证成功 {msg}  |  耗时: {result.ExecTime:0.00} 秒");
                 }
                 else
                 {
                     TextBlock_CheckSessionIdStatus.Text = "验证失败";
                     TextBlock_CheckSessionIdStatus.Background = Brushes.Red;
 
-                    MainWindow._dSetOperatingState(3, $"验证失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
+                    MainWindow._SetOperatingState(3, $"验证失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
                 }
             }
             else
             {
-                MainWindow._dSetOperatingState(2, "请先获取玩家SessionID后，再执行本操作");
+                MainWindow._SetOperatingState(2, "请先获取玩家SessionID后，再执行本操作");
             }
         }
 
@@ -329,11 +349,11 @@ namespace BF1.ServerAdminTools.Views
 
                 wpfPlot.Refresh();
 
-                MainWindow._dSetOperatingState(1, $"获取战地1玩家人数成功  |  耗时: {result.ExecTime:0.00} 秒");
+                MainWindow._SetOperatingState(1, $"获取战地1玩家人数成功  |  耗时: {result.ExecTime:0.00} 秒");
             }
             else
             {
-                MainWindow._dSetOperatingState(3, $"获取战地1玩家人数失败  |  耗时: {result.ExecTime:0.00} 秒");
+                MainWindow._SetOperatingState(3, $"获取战地1玩家人数失败  |  耗时: {result.ExecTime:0.00} 秒");
             }
         }
 
@@ -354,7 +374,7 @@ namespace BF1.ServerAdminTools.Views
 
         private void UpdateData1(object sender, RoutedEventArgs e)
         {
-            MainWindow._dSetOperatingState(2, $"正在更新表格数据中...");
+            MainWindow._SetOperatingState(2, $"正在更新表格数据中...");
             UpdateWpfPlot(WpfPlot_Main1, "Asia");
         }
 
@@ -381,7 +401,7 @@ namespace BF1.ServerAdminTools.Views
 
         private void UpdateData2(object sender, RoutedEventArgs e)
         {
-            MainWindow._dSetOperatingState(2, $"正在更新表格数据中...");
+            MainWindow._SetOperatingState(2, $"正在更新表格数据中...");
             UpdateWpfPlot(WpfPlot_Main2, "ALL");
         }
 

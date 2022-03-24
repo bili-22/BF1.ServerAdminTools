@@ -24,12 +24,14 @@ namespace BF1.ServerAdminTools
         private void Window_Auth_Loaded(object sender, RoutedEventArgs e)
         {
             TextBlock_VersionInfo.Text = CoreUtil.ClientVersionInfo.ToString();
-            TextBlock_BuildDate.Text = File.GetLastWriteTime(Process.GetCurrentProcess().MainModule.FileName).ToString();
+            TextBlock_BuildDate.Text = CoreUtil.ClientBuildTime.ToString();
 
             Task.Run(() =>
             {
                 UpdateState("欢迎来到《BATTLEFIELD 1》...");
                 LoggerHelper.Info("开始初始化程序...");
+                LoggerHelper.Info($"当前程序版本号 {CoreUtil.ClientVersionInfo}");
+                LoggerHelper.Info($"当前程序最后编译时间 {CoreUtil.ClientBuildTime}");
 
                 // 初始化
                 if (Memory.Initialize(CoreUtil.TargetAppName))
@@ -54,10 +56,10 @@ namespace BF1.ServerAdminTools
                 LoggerHelper.Info("战地1API模块初始化成功");
 
                 GTAPI.Init();
-                LoggerHelper.Info("GameTools API模块初始化成功");
+                LoggerHelper.Info("GameToolsAPI模块初始化成功");
 
                 ImageData.InitDict();
-                LoggerHelper.Info("本地图片缓存数据初始化成功");
+                LoggerHelper.Info("本地图片缓存库初始化成功");
 
                 ChineseConverter.ToTraditional("免费，跨平台，开源！");
                 LoggerHelper.Info("简繁翻译库初始化成功");
@@ -65,6 +67,7 @@ namespace BF1.ServerAdminTools
                 try
                 {
                     UpdateState("正在验证玩家授权...");
+                    LoggerHelper.Info("正在验证玩家授权...");
 
                     var baseAddress = Player.GetLocalPlayer();
                     if (!Memory.IsValid(baseAddress))
@@ -105,7 +108,7 @@ namespace BF1.ServerAdminTools
                     var response = client.ExecutePostAsync(request).Result;
                     if (response.StatusCode == HttpStatusCode.OK)
                     {
-                        LoggerHelper.Info($"验证玩家授权成功");
+                        LoggerHelper.Info($"验证玩家 {playerName} 授权成功");
                     }
                     else if (response.StatusCode == HttpStatusCode.Forbidden)
                     {
@@ -161,7 +164,7 @@ namespace BF1.ServerAdminTools
 
                     if (CoreUtil.ServerVersionInfo > CoreUtil.ClientVersionInfo)
                     {
-                        LoggerHelper.Error($"发现新版本 {CoreUtil.ServerVersionInfo}");
+                        LoggerHelper.Info($"发现新版本 {CoreUtil.ServerVersionInfo}");
 
                         CoreUtil.Notice_Address = updateInfo.Address.Notice;
                         CoreUtil.Change_Address = updateInfo.Address.Change;
@@ -192,7 +195,7 @@ namespace BF1.ServerAdminTools
                     else
                     {
                         UpdateState("连线中...");
-                        LoggerHelper.Info($"当前已是最新版本");
+                        LoggerHelper.Info($"当前已是最新版本 {CoreUtil.ServerVersionInfo}");
 
                         Application.Current.Dispatcher.BeginInvoke(() =>
                         {

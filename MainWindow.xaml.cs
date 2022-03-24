@@ -13,14 +13,18 @@ namespace BF1.ServerAdminTools
     /// </summary>
     public partial class MainWindow : Window
     {
-        public delegate void DSetOperatingState(int index, string str);
-        public static DSetOperatingState _dSetOperatingState;
+        /// <summary>
+        /// 主窗口全局提示信息委托
+        /// </summary>
+        public static Action<int, string> _SetOperatingState;
+        /// <summary>
+        /// 主窗口选项卡控件选择委托
+        /// </summary>
+        public static Action<int> _TabControlSelect;
 
         public delegate void ClosingDispose();
         public static event ClosingDispose ClosingDisposeEvent;
 
-        public delegate void DTabControlSelect();
-        public static DTabControlSelect _dTabControlSelect;
 
         public static MainWindow ThisMainWindow;
 
@@ -39,9 +43,9 @@ namespace BF1.ServerAdminTools
         private void Window_Main_Loaded(object sender, RoutedEventArgs e)
         {
             // 提示信息委托
-            _dSetOperatingState = SetOperatingState;
-
-            _dTabControlSelect = TabControlSelect;
+            _SetOperatingState = SetOperatingState;
+            // TabControl 选择切换委托
+            _TabControlSelect = TabControlSelect;
 
             MainModel = new MainModel();
 
@@ -106,6 +110,7 @@ namespace BF1.ServerAdminTools
         {
             // 关闭事件
             ClosingDisposeEvent();
+            LoggerHelper.Info($"调用关闭事件成功");
 
             // 写入SessionId
             IniHelper.WriteString("Globals", "SessionId", Globals.SessionId, FileUtil.F_Settings_Path);
@@ -113,14 +118,15 @@ namespace BF1.ServerAdminTools
             IniHelper.WriteString("Globals", "Remid", Globals.Remid, FileUtil.F_Settings_Path);
             // 写入Sid
             IniHelper.WriteString("Globals", "Sid", Globals.Sid, FileUtil.F_Settings_Path);
+            LoggerHelper.Info($"保存配置文件成功");
 
             SQLiteHelper.CloseConnection();
-            LoggerHelper.Info($"关闭数据库链接");
+            LoggerHelper.Info($"关闭数据库链接成功");
 
             ChatMsg.FreeMemory();
-            LoggerHelper.Info($"释放中文聊天指针内存");
+            LoggerHelper.Info($"释放中文聊天指针内存成功");
             Memory.CloseHandle();
-            LoggerHelper.Info($"释放目标进程句柄");
+            LoggerHelper.Info($"释放目标进程句柄成功");
 
             Application.Current.Shutdown();
             LoggerHelper.Info($"程序关闭\n\n");
@@ -136,7 +142,7 @@ namespace BF1.ServerAdminTools
             Globals.Sid = IniHelper.ReadString("Globals", "Sid", "", FileUtil.F_Settings_Path);
 
             // 调用加载更新
-            AuthView._dAutoRefreshSID();
+            AuthView._AutoRefreshSID();
         }
 
         private void UpdateState()
@@ -193,9 +199,9 @@ namespace BF1.ServerAdminTools
 
         ///////////////////////////////////////////////////////
 
-        private void TabControlSelect()
+        private void TabControlSelect(int index)
         {
-            TabControl_Main.SelectedIndex = 1;
+            TabControl_Main.SelectedIndex = index;
         }
     }
 }

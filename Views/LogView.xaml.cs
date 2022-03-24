@@ -9,12 +9,10 @@ namespace BF1.ServerAdminTools.Views
     /// </summary>
     public partial class LogView : UserControl
     {
-        public delegate void DAddKickLog(BreakRuleInfo info);
-        public static DAddKickLog _dAddKickOKLog;
-        public static DAddKickLog _dAddKickNOLog;
+        public static Action<BreakRuleInfo> _dAddKickOKLog;
+        public static Action<BreakRuleInfo> _dAddKickNOLog;
 
-        public delegate void DAddChangeTeamInfo(ChangeTeamInfo info);
-        public static DAddChangeTeamInfo _dAddChangeTeamInfo;
+        public static Action<ChangeTeamInfo> _dAddChangeTeamInfo;
 
         public LogView()
         {
@@ -173,8 +171,8 @@ namespace BF1.ServerAdminTools.Views
                     TextBox_ChangeTeamLog.Clear();
                 }
 
-                AppendChangeTeamLog("玩家等级: " + info.Rank);
                 AppendChangeTeamLog("操作时间: " + DateTime.Now.ToString());
+                AppendChangeTeamLog("玩家等级: " + info.Rank);
                 AppendChangeTeamLog("玩家ID: " + info.Name);
                 AppendChangeTeamLog("玩家数字ID: " + info.PersonaId);
                 AppendChangeTeamLog("状态: " + info.Status + "\n");

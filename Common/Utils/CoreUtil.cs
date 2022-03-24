@@ -38,6 +38,11 @@ namespace BF1.ServerAdminTools.Common.Utils
         public static Version ClientVersionInfo = Application.ResourceAssembly.GetName().Version;
 
         /// <summary>
+        /// 程序客户端最后编译时间
+        /// </summary>
+        public static string ClientBuildTime = File.GetLastWriteTime(Process.GetCurrentProcess().MainModule.FileName).ToString();
+
+        /// <summary>
         /// 计算时间差，即软件运行时间
         /// </summary>
         public static string ExecDateDiff(DateTime dateBegin, DateTime dateEnd)
