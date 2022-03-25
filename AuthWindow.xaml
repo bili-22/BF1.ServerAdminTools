@@ -26,7 +26,10 @@
         <ControlTemplate TargetType="{x:Type Window}">
             <Border BorderBrush="Gray" BorderThickness="1">
                 <Grid>
-                    <Image Source="/Assets/Images/splash-bf1-launch.jpg" Stretch="UniformToFill" />
+                    <Image
+                        RenderOptions.BitmapScalingMode="HighQuality"
+                        Source="/Assets/Images/splash-bf1-launch.jpg"
+                        Stretch="UniformToFill" />
                     <ContentPresenter ClipToBounds="True" />
                 </Grid>
             </Border>

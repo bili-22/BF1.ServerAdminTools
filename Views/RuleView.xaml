@@ -378,23 +378,23 @@
                 <TextBlock />
                 <TextBlock
                     Margin="5"
+                    Foreground="HotPink"
+                    Text="提示：如果修改了规则，必须重新点击【应用当前规则】才能生效"
+                    TextWrapping="Wrap" />
+                <TextBlock
+                    Margin="5"
                     Foreground="Green"
                     Text="提示：在开启自动踢人功能前，请先到【详情】-【获取当前服务器详情数据】，这样可以自动获取当前服务器管理员和服主信息，以免出现无限踢出管理员情况"
                     TextWrapping="Wrap" />
                 <TextBlock
                     Margin="5"
-                    Foreground="Green"
+                    Foreground="DarkOrange"
                     Text="提示：黑名单和白名单不能加队标"
                     TextWrapping="Wrap" />
                 <TextBlock
                     Margin="5"
                     Foreground="Green"
                     Text="提示：无法踢出管理员和服主（即使用游戏内部的管理员菜单也无法踢出，这是战地1游戏机制），自动踢人会跳过服主、管理员和白名单玩家，但是他们还是会在出现违规列表中，这样会有个提醒作用"
-                    TextWrapping="Wrap" />
-                <TextBlock
-                    Margin="5"
-                    Foreground="Green"
-                    Text="提示：如果中途修改了规则，必须重新点击【应用当前规则】才能生效"
                     TextWrapping="Wrap" />
                 <!--  ################################  -->
 

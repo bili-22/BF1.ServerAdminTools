@@ -43,6 +43,9 @@
 
         [DllImport("user32.dll")]
         public static extern int SetForegroundWindow(IntPtr hwnd);
+
+        [DllImport("dnsapi.dll", EntryPoint = "DnsFlushResolverCache")]
+        public static extern uint DnsFlushResolverCache();
     }
 
     // OpenProcess signture https://www.pinvoke.net/default.aspx/kernel32.openprocess

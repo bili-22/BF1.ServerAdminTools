@@ -1,4 +1,5 @@
-﻿using Microsoft.Web.WebView2.Core;
+﻿using BF1.ServerAdminTools.Features.Core;
+using Microsoft.Web.WebView2.Core;
 
 namespace BF1.ServerAdminTools.Common.Utils
 {
@@ -106,6 +107,14 @@ namespace BF1.ServerAdminTools.Common.Utils
         {
             TimeSpan secondSpan = new TimeSpan(endTime.Ticks - startTime.Ticks);
             return secondSpan.TotalSeconds;
+        }
+
+        /// <summary>
+        /// 刷新DNS缓存
+        /// </summary>
+        public static void FlushDNSCache()
+        {
+            WinAPI.DnsFlushResolverCache();
         }
     }
 }

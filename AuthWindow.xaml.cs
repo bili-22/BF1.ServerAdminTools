@@ -33,6 +33,9 @@ namespace BF1.ServerAdminTools
                 LoggerHelper.Info($"当前程序版本号 {CoreUtil.ClientVersionInfo}");
                 LoggerHelper.Info($"当前程序最后编译时间 {CoreUtil.ClientBuildTime}");
 
+                CoreUtil.FlushDNSCache();
+                LoggerHelper.Info("刷新DNS缓存成功");
+
                 // 初始化
                 if (Memory.Initialize(CoreUtil.TargetAppName))
                 {

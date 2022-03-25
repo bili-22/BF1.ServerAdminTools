@@ -24,6 +24,10 @@ namespace BF1.ServerAdminTools.Views
         /// 是否已经执行
         /// </summary>
         private bool isHasBeenExec = false;
+        /// <summary>
+        /// 是否执行应用规则
+        /// </summary>
+        private bool isApplyRule = false;
 
         public RuleView()
         {
@@ -512,6 +516,13 @@ namespace BF1.ServerAdminTools.Views
         {
             AudioUtil.ClickSound();
 
+            TextBox_RuleLog.Clear();
+
+            AppendLog("===== 操作时间 =====");
+            AppendLog("");
+            AppendLog($"{DateTime.Now:yyyy/MM/dd HH:mm:ss}");
+            AppendLog("");
+
             ServerRule.MaxKill = Convert.ToInt32(Slider_MaxKill.Value);
 
             ServerRule.KDFlag = Convert.ToInt32(Slider_KDFlag.Value);
@@ -532,6 +543,11 @@ namespace BF1.ServerAdminTools.Views
             if (ServerRule.MinRank >= ServerRule.MaxRank && ServerRule.MinRank != 0 && ServerRule.MaxRank != 0)
             {
                 Globals.IsRuleSetRight = false;
+                isApplyRule = false;
+
+                AppendLog($"限制等级规则设置不正确");
+                AppendLog("");
+
                 MainWindow._SetOperatingState(3, $"限制等级规则设置不正确");
 
                 return;
@@ -570,13 +586,7 @@ namespace BF1.ServerAdminTools.Views
             }
 
             Globals.IsRuleSetRight = true;
-
-            TextBox_RuleLog.Clear();
-
-            AppendLog("===== 操作时间 =====");
-            AppendLog("");
-            AppendLog($"{DateTime.Now:yyyy/MM/dd HH:mm:ss}");
-            AppendLog("");
+            isApplyRule = true;
 
             AppendLog($"成功提交当前规则，请重新启动自动踢人功能");
             AppendLog("");
@@ -842,100 +852,129 @@ namespace BF1.ServerAdminTools.Views
             MainWindow._SetOperatingState(1, $"清空白名单列表成功");
         }
 
+        /// <summary>
+        /// 检查自动踢人环境是否合格
+        /// </summary>
+        /// <returns></returns>
+        private async Task<bool> CheckKickEnv()
+        {
+            TextBox_RuleLog.Clear();
+
+            MainWindow._SetOperatingState(2, $"正在检查环境...");
+
+            AppendLog("===== 操作时间 =====");
+            AppendLog("");
+            AppendLog($"{DateTime.Now:yyyy/MM/dd HH:mm:ss}");
+
+            AppendLog("");
+            AppendLog("正在检查玩家是否应用规则...");
+            if (!isApplyRule)
+            {
+                AppendLog("玩家没有正确应用规则，操作取消");
+                CheckBox_RunAutoKick.IsChecked = false;
+                MainWindow._SetOperatingState(2, $"环境检查未通过，操作取消");
+                return false;
+            }
+            else
+            {
+                AppendLog("玩家已正确应用规则");
+            }
+
+            AppendLog("");
+            AppendLog("正在检查 SessionId 是否正确...");
+            if (string.IsNullOrEmpty(Globals.SessionId))
+            {
+                AppendLog("SessionId为空，操作取消");
+                CheckBox_RunAutoKick.IsChecked = false;
+                MainWindow._SetOperatingState(2, $"环境检查未通过，操作取消");
+                return false;
+            }
+            else
+            {
+                AppendLog("SessionId 检查正确");
+            }
+
+            AppendLog("");
+            AppendLog("正在检查 SessionId 是否有效...");
+            var result = await BF1API.GetWelcomeMessage();
+            if (!result.IsSuccess)
+            {
+                AppendLog("SessionId 已过期，请重新获取，操作取消");
+                CheckBox_RunAutoKick.IsChecked = false;
+                MainWindow._SetOperatingState(2, $"环境检查未通过，操作取消");
+                return false;
+            }
+            else
+            {
+                AppendLog("SessionId 检查有效，可以使用");
+            }
+
+            AppendLog("");
+            AppendLog("正在检查 GameId 是否正确...");
+            if (string.IsNullOrEmpty(Globals.GameId))
+            {
+                AppendLog("GameId 为空，操作取消");
+                CheckBox_RunAutoKick.IsChecked = false;
+                MainWindow._SetOperatingState(2, $"环境检查未通过，操作取消");
+                return false;
+            }
+            else
+            {
+                AppendLog("GameId检查正确");
+            }
+
+            AppendLog("");
+            AppendLog("正在检查 服务器管理员列表 是否正确...");
+            if (Globals.Server_AdminList.Count == 0)
+            {
+                AppendLog("服务器管理员列表 为空，请先获取当前服务器详情数据，操作取消");
+                CheckBox_RunAutoKick.IsChecked = false;
+                MainWindow._SetOperatingState(2, $"环境检查未通过，操作取消");
+                return false;
+            }
+            else
+            {
+                AppendLog("服务器管理员列表 检查正确");
+            }
+
+            AppendLog("");
+            AppendLog("正在检查 玩家是否为当前服务器管理...");
+            var welcomeMsg = JsonUtil.JsonDese<WelcomeMsg>(result.Message);
+            var firstMessage = welcomeMsg.result.firstMessage;
+            string playerName = firstMessage.Substring(0, firstMessage.IndexOf("，"));
+            if (!Globals.Server_Admin2List.Contains(playerName))
+            {
+                AppendLog("玩家不是当前服务器管理，操作取消");
+                CheckBox_RunAutoKick.IsChecked = false;
+                MainWindow._SetOperatingState(2, $"环境检查未通过，操作取消");
+                return false;
+            }
+            else
+            {
+                AppendLog("已确认玩家为当前服务器管理");
+            }
+
+            isApplyRule = false;
+
+            return true;
+        }
+
         // 开启自动踢人
         private async void CheckBox_RunAutoKick_Click(object sender, RoutedEventArgs e)
         {
             if (CheckBox_RunAutoKick.IsChecked == true)
             {
-                TextBox_RuleLog.Clear();
-
-                MainWindow._SetOperatingState(2, $"正在检查环境...");
-
-                AppendLog("===== 操作时间 =====");
-                AppendLog("");
-                AppendLog($"{DateTime.Now:yyyy/MM/dd HH:mm:ss}");
-
-                AppendLog("");
-                AppendLog("正在检查 SessionId 是否正确...");
-                if (string.IsNullOrEmpty(Globals.SessionId))
+                // 检查自动踢人环境
+                if (await CheckKickEnv())
                 {
-                    AppendLog("SessionId为空，操作取消");
-                    CheckBox_RunAutoKick.IsChecked = false;
-                    MainWindow._SetOperatingState(2, $"环境检查未通过，操作取消");
-                    return;
-                }
-                else
-                {
-                    AppendLog("SessionId 检查正确");
-                }
+                    AppendLog("");
+                    AppendLog("环境检查完毕，自动踢人已开启");
 
-                AppendLog("");
-                AppendLog("正在检查 SessionId 是否有效...");
-                var result = await BF1API.GetWelcomeMessage();
-                if (!result.IsSuccess)
-                {
-                    AppendLog("SessionId 已过期，请重新获取，操作取消");
-                    CheckBox_RunAutoKick.IsChecked = false;
-                    MainWindow._SetOperatingState(2, $"环境检查未通过，操作取消");
-                    return;
-                }
-                else
-                {
-                    AppendLog("SessionId 检查有效，可以使用");
-                }
+                    isHasBeenExec = false;
 
-                AppendLog("");
-                AppendLog("正在检查 GameId 是否正确...");
-                if (string.IsNullOrEmpty(Globals.GameId))
-                {
-                    AppendLog("GameId 为空，操作取消");
-                    CheckBox_RunAutoKick.IsChecked = false;
-                    MainWindow._SetOperatingState(2, $"环境检查未通过，操作取消");
-                    return;
+                    Globals.AutoKickBreakPlayer = true;
+                    MainWindow._SetOperatingState(1, $"自动踢人开启成功");
                 }
-                else
-                {
-                    AppendLog("GameId检查正确");
-                }
-
-                AppendLog("");
-                AppendLog("正在检查 服务器管理员列表 是否正确...");
-                if (Globals.Server_AdminList.Count == 0)
-                {
-                    AppendLog("服务器管理员列表 为空，请先获取当前服务器详情数据，操作取消");
-                    CheckBox_RunAutoKick.IsChecked = false;
-                    MainWindow._SetOperatingState(2, $"环境检查未通过，操作取消");
-                    return;
-                }
-                else
-                {
-                    AppendLog("服务器管理员列表 检查正确");
-                }
-
-                AppendLog("");
-                AppendLog("正在检查 玩家是否为当前服务器管理...");
-                var welcomeMsg = JsonUtil.JsonDese<WelcomeMsg>(result.Message);
-                var firstMessage = welcomeMsg.result.firstMessage;
-                string playerName = firstMessage.Substring(0, firstMessage.IndexOf("，"));
-                if (!Globals.Server_Admin2List.Contains(playerName))
-                {
-                    AppendLog("玩家不是当前服务器管理，操作取消");
-                    CheckBox_RunAutoKick.IsChecked = false;
-                    MainWindow._SetOperatingState(2, $"环境检查未通过，操作取消");
-                    return;
-                }
-                else
-                {
-                    AppendLog("已确认玩家为当前服务器管理");
-                }
-
-                AppendLog("");
-                AppendLog("环境检查完毕，自动踢人已开启");
-
-                isHasBeenExec = false;
-
-                Globals.AutoKickBreakPlayer = true;
-                MainWindow._SetOperatingState(1, $"自动踢人开启成功");
             }
             else
             {
@@ -985,192 +1024,46 @@ namespace BF1.ServerAdminTools.Views
         {
             AudioUtil.ClickSound();
 
-            TextBox_RuleLog.Clear();
-
-            MainWindow._SetOperatingState(2, $"正在检查环境...");
-
-            AppendLog("===== 检查时间 =====");
-            AppendLog("");
-            AppendLog($"{DateTime.Now:yyyy/MM/dd HH:mm:ss}");
-
-            AppendLog("");
-            AppendLog("正在检查 SessionId 是否正确...");
-            if (string.IsNullOrEmpty(Globals.SessionId))
+            // 检查自动踢人环境
+            if (await CheckKickEnv())
             {
-                AppendLog("SessionId为空，操作取消");
-                MainWindow._SetOperatingState(2, $"环境检查未通过，操作取消");
-                return;
-            }
-            else
-            {
-                AppendLog("SessionId 检查正确");
-            }
+                AppendLog("");
+                AppendLog("环境检查完毕，执行手动踢人操作成功，请查看日志了解执行结果");
 
-            AppendLog("");
-            AppendLog("正在检查 SessionId 是否有效...");
-            var result = await BF1API.GetWelcomeMessage();
-            if (!result.IsSuccess)
-            {
-                AppendLog("SessionId 已过期，请重新获取，操作取消");
-                MainWindow._SetOperatingState(2, $"环境检查未通过，操作取消");
-                return;
-            }
-            else
-            {
-                AppendLog("SessionId 检查有效，可以使用");
-            }
+                for (int i = 0; i < Globals.BreakRuleInfo_PlayerList.Count; i++)
+                {
+                    ManualKickPlayer(Globals.BreakRuleInfo_PlayerList[i]);
+                }
 
-            AppendLog("");
-            AppendLog("正在检查 GameId 是否正确...");
-            if (string.IsNullOrEmpty(Globals.GameId))
-            {
-                AppendLog("GameId 为空，操作取消");
-                MainWindow._SetOperatingState(2, $"环境检查未通过，操作取消");
-                return;
-            }
-            else
-            {
-                AppendLog("GameId检查正确");
-            }
+                var team1Player = JsonSerializer.Deserialize<List<PlayerData>>(JsonSerializer.Serialize(ScoreView.PlayerDatas_Team1));
+                var team2Player = JsonSerializer.Deserialize<List<PlayerData>>(JsonSerializer.Serialize(ScoreView.PlayerDatas_Team2));
 
-            AppendLog("");
-            AppendLog("正在检查 服务器管理员列表 是否正确...");
-            if (Globals.Server_AdminList.Count == 0)
-            {
-                AppendLog("服务器管理员列表 为空，请先获取当前服务器详情数据，操作取消");
-                MainWindow._SetOperatingState(2, $"环境检查未通过，操作取消");
-                return;
-            }
-            else
-            {
-                AppendLog("服务器管理员列表 检查正确");
-            }
+                foreach (var item in team1Player)
+                {
+                    CheckBreakLifePlayer(item);
+                }
 
-            AppendLog("");
-            AppendLog("正在检查 玩家是否为当前服务器管理...");
-            var welcomeMsg = JsonUtil.JsonDese<WelcomeMsg>(result.Message);
-            var firstMessage = welcomeMsg.result.firstMessage;
-            string playerName = firstMessage.Substring(0, firstMessage.IndexOf("，"));
-            if (!Globals.Server_Admin2List.Contains(playerName))
-            {
-                AppendLog("玩家不是当前服务器管理，操作取消");
-                MainWindow._SetOperatingState(2, $"环境检查未通过，操作取消");
-                return;
+                foreach (var item in team2Player)
+                {
+                    CheckBreakLifePlayer(item);
+                }
+
+                MainWindow._SetOperatingState(1, "执行手动踢人操作成功，请查看日志了解执行结果");
             }
-            else
-            {
-                AppendLog("已确认玩家为当前服务器管理");
-            }
-
-            AppendLog("");
-            AppendLog("环境检查完毕，执行手动踢人操作成功，请查看日志了解执行结果");
-
-            for (int i = 0; i < Globals.BreakRuleInfo_PlayerList.Count; i++)
-            {
-                ManualKickPlayer(Globals.BreakRuleInfo_PlayerList[i]);
-            }
-
-            var team1Player = JsonSerializer.Deserialize<List<PlayerData>>(JsonSerializer.Serialize(ScoreView.PlayerDatas_Team1));
-            var team2Player = JsonSerializer.Deserialize<List<PlayerData>>(JsonSerializer.Serialize(ScoreView.PlayerDatas_Team2));
-
-            foreach (var item in team1Player)
-            {
-                CheckBreakLifePlayer(item);
-            }
-
-            foreach (var item in team2Player)
-            {
-                CheckBreakLifePlayer(item);
-            }
-
-            MainWindow._SetOperatingState(1, "执行手动踢人操作成功，请查看日志了解执行结果");
         }
 
         private async void Button_CheckKickEnv_Click(object sender, RoutedEventArgs e)
         {
             AudioUtil.ClickSound();
 
-            TextBox_RuleLog.Clear();
+            // 检查自动踢人环境
+            if (await CheckKickEnv())
+            {
+                AppendLog("");
+                AppendLog("环境检查完毕，自动踢人可以开启");
 
-            MainWindow._SetOperatingState(2, $"正在检查环境...");
-
-            AppendLog("===== 检查时间 =====");
-            AppendLog("");
-            AppendLog($"{DateTime.Now:yyyy/MM/dd HH:mm:ss}");
-
-            AppendLog("");
-            AppendLog("正在检查 SessionId 是否正确...");
-            if (string.IsNullOrEmpty(Globals.SessionId))
-            {
-                AppendLog("SessionId为空，操作取消");
-                MainWindow._SetOperatingState(2, $"环境检查未通过，操作取消");
-                return;
+                MainWindow._SetOperatingState(1, $"环境检查完毕，自动踢人可以开启");
             }
-            else
-            {
-                AppendLog("SessionId 检查正确");
-            }
-
-            AppendLog("");
-            AppendLog("正在检查 SessionId 是否有效...");
-            var result = await BF1API.GetWelcomeMessage();
-            if (!result.IsSuccess)
-            {
-                AppendLog("SessionId 已过期，请重新获取，操作取消");
-                MainWindow._SetOperatingState(2, $"环境检查未通过，操作取消");
-                return;
-            }
-            else
-            {
-                AppendLog("SessionId 检查有效，可以使用");
-            }
-
-            AppendLog("");
-            AppendLog("正在检查 GameId 是否正确...");
-            if (string.IsNullOrEmpty(Globals.GameId))
-            {
-                AppendLog("GameId 为空，操作取消");
-                MainWindow._SetOperatingState(2, $"环境检查未通过，操作取消");
-                return;
-            }
-            else
-            {
-                AppendLog("GameId检查正确");
-            }
-
-            AppendLog("");
-            AppendLog("正在检查 服务器管理员列表 是否正确...");
-            if (Globals.Server_AdminList.Count == 0)
-            {
-                AppendLog("服务器管理员列表 为空，请先获取当前服务器详情数据，操作取消");
-                MainWindow._SetOperatingState(2, $"环境检查未通过，操作取消");
-                return;
-            }
-            else
-            {
-                AppendLog("服务器管理员列表 检查正确");
-            }
-
-            AppendLog("");
-            AppendLog("正在检查 玩家是否为当前服务器管理...");
-            var welcomeMsg = JsonUtil.JsonDese<WelcomeMsg>(result.Message);
-            var firstMessage = welcomeMsg.result.firstMessage;
-            string playerName = firstMessage.Substring(0, firstMessage.IndexOf("，"));
-            if (!Globals.Server_Admin2List.Contains(playerName))
-            {
-                AppendLog("玩家不是当前服务器管理，操作取消");
-                MainWindow._SetOperatingState(2, $"环境检查未通过，操作取消");
-                return;
-            }
-            else
-            {
-                AppendLog("已确认玩家为当前服务器管理");
-            }
-
-            AppendLog("");
-            AppendLog("环境检查完毕，自动踢人可以开启");
-
-            MainWindow._SetOperatingState(1, $"环境检查完毕，自动踢人可以开启");
         }
     }
 }
