@@ -11,13 +11,13 @@
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition Width="350" />
+            <ColumnDefinition Width="1.6*" />
+            <ColumnDefinition Width="0.4*" />
         </Grid.ColumnDefinitions>
 
         <TabControl
             Grid.Column="0"
-            Margin="5,5,0,5"
+            Margin="5"
             Style="{StaticResource TabControlStyle_Main}">
             <TabControl.Resources>
                 <Style BasedOn="{StaticResource TabItemStyle_Main}" TargetType="{x:Type TabItem}" />
@@ -315,6 +315,7 @@
                             Style="{StaticResource ButtonStyle_WebGreen}" />
                         <Button
                             x:Name="Button_UpdateServer"
+                            Margin="5,0,5,0"
                             Click="Button_UpdateServer_Click"
                             Content="② 更新服务器信息（需要服主权限才能修改）"
                             Style="{StaticResource ButtonStyle_WebRed}" />
@@ -410,6 +411,7 @@
         <DockPanel Grid.Column="1" LastChildFill="True">
             <Button
                 x:Name="Button_GetFullServerDetails"
+                Margin="0,5,5,5"
                 Click="Button_GetFullServerDetails_Click"
                 Content="获取当前服务器详情数据"
                 DockPanel.Dock="Bottom"

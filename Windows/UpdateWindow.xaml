@@ -75,7 +75,7 @@
                         <ListBox
                             x:Name="ListBox_DownloadAddress"
                             Margin="5"
-                            Style="{StaticResource ListBoxStyle}" />
+                            Style="{StaticResource ListBoxStyle_Normal}" />
                     </DockPanel>
                 </Grid>
 

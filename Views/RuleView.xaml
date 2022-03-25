@@ -163,7 +163,8 @@
                     <ListBox
                         x:Name="ListBox_WeaponInfo"
                         Grid.Column="0"
-                        Margin="5,5,0,5">
+                        Margin="5,5,0,5"
+                        Style="{StaticResource ListBoxStyle_WebList}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <DockPanel Height="40" LastChildFill="True">
@@ -177,10 +178,14 @@
                                         TextAlignment="Center" />
                                     <UniformGrid DockPanel.Dock="Right" Rows="2">
                                         <TextBlock
-                                            VerticalAlignment="Center"
+                                            Margin="0,0,0,2.5"
+                                            VerticalAlignment="Bottom"
                                             FontWeight="Bold"
                                             Text="{Binding English}" />
-                                        <TextBlock VerticalAlignment="Center" Text="{Binding Chinese}" />
+                                        <TextBlock
+                                            Margin="0,2.5,0,0"
+                                            VerticalAlignment="Top"
+                                            Text="{Binding Chinese}" />
                                     </UniformGrid>
                                 </DockPanel>
                             </DataTemplate>
@@ -212,15 +217,20 @@
                     <ListBox
                         x:Name="ListBox_BreakWeaponInfo"
                         Grid.Column="2"
-                        Margin="0,5,5,5">
+                        Margin="0,5,5,5"
+                        Style="{StaticResource ListBoxStyle_WebList}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <UniformGrid Height="40" Rows="2">
                                     <TextBlock
-                                        VerticalAlignment="Center"
+                                        Margin="0,0,0,2.5"
+                                        VerticalAlignment="Bottom"
                                         FontWeight="Bold"
                                         Text="{Binding English}" />
-                                    <TextBlock VerticalAlignment="Center" Text="{Binding Chinese}" />
+                                    <TextBlock
+                                        Margin="0,2.5,0,0"
+                                        VerticalAlignment="Top"
+                                        Text="{Binding Chinese}" />
                                 </UniformGrid>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
@@ -265,7 +275,7 @@
                             x:Name="ListBox_Custom_BlackList"
                             Margin="5,5,2.5,5"
                             DockPanel.Dock="Top"
-                            ItemContainerStyle="{StaticResource ListBoxItemStyle_Noraml}" />
+                            Style="{StaticResource ListBoxStyle_Normal}" />
                     </DockPanel>
                     <DockPanel LastChildFill="True">
                         <TextBlock
@@ -302,7 +312,7 @@
                             x:Name="ListBox_Custom_WhiteList"
                             Margin="2.5,5,5,5"
                             DockPanel.Dock="Top"
-                            ItemContainerStyle="{StaticResource ListBoxItemStyle_Noraml}" />
+                            Style="{StaticResource ListBoxStyle_Normal}" />
                     </DockPanel>
                 </UniformGrid>
             </TabItem>
@@ -319,7 +329,10 @@
                 Margin="0,5,5,5"
                 Padding="5"
                 Cursor="Arrow"
-                DockPanel.Dock="Bottom" />
+                DockPanel.Dock="Bottom"
+                HorizontalScrollBarVisibility="Disabled"
+                IsReadOnly="True"
+                VerticalScrollBarVisibility="Auto" />
         </DockPanel>
         <!--  ################################  -->
         <DockPanel Grid.Column="2" LastChildFill="True">

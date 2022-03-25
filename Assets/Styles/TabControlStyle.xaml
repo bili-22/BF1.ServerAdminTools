@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <Style x:Key="TabControlStyle_Main" TargetType="{x:Type TabControl}">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="Padding" Value="2" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
@@ -24,7 +25,6 @@
                             Margin="0"
                             Panel.ZIndex="1"
                             Background="Transparent"
-                            Cursor="Hand"
                             IsItemsHost="true"
                             KeyboardNavigation.TabIndex="1" />
                         <Border
@@ -56,6 +56,7 @@
     <!--  ###############################################  -->
 
     <Style x:Key="TabItemStyle_Main" TargetType="{x:Type TabItem}">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="Foreground" Value="Black" />
         <Setter Property="Margin" Value="0" />
         <Setter Property="Padding" Value="20,11,20,7" />

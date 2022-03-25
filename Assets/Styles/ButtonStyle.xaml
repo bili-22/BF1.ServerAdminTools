@@ -70,8 +70,8 @@
     </Style>
 
     <Style x:Key="ButtonStyle_Web" TargetType="{x:Type Button}">
-        <Setter Property="Background" Value="#1b9af7" />
-        <Setter Property="BorderBrush" Value="#1b9af7" />
+        <Setter Property="Background" Value="#1E88E5" />
+        <Setter Property="BorderBrush" Value="#1E88E5" />
         <Setter Property="Foreground" Value="White" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -102,12 +102,12 @@
                             <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="true">
-                            <Setter TargetName="border" Property="Background" Value="#4cb0f9" />
-                            <Setter TargetName="border" Property="BorderBrush" Value="#4cb0f9" />
+                            <Setter TargetName="border" Property="Background" Value="#42A5F5" />
+                            <Setter TargetName="border" Property="BorderBrush" Value="#42A5F5" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="true">
-                            <Setter TargetName="border" Property="Background" Value="#2798eb" />
-                            <Setter TargetName="border" Property="BorderBrush" Value="#2798eb" />
+                            <Setter TargetName="border" Property="Background" Value="#1976D2" />
+                            <Setter TargetName="border" Property="BorderBrush" Value="#1976D2" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
                             <Setter TargetName="border" Property="Background" Value="#eeeeee" />
