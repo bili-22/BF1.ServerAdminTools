@@ -24,8 +24,8 @@
             <RowDefinition />
         </Grid.RowDefinitions>
         <UniformGrid Grid.Row="0" Columns="2">
-            <TextBlock Style="{StaticResource TextBlockTitleStyle}" Text="通知公告" />
-            <TextBlock Style="{StaticResource TextBlockTitleStyle}" Text="更新日志" />
+            <TextBlock Style="{StaticResource TextBlockStyle_Title}" Text="通知公告" />
+            <TextBlock Style="{StaticResource TextBlockStyle_Title}" Text="更新日志" />
         </UniformGrid>
         <UniformGrid Grid.Row="1" Columns="2">
             <TextBox

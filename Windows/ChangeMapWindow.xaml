@@ -60,15 +60,15 @@
             <Button
                 x:Name="Button_OK"
                 Margin="5,5,2.5,5"
-                Padding="10"
                 Click="Button_OK_Click"
-                Content="是" />
+                Content="是"
+                Style="{StaticResource ButtonStyle_Web}" />
             <Button
                 x:Name="Button_Cancel"
                 Margin="2.5,5,5,5"
-                Padding="10"
                 Click="Button_Cancel_Click"
-                Content="取消" />
+                Content="取消"
+                Style="{StaticResource ButtonStyle_WebGray}" />
         </UniformGrid>
     </Grid>
 </Window>

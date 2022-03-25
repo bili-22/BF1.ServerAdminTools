@@ -509,7 +509,7 @@ namespace BF1.ServerAdminTools.Views
 
                 ////////////////////////////////////////////////////////////////////////////////
 
-                Application.Current.Dispatcher.Invoke(() =>
+                Application.Current?.Dispatcher.Invoke(() =>
                 {
                     UpdateDataGridTeam1();
                     UpdateDataGridTeam2();

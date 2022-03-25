@@ -17,7 +17,7 @@
         </Grid.ColumnDefinitions>
         <!--  ################################  -->
         <StackPanel Grid.Column="0">
-            <TextBlock Style="{StaticResource TextBlockTitleStyle}" Text="第一步" />
+            <TextBlock Style="{StaticResource TextBlockStyle_Title}" Text="第一步" />
             <TextBlock Margin="5">
                 <Run>
                     首先安装WebView2外部依赖
@@ -41,12 +41,11 @@
                 TextWrapping="Wrap" />
             <Button
                 x:Name="Button_GetPlayerSessionID"
-                Margin="5"
-                Padding="10"
                 Click="Button_GetPlayerSessionID_Click"
-                Content="获取玩家账号信息（仅第一次使用需要）" />
+                Content="获取玩家账号信息（仅第一次使用需要）"
+                Style="{StaticResource ButtonStyle_Web}" />
             <!--  ################################  -->
-            <TextBlock Style="{StaticResource TextBlockTitleStyle}" Text="第二步" />
+            <TextBlock Style="{StaticResource TextBlockStyle_Title}" Text="第二步" />
             <TextBlock
                 x:Name="TextBlock_CheckSessionIdStatus"
                 Margin="5"
@@ -64,17 +63,15 @@
                 TextWrapping="Wrap" />
             <Button
                 x:Name="Button_RefreshPlayerSessionId"
-                Margin="5"
-                Padding="10"
                 Click="Button_RefreshPlayerSessionId_Click"
                 Content="刷新玩家SessionID"
-                Foreground="Red" />
+                Style="{StaticResource ButtonStyle_WebRed}" />
             <Button
                 x:Name="Button_VerifyPlayerSessionId"
-                Margin="5"
-                Padding="10"
+                Margin="5,0,5,5"
                 Click="Button_VerifyPlayerSessionId_Click"
-                Content="验证玩家SessionID有效性" />
+                Content="验证玩家SessionID有效性"
+                Style="{StaticResource ButtonStyle_Web}" />
             <!--  ################################  -->
             <TextBlock />
             <TextBlock

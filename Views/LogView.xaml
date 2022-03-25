@@ -17,9 +17,9 @@
         </Grid.RowDefinitions>
 
         <UniformGrid Columns="3">
-            <TextBlock Style="{StaticResource TextBlockTitleStyle}" Text="踢出成功" />
-            <TextBlock Style="{StaticResource TextBlockTitleStyle}" Text="踢出失败" />
-            <TextBlock Style="{StaticResource TextBlockTitleStyle}" Text="换边记录" />
+            <TextBlock Style="{StaticResource TextBlockStyle_Title}" Text="踢出成功" />
+            <TextBlock Style="{StaticResource TextBlockStyle_Title}" Text="踢出失败" />
+            <TextBlock Style="{StaticResource TextBlockStyle_Title}" Text="换边记录" />
         </UniformGrid>
 
         <UniformGrid Grid.Row="1" Columns="3">

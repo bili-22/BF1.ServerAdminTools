@@ -25,14 +25,13 @@
         <TabControl
             x:Name="TabControl_Main"
             Grid.Row="0"
-            Margin="5,3,5,5">
+            Margin="5"
+            Style="{StaticResource TabControlStyle_Main}">
             <TabControl.Resources>
                 <Style TargetType="{x:Type TabPanel}">
                     <Setter Property="HorizontalAlignment" Value="Center" />
                 </Style>
-                <Style TargetType="{x:Type TabItem}">
-                    <Setter Property="Padding" Value="15,10,15,10" />
-                </Style>
+                <Style BasedOn="{StaticResource TabItemStyle_Main}" TargetType="{x:Type TabItem}" />
             </TabControl.Resources>
 
             <!--  #############################################################################  -->

@@ -125,7 +125,7 @@
                         <TextBlock
                             FontSize="14"
                             Foreground="#3A6CB4"
-                            Style="{StaticResource IconFontNormalStyle}"
+                            Style="{StaticResource TextBlockStyle_IconFontNormal}"
                             Text="&#xe9f5;" />
                         <TextBlock Margin="10,0,5,0" Text="│" />
                         <TextBlock
@@ -136,7 +136,7 @@
                         <TextBlock
                             FontSize="14"
                             Foreground="#3A6CB4"
-                            Style="{StaticResource IconFontNormalStyle}"
+                            Style="{StaticResource TextBlockStyle_IconFontNormal}"
                             Text="&#xe629;" />
                     </StackPanel>
                     <!--  ################################  -->
@@ -169,7 +169,7 @@
                                 <TextBlock
                                     FontSize="14"
                                     Foreground="#3A6CB4"
-                                    Style="{StaticResource IconFontNormalStyle}"
+                                    Style="{StaticResource TextBlockStyle_IconFontNormal}"
                                     Text="&#xe62f;" />
                                 <TextBlock
                                     Margin="3,0,0,0"
@@ -201,7 +201,7 @@
                                 <TextBlock
                                     FontSize="14"
                                     Foreground="#AB312D"
-                                    Style="{StaticResource IconFontNormalStyle}"
+                                    Style="{StaticResource TextBlockStyle_IconFontNormal}"
                                     Text="&#xe62f;" />
                                 <TextBlock
                                     Margin="3,0,0,0"
@@ -249,7 +249,7 @@
                         <TextBlock
                             FontSize="14"
                             Foreground="#AB312D"
-                            Style="{StaticResource IconFontNormalStyle}"
+                            Style="{StaticResource TextBlockStyle_IconFontNormal}"
                             Text="&#xe9f5;" />
                         <TextBlock Margin="10,0,5,0" Text="│" />
                         <TextBlock
@@ -260,7 +260,7 @@
                         <TextBlock
                             FontSize="14"
                             Foreground="#AB312D"
-                            Style="{StaticResource IconFontNormalStyle}"
+                            Style="{StaticResource TextBlockStyle_IconFontNormal}"
                             Text="&#xe629;" />
                     </StackPanel>
                 </Grid>
@@ -284,7 +284,7 @@
                             Margin="0,0,5,0"
                             FontSize="14"
                             Foreground="#3A6CB4"
-                            Style="{StaticResource IconFontNormalStyle}"
+                            Style="{StaticResource TextBlockStyle_IconFontNormal}"
                             Text="&#xe62f;" />
                         <TextBlock
                             VerticalAlignment="Center"
@@ -437,7 +437,7 @@
                             Margin="0,0,5,0"
                             FontSize="14"
                             Foreground="#AB312D"
-                            Style="{StaticResource IconFontNormalStyle}"
+                            Style="{StaticResource TextBlockStyle_IconFontNormal}"
                             Text="&#xe62f;" />
                         <TextBlock
                             VerticalAlignment="Center"

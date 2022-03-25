@@ -34,7 +34,7 @@
                 Margin="0,5,0,5"
                 Command="{Binding QueryPlayerCommand}"
                 Content="&#xe610;"
-                Style="{StaticResource QueryButtonStyle}" />
+                Style="{StaticResource ButtonStyle_RecordQuery}" />
         </StackPanel>
 
         <Grid Grid.Row="1">

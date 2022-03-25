@@ -15,11 +15,12 @@
             <ColumnDefinition Width="350" />
         </Grid.ColumnDefinitions>
 
-        <TabControl Grid.Column="0" Margin="3">
+        <TabControl
+            Grid.Column="0"
+            Margin="5,5,0,5"
+            Style="{StaticResource TabControlStyle_Main}">
             <TabControl.Resources>
-                <Style TargetType="{x:Type TabItem}">
-                    <Setter Property="Padding" Value="15,10,15,10" />
-                </Style>
+                <Style BasedOn="{StaticResource TabItemStyle_Main}" TargetType="{x:Type TabItem}" />
             </TabControl.Resources>
             <!--  ################################  -->
             <TabItem Header="地图">
@@ -68,12 +69,10 @@
                         <TextBlock Margin="25,5,5,5" Text="{Binding ElementName=ListBox_Admin, Path=SelectedIndex}" />
                         <Button
                             x:Name="Button_RemoveSelectedAdmin"
-                            Margin="5"
-                            Padding="10"
                             Click="Button_RemoveSelectedAdmin_Click"
                             Content="从Admin列表移除选中玩家">
                             <Button.Style>
-                                <Style TargetType="{x:Type Button}">
+                                <Style BasedOn="{StaticResource ButtonStyle_Web}" TargetType="{x:Type Button}">
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding ElementName=ListBox_Admin, Path=SelectedIndex}" Value="-1">
                                             <Setter Property="IsEnabled" Value="False" />
@@ -100,7 +99,7 @@
                             Click="Button_AddNewAdmin_Click"
                             Content="添加玩家到Admin列表">
                             <Button.Style>
-                                <Style BasedOn="{StaticResource ButtonNormalStyle}" TargetType="{x:Type Button}">
+                                <Style BasedOn="{StaticResource ButtonStyle_Web}" TargetType="{x:Type Button}">
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding ElementName=TextBox_NewAdminName, Path=Text}" Value="">
                                             <Setter Property="IsEnabled" Value="False" />
@@ -158,12 +157,10 @@
                         <TextBlock Margin="25,5,5,5" Text="{Binding ElementName=ListBox_VIP, Path=SelectedIndex}" />
                         <Button
                             x:Name="Button_RemoveSelectedVIP"
-                            Margin="5"
-                            Padding="10"
                             Click="Button_RemoveSelectedVIP_Click"
                             Content="从VIP列表移除选中玩家">
                             <Button.Style>
-                                <Style TargetType="{x:Type Button}">
+                                <Style BasedOn="{StaticResource ButtonStyle_Web}" TargetType="{x:Type Button}">
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding ElementName=ListBox_VIP, Path=SelectedIndex}" Value="-1">
                                             <Setter Property="IsEnabled" Value="False" />
@@ -190,7 +187,7 @@
                             Click="Button_AddNewVIP_Click"
                             Content="添加玩家到VIP列表">
                             <Button.Style>
-                                <Style BasedOn="{StaticResource ButtonNormalStyle}" TargetType="{x:Type Button}">
+                                <Style BasedOn="{StaticResource ButtonStyle_Web}" TargetType="{x:Type Button}">
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding ElementName=TextBox_NewVIPName, Path=Text}" Value="">
                                             <Setter Property="IsEnabled" Value="False" />
@@ -242,12 +239,10 @@
                         <TextBlock Margin="25,5,5,5" Text="{Binding ElementName=ListBox_BAN, Path=SelectedIndex}" />
                         <Button
                             x:Name="Button_RemoveSelectedBAN"
-                            Margin="5"
-                            Padding="10"
                             Click="Button_RemoveSelectedBAN_Click"
                             Content="从BAN列表移除选中玩家">
                             <Button.Style>
-                                <Style TargetType="{x:Type Button}">
+                                <Style BasedOn="{StaticResource ButtonStyle_Web}" TargetType="{x:Type Button}">
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding ElementName=ListBox_BAN, Path=SelectedIndex}" Value="-1">
                                             <Setter Property="IsEnabled" Value="False" />
@@ -274,7 +269,7 @@
                             Click="Button_AddNewBAN_Click"
                             Content="添加玩家到BAN列表">
                             <Button.Style>
-                                <Style BasedOn="{StaticResource ButtonNormalStyle}" TargetType="{x:Type Button}">
+                                <Style BasedOn="{StaticResource ButtonStyle_Web}" TargetType="{x:Type Button}">
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding ElementName=TextBox_NewBANName, Path=Text}" Value="">
                                             <Setter Property="IsEnabled" Value="False" />
@@ -315,24 +310,19 @@
                             TextWrapping="Wrap" />
                         <Button
                             x:Name="Button_GetServerDetails"
-                            Margin="5"
-                            Padding="10"
                             Click="Button_GetServerDetails_Click"
                             Content="① 获取服务器信息（每次修改前都需要重新获取）"
-                            Foreground="Green" />
+                            Style="{StaticResource ButtonStyle_WebGreen}" />
                         <Button
                             x:Name="Button_UpdateServer"
-                            Margin="5"
-                            Padding="10"
                             Click="Button_UpdateServer_Click"
                             Content="② 更新服务器信息（需要服主权限才能修改）"
-                            Foreground="Red" />
+                            Style="{StaticResource ButtonStyle_WebRed}" />
                         <Button
                             x:Name="Button_SetServerDetails2Traditional"
-                            Margin="5"
-                            Padding="10"
                             Click="Button_SetServerDetails2Traditional_Click"
-                            Content="转换服务器描述文本为繁体中文（可选）" />
+                            Content="转换服务器描述文本为繁体中文（可选）"
+                            Style="{StaticResource ButtonStyle_Web}" />
                         <!--  ################################  -->
                         <TextBlock />
                         <TextBlock
@@ -393,12 +383,10 @@
                         <TextBox Name="TextBox_KickSelectedSpectatorReason" Style="{StaticResource TextBoxNormalStyle}" />
                         <Button
                             x:Name="Button_KickSelectedSpectator"
-                            Margin="5"
-                            Padding="10"
                             Click="Button_KickSelectedSpectator_Click"
                             Content="从观战列表踢出选中玩家">
                             <Button.Style>
-                                <Style TargetType="{x:Type Button}">
+                                <Style BasedOn="{StaticResource ButtonStyle_Web}" TargetType="{x:Type Button}">
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding ElementName=ListBox_Spectator, Path=SelectedIndex}" Value="-1">
                                             <Setter Property="IsEnabled" Value="False" />
@@ -412,7 +400,7 @@
                             x:Name="Button_RefreshSpectatorList"
                             Click="Button_RefreshSpectatorList_Click"
                             Content="刷新观战玩家列表"
-                            Style="{StaticResource ButtonNormalStyle}" />
+                            Style="{StaticResource ButtonStyle_Web}" />
                     </StackPanel>
                 </UniformGrid>
             </TabItem>
@@ -422,11 +410,10 @@
         <DockPanel Grid.Column="1" LastChildFill="True">
             <Button
                 x:Name="Button_GetFullServerDetails"
-                Margin="5"
-                Padding="10"
                 Click="Button_GetFullServerDetails_Click"
                 Content="获取当前服务器详情数据"
-                DockPanel.Dock="Bottom" />
+                DockPanel.Dock="Bottom"
+                Style="{StaticResource ButtonStyle_Web}" />
             <!--  ################################  -->
             <StackPanel DockPanel.Dock="Top">
                 <TextBlock

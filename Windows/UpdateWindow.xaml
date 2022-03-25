@@ -24,7 +24,7 @@
                 <TextBlock
                     VerticalAlignment="Center"
                     DockPanel.Dock="Left"
-                    Style="{StaticResource TextBlockUpdate}"
+                    Style="{StaticResource TextBlockStyle_Update}"
                     ToolTip="https://github.com/CrazyZhang666/BF1.Server/releases">
                     <Hyperlink NavigateUri="https://github.com/CrazyZhang666/BF1.Server/releases" RequestNavigate="Hyperlink_RequestNavigate">手动下载最新版本</Hyperlink>
                 </TextBlock>
@@ -34,14 +34,15 @@
                     Content="取消更新"
                     DockPanel.Dock="Right"
                     IsEnabled="False"
-                    Style="{StaticResource ButtonNormalStyle}" />
+                    Style="{StaticResource ButtonStyle_Web}" />
                 <Button
                     x:Name="Button_Update"
+                    Margin="5,5,0,5"
                     Click="Button_Update_Click"
                     Content="下载更新"
                     DockPanel.Dock="Right"
                     IsEnabled="True"
-                    Style="{StaticResource ButtonNormalStyle}" />
+                    Style="{StaticResource ButtonStyle_Web}" />
             </DockPanel>
 
             <Grid DockPanel.Dock="Top">
@@ -63,7 +64,7 @@
                                 FontSize="18"
                                 FontWeight="Bold"
                                 Foreground="Black"
-                                Style="{StaticResource IconFontNormalStyle}"
+                                Style="{StaticResource TextBlockStyle_IconFontNormal}"
                                 Text="&#xe624;" />
                             <TextBlock
                                 FontFamily="Arial"

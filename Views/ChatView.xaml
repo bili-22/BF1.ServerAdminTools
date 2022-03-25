@@ -90,7 +90,7 @@
                 <Button
                     Command="{Binding SendChsMessageCommand}"
                     Content="发送文本到战地1聊天框"
-                    Style="{StaticResource ButtonNormalStyle}" />
+                    Style="{StaticResource ButtonStyle_Web}" />
                 <TextBlock />
                 <TextBlock
                     Margin="5"
@@ -124,7 +124,7 @@
             </StackPanel>
             <!--  ################################  -->
             <StackPanel>
-                <TextBlock Style="{StaticResource TextBlockTitleStyle}" Text="定时发送指定文本" />
+                <TextBlock Style="{StaticResource TextBlockStyle_Title}" Text="定时发送指定文本" />
                 <GroupBox
                     Margin="5"
                     Padding="5"
@@ -204,7 +204,7 @@
                     Text="说明：上述设置如果调整了需要重新勾选《启用定时发送指定文本》才会生效"
                     TextWrapping="Wrap" />
                 <!--  ################  -->
-                <TextBlock Style="{StaticResource TextBlockTitleStyle}" Text="挂机防踢" />
+                <TextBlock Style="{StaticResource TextBlockStyle_Title}" Text="挂机防踢" />
                 <CheckBox
                     x:Name="CheckBox_ActiveNoAFK"
                     Margin="10,5,10,5"

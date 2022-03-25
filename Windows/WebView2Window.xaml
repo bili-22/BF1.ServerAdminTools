@@ -20,17 +20,15 @@
                 <Button
                     x:Name="Button_GetPlayerAccountInfo"
                     Margin="5,5,2.5,5"
-                    Padding="10"
                     Click="Button_GetPlayerAccountInfo_Click"
                     Content="获取玩家账号信息"
-                    Foreground="Green" />
+                    Style="{StaticResource ButtonStyle_Web}" />
                 <Button
                     x:Name="Button_ClearCache"
                     Margin="2.5,5,5,5"
-                    Padding="10"
                     Click="Button_ClearCache_Click"
                     Content="清空缓存"
-                    Foreground="Red" />
+                    Style="{StaticResource ButtonStyle_WebRed}" />
             </UniformGrid>
             <UniformGrid Columns="2" DockPanel.Dock="Bottom">
                 <StackPanel Orientation="Horizontal">

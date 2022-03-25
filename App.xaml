@@ -6,19 +6,24 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Assets/Styles/ColorStyle.xaml" />
+
                 <ResourceDictionary Source="Assets/Styles/GlobalStyle.xaml" />
-                <ResourceDictionary Source="Assets/Styles/TextBlockStyle.xaml" />
                 <ResourceDictionary Source="Assets/Styles/ScrollViewerStyle.xaml" />
-                <ResourceDictionary Source="Assets/Styles/ButtonStyle.xaml" />
                 <ResourceDictionary Source="Assets/Styles/WindowStyle.xaml" />
 
-                <ResourceDictionary Source="Assets/Styles/TextBoxStyle.xaml" />
+                <ResourceDictionary Source="Assets/Styles/TextBlockStyle.xaml" />
+                <ResourceDictionary Source="Assets/Styles/ButtonStyle.xaml" />
                 <ResourceDictionary Source="Assets/Styles/CheckBoxStyle.xaml" />
-                <ResourceDictionary Source="Assets/Styles/ImageStyle.xaml" />
+
+                <ResourceDictionary Source="Assets/Styles/TextBoxStyle.xaml" />
                 <ResourceDictionary Source="Assets/Styles/BorderStyle.xaml" />
+                <ResourceDictionary Source="Assets/Styles/ImageStyle.xaml" />
 
                 <ResourceDictionary Source="Assets/Styles/ListBoxStyle.xaml" />
                 <ResourceDictionary Source="Assets/Styles/DataGridStyle.xaml" />
+
+                <ResourceDictionary Source="Assets/Styles/TabControlStyle.xaml" />
 
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

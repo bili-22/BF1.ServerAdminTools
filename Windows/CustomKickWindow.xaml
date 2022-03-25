@@ -37,7 +37,7 @@
                 x:Name="Button_KickPlayer"
                 Click="Button_KickPlayer_Click"
                 Content="踢出该玩家"
-                Style="{StaticResource ButtonNormalStyle}" />
+                Style="{StaticResource ButtonStyle_Web}" />
         </UniformGrid>
     </Grid>
 </Window>
