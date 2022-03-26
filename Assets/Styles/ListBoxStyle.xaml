@@ -7,8 +7,12 @@
     <Style x:Key="ListBoxStyle_Map" TargetType="{x:Type ListBox}">
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate>
-                    <ScrollViewer Style="{StaticResource ScrollViewerStyle_VAHD}">
+                <ControlTemplate TargetType="{x:Type ListBox}">
+                    <ScrollViewer
+                        CanContentScroll="True"
+                        HorizontalScrollBarVisibility="Disabled"
+                        Style="{StaticResource ScrollViewerStyle}"
+                        VerticalScrollBarVisibility="Auto">
                         <WrapPanel IsItemsHost="true" />
                     </ScrollViewer>
                 </ControlTemplate>
@@ -75,8 +79,12 @@
     <Style x:Key="ListBoxStyle_Admin" TargetType="{x:Type ListBox}">
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate>
-                    <ScrollViewer Style="{StaticResource ScrollViewerStyle_VAHD}">
+                <ControlTemplate TargetType="{x:Type ListBox}">
+                    <ScrollViewer
+                        CanContentScroll="True"
+                        HorizontalScrollBarVisibility="Disabled"
+                        Style="{StaticResource ScrollViewerStyle}"
+                        VerticalScrollBarVisibility="Auto">
                         <StackPanel IsItemsHost="true" />
                     </ScrollViewer>
                 </ControlTemplate>
@@ -150,8 +158,12 @@
     <Style x:Key="ListBoxStyle_Spectator" TargetType="{x:Type ListBox}">
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate>
-                    <ScrollViewer Style="{StaticResource ScrollViewerStyle_VAHD}">
+                <ControlTemplate TargetType="{x:Type ListBox}">
+                    <ScrollViewer
+                        CanContentScroll="True"
+                        HorizontalScrollBarVisibility="Disabled"
+                        Style="{StaticResource ScrollViewerStyle}"
+                        VerticalScrollBarVisibility="Auto">
                         <StackPanel IsItemsHost="true" />
                     </ScrollViewer>
                 </ControlTemplate>
@@ -230,11 +242,13 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBox}">
-                    <Grid>
-                        <ScrollViewer Style="{StaticResource ScrollViewerStyle_VAHD}">
-                            <StackPanel IsItemsHost="True" />
-                        </ScrollViewer>
-                    </Grid>
+                    <ScrollViewer
+                        CanContentScroll="True"
+                        HorizontalScrollBarVisibility="Disabled"
+                        Style="{StaticResource ScrollViewerStyle}"
+                        VerticalScrollBarVisibility="Auto">
+                        <StackPanel IsItemsHost="true" />
+                    </ScrollViewer>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -244,11 +258,13 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBox}">
-                    <Grid>
-                        <ScrollViewer Style="{StaticResource ScrollViewerStyle_VAHD}">
-                            <StackPanel IsItemsHost="True" />
-                        </ScrollViewer>
-                    </Grid>
+                    <ScrollViewer
+                        CanContentScroll="True"
+                        HorizontalScrollBarVisibility="Disabled"
+                        Style="{StaticResource ScrollViewerStyle}"
+                        VerticalScrollBarVisibility="Auto">
+                        <StackPanel IsItemsHost="true" />
+                    </ScrollViewer>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -258,11 +274,13 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBox}">
-                    <Grid>
-                        <ScrollViewer Style="{StaticResource ScrollViewerStyle_VAHD}">
-                            <StackPanel IsItemsHost="True" />
-                        </ScrollViewer>
-                    </Grid>
+                    <ScrollViewer
+                        CanContentScroll="True"
+                        HorizontalScrollBarVisibility="Disabled"
+                        Style="{StaticResource ScrollViewerStyle}"
+                        VerticalScrollBarVisibility="Auto">
+                        <StackPanel IsItemsHost="true" />
+                    </ScrollViewer>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -329,11 +347,13 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBox}">
-                    <Grid>
-                        <ScrollViewer Style="{StaticResource ScrollViewerStyle_VAHD}">
-                            <StackPanel IsItemsHost="True" />
-                        </ScrollViewer>
-                    </Grid>
+                    <ScrollViewer
+                        CanContentScroll="True"
+                        HorizontalScrollBarVisibility="Disabled"
+                        Style="{StaticResource ScrollViewerStyle}"
+                        VerticalScrollBarVisibility="Auto">
+                        <StackPanel IsItemsHost="true" />
+                    </ScrollViewer>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -370,7 +390,11 @@
                 <ControlTemplate TargetType="{x:Type ListBox}">
                     <Grid>
                         <Border BorderBrush="#808080" BorderThickness="0.6" />
-                        <ScrollViewer Style="{StaticResource ScrollViewerStyle_VAHD}">
+                        <ScrollViewer
+                            CanContentScroll="True"
+                            HorizontalScrollBarVisibility="Disabled"
+                            Style="{StaticResource ScrollViewerStyle}"
+                            VerticalScrollBarVisibility="Auto">
                             <StackPanel IsItemsHost="true" />
                         </ScrollViewer>
                     </Grid>
@@ -413,7 +437,11 @@
                 <ControlTemplate TargetType="{x:Type ListBox}">
                     <Grid>
                         <Border BorderBrush="#808080" BorderThickness="0.6" />
-                        <ScrollViewer Style="{StaticResource ScrollViewerStyle_VAHD}">
+                        <ScrollViewer
+                            CanContentScroll="True"
+                            HorizontalScrollBarVisibility="Disabled"
+                            Style="{StaticResource ScrollViewerStyle}"
+                            VerticalScrollBarVisibility="Auto">
                             <StackPanel IsItemsHost="true" />
                         </ScrollViewer>
                     </Grid>

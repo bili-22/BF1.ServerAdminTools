@@ -1046,4 +1046,8 @@
 		</EmbeddedResource>
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Assets\Styles\Attached\" />
+	</ItemGroup>
+
 </Project>
