@@ -29,8 +29,8 @@ namespace BF1.ServerAdminTools.Views
         // 正在执行踢人请求的玩家列表，保留指定时间秒数
         private List<BreakRuleInfo> Kicking_PlayerList = new List<BreakRuleInfo>();
 
-        private ObservableCollection<PlayerListModel> DataGrid_PlayerList_Team1 { get; set; }
-        private ObservableCollection<PlayerListModel> DataGrid_PlayerList_Team2 { get; set; }
+        public ObservableCollection<PlayerListModel> DataGrid_PlayerList_Team1 { get; set; }
+        public ObservableCollection<PlayerListModel> DataGrid_PlayerList_Team2 { get; set; }
 
         private const int MaxPlayer = 74;
 
@@ -96,6 +96,8 @@ namespace BF1.ServerAdminTools.Views
         {
             InitializeComponent();
 
+            this.DataContext = this;
+
             ServerInfoModel = new ServerInfoModel();
             PlayerOtherModel = new PlayerOtherModel();
 
@@ -108,11 +110,6 @@ namespace BF1.ServerAdminTools.Views
             DataGrid_PlayerList_Team2 = new ObservableCollection<PlayerListModel>();
 
             _tdCP.WeaponSlot = new string[8] { "", "", "", "", "", "", "", "" };
-
-            this.DataContext = this;
-
-            DataGrid_Team1.ItemsSource = DataGrid_PlayerList_Team1;
-            DataGrid_Team2.ItemsSource = DataGrid_PlayerList_Team2;
 
             var thread0 = new Thread(UpdatePlayerList);
             thread0.IsBackground = true;
@@ -520,6 +517,7 @@ namespace BF1.ServerAdminTools.Views
 
                 ////////////////////////////////////////////////////////////////////////////////
 
+                // 自动踢出违规玩家
                 AutoKickBreakPlayer();
 
                 ////////////////////////////////////////////////////////////////////////////////

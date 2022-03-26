@@ -303,8 +303,9 @@
                         ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}"
                         ContextMenu="{StaticResource ContextMenu_Main}"
                         DockPanel.Dock="Bottom"
+                        ItemsSource="{Binding DataGrid_PlayerList_Team1}"
                         SelectionChanged="DataGrid_Team1_SelectionChanged"
-                        Style="{StaticResource DataGridTeam1Style}"
+                        Style="{StaticResource DataGridStyle_Team1}"
                         ToolTip="点击鼠标右键弹出菜单">
                         <DataGrid.Columns>
                             <DataGridTextColumn
@@ -323,7 +324,7 @@
                             <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding Clan}"
-                                ElementStyle="{StaticResource CenterAlignmentStyle1}"
+                                ElementStyle="{StaticResource CenterAlignmentStyle2}"
                                 Header="战队"
                                 IsReadOnly="False" />
                             <DataGridTextColumn
@@ -456,8 +457,9 @@
                         ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}"
                         ContextMenu="{StaticResource ContextMenu_Main}"
                         DockPanel.Dock="Bottom"
+                        ItemsSource="{Binding DataGrid_PlayerList_Team2}"
                         SelectionChanged="DataGrid_Team2_SelectionChanged"
-                        Style="{StaticResource DataGridTeam2Style}"
+                        Style="{StaticResource DataGridStyle_Team2}"
                         ToolTip="点击鼠标右键弹出菜单">
                         <DataGrid.Columns>
                             <DataGridTextColumn
@@ -476,7 +478,7 @@
                             <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding Clan}"
-                                ElementStyle="{StaticResource CenterAlignmentStyle1}"
+                                ElementStyle="{StaticResource CenterAlignmentStyle2}"
                                 Header="战队"
                                 IsReadOnly="False" />
                             <DataGridTextColumn

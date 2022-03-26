@@ -19,6 +19,9 @@ namespace BF1.ServerAdminTools.Windows
         #region 加载与关闭
         private async void Window_WebView2_Loaded(object sender, RoutedEventArgs e)
         {
+            // 刷新DNS缓存
+            CoreUtil.FlushDNSCache();
+
             var env = await CoreWebView2Environment.CreateAsync(null, FileUtil.D_Cache_Path, null);
 
             await WebView2.EnsureCoreWebView2Async(env);

@@ -261,7 +261,6 @@
                             <Button
                                 x:Name="Button_Clear_BlackList"
                                 Margin="5,5,2.5,5"
-                                Background="Red"
                                 Click="Button_Clear_BlackList_Click"
                                 Content="清空"
                                 Style="{StaticResource ButtonStyle_WebRed}" />
@@ -298,7 +297,6 @@
                             <Button
                                 x:Name="Button_Clear_WhiteList"
                                 Margin="5"
-                                Background="Red"
                                 Click="Button_Clear_WhiteList_Click"
                                 Content="清空"
                                 Style="{StaticResource ButtonStyle_WebRed}" />

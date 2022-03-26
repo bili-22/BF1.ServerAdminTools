@@ -8,7 +8,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate>
-                    <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                    <ScrollViewer Style="{StaticResource ScrollViewerStyle_VAHD}">
                         <WrapPanel IsItemsHost="true" />
                     </ScrollViewer>
                 </ControlTemplate>
@@ -73,6 +73,15 @@
     </Style>
 
     <Style x:Key="ListBoxStyle_Admin" TargetType="{x:Type ListBox}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <ScrollViewer Style="{StaticResource ScrollViewerStyle_VAHD}">
+                        <StackPanel IsItemsHost="true" />
+                    </ScrollViewer>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
         <Setter Property="ItemContainerStyle">
             <Setter.Value>
                 <Style TargetType="{x:Type ListBoxItem}">
@@ -139,6 +148,15 @@
     </Style>
 
     <Style x:Key="ListBoxStyle_Spectator" TargetType="{x:Type ListBox}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <ScrollViewer Style="{StaticResource ScrollViewerStyle_VAHD}">
+                        <StackPanel IsItemsHost="true" />
+                    </ScrollViewer>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
         <Setter Property="ItemContainerStyle">
             <Setter.Value>
                 <Style TargetType="{x:Type ListBoxItem}">
@@ -209,12 +227,11 @@
     <SolidColorBrush x:Key="ListBoxItemColor" Color="#03A9F4" />
 
     <Style x:Key="ListBoxStyle_PlayerData" TargetType="{x:Type ListBox}">
-        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBox}">
                     <Grid>
-                        <ScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden">
+                        <ScrollViewer Style="{StaticResource ScrollViewerStyle_VAHD}">
                             <StackPanel IsItemsHost="True" />
                         </ScrollViewer>
                     </Grid>
@@ -224,12 +241,11 @@
     </Style>
 
     <Style x:Key="ListBoxStyle_PlayerDataWeapon" TargetType="{x:Type ListBox}">
-        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBox}">
                     <Grid>
-                        <ScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden">
+                        <ScrollViewer Style="{StaticResource ScrollViewerStyle_VAHD}">
                             <StackPanel IsItemsHost="True" />
                         </ScrollViewer>
                     </Grid>
@@ -239,12 +255,11 @@
     </Style>
 
     <Style x:Key="ListBoxStyle_PlayerDataVehicle" TargetType="{x:Type ListBox}">
-        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBox}">
                     <Grid>
-                        <ScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden">
+                        <ScrollViewer Style="{StaticResource ScrollViewerStyle_VAHD}">
                             <StackPanel IsItemsHost="True" />
                         </ScrollViewer>
                     </Grid>
@@ -289,7 +304,6 @@
                         <Border x:Name="border" />
                         <ContentPresenter Margin="5,0,0,0" VerticalAlignment="Center" />
                     </Grid>
-
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsSelected" Value="True">
                             <Setter TargetName="border" Property="Background" Value="{StaticResource ListBoxItemColor}" />
@@ -312,12 +326,11 @@
     <!--  =====================================================================================  -->
 
     <Style x:Key="ListBoxStyle_ServerList" TargetType="{x:Type ListBox}">
-        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBox}">
                     <Grid>
-                        <ScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden">
+                        <ScrollViewer Style="{StaticResource ScrollViewerStyle_VAHD}">
                             <StackPanel IsItemsHost="True" />
                         </ScrollViewer>
                     </Grid>
@@ -352,14 +365,12 @@
     </Style>
 
     <Style x:Key="ListBoxStyle_Normal" TargetType="{x:Type ListBox}">
-        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
-        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBox}">
                     <Grid>
                         <Border BorderBrush="#808080" BorderThickness="0.6" />
-                        <ScrollViewer Style="{StaticResource ScrollViewerStyle}">
+                        <ScrollViewer Style="{StaticResource ScrollViewerStyle_VAHD}">
                             <StackPanel IsItemsHost="true" />
                         </ScrollViewer>
                     </Grid>
@@ -397,14 +408,12 @@
     </Style>
 
     <Style x:Key="ListBoxStyle_WebList" TargetType="{x:Type ListBox}">
-        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
-        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBox}">
                     <Grid>
                         <Border BorderBrush="#808080" BorderThickness="0.6" />
-                        <ScrollViewer Style="{StaticResource ScrollViewerStyle}">
+                        <ScrollViewer Style="{StaticResource ScrollViewerStyle_VAHD}">
                             <StackPanel IsItemsHost="true" />
                         </ScrollViewer>
                     </Grid>
