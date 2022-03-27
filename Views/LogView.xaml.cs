@@ -45,6 +45,11 @@ namespace BF1.ServerAdminTools.Views
                 if (string.IsNullOrEmpty(Globals.GameId))
                     continue;
 
+                if (ScoreView.PlayerDatas_Team1.Count == 0 && ScoreView.PlayerDatas_Team2.Count == 0)
+                {
+                    continue;
+                }
+
                 var temp_Player_Team1 = JsonSerializer.Deserialize<List<PlayerData>>(JsonSerializer.Serialize(ScoreView.PlayerDatas_Team1));
                 var temp_Player_Team2 = JsonSerializer.Deserialize<List<PlayerData>>(JsonSerializer.Serialize(ScoreView.PlayerDatas_Team2));
 
