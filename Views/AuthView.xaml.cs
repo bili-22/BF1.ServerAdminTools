@@ -54,8 +54,8 @@ namespace BF1.ServerAdminTools.Views
 
         private void AutoRefresh()
         {
+            LoggerHelper.Info($"调用刷新SessionID功能成功");
             TimerAutoRefresh_Elapsed(null, null);
-            LoggerHelper.Info($"调用刷新SessionID事件成功");
         }
 
         private async void TimerAutoRefresh_Elapsed(object sender, ElapsedEventArgs e)
@@ -75,6 +75,8 @@ namespace BF1.ServerAdminTools.Views
                     var request = new RestRequest()
                         .AddHeader("Cookie", $"remid={Globals.Remid}");
 
+                    LoggerHelper.Info($"当前Remin为 {Globals.Remid}");
+
                     var response = await client.ExecuteGetAsync(request);
                     if (response.StatusCode == HttpStatusCode.Redirect)
                     {
@@ -82,10 +84,15 @@ namespace BF1.ServerAdminTools.Views
                             .Find(x => x.Name == "Location")
                             .Value.ToString();
 
+                        LoggerHelper.Info($"当前Location为 {code}");
+
                         if (code.Contains("http://127.0.0.1/success?code="))
                         {
                             Globals.Remid = response.Cookies[0].Value;
                             Globals.Sid = response.Cookies[1].Value;
+
+                            LoggerHelper.Info($"当前Remid为 {Globals.Remid}");
+                            LoggerHelper.Info($"当前Sid为 {Globals.Sid}");
 
                             IniHelper.WriteString("Globals", "Remid", Globals.Remid, FileUtil.F_Settings_Path);
                             IniHelper.WriteString("Globals", "Sid", Globals.Sid, FileUtil.F_Settings_Path);

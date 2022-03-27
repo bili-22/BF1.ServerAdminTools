@@ -141,7 +141,8 @@ namespace BF1.ServerAdminTools
             // 读取Sid
             Globals.Sid = IniHelper.ReadString("Globals", "Sid", "", FileUtil.F_Settings_Path);
 
-            // 调用加载更新
+            // 调用刷新SessionID功能
+            LoggerHelper.Info($"开始调用刷新SessionID功能");
             AuthView._AutoRefreshSID();
         }
 

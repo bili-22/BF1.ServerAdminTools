@@ -1,5 +1,6 @@
 ﻿using BF1.ServerAdminTools.Common.Data;
 using BF1.ServerAdminTools.Common.Utils;
+using BF1.ServerAdminTools.Common.Helper;
 using Microsoft.Web.WebView2.Core;
 
 namespace BF1.ServerAdminTools.Windows
@@ -21,6 +22,7 @@ namespace BF1.ServerAdminTools.Windows
         {
             // 刷新DNS缓存
             CoreUtil.FlushDNSCache();
+            LoggerHelper.Info($"启动WebView2成功，已刷新DNS缓存");
 
             var env = await CoreWebView2Environment.CreateAsync(null, FileUtil.D_Cache_Path, null);
 
@@ -91,6 +93,9 @@ namespace BF1.ServerAdminTools.Windows
                     $"是否现在就关闭此窗口？",
                     "提示", MessageBoxButton.YesNo, MessageBoxImage.Information) == MessageBoxResult.Yes)
                 {
+                    LoggerHelper.Info($"成功获取到 Remid {Globals.Remid}");
+                    LoggerHelper.Info($"成功获取到 Sid {Globals.Sid}");
+                    LoggerHelper.Info($"成功获取到 SessionId {Globals.SessionId}");
                     this.Close();
                 }
             }
@@ -109,12 +114,15 @@ namespace BF1.ServerAdminTools.Windows
                 WebView2.CoreWebView2.CookieManager.DeleteAllCookies();
 
                 WebView2.Reload();
+
+                LoggerHelper.Info($"清空WebView2缓存成功");
             }
         }
 
         private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
         {
             WebView2.CoreWebView2.Navigate(e.Uri.OriginalString);
+            LoggerHelper.Info($"导航到 {e.Uri.OriginalString} 成功");
         }
     }
 }

@@ -204,12 +204,14 @@
     <Style x:Key="ScrollViewerStyle" TargetType="{x:Type ScrollViewer}">
         <Setter Property="Background" Value="{StaticResource TransparentColor}" />
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
-        <Setter Property="CanContentScroll" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ScrollViewer}">
                     <Grid Background="{StaticResource TransparentColor}">
-                        <ScrollContentPresenter Margin="{TemplateBinding Padding}" Content="{TemplateBinding Content}" />
+                        <ScrollContentPresenter
+                            Margin="{TemplateBinding Padding}"
+                            CanContentScroll="{TemplateBinding CanContentScroll}"
+                            Content="{TemplateBinding Content}" />
                         <ScrollBar
                             x:Name="PART_VerticalScrollBar"
                             MinWidth="15"
@@ -251,6 +253,15 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+    </Style>
+
+    <Style
+        x:Key="ScrollViewerStyle_VAHD"
+        BasedOn="{StaticResource ScrollViewerStyle}"
+        TargetType="{x:Type ScrollViewer}">
+        <Setter Property="VerticalScrollBarVisibility" Value="Auto" />
+        <Setter Property="HorizontalScrollBarVisibility" Value="Disabled" />
+        <Setter Property="ScrollViewer.CanContentScroll" Value="True" />
     </Style>
 
 </ResourceDictionary>

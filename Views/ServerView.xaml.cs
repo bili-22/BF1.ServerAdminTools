@@ -32,7 +32,7 @@ namespace BF1.ServerAdminTools.Views
 
             ServerModel.LoadingVisibility = Visibility.Collapsed;
 
-            ServerModel.ServerName = "DICE";
+            ServerModel.ServerName = "QQ";
         }
 
         private async void QueryServer()
