@@ -71,7 +71,7 @@ namespace BF1.ServerAdminTools.Windows
             }
             else
             {
-                CoreUtil.Update_Address = "https://github.com/CrazyZhang666/BF1.Server/releases/download/update/BF1.ServerAdminTools.exe";
+                CoreUtil.Update_Address = "https://github.com/CrazyZhang666/BF1.ServerAdminTools/releases/download/update/BF1.ServerAdminTools.exe";
             }
 
             // 下载临时文件完整路径

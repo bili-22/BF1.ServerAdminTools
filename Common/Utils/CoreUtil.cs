@@ -21,7 +21,7 @@ namespace BF1.ServerAdminTools.Common.Utils
         public static string Notice_Address = "https://battlefield.vip/server/notice.txt";
         public static string Change_Address = "https://battlefield.vip/server/change.txt";
 
-        public static string Update_Address = "https://github.com/CrazyZhang666/BF1.Server/releases/download/update/BF1.ServerAdminTools.exe";
+        public static string Update_Address = "https://github.com/CrazyZhang666/BF1.ServerAdminTools/releases/download/update/BF1.ServerAdminTools.exe";
 
         /// <summary>
         /// 正在更新时的文件名
