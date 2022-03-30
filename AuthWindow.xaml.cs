@@ -67,81 +67,10 @@ namespace BF1.ServerAdminTools
                 ChineseConverter.ToTraditional("免费，跨平台，开源！");
                 LoggerHelper.Info("简繁翻译库初始化成功");
 
+                ////////////////////////////////////////////////////////////////////
+
                 try
                 {
-                    UpdateState("正在验证玩家授权...");
-                    LoggerHelper.Info("正在验证玩家授权...");
-
-                    var baseAddress = Player.GetLocalPlayer();
-                    if (!Memory.IsValid(baseAddress))
-                    {
-                        UpdateState($"未获取到玩家数据，请稍后再试！程序即将关闭");
-                        LoggerHelper.Error($"玩家基址读取失败");
-                        Task.Delay(2000).Wait();
-
-                        Application.Current.Dispatcher.BeginInvoke(() =>
-                        {
-                            Application.Current.Shutdown();
-                        });
-                    }
-                    else
-                    {
-                        LoggerHelper.Info($"玩家基址读取成功 0x{baseAddress:x}");
-                    }
-
-                    // 带队标 0x2156，不带队标 0x40
-                    var personaId = Memory.Read<long>(baseAddress + 0x38);
-                    LoggerHelper.Info($"玩家数字ID {personaId}");
-                    var offset = Memory.Read<long>(baseAddress + 0x18);
-                    var playerName = Memory.ReadString(offset, 64);
-                    LoggerHelper.Info($"玩家ID {playerName}");
-
-                    var str = "https://api.battlefield.vip/bf1/checkauth";
-                    var options = new RestClientOptions(str)
-                    {
-                        Timeout = 5000
-                    };
-
-                    LoggerHelper.Info($"正在验证玩家 {playerName} 授权");
-                    var client = new RestClient(options);
-                    var request = new RestRequest()
-                        .AddQueryParameter("playername", playerName)
-                        .AddQueryParameter("personaid", personaId);
-
-                    var response = client.ExecutePostAsync(request).Result;
-                    if (response.StatusCode == HttpStatusCode.OK)
-                    {
-                        LoggerHelper.Info($"验证玩家 {playerName} 授权成功");
-                    }
-                    else if (response.StatusCode == HttpStatusCode.Forbidden)
-                    {
-                        UpdateState($"玩家 {playerName} 未授权！程序即将关闭");
-                        LoggerHelper.Error($"玩家 {playerName} 未授权");
-                        Task.Delay(2000).Wait();
-
-                        Application.Current.Dispatcher.BeginInvoke(() =>
-                        {
-                            Application.Current.Shutdown();
-                        });
-
-                        return;
-                    }
-                    else
-                    {
-                        UpdateState($"验证玩家授权失败 {response.StatusCode}！程序即将关闭");
-                        LoggerHelper.Error($"验证玩家 {playerName} 授权失败  {response.StatusCode}，响应内容 {response.Content}");
-                        Task.Delay(2000).Wait();
-
-                        Application.Current.Dispatcher.BeginInvoke(() =>
-                        {
-                            Application.Current.Shutdown();
-                        });
-
-                        return;
-                    }
-
-                    ////////////////////////////////////////////////////////////////////
-
                     UpdateState("正在检测版本更新...");
                     LoggerHelper.Info($"正在检测版本更新...");
 

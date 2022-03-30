@@ -27,7 +27,7 @@
                     Margin="10"
                     HorizontalAlignment="Center"
                     FontSize="14"
-                    Text="Copyright© 2020-2022 DS By CrazyZhang" />
+                    Text="Copyright© 2020-2022 DS By CrazyZhang666" />
                 <Border
                     Margin="0,10,0,5"
                     Padding="10,0,10,0"
@@ -46,6 +46,14 @@
                             ToolTip="官方网站">
                             <Hyperlink NavigateUri="https://bfkits.neocities.org" RequestNavigate="Hyperlink_RequestNavigate">
                                 &#xe65b;
+                            </Hyperlink>
+                        </TextBlock>
+                        <TextBlock
+                            Margin="10,0,0,0"
+                            Style="{StaticResource TextBlockStyle_IconFontAbout}"
+                            ToolTip="GitHub">
+                            <Hyperlink NavigateUri="https://github.com/CrazyZhang666/BF1.ServerAdminTools" RequestNavigate="Hyperlink_RequestNavigate">
+                                &#xe677;
                             </Hyperlink>
                         </TextBlock>
                         <!--  ################################  -->
