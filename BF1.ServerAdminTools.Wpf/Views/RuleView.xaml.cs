@@ -2,7 +2,6 @@
 using BF1.ServerAdminTools.BF1API.Data;
 using BF1.ServerAdminTools.BF1API.Utils;
 using BF1.ServerAdminTools.Common.Data;
-using BF1.ServerAdminTools.Common.Helper;
 using BF1.ServerAdminTools.Common.Utils;
 using BF1.ServerAdminTools.Wpf.Utils;
 using BF1.ServerAdminTools.Wpf.Windows;
@@ -30,9 +29,13 @@ namespace BF1.ServerAdminTools.Wpf.Views
         /// </summary>
         private bool isApplyRule = false;
 
+        public string NowName { get; set; }
+
         public RuleView()
         {
             InitializeComponent();
+
+            DataContext = this;
 
             // 添加武器信息列表
             foreach (var item in WeaponData.AllWeaponInfo)
@@ -70,6 +73,8 @@ namespace BF1.ServerAdminTools.Wpf.Views
 
         private void LoadRule() 
         {
+            NowName = Globals.NowRule.Name;
+
             if (Globals.NowRule.Custom_WeaponList == null)
             {
                 Globals.NowRule.Custom_WeaponList = new();
