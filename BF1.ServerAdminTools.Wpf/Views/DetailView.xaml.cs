@@ -37,10 +37,12 @@ namespace BF1.ServerAdminTools.Wpf.Views
         private ServerDetails serverDetails = null;
         private bool isGetServerDetailsOK = false;
 
+        private static DetailView ThisView;
+
         public DetailView()
         {
             InitializeComponent();
-
+            ThisView = this;
             this.DataContext = this;
 
             DetailModel = new DetailModel();
@@ -48,15 +50,13 @@ namespace BF1.ServerAdminTools.Wpf.Views
             MainWindow.ClosingDisposeEvent += MainWindow_ClosingDisposeEvent;
         }
 
-        private void MainWindow_ClosingDisposeEvent()
+        public static Task SLoad() 
         {
-
+            return ThisView.Load();
         }
 
-        private async void Button_GetFullServerDetails_Click(object sender, RoutedEventArgs e)
+        public async Task Load() 
         {
-            AudioUtil.ClickSound();
-
             if (!string.IsNullOrEmpty(Globals.Config.SessionId))
             {
                 if (!string.IsNullOrEmpty(Globals.Config.GameId))
@@ -186,6 +186,18 @@ namespace BF1.ServerAdminTools.Wpf.Views
             {
                 MainWindow._SetOperatingState(2, "请先获取玩家SessionID");
             }
+        }
+
+        private void MainWindow_ClosingDisposeEvent()
+        {
+
+        }
+
+        private async void Button_GetFullServerDetails_Click(object sender, RoutedEventArgs e)
+        {
+            AudioUtil.ClickSound();
+
+            await Load();
         }
 
         private async void ListBox_Map_SelectionChanged(object sender, SelectionChangedEventArgs e)

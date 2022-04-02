@@ -100,6 +100,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
             Slider_LifeMaxWeaponStar.Value = Globals.NowRule.LifeMaxWeaponStar;
             Slider_LifeMaxVehicleStar.Value = Globals.NowRule.LifeMaxVehicleStar;
 
+            ListBox_BreakWeaponInfo.Items.Clear();
             foreach (var item in Globals.NowRule.Custom_WeaponList)
             {
                 ListBox_BreakWeaponInfo.Items.Add(new WeaponInfo()
@@ -114,11 +115,13 @@ namespace BF1.ServerAdminTools.Wpf.Views
                 ListBox_BreakWeaponInfo.SelectedIndex = 0;
             }
 
+            ListBox_Custom_BlackList.Items.Clear();
             foreach (var item in Globals.NowRule.Custom_BlackList)
             {
                 ListBox_Custom_BlackList.Items.Add(item);
             }
 
+            ListBox_Custom_WhiteList.Items.Clear();
             foreach (var item in Globals.NowRule.Custom_WhiteList)
             {
                 ListBox_Custom_WhiteList.Items.Add(item);
@@ -143,6 +146,9 @@ namespace BF1.ServerAdminTools.Wpf.Views
                     }
                 }
             }
+
+            Globals.AutoKickBreakPlayer = false;
+            CheckBox_RunAutoKick.IsChecked = false;
         }
 
         private void MainWindow_ClosingDisposeEvent()
@@ -505,7 +511,12 @@ namespace BF1.ServerAdminTools.Wpf.Views
 
             Globals.NowRule = item;
             LoadRule();
+            isApplyRule = false;
             Rule_List.SelectedItem = null;
+
+            TextBox_RuleLog.Clear();
+
+            AppendLog("已切换规则");
         }
 
         private void Delete_Rule(object sender, RoutedEventArgs e)
@@ -616,13 +627,6 @@ namespace BF1.ServerAdminTools.Wpf.Views
             AppendLog("");
 
             MainWindow._SetOperatingState(1, $"应用当前规则成功，请点击<查询当前规则>检验规则是否正确");
-
-            Task.Run(() =>
-            {
-                Task.Delay(10000).Wait();
-
-                isApplyRule = false;
-            });
 
             FileUtil.SaveRule();
         }
@@ -990,10 +994,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
                 MainWindow._SetOperatingState(2, $"环境检查未通过，操作取消");
                 return false;
             }
-            else
-            {
-                AppendLog("玩家已正确应用规则");
-            }
+            AppendLog("玩家已正确应用规则");
 
             AppendLog("");
             AppendLog("正在检查 SessionId 是否正确...");
@@ -1003,10 +1004,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
                 MainWindow._SetOperatingState(2, $"环境检查未通过，操作取消");
                 return false;
             }
-            else
-            {
-                AppendLog("SessionId 检查正确");
-            }
+            AppendLog("SessionId 检查正确");
 
             AppendLog("");
             AppendLog("正在检查 SessionId 是否有效...");
@@ -1017,10 +1015,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
                 MainWindow._SetOperatingState(2, $"环境检查未通过，操作取消");
                 return false;
             }
-            else
-            {
-                AppendLog("SessionId 检查有效，可以使用");
-            }
+            AppendLog("SessionId 检查有效，可以使用");
 
             AppendLog("");
             AppendLog("正在检查 GameId 是否正确...");
@@ -1030,23 +1025,21 @@ namespace BF1.ServerAdminTools.Wpf.Views
                 MainWindow._SetOperatingState(2, $"环境检查未通过，操作取消");
                 return false;
             }
-            else
-            {
-                AppendLog("GameId检查正确");
-            }
+            AppendLog("GameId检查正确");
 
             AppendLog("");
             AppendLog("正在检查 服务器管理员列表 是否正确...");
             if (Globals.Server_AdminList.Count == 0)
             {
-                AppendLog("服务器管理员列表 为空，请先获取当前服务器详情数据，操作取消");
-                MainWindow._SetOperatingState(2, $"环境检查未通过，操作取消");
-                return false;
+                await DetailView.SLoad();
+                if (Globals.Server_AdminList.Count == 0)
+                {
+                    AppendLog("服务器管理员列表 为空，请先获取当前服务器详情数据，操作取消");
+                    MainWindow._SetOperatingState(2, $"环境检查未通过，操作取消");
+                    return false;
+                }
             }
-            else
-            {
-                AppendLog("服务器管理员列表 检查正确");
-            }
+            AppendLog("服务器管理员列表 检查正确");
 
             AppendLog("");
             AppendLog("正在检查 玩家是否为当前服务器管理...");
@@ -1059,10 +1052,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
                 MainWindow._SetOperatingState(2, $"环境检查未通过，操作取消");
                 return false;
             }
-            else
-            {
-                AppendLog("已确认玩家为当前服务器管理");
-            }
+            AppendLog("已确认玩家为当前服务器管理");
 
             return true;
         }
@@ -1085,6 +1075,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
                 }
                 else
                 {
+                    CheckBox_RunAutoKick.IsChecked = false;
                     Globals.AutoKickBreakPlayer = false;
                 }
             }
@@ -1161,20 +1152,6 @@ namespace BF1.ServerAdminTools.Wpf.Views
                 }
 
                 MainWindow._SetOperatingState(1, "执行手动踢人操作成功，请查看日志了解执行结果");
-            }
-        }
-
-        private async void Button_CheckKickEnv_Click(object sender, RoutedEventArgs e)
-        {
-            AudioUtil.ClickSound();
-
-            // 检查自动踢人环境
-            if (await CheckKickEnv())
-            {
-                AppendLog("");
-                AppendLog("环境检查完毕，自动踢人可以开启");
-
-                MainWindow._SetOperatingState(1, $"环境检查完毕，自动踢人可以开启");
             }
         }
     }

@@ -111,8 +111,10 @@ namespace BF1.ServerAdminTools.Wpf.Views
 
             _tdCP.WeaponSlot = new string[8] { "", "", "", "", "", "", "", "" };
 
-            var thread0 = new Thread(UpdatePlayerList);
-            thread0.IsBackground = true;
+            var thread0 = new Thread(UpdatePlayerList)
+            {
+                IsBackground = true
+            };
             thread0.Start();
         }
 

@@ -404,12 +404,6 @@
                     Content="③ 检查违规玩家" />
                 <TextBlock />
                 <Button
-                    x:Name="Button_CheckKickEnv"
-                    Margin="0,5,5,0"
-                    Click="Button_CheckKickEnv_Click"
-                    Content="检查自动踢人环境"
-                    Style="{StaticResource ButtonStyle_WebGreen}" />
-                <Button
                     x:Name="Button_ManualKickBreakRulePlayer"
                     Margin="0,5,5,0"
                     Click="Button_ManualKickBreakRulePlayer_Click"
