@@ -274,7 +274,7 @@
                             DockPanel.Dock="Top"
                             Style="{StaticResource TextBlockStyle_Title}"
                             Text="玩家黑名单" />
-                        <UniformGrid Columns="3" DockPanel.Dock="Bottom">
+                        <UniformGrid Columns="4" DockPanel.Dock="Bottom">
                             <Button
                                 x:Name="Button_Add_BlackList"
                                 Margin="5,5,0,5"
@@ -286,6 +286,12 @@
                                 Margin="5,5,0,5"
                                 Click="Button_Remove_BlackList_Click"
                                 Content="移除"
+                                Style="{StaticResource ButtonStyle_Web}" />
+                            <Button
+                                x:Name="Button_Input_BlackList"
+                                Margin="5,5,0,5"
+                                Click="Button_Input_BlackList_Click"
+                                Content="导入"
                                 Style="{StaticResource ButtonStyle_Web}" />
                             <Button
                                 x:Name="Button_Clear_BlackList"
@@ -310,7 +316,7 @@
                             DockPanel.Dock="Top"
                             Style="{StaticResource TextBlockStyle_Title}"
                             Text="玩家白名单" />
-                        <UniformGrid Columns="3" DockPanel.Dock="Bottom">
+                        <UniformGrid Columns="4" DockPanel.Dock="Bottom">
                             <Button
                                 x:Name="Button_Add_WhiteList"
                                 Margin="2.5,5,0,5"
@@ -322,6 +328,12 @@
                                 Margin="5,5,0,5"
                                 Click="Button_Remove_WhiteList_Click"
                                 Content="移除"
+                                Style="{StaticResource ButtonStyle_Web}" />
+                            <Button
+                                x:Name="Button_Input_WhiteList"
+                                Margin="5,5,0,5"
+                                Click="Button_Input_WhiteList_Click"
+                                Content="导入"
                                 Style="{StaticResource ButtonStyle_Web}" />
                             <Button
                                 x:Name="Button_Clear_WhiteList"

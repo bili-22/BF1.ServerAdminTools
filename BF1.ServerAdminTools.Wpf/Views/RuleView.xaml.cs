@@ -2,6 +2,7 @@
 using BF1.ServerAdminTools.BF1API.Data;
 using BF1.ServerAdminTools.BF1API.Utils;
 using BF1.ServerAdminTools.Common.Data;
+using BF1.ServerAdminTools.Common.Helper;
 using BF1.ServerAdminTools.Common.Utils;
 using BF1.ServerAdminTools.Wpf.Utils;
 using BF1.ServerAdminTools.Wpf.Windows;
@@ -814,6 +815,46 @@ namespace BF1.ServerAdminTools.Wpf.Views
             }
         }
 
+        private void Button_Input_BlackList_Click(object sender, RoutedEventArgs e)
+        {
+            AudioUtil.ClickSound();
+
+            var res = FileSelectUtil.FileSelect();
+            if (res == null)
+            {
+                return;
+            }
+
+            try
+            {
+                var data = File.ReadAllText(res);
+
+                // 清空黑名单列表
+                Globals.NowRule.Custom_BlackList.Clear();
+                ListBox_Custom_BlackList.Items.Clear();
+
+                var list = data.Split("\n");
+                foreach (var item in list)
+                {
+                    var name = item.Trim();
+                    if (string.IsNullOrWhiteSpace(name))
+                        continue;
+
+                    Globals.NowRule.Custom_BlackList.Add(name);
+                    ListBox_Custom_BlackList.Items.Add(name);
+                }
+
+                MainWindow._SetOperatingState(1, "导入黑名单列表成功");
+            }
+            catch (Exception ex)
+            {
+                MsgBoxUtil.ErrorMsgBox("导入黑名单时发生错误");
+                LoggerHelper.Error("导入黑名单发生错误", ex);
+                MainWindow._SetOperatingState(1, "导入黑名单列表发生错误");
+                return;
+            }
+        }
+
         private void Button_Clear_BlackList_Click(object sender, RoutedEventArgs e)
         {
             AudioUtil.ClickSound();
@@ -873,6 +914,46 @@ namespace BF1.ServerAdminTools.Wpf.Views
             else
             {
                 MainWindow._SetOperatingState(2, $"请正确选中你要删除的玩家ID或自定义白名单列表为空，删除操作取消");
+            }
+        }
+
+        private void Button_Input_WhiteList_Click(object sender, RoutedEventArgs e)
+        {
+            AudioUtil.ClickSound();
+
+            var res = FileSelectUtil.FileSelect();
+            if (res == null)
+            {
+                return;
+            }
+
+            try
+            {
+                var data = File.ReadAllText(res);
+
+                // 清空黑名单列表
+                Globals.NowRule.Custom_WhiteList.Clear();
+                ListBox_Custom_WhiteList.Items.Clear();
+
+                var list = data.Split("\n");
+                foreach (var item in list)
+                {
+                    var name = item.Trim();
+                    if (string.IsNullOrWhiteSpace(name))
+                        continue;
+
+                    Globals.NowRule.Custom_WhiteList.Add(name);
+                    ListBox_Custom_WhiteList.Items.Add(name);
+                }
+
+                MainWindow._SetOperatingState(1, "导入白名单列表成功");
+            }
+            catch (Exception ex)
+            {
+                MsgBoxUtil.ErrorMsgBox("导入白名单时发生错误");
+                LoggerHelper.Error("导入白名单发生错误", ex);
+                MainWindow._SetOperatingState(1, "导入白名单列表发生错误");
+                return;
             }
         }
 

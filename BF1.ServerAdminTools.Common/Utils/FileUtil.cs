@@ -87,7 +87,10 @@ public static class FileUtil
     {
         if (!File.Exists(SettingFile))
         {
-            Globals.Config = new();
+            Globals.Config = new()
+            {
+                AudioIndex = 3
+            };
             File.WriteAllText(SettingFile, JsonUtil.JsonSeri(Globals.Config));
         }
         else

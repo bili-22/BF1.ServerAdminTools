@@ -700,6 +700,8 @@ namespace BF1.ServerAdminTools.Wpf.Views
         #region 检查玩家是否违规
         private void CheckPlayerIsBreakRule(PlayerData playerData)
         {
+            if (Globals.NowRule == null)
+                return;
             int index = Globals.BreakRuleInfo_PlayerList.FindIndex(val => val.PersonaId == playerData.PersonaId);
             if (index == -1)
             {

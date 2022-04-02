@@ -211,6 +211,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
                         if (result.IsSuccess)
                         {
                             MainWindow._SetOperatingState(1, $"更换服务器 {Globals.Config.GameId} 地图为 {currMap.mapPrettyName} 成功  |  耗时: {result.ExecTime:0.00} 秒");
+                            Button_GetFullServerDetails_Click(sender, e);
                         }
                         else
                         {
@@ -241,6 +242,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
             if (result.IsSuccess)
             {
                 MainWindow._SetOperatingState(1, $"移除服务器管理员 {currListItem.displayName} 成功  |  耗时: {result.ExecTime:0.00} 秒");
+                ListBox_Admin.Items.Remove(currListItem);
             }
             else
             {
@@ -259,6 +261,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
             if (result.IsSuccess)
             {
                 MainWindow._SetOperatingState(1, $"增加服务器管理员 {TextBox_NewAdminName.Text} 成功  |  耗时: {result.ExecTime:0.00} 秒");
+                Button_GetFullServerDetails_Click(sender, e);
             }
             else
             {
@@ -279,6 +282,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
             if (result.IsSuccess)
             {
                 MainWindow._SetOperatingState(1, $"移除服务器VIP {currListItem.displayName} 成功  |  耗时: {result.ExecTime:0.00} 秒");
+                ListBox_VIP.Items.Remove(currListItem);
             }
             else
             {
@@ -297,6 +301,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
             if (result.IsSuccess)
             {
                 MainWindow._SetOperatingState(1, $"增加服务器VIP {TextBox_NewVIPName.Text} 成功  |  耗时: {result.ExecTime:0.00} 秒");
+                Button_GetFullServerDetails_Click(sender, e);
             }
             else
             {
@@ -317,6 +322,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
             if (result.IsSuccess)
             {
                 MainWindow._SetOperatingState(1, $"移除服务器BAN {currListItem.displayName} 成功  |  耗时: {result.ExecTime:0.00} 秒");
+                ListBox_BAN.Items.Remove(currListItem);
             }
             else
             {
@@ -335,6 +341,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
             if (result.IsSuccess)
             {
                 MainWindow._SetOperatingState(1, $"增加服务器BAN {TextBox_NewBANName.Text} 成功  |  耗时: {result.ExecTime:0.00} 秒");
+                Button_GetFullServerDetails_Click(sender, e);
             }
             else
             {
@@ -364,6 +371,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
                 if (result.IsSuccess)
                 {
                     MainWindow._SetOperatingState(1, $"踢出玩家 {info.Name} 成功  |  耗时: {result.ExecTime:0.00} 秒");
+                    ListBox_Spectator.Items.Remove(info);
                 }
                 else
                 {
@@ -518,6 +526,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
                     if (result.IsSuccess)
                     {
                         MainWindow._SetOperatingState(1, $"更新服务器 {Globals.Config.ServerId} 数据成功  |  耗时: {result.ExecTime:0.00} 秒");
+                         Button_GetFullServerDetails_Click(sender, e);
                     }
                     else
                     {
