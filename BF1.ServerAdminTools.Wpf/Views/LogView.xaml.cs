@@ -1,6 +1,6 @@
-﻿using BF1.ServerAdminTools.Common.Data;
+﻿using BF1.ServerAdminTools.BF1API.Data;
+using BF1.ServerAdminTools.Common.Data;
 using BF1.ServerAdminTools.Common.Helper;
-using BF1.ServerAdminTools.BF1API.Data;
 
 namespace BF1.ServerAdminTools.Wpf.Views
 {
@@ -13,6 +13,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
         public static Action<BreakRuleInfo> _dAddKickNOLog;
 
         public static Action<ChangeTeamInfo> _dAddChangeTeamInfo;
+        public static Semaphore Semaphore = new(0, 5);
 
         public LogView()
         {
@@ -25,8 +26,10 @@ namespace BF1.ServerAdminTools.Wpf.Views
 
             MainWindow.ClosingDisposeEvent += MainWindow_ClosingDisposeEvent;
 
-            var thread0 = new Thread(CheckPlayerChangeTeam);
-            thread0.IsBackground = true;
+            var thread0 = new Thread(CheckPlayerChangeTeam)
+            {
+                IsBackground = true
+            };
             thread0.Start();
         }
 
@@ -37,80 +40,75 @@ namespace BF1.ServerAdminTools.Wpf.Views
 
         private void CheckPlayerChangeTeam()
         {
-            var Player_Team1 = new List<PlayerData>();
-            var Player_Team2 = new List<PlayerData>();
+            var Player_Team1 = new Dictionary<long, PlayerData>();
+            var Player_Team2 = new Dictionary<long, PlayerData>();
 
             while (true)
             {
+                Semaphore.WaitOne();
                 if (string.IsNullOrEmpty(Globals.GameId))
                     continue;
 
-                if (ScoreView.PlayerDatas_Team1.Count == 0 && ScoreView.PlayerDatas_Team2.Count == 0)
+                if (ScoreView.PlayerDatas_Team1?.Count == 0 && ScoreView.PlayerDatas_Team2?.Count == 0)
                     continue;
-
-                // 通过序列化来实现深拷贝，但是要注意结果可能为null
-                var temp_Player_Team1 = JsonSerializer.Deserialize<List<PlayerData>>(JsonSerializer.Serialize(ScoreView.PlayerDatas_Team1));
-                var temp_Player_Team2 = JsonSerializer.Deserialize<List<PlayerData>>(JsonSerializer.Serialize(ScoreView.PlayerDatas_Team2));
 
                 // 第一次初始化
                 if (Player_Team1.Count == 0 && Player_Team2.Count == 0)
                 {
-                    if (temp_Player_Team1 != null)
-                        Player_Team1 = temp_Player_Team1;
-                    if (temp_Player_Team2 != null)
-                        Player_Team2 = temp_Player_Team2;
+                    foreach (var item in ScoreView.PlayerDatas_Team1)
+                    {
+                        Player_Team1.Add(item.PersonaId, item);
+                    }
+                    foreach (var item in ScoreView.PlayerDatas_Team2)
+                    {
+                        Player_Team1.Add(item.PersonaId, item);
+                    }
                     continue;
                 }
 
-                if (temp_Player_Team2 != null)
+                // 变量保存的队伍1玩家列表
+                foreach (var item in Player_Team1)
                 {
-                    // 变量保存的队伍1玩家列表
-                    foreach (var item in Player_Team1)
+                    if (Player_Team2.ContainsKey(item.Key))
                     {
-                        // 查询这个玩家是否在目前的队伍2中
-                        int index = temp_Player_Team2.FindIndex(var => var.PersonaId == item.PersonaId);
-                        if (index != -1)
+                        _dAddChangeTeamInfo(new ChangeTeamInfo()
                         {
-                            _dAddChangeTeamInfo(new ChangeTeamInfo()
-                            {
-                                Rank = item.Rank,
-                                Name = item.Name,
-                                PersonaId = item.PersonaId,
-                                Status = "从 队伍1 更换到 队伍2",
-                                Time = DateTime.Now
-                            });
-                            break;
-                        }
+                            Rank = item.Value.Rank,
+                            Name = item.Value.Name,
+                            PersonaId = item.Value.PersonaId,
+                            Status = "从 队伍1 更换到 队伍2",
+                            Time = DateTime.Now
+                        });
                     }
                 }
 
-                if (temp_Player_Team1 != null)
+                // 变量保存的队伍2玩家列表
+                foreach (var item in Player_Team2)
                 {
-                    // 变量保存的队伍2玩家列表
-                    foreach (var item in Player_Team2)
+                    if (Player_Team1.ContainsKey(item.Key))
                     {
-                        // 查询这个玩家是否在目前的队伍1中
-                        int index = temp_Player_Team1.FindIndex(var => var.PersonaId == item.PersonaId);
-                        if (index != -1)
+                        _dAddChangeTeamInfo(new ChangeTeamInfo()
                         {
-                            _dAddChangeTeamInfo(new ChangeTeamInfo()
-                            {
-                                Rank = item.Rank,
-                                Name = item.Name,
-                                PersonaId = item.PersonaId,
-                                Status = "从 队伍2 更换到 队伍1",
-                                Time = DateTime.Now
-                            });
-                            break;
-                        }
+                            Rank = item.Value.Rank,
+                            Name = item.Value.Name,
+                            PersonaId = item.Value.PersonaId,
+                            Status = "从 队伍1 更换到 队伍2",
+                            Time = DateTime.Now
+                        });
                     }
                 }
 
+                Player_Team1.Clear();
+                Player_Team2.Clear();
                 // 更新保存的数据
-                Player_Team1 = temp_Player_Team1;
-                Player_Team2 = temp_Player_Team2;
-
-                Thread.Sleep(1000);
+                foreach (var item in ScoreView.PlayerDatas_Team1)
+                {
+                    Player_Team1.Add(item.PersonaId, item);
+                }
+                foreach (var item in ScoreView.PlayerDatas_Team2)
+                {
+                    Player_Team2.Add(item.PersonaId, item);
+                }
             }
         }
 

@@ -1,5 +1,4 @@
 ﻿using BF1.ServerAdminTools.Common.Utils;
-using BF1.ServerAdminTools.BF1API.API;
 
 namespace BF1.ServerAdminTools.Wpf.Windows
 {

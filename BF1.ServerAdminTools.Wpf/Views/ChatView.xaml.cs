@@ -1,10 +1,10 @@
-﻿using BF1.ServerAdminTools.Common.Utils;
-using BF1.ServerAdminTools.Common.Helper;
-using BF1.ServerAdminTools.BF1API.Chat;
+﻿using BF1.ServerAdminTools.BF1API.Chat;
 using BF1.ServerAdminTools.BF1API.Core;
 using BF1.ServerAdminTools.BF1API.Utils;
-using Microsoft.Toolkit.Mvvm.Input;
+using BF1.ServerAdminTools.Common.Helper;
+using BF1.ServerAdminTools.Common.Utils;
 using BF1.ServerAdminTools.Wpf.Utils;
+using Microsoft.Toolkit.Mvvm.Input;
 
 namespace BF1.ServerAdminTools.Wpf.Views
 {

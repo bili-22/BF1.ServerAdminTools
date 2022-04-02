@@ -1,11 +1,11 @@
-﻿using BF1.ServerAdminTools.Wpf.Views;
-using BF1.ServerAdminTools.Wpf.Models;
-using BF1.ServerAdminTools.Common.Data;
-using BF1.ServerAdminTools.Common.Utils;
-using BF1.ServerAdminTools.Common.Helper;
+﻿using BF1.ServerAdminTools.BF1API.Chat;
 using BF1.ServerAdminTools.BF1API.Core;
-using BF1.ServerAdminTools.BF1API.Chat;
+using BF1.ServerAdminTools.Common.Data;
+using BF1.ServerAdminTools.Common.Helper;
+using BF1.ServerAdminTools.Common.Utils;
+using BF1.ServerAdminTools.Wpf.Models;
 using BF1.ServerAdminTools.Wpf.Utils;
+using BF1.ServerAdminTools.Wpf.Views;
 
 namespace BF1.ServerAdminTools.Wpf
 {
