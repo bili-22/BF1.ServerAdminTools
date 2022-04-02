@@ -1,13 +1,12 @@
-﻿using BF1.ServerAdminTools.Wpf.Models;
-using BF1.ServerAdminTools.Wpf.Windows;
-using BF1.ServerAdminTools.Wpf.Extension;
-using BF1.ServerAdminTools.Common.Data;
-using BF1.ServerAdminTools.Common.Utils;
-using BF1.ServerAdminTools.BF1API.API;
-using BF1.ServerAdminTools.BF1API.Core;
+﻿using BF1.ServerAdminTools.BF1API.Core;
 using BF1.ServerAdminTools.BF1API.Data;
 using BF1.ServerAdminTools.BF1API.Utils;
+using BF1.ServerAdminTools.Common.Data;
+using BF1.ServerAdminTools.Common.Utils;
+using BF1.ServerAdminTools.Wpf.Extension;
+using BF1.ServerAdminTools.Wpf.Models;
 using BF1.ServerAdminTools.Wpf.Utils;
+using BF1.ServerAdminTools.Wpf.Windows;
 
 namespace BF1.ServerAdminTools.Wpf.Views
 {
@@ -24,8 +23,8 @@ namespace BF1.ServerAdminTools.Wpf.Views
         private List<PlayerData> PlayerList_Team1 = new List<PlayerData>();
         private List<PlayerData> PlayerList_Team2 = new List<PlayerData>();
 
-        public static List<PlayerData> PlayerDatas_Team1 = new List<PlayerData>();
-        public static List<PlayerData> PlayerDatas_Team2 = new List<PlayerData>();
+        public readonly static List<PlayerData> PlayerDatas_Team1 = new();
+        public readonly static List<PlayerData> PlayerDatas_Team2 = new();
 
         // 正在执行踢人请求的玩家列表，保留指定时间秒数
         private List<BreakRuleInfo> Kicking_PlayerList = new List<BreakRuleInfo>();
@@ -525,20 +524,14 @@ namespace BF1.ServerAdminTools.Wpf.Views
 
                 // 暴露给外部使用
                 PlayerDatas_Team1.Clear();
-                foreach (var item in PlayerList_Team1)
-                {
-                    PlayerDatas_Team1.Add(item);
-                }
-
+                PlayerDatas_Team1.AddRange(PlayerList_Team1);
                 PlayerDatas_Team2.Clear();
-                foreach (var item in PlayerList_Team2)
-                {
-                    PlayerDatas_Team2.Add(item);
-                }
+                PlayerDatas_Team2.AddRange(PlayerList_Team2);
+                LogView.Semaphore.Release();
 
                 ////////////////////////////////////////////////////////////////////////////////
 
-                Thread.Sleep(1000);
+                Thread.Sleep(100);
             }
         }
 

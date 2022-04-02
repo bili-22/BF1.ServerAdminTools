@@ -22,7 +22,7 @@ namespace BF1.ServerAdminTools.Wpf.Windows
 
         private void Window_ChangeMap_Loaded(object sender, RoutedEventArgs e)
         {
-            
+
         }
 
         private void Button_OK_Click(object sender, RoutedEventArgs e)

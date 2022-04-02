@@ -1,11 +1,10 @@
-﻿using BF1.ServerAdminTools.Wpf.Models;
-using BF1.ServerAdminTools.Wpf.Windows;
+﻿using BF1.ServerAdminTools.BF1API.API;
+using BF1.ServerAdminTools.BF1API.API.RespJson;
 using BF1.ServerAdminTools.Common.Data;
 using BF1.ServerAdminTools.Common.Utils;
-using BF1.ServerAdminTools.BF1API.Utils;
-using BF1.ServerAdminTools.BF1API.API;
-using BF1.ServerAdminTools.BF1API.API.RespJson;
+using BF1.ServerAdminTools.Wpf.Models;
 using BF1.ServerAdminTools.Wpf.Utils;
+using BF1.ServerAdminTools.Wpf.Windows;
 
 namespace BF1.ServerAdminTools.Wpf.Views
 {

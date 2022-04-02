@@ -1,14 +1,13 @@
-﻿using BF1.ServerAdminTools.Wpf.Windows;
-using BF1.ServerAdminTools.Common.Data;
-using BF1.ServerAdminTools.Common.Utils;
-using BF1.ServerAdminTools.Common.Helper;
-using BF1.ServerAdminTools.BF1API.API;
-using BF1.ServerAdminTools.BF1API.API.RespJson;
+﻿using BF1.ServerAdminTools.BF1API.API.RespJson;
 using BF1.ServerAdminTools.BF1API.API2;
 using BF1.ServerAdminTools.BF1API.API2.RespJson;
-using ScottPlot;
-using RestSharp;
+using BF1.ServerAdminTools.Common.Data;
+using BF1.ServerAdminTools.Common.Helper;
+using BF1.ServerAdminTools.Common.Utils;
 using BF1.ServerAdminTools.Wpf.Utils;
+using BF1.ServerAdminTools.Wpf.Windows;
+using RestSharp;
+using ScottPlot;
 
 namespace BF1.ServerAdminTools.Wpf.Views
 {
