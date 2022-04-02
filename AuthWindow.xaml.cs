@@ -7,6 +7,7 @@ using BF1.ServerAdminTools.Features.API2;
 using BF1.ServerAdminTools.Features.Core;
 using BF1.ServerAdminTools.Features.Data;
 using Chinese;
+using BF1.ServerAdminTools.Features.Chat;
 
 namespace BF1.ServerAdminTools
 {
@@ -22,7 +23,9 @@ namespace BF1.ServerAdminTools
 
         private void Window_Auth_Loaded(object sender, RoutedEventArgs e)
         {
+            // 客户端程序版本号
             TextBlock_VersionInfo.Text = CoreUtil.ClientVersionInfo.ToString();
+            // 最后编译时间
             TextBlock_BuildDate.Text = CoreUtil.ClientBuildTime.ToString();
 
             Task.Run(() =>
@@ -68,7 +71,7 @@ namespace BF1.ServerAdminTools
                         CoreUtil.Notice_Address = updateInfo.Address.Notice;
                         CoreUtil.Change_Address = updateInfo.Address.Change;
 
-                        Application.Current.Dispatcher.BeginInvoke(() =>
+                        Application.Current.Dispatcher.Invoke(() =>
                         {
                             this.Hide();
                         });
@@ -88,16 +91,18 @@ namespace BF1.ServerAdminTools
                         }
                         else
                         {
-                            // 退出程序
+                            // 强制更新版本，否则退出程序
                             Application.Current.Dispatcher.Invoke(() =>
                             {
                                 Application.Current.Shutdown();
+                                return;
                             });
                         }
                     }
                     else
                     {
                         UpdateState("正在为您营造个性化体验...");
+                        LoggerHelper.Info($"当前已是最新版本 {CoreUtil.ServerVersionInfo}");
 
                         // 检测目标程序有没有启动
                         if (!ProcessUtil.IsAppRun(CoreUtil.TargetAppName))
@@ -109,6 +114,7 @@ namespace BF1.ServerAdminTools
                             Application.Current.Dispatcher.Invoke(() =>
                             {
                                 Application.Current.Shutdown();
+                                return;
                             });
                         }
 
@@ -126,6 +132,7 @@ namespace BF1.ServerAdminTools
                             Application.Current.Dispatcher.Invoke(() =>
                             {
                                 Application.Current.Shutdown();
+                                return;
                             });
                         }
 
@@ -142,15 +149,39 @@ namespace BF1.ServerAdminTools
                         LoggerHelper.Info("简繁翻译库初始化成功");
 
                         UpdateState("连线中...");
-                        LoggerHelper.Info($"当前已是最新版本 {CoreUtil.ServerVersionInfo}");
 
-                        Application.Current.Dispatcher.BeginInvoke(() =>
+                        // 创建文件夹
+                        Directory.CreateDirectory(FileUtil.D_Admin_Path);
+                        Directory.CreateDirectory(FileUtil.D_Cache_Path);
+                        Directory.CreateDirectory(FileUtil.D_Config_Path);
+                        Directory.CreateDirectory(FileUtil.D_DB_Path);
+                        Directory.CreateDirectory(FileUtil.D_Log_Path);
+
+                        // 创建ini文件
+                        if (!File.Exists(FileUtil.F_Settings_Path))
+                            File.Create(FileUtil.F_Settings_Path).Close();
+
+                        // 创建txt文件
+                        if (!File.Exists(FileUtil.F_WeaponList_Path))
+                            File.Create(FileUtil.F_WeaponList_Path).Close();
+                        if (!File.Exists(FileUtil.F_BlackList_Path))
+                            File.Create(FileUtil.F_BlackList_Path).Close();
+                        if (!File.Exists(FileUtil.F_WhiteList_Path))
+                            File.Create(FileUtil.F_WhiteList_Path).Close();
+
+                        SQLiteHelper.Initialize();
+                        LoggerHelper.Info($"SQLite数据库初始化成功");
+
+                        ChatMsg.AllocateMemory();
+                        LoggerHelper.Info($"中文聊天指针分配成功 0x{ChatMsg.GetAllocateMemoryAddress():x}");
+
+                        Application.Current.Dispatcher.Invoke(() =>
                         {
                             MainWindow mainWindow = new MainWindow();
                             mainWindow.Show();
                             // 转移主程序控制权
                             Application.Current.MainWindow = mainWindow;
-
+                            // 关闭初始化窗口
                             this.Close();
                         });
                     }

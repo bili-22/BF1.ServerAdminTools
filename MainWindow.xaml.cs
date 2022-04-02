@@ -55,7 +55,8 @@ namespace BF1.ServerAdminTools
 
             ////////////////////////////////
 
-            Title = CoreUtil.MainAppWindowName + CoreUtil.ClientVersionInfo + " - 最后编译时间 : " + File.GetLastWriteTime(Process.GetCurrentProcess().MainModule.FileName);
+            Title = CoreUtil.MainAppWindowName + CoreUtil.ClientVersionInfo 
+                + " - 最后编译时间 : " + File.GetLastWriteTime(Process.GetCurrentProcess().MainModule.FileName);
 
             // 获取当前时间，存储到对于变量中
             Origin_DateTime = DateTime.Now;
@@ -71,39 +72,6 @@ namespace BF1.ServerAdminTools
             therad1.Start();
 
             this.DataContext = this;
-
-            try
-            {
-                // 创建文件夹
-                Directory.CreateDirectory(FileUtil.D_Admin_Path);
-                Directory.CreateDirectory(FileUtil.D_Cache_Path);
-                Directory.CreateDirectory(FileUtil.D_Config_Path);
-                Directory.CreateDirectory(FileUtil.D_DB_Path);
-                Directory.CreateDirectory(FileUtil.D_Log_Path);
-
-                // 创建ini文件
-                if (!File.Exists(FileUtil.F_Settings_Path))
-                    File.Create(FileUtil.F_Settings_Path).Close();
-
-                // 创建txt文件
-                if (!File.Exists(FileUtil.F_WeaponList_Path))
-                    File.Create(FileUtil.F_WeaponList_Path).Close();
-                if (!File.Exists(FileUtil.F_BlackList_Path))
-                    File.Create(FileUtil.F_BlackList_Path).Close();
-                if (!File.Exists(FileUtil.F_WhiteList_Path))
-                    File.Create(FileUtil.F_WhiteList_Path).Close();
-
-                SQLiteHelper.Initialize();
-                LoggerHelper.Info($"SQLite数据库初始化成功");
-
-                ChatMsg.AllocateMemory();
-                LoggerHelper.Info($"中文聊天指针分配成功 0x{ChatMsg.GetAllocateMemoryAddress():x}");
-            }
-            catch (Exception ex)
-            {
-                LoggerHelper.Error($"发生异常", ex);
-                MsgBoxUtil.ExceptionMsgBox(ex);
-            }
         }
 
         private void Window_Main_Closing(object sender, CancelEventArgs e)
