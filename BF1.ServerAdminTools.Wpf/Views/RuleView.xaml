@@ -39,7 +39,7 @@
                         </StackPanel.Resources>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="当前规则名字：" />
-                            <TextBlock Text="{Binding NowName}" />
+                            <TextBlock x:Name="NowName" />
                         </StackPanel>
                         <TextBlock Text="{Binding ElementName=Slider_MaxKill, Path=Value, StringFormat=玩家最高击杀 : {0:0}, FallbackValue='玩家最高击杀 :'}" />
                         <Slider

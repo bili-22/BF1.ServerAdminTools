@@ -29,13 +29,9 @@ namespace BF1.ServerAdminTools.Wpf.Views
         /// </summary>
         private bool isApplyRule = false;
 
-        public string NowName { get; set; }
-
         public RuleView()
         {
             InitializeComponent();
-
-            DataContext = this;
 
             // 添加武器信息列表
             foreach (var item in WeaponData.AllWeaponInfo)
@@ -73,7 +69,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
 
         private void LoadRule() 
         {
-            NowName = Globals.NowRule.Name;
+            NowName.Text = Globals.NowRule.Name;
 
             if (Globals.NowRule.Custom_WeaponList == null)
             {
@@ -495,6 +491,8 @@ namespace BF1.ServerAdminTools.Wpf.Views
             Globals.Rules.Add(name.ToLower(), rule);
             Rule_List.Items.Add(rule);
             FileUtil.SaveRule(rule);
+
+            Rule_List.SelectedItem = null;
         }
 
         private void Load_Rule(object sender, RoutedEventArgs e)
@@ -506,6 +504,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
 
             Globals.NowRule = item;
             LoadRule();
+            Rule_List.SelectedItem = null;
         }
 
         private void Delete_Rule(object sender, RoutedEventArgs e)
@@ -532,6 +531,8 @@ namespace BF1.ServerAdminTools.Wpf.Views
             Globals.Rules.Remove(name);
             Rule_List.Items.Remove(item);
             FileUtil.DeleteRule(name);
+
+            Rule_List.SelectedItem = null;
         }
 
         private void Button_ApplyRule_Click(object sender, RoutedEventArgs e)
@@ -634,6 +635,9 @@ namespace BF1.ServerAdminTools.Wpf.Views
             AppendLog("===== 查询时间 =====");
             AppendLog("");
             AppendLog($"{DateTime.Now:yyyy/MM/dd HH:mm:ss}");
+            AppendLog("");
+
+            AppendLog($"规则名字 : {Globals.NowRule.Name}");
             AppendLog("");
 
             AppendLog($"玩家最高击杀限制 : {Globals.NowRule.MaxKill}");
