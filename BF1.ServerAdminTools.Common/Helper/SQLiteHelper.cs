@@ -51,6 +51,7 @@ public static class SQLiteHelper
                 "status TEXT, " +
                 "date TimeStamp NOT NULL DEFAULT CURRENT_TIMESTAMP)");
         }
+    }
 
         if (ExecuteScalar("SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name='change_team'") == 0)
         {
