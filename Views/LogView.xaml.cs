@@ -46,59 +46,63 @@ namespace BF1.ServerAdminTools.Views
                     continue;
 
                 if (ScoreView.PlayerDatas_Team1.Count == 0 && ScoreView.PlayerDatas_Team2.Count == 0)
-                {
                     continue;
-                }
 
+                // 通过序列化来实现深拷贝，但是要注意结果可能为null
                 var temp_Player_Team1 = JsonSerializer.Deserialize<List<PlayerData>>(JsonSerializer.Serialize(ScoreView.PlayerDatas_Team1));
                 var temp_Player_Team2 = JsonSerializer.Deserialize<List<PlayerData>>(JsonSerializer.Serialize(ScoreView.PlayerDatas_Team2));
-
-                if (temp_Player_Team1.Count == 0 && temp_Player_Team2.Count == 0)
-                    continue;
 
                 // 第一次初始化
                 if (Player_Team1.Count == 0 && Player_Team2.Count == 0)
                 {
-                    Player_Team1 = temp_Player_Team1;
-                    Player_Team2 = temp_Player_Team2;
+                    if (temp_Player_Team1 != null)
+                        Player_Team1 = temp_Player_Team1;
+                    if (temp_Player_Team2 != null)
+                        Player_Team2 = temp_Player_Team2;
                     continue;
                 }
 
-                // 变量保存的队伍1玩家列表
-                foreach (var item in Player_Team1)
+                if (temp_Player_Team2 != null)
                 {
-                    // 查询这个玩家是否在目前的队伍2中
-                    int index = temp_Player_Team2.FindIndex(var => var.PersonaId == item.PersonaId);
-                    if (index != -1)
+                    // 变量保存的队伍1玩家列表
+                    foreach (var item in Player_Team1)
                     {
-                        _dAddChangeTeamInfo(new ChangeTeamInfo()
+                        // 查询这个玩家是否在目前的队伍2中
+                        int index = temp_Player_Team2.FindIndex(var => var.PersonaId == item.PersonaId);
+                        if (index != -1)
                         {
-                            Rank = item.Rank,
-                            Name = item.Name,
-                            PersonaId = item.PersonaId,
-                            Status = "从 队伍1 更换到 队伍2",
-                            Time = DateTime.Now
-                        });
-                        break;
+                            _dAddChangeTeamInfo(new ChangeTeamInfo()
+                            {
+                                Rank = item.Rank,
+                                Name = item.Name,
+                                PersonaId = item.PersonaId,
+                                Status = "从 队伍1 更换到 队伍2",
+                                Time = DateTime.Now
+                            });
+                            break;
+                        }
                     }
                 }
 
-                // 变量保存的队伍2玩家列表
-                foreach (var item in Player_Team2)
+                if (temp_Player_Team1 != null)
                 {
-                    // 查询这个玩家是否在目前的队伍1中
-                    int index = temp_Player_Team1.FindIndex(var => var.PersonaId == item.PersonaId);
-                    if (index != -1)
+                    // 变量保存的队伍2玩家列表
+                    foreach (var item in Player_Team2)
                     {
-                        _dAddChangeTeamInfo(new ChangeTeamInfo()
+                        // 查询这个玩家是否在目前的队伍1中
+                        int index = temp_Player_Team1.FindIndex(var => var.PersonaId == item.PersonaId);
+                        if (index != -1)
                         {
-                            Rank = item.Rank,
-                            Name = item.Name,
-                            PersonaId = item.PersonaId,
-                            Status = "从 队伍2 更换到 队伍1",
-                            Time = DateTime.Now
-                        });
-                        break;
+                            _dAddChangeTeamInfo(new ChangeTeamInfo()
+                            {
+                                Rank = item.Rank,
+                                Name = item.Name,
+                                PersonaId = item.PersonaId,
+                                Status = "从 队伍2 更换到 队伍1",
+                                Time = DateTime.Now
+                            });
+                            break;
+                        }
                     }
                 }
 

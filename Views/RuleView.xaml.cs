@@ -592,6 +592,13 @@ namespace BF1.ServerAdminTools.Views
             AppendLog("");
 
             MainWindow._SetOperatingState(1, $"应用当前规则成功，请点击<查询当前规则>检验规则是否正确");
+
+            Task.Run(() =>
+            {
+                Task.Delay(10000).Wait();
+
+                isApplyRule = false;
+            });
         }
 
         private void Button_QueryRule_Click(object sender, RoutedEventArgs e)
@@ -871,7 +878,6 @@ namespace BF1.ServerAdminTools.Views
             if (!isApplyRule)
             {
                 AppendLog("玩家没有正确应用规则，操作取消");
-                CheckBox_RunAutoKick.IsChecked = false;
                 MainWindow._SetOperatingState(2, $"环境检查未通过，操作取消");
                 return false;
             }
@@ -885,7 +891,6 @@ namespace BF1.ServerAdminTools.Views
             if (string.IsNullOrEmpty(Globals.SessionId))
             {
                 AppendLog("SessionId为空，操作取消");
-                CheckBox_RunAutoKick.IsChecked = false;
                 MainWindow._SetOperatingState(2, $"环境检查未通过，操作取消");
                 return false;
             }
@@ -900,7 +905,6 @@ namespace BF1.ServerAdminTools.Views
             if (!result.IsSuccess)
             {
                 AppendLog("SessionId 已过期，请重新获取，操作取消");
-                CheckBox_RunAutoKick.IsChecked = false;
                 MainWindow._SetOperatingState(2, $"环境检查未通过，操作取消");
                 return false;
             }
@@ -914,7 +918,6 @@ namespace BF1.ServerAdminTools.Views
             if (string.IsNullOrEmpty(Globals.GameId))
             {
                 AppendLog("GameId 为空，操作取消");
-                CheckBox_RunAutoKick.IsChecked = false;
                 MainWindow._SetOperatingState(2, $"环境检查未通过，操作取消");
                 return false;
             }
@@ -928,7 +931,6 @@ namespace BF1.ServerAdminTools.Views
             if (Globals.Server_AdminList.Count == 0)
             {
                 AppendLog("服务器管理员列表 为空，请先获取当前服务器详情数据，操作取消");
-                CheckBox_RunAutoKick.IsChecked = false;
                 MainWindow._SetOperatingState(2, $"环境检查未通过，操作取消");
                 return false;
             }
@@ -945,7 +947,6 @@ namespace BF1.ServerAdminTools.Views
             if (!Globals.Server_Admin2List.Contains(playerName))
             {
                 AppendLog("玩家不是当前服务器管理，操作取消");
-                CheckBox_RunAutoKick.IsChecked = false;
                 MainWindow._SetOperatingState(2, $"环境检查未通过，操作取消");
                 return false;
             }
@@ -953,8 +954,6 @@ namespace BF1.ServerAdminTools.Views
             {
                 AppendLog("已确认玩家为当前服务器管理");
             }
-
-            isApplyRule = false;
 
             return true;
         }
@@ -974,6 +973,10 @@ namespace BF1.ServerAdminTools.Views
 
                     Globals.AutoKickBreakPlayer = true;
                     MainWindow._SetOperatingState(1, $"自动踢人开启成功");
+                }
+                else
+                {
+                    Globals.AutoKickBreakPlayer = false;
                 }
             }
             else
