@@ -15,17 +15,8 @@ namespace BF1.ServerAdminTools
 
             if (createdNew)
             {
-                if (ProcessUtil.IsAppRun(CoreUtil.TargetAppName))
-                {
-                    RegisterEvents();
-
-                    base.OnStartup(e);
-                }
-                else
-                {
-                    MessageBox.Show("请先启动《战地1》游戏后，再打开本程序", " 警告", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    Current.Shutdown();
-                }
+                RegisterEvents();
+                base.OnStartup(e);
             }
             else
             {

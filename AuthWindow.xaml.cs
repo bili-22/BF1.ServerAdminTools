@@ -7,7 +7,6 @@ using BF1.ServerAdminTools.Features.API2;
 using BF1.ServerAdminTools.Features.Core;
 using BF1.ServerAdminTools.Features.Data;
 using Chinese;
-using RestSharp;
 
 namespace BF1.ServerAdminTools
 {
@@ -28,49 +27,17 @@ namespace BF1.ServerAdminTools
 
             Task.Run(() =>
             {
-                UpdateState("欢迎来到《BATTLEFIELD 1》...");
-                LoggerHelper.Info("开始初始化程序...");
-                LoggerHelper.Info($"当前程序版本号 {CoreUtil.ClientVersionInfo}");
-                LoggerHelper.Info($"当前程序最后编译时间 {CoreUtil.ClientBuildTime}");
-
-                CoreUtil.FlushDNSCache();
-                LoggerHelper.Info("刷新DNS缓存成功");
-
-                // 初始化
-                if (Memory.Initialize(CoreUtil.TargetAppName))
-                {
-                    LoggerHelper.Info("战地1内存模块初始化成功");
-                }
-                else
-                {
-                    UpdateState($"战地1内存模块初始化失败！程序即将关闭");
-                    LoggerHelper.Error("战地1内存模块初始化失败");
-                    Task.Delay(2000).Wait();
-
-                    Application.Current.Dispatcher.BeginInvoke(() =>
-                    {
-                        Application.Current.Shutdown();
-                    });
-                }
-
-                UpdateState("正在为您营造个性化体验...");
-
-                BF1API.Init();
-                LoggerHelper.Info("战地1API模块初始化成功");
-
-                GTAPI.Init();
-                LoggerHelper.Info("GameToolsAPI模块初始化成功");
-
-                ImageData.InitDict();
-                LoggerHelper.Info("本地图片缓存库初始化成功");
-
-                ChineseConverter.ToTraditional("免费，跨平台，开源！");
-                LoggerHelper.Info("简繁翻译库初始化成功");
-
-                ////////////////////////////////////////////////////////////////////
-
                 try
                 {
+                    UpdateState("欢迎来到《BATTLEFIELD 1》...");
+
+                    LoggerHelper.Info("开始初始化程序...");
+                    LoggerHelper.Info($"当前程序版本号 {CoreUtil.ClientVersionInfo}");
+                    LoggerHelper.Info($"当前程序最后编译时间 {CoreUtil.ClientBuildTime}");
+
+                    CoreUtil.FlushDNSCache();
+                    LoggerHelper.Info("刷新DNS缓存成功");
+
                     UpdateState("正在检测版本更新...");
                     LoggerHelper.Info($"正在检测版本更新...");
 
@@ -121,11 +88,59 @@ namespace BF1.ServerAdminTools
                         }
                         else
                         {
-                            Application.Current.Shutdown();
+                            // 退出程序
+                            Application.Current.Dispatcher.Invoke(() =>
+                            {
+                                Application.Current.Shutdown();
+                            });
                         }
                     }
                     else
                     {
+                        UpdateState("正在为您营造个性化体验...");
+
+                        // 检测目标程序有没有启动
+                        if (!ProcessUtil.IsAppRun(CoreUtil.TargetAppName))
+                        {
+                            UpdateState($"未发现《战地1》游戏进程！程序即将关闭");
+                            LoggerHelper.Error("未发现战地1进程");
+                            Task.Delay(2000).Wait();
+
+                            Application.Current.Dispatcher.Invoke(() =>
+                            {
+                                Application.Current.Shutdown();
+                            });
+                        }
+
+                        // 初始化
+                        if (Memory.Initialize(CoreUtil.TargetAppName))
+                        {
+                            LoggerHelper.Info("战地1内存模块初始化成功");
+                        }
+                        else
+                        {
+                            UpdateState($"战地1内存模块初始化失败！程序即将关闭");
+                            LoggerHelper.Error("战地1内存模块初始化失败");
+                            Task.Delay(2000).Wait();
+
+                            Application.Current.Dispatcher.Invoke(() =>
+                            {
+                                Application.Current.Shutdown();
+                            });
+                        }
+
+                        BF1API.Init();
+                        LoggerHelper.Info("战地1API模块初始化成功");
+
+                        GTAPI.Init();
+                        LoggerHelper.Info("GameToolsAPI模块初始化成功");
+
+                        ImageData.InitDict();
+                        LoggerHelper.Info("本地图片缓存库初始化成功");
+
+                        ChineseConverter.ToTraditional("免费，跨平台，开源！");
+                        LoggerHelper.Info("简繁翻译库初始化成功");
+
                         UpdateState("连线中...");
                         LoggerHelper.Info($"当前已是最新版本 {CoreUtil.ServerVersionInfo}");
 
@@ -133,6 +148,7 @@ namespace BF1.ServerAdminTools
                         {
                             MainWindow mainWindow = new MainWindow();
                             mainWindow.Show();
+                            // 转移主程序控制权
                             Application.Current.MainWindow = mainWindow;
 
                             this.Close();
