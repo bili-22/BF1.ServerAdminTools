@@ -1,6 +1,6 @@
 ﻿using BF1.ServerAdminTools.Common.Data;
-using BF1.ServerAdminTools.Common.Helper;
 using BF1.ServerAdminTools.Common.Utils;
+using BF1.ServerAdminTools.Common.Helper;
 using Downloader;
 
 namespace BF1.ServerAdminTools.Windows
@@ -105,7 +105,7 @@ namespace BF1.ServerAdminTools.Windows
 
         private void DownloadProgressChanged(object sender, Downloader.DownloadProgressChangedEventArgs e)
         {
-            Dispatcher.BeginInvoke(new Action(delegate
+            Dispatcher.Invoke(() =>
             {
                 ProgressBar_Update.Minimum = 0;
                 ProgressBar_Update.Maximum = e.TotalBytesToReceive;
@@ -116,12 +116,12 @@ namespace BF1.ServerAdminTools.Windows
                 TextBlock_Percentage.Text = $"{LongToString(e.ReceivedBytesSize)}/{LongToString(e.TotalBytesToReceive)}";
 
                 TaskbarItemInfo.ProgressValue = ProgressBar_Update.Value / ProgressBar_Update.Maximum;
-            }));
+            });
         }
 
         private void DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
         {
-            Dispatcher.BeginInvoke(new Action(delegate
+            Dispatcher.Invoke(() =>
             {
                 if (e.Error != null)
                 {
@@ -167,7 +167,7 @@ namespace BF1.ServerAdminTools.Windows
                         LoggerHelper.Error("下载错误", ex);
                     }
                 }
-            }));
+            });
         }
 
         private string LongToString(long num)

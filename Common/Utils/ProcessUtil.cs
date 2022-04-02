@@ -13,6 +13,25 @@
         }
 
         /// <summary>
+        /// 判断战地1程序是否允许
+        /// </summary>
+        /// <returns></returns>
+        public static bool IsBf1Run()
+        {
+            var pArray = Process.GetProcessesByName(CoreUtil.TargetAppName);
+            if (pArray.Length > 0)
+            {
+                foreach (var item in pArray)
+                {
+                    if (item.MainWindowTitle.Equals("Battlefield™ 1"))
+                        return true;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// 打开指定链接或程序
         /// </summary>
         /// <param name="link"></param>

@@ -105,7 +105,7 @@ namespace BF1.ServerAdminTools
                         LoggerHelper.Info($"当前已是最新版本 {CoreUtil.ServerVersionInfo}");
 
                         // 检测目标程序有没有启动
-                        if (!ProcessUtil.IsAppRun(CoreUtil.TargetAppName))
+                        if (!ProcessUtil.IsBf1Run())
                         {
                             UpdateState($"未发现《战地1》游戏进程！程序即将关闭");
                             LoggerHelper.Error("未发现战地1进程");

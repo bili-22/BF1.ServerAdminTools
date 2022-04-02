@@ -13,9 +13,7 @@
             long XorValue1 = Memory.Read<long>(EncryptedPlayerMgr + 0x20) ^ Memory.Read<long>(EncryptedPlayerMgr + 0x8);
             long XorValue2 = XorValue1 ^ Memory.Read<long>(EncryptedPlayerMgr + 0x10);
             if (!Memory.IsValid(XorValue2))
-            {
                 return 0;
-            }
 
             return XorValue1 ^ Memory.Read<long>(XorValue2 + 0x8 * id);
         }
@@ -29,21 +27,15 @@
         {
             long pClientGameContext = Memory.Read<long>(Offsets.OFFSET_CLIENTGAMECONTEXT);
             if (!Memory.IsValid(pClientGameContext))
-            {
                 return 0;
-            }
 
             long pPlayerManager = Memory.Read<long>(pClientGameContext + 0x68);
             if (!Memory.IsValid(pPlayerManager))
-            {
                 return 0;
-            }
 
             long pObfuscationMgr = Memory.Read<long>(Offsets.OFFSET_OBFUSCATIONMGR);
             if (!Memory.IsValid(pObfuscationMgr))
-            {
                 return 0;
-            }
 
             long PlayerListXorValue = Memory.Read<long>(pPlayerManager + 0xF8);
             long PlayerListKey = PlayerListXorValue ^ Memory.Read<long>(pObfuscationMgr + 0x70);
@@ -53,9 +45,7 @@
             // 这两个用Int32读
             int mnBucketCount = Memory.Read<int>(pObfuscationMgr + 0x18);
             if (mnBucketCount == 0)
-            {
                 return 0;
-            }
             //int mnElementCount = RPM.ReadMemory<int>(pObfuscationMgr + 0x1C);
 
             int startCount = (int)PlayerListKey % mnBucketCount;
@@ -89,21 +79,15 @@
         {
             long pClientGameContext = Memory.Read<long>(Offsets.OFFSET_CLIENTGAMECONTEXT);
             if (!Memory.IsValid(pClientGameContext))
-            {
                 return 0;
-            }
 
             long pPlayerManager = Memory.Read<long>(pClientGameContext + 0x68);
             if (!Memory.IsValid(pPlayerManager))
-            {
                 return 0;
-            }
 
             long pObfuscationMgr = Memory.Read<long>(Offsets.OFFSET_OBFUSCATIONMGR);
             if (!Memory.IsValid(pObfuscationMgr))
-            {
                 return 0;
-            }
 
             long LocalPlayerListXorValue = Memory.Read<long>(pPlayerManager + 0xF0);
             long LocalPlayerListKey = LocalPlayerListXorValue ^ Memory.Read<long>(pObfuscationMgr + 0x70);
@@ -112,9 +96,7 @@
 
             int mnBucketCount = Memory.Read<int>(pObfuscationMgr + 0x18);
             if (mnBucketCount == 0)
-            {
                 return 0;
-            }
             //int mnElementCount = RPM.ReadMemory<int>(pObfuscationMgr + 0x1C);
 
             int startCount = (int)LocalPlayerListKey % mnBucketCount;

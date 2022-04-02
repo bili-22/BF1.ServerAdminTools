@@ -22,7 +22,15 @@ namespace BF1.ServerAdminTools.Features.Core
                 var pArray = Process.GetProcessesByName(ProcessName);
                 if (pArray.Length > 0)
                 {
-                    var process = pArray[0];
+                    // 默认取第一个
+                    Process process = pArray[0];
+                    // 二次验证
+                    foreach (var item in pArray)
+                    {
+                        if (item.MainWindowTitle.Equals("Battlefield™ 1"))
+                            process = item;
+                    }
+
                     windowHandle = process.MainWindowHandle;
                     LoggerHelper.Info($"目标程序窗口句柄 {windowHandle}");
                     processId = process.Id;
