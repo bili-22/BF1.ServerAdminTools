@@ -57,9 +57,9 @@ namespace BF1.ServerAdminTools.Wpf.Views
         {
             AudioUtil.ClickSound();
 
-            if (!string.IsNullOrEmpty(Globals.SessionId))
+            if (!string.IsNullOrEmpty(Globals.Config.SessionId))
             {
-                if (!string.IsNullOrEmpty(Globals.GameId))
+                if (!string.IsNullOrEmpty(Globals.Config.GameId))
                 {
                     DetailModel.ServerName = "获取中...";
                     DetailModel.ServerDescription = "获取中...";
@@ -82,7 +82,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
 
                     /////////////////////////////////////////////////////////////////////////////////
 
-                    MainWindow._SetOperatingState(2, $"正在获取服务器 {Globals.GameId} 详细数据中...");
+                    MainWindow._SetOperatingState(2, $"正在获取服务器 {Globals.Config.GameId} 详细数据中...");
 
                     await BF1API.API.BF1API.SetAPILocale();
                     var result = await BF1API.API.BF1API.GetFullServerDetails();
@@ -91,14 +91,14 @@ namespace BF1.ServerAdminTools.Wpf.Views
                     {
                         var fullServerDetails = JsonUtil.JsonDese<FullServerDetails>(result.Message);
 
-                        Globals.ServerId = fullServerDetails.result.rspInfo.server.serverId;
-                        Globals.PersistedGameId = fullServerDetails.result.rspInfo.server.persistedGameId;
+                        Globals.Config.ServerId = fullServerDetails.result.rspInfo.server.serverId;
+                        Globals.Config.PersistedGameId = fullServerDetails.result.rspInfo.server.persistedGameId;
 
                         DetailModel.ServerName = fullServerDetails.result.serverInfo.name;
                         DetailModel.ServerDescription = fullServerDetails.result.serverInfo.description;
 
-                        DetailModel.ServerID = Globals.ServerId;
-                        DetailModel.ServerGameID = Globals.GameId;
+                        DetailModel.ServerID = Globals.Config.ServerId;
+                        DetailModel.ServerGameID = Globals.Config.GameId;
 
                         DetailModel.ServerOwnerName = fullServerDetails.result.rspInfo.owner.displayName;
                         DetailModel.ServerOwnerPersonaId = fullServerDetails.result.rspInfo.owner.personaId;
@@ -170,11 +170,11 @@ namespace BF1.ServerAdminTools.Wpf.Views
                             });
                         }
 
-                        MainWindow._SetOperatingState(1, $"获取服务器 {Globals.GameId} 详细数据成功  |  耗时: {result.ExecTime:0.00} 秒");
+                        MainWindow._SetOperatingState(1, $"获取服务器 {Globals.Config.GameId} 详细数据成功  |  耗时: {result.ExecTime:0.00} 秒");
                     }
                     else
                     {
-                        MainWindow._SetOperatingState(3, $"获取服务器 {Globals.GameId} 详细数据失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
+                        MainWindow._SetOperatingState(3, $"获取服务器 {Globals.Config.GameId} 详细数据失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
                     }
                 }
                 else
@@ -195,7 +195,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
             {
                 Map currMap = ListBox_Map.SelectedItem as Map;
 
-                if (!string.IsNullOrEmpty(Globals.PersistedGameId))
+                if (!string.IsNullOrEmpty(Globals.Config.PersistedGameId))
                 {
                     string mapInfo = currMap.modePrettyName + " - " + currMap.mapPrettyName;
 
@@ -204,17 +204,17 @@ namespace BF1.ServerAdminTools.Wpf.Views
 
                     if (changeMapWindow.ShowDialog() == true)
                     {
-                        MainWindow._SetOperatingState(2, $"正在更换服务器 {Globals.GameId} 地图为 {currMap.mapPrettyName} 中...");
+                        MainWindow._SetOperatingState(2, $"正在更换服务器 {Globals.Config.GameId} 地图为 {currMap.mapPrettyName} 中...");
 
-                        var result = await BF1API.API.BF1API.ChangeServerMap(Globals.PersistedGameId, index.ToString());
+                        var result = await BF1API.API.BF1API.ChangeServerMap(Globals.Config.PersistedGameId, index.ToString());
 
                         if (result.IsSuccess)
                         {
-                            MainWindow._SetOperatingState(1, $"更换服务器 {Globals.GameId} 地图为 {currMap.mapPrettyName} 成功  |  耗时: {result.ExecTime:0.00} 秒");
+                            MainWindow._SetOperatingState(1, $"更换服务器 {Globals.Config.GameId} 地图为 {currMap.mapPrettyName} 成功  |  耗时: {result.ExecTime:0.00} 秒");
                         }
                         else
                         {
-                            MainWindow._SetOperatingState(3, $"更换服务器 {Globals.GameId} 地图为 {currMap.mapPrettyName} 失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
+                            MainWindow._SetOperatingState(3, $"更换服务器 {Globals.Config.GameId} 地图为 {currMap.mapPrettyName} 失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
                         }
                     }
                 }
@@ -346,7 +346,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
         {
             AudioUtil.ClickSound();
 
-            if (!string.IsNullOrEmpty(Globals.SessionId))
+            if (!string.IsNullOrEmpty(Globals.Config.SessionId))
             {
                 SpectatorInfo info = ListBox_Spectator.SelectedItem as SpectatorInfo;
 
@@ -400,11 +400,11 @@ namespace BF1.ServerAdminTools.Wpf.Views
         {
             AudioUtil.ClickSound();
 
-            if (!string.IsNullOrEmpty(Globals.SessionId))
+            if (!string.IsNullOrEmpty(Globals.Config.SessionId))
             {
-                if (!string.IsNullOrEmpty(Globals.ServerId))
+                if (!string.IsNullOrEmpty(Globals.Config.ServerId))
                 {
-                    MainWindow._SetOperatingState(2, $"正在获取服务器 {Globals.ServerId} 数据中...");
+                    MainWindow._SetOperatingState(2, $"正在获取服务器 {Globals.Config.ServerId} 数据中...");
 
                     var result = await BF1API.API.BF1API.GetServerDetails();
 
@@ -417,11 +417,11 @@ namespace BF1.ServerAdminTools.Wpf.Views
 
                         isGetServerDetailsOK = true;
 
-                        MainWindow._SetOperatingState(1, $"获取服务器 {Globals.ServerId} 数据成功  |  耗时: {result.ExecTime:0.00} 秒");
+                        MainWindow._SetOperatingState(1, $"获取服务器 {Globals.Config.ServerId} 数据成功  |  耗时: {result.ExecTime:0.00} 秒");
                     }
                     else
                     {
-                        MainWindow._SetOperatingState(3, $"获取服务器 {Globals.ServerId} 数据失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
+                        MainWindow._SetOperatingState(3, $"获取服务器 {Globals.Config.ServerId} 数据失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
                     }
                 }
                 else
@@ -454,11 +454,11 @@ namespace BF1.ServerAdminTools.Wpf.Views
                 return;
             }
 
-            if (!string.IsNullOrEmpty(Globals.SessionId))
+            if (!string.IsNullOrEmpty(Globals.Config.SessionId))
             {
-                if (!string.IsNullOrEmpty(Globals.ServerId))
+                if (!string.IsNullOrEmpty(Globals.Config.ServerId))
                 {
-                    MainWindow._SetOperatingState(2, $"正在更新服务器 {Globals.ServerId} 数据中...");
+                    MainWindow._SetOperatingState(2, $"正在更新服务器 {Globals.Config.ServerId} 数据中...");
 
                     UpdateServerReqBody reqBody = new UpdateServerReqBody();
                     reqBody.jsonrpc = "2.0";
@@ -471,7 +471,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
                         machash = Guid.NewGuid().ToString()
                     };
                     tempParams.game = "tunguska";
-                    tempParams.serverId = Globals.ServerId;
+                    tempParams.serverId = Globals.Config.ServerId;
                     tempParams.bannerSettings = new UpdateServerReqBody.Params.BannerSettings()
                     {
                         bannerUrl = "",
@@ -517,11 +517,11 @@ namespace BF1.ServerAdminTools.Wpf.Views
 
                     if (result.IsSuccess)
                     {
-                        MainWindow._SetOperatingState(1, $"更新服务器 {Globals.ServerId} 数据成功  |  耗时: {result.ExecTime:0.00} 秒");
+                        MainWindow._SetOperatingState(1, $"更新服务器 {Globals.Config.ServerId} 数据成功  |  耗时: {result.ExecTime:0.00} 秒");
                     }
                     else
                     {
-                        MainWindow._SetOperatingState(3, $"更新服务器 {Globals.ServerId} 数据失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
+                        MainWindow._SetOperatingState(3, $"更新服务器 {Globals.Config.ServerId} 数据失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
                     }
                 }
                 else

@@ -410,7 +410,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
                 {
                     // 清理服务器ID（GameID）
                     _serverInfo.ServerID = 0;
-                    Globals.GameId = string.Empty;
+                    Globals.Config.GameId = string.Empty;
 
                     Globals.Server_AdminList.Clear();
                     Globals.Server_Admin2List.Clear();
@@ -420,7 +420,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
                 {
                     // 服务器数字ID
                     _serverInfo.ServerID = Memory.Read<long>(Memory.GetBaseAddress() + Offsets.ServerID_Offset, Offsets.ServerID);
-                    Globals.GameId = _serverInfo.ServerID.ToString();
+                    Globals.Config.GameId = _serverInfo.ServerID.ToString();
                 }
 
                 // 服务器时间
@@ -704,29 +704,29 @@ namespace BF1.ServerAdminTools.Wpf.Views
             if (index == -1)
             {
                 // 限制玩家击杀
-                if (playerData.Kill > ServerRule.MaxKill && ServerRule.MaxKill != 0)
+                if (playerData.Kill > Globals.NowRule.MaxKill && Globals.NowRule.MaxKill != 0)
                 {
                     Globals.BreakRuleInfo_PlayerList.Add(new BreakRuleInfo
                     {
                         Name = playerData.Name,
                         PersonaId = playerData.PersonaId,
-                        Reason = $"Kill Limit {ServerRule.MaxKill:0}"
+                        Reason = $"Kill Limit {Globals.NowRule.MaxKill:0}"
                     });
 
                     return;
                 }
 
                 // 计算玩家KD最低击杀数
-                if (playerData.Kill > ServerRule.KDFlag && ServerRule.KDFlag != 0)
+                if (playerData.Kill > Globals.NowRule.KDFlag && Globals.NowRule.KDFlag != 0)
                 {
                     // 限制玩家KD
-                    if (playerData.KD > ServerRule.MaxKD && ServerRule.MaxKD != 0.00f)
+                    if (playerData.KD > Globals.NowRule.MaxKD && Globals.NowRule.MaxKD != 0.00f)
                     {
                         Globals.BreakRuleInfo_PlayerList.Add(new BreakRuleInfo
                         {
                             Name = playerData.Name,
                             PersonaId = playerData.PersonaId,
-                            Reason = $"KD Limit {ServerRule.MaxKD:0.00}"
+                            Reason = $"KD Limit {Globals.NowRule.MaxKD:0.00}"
                         });
                     }
 
@@ -734,16 +734,16 @@ namespace BF1.ServerAdminTools.Wpf.Views
                 }
 
                 // 计算玩家KPM比条件
-                if (playerData.Kill > ServerRule.KPMFlag && ServerRule.KPMFlag != 0)
+                if (playerData.Kill > Globals.NowRule.KPMFlag && Globals.NowRule.KPMFlag != 0)
                 {
                     // 限制玩家KPM
-                    if (playerData.KPM > ServerRule.MaxKPM && ServerRule.MaxKPM != 0.00f)
+                    if (playerData.KPM > Globals.NowRule.MaxKPM && Globals.NowRule.MaxKPM != 0.00f)
                     {
                         Globals.BreakRuleInfo_PlayerList.Add(new BreakRuleInfo
                         {
                             Name = playerData.Name,
                             PersonaId = playerData.PersonaId,
-                            Reason = $"KPM Limit {ServerRule.MaxKPM:0.00}"
+                            Reason = $"KPM Limit {Globals.NowRule.MaxKPM:0.00}"
                         });
                     }
 
@@ -751,35 +751,35 @@ namespace BF1.ServerAdminTools.Wpf.Views
                 }
 
                 // 限制玩家最低等级
-                if (playerData.Rank < ServerRule.MinRank && ServerRule.MinRank != 0 && playerData.Rank != 0)
+                if (playerData.Rank < Globals.NowRule.MinRank && Globals.NowRule.MinRank != 0 && playerData.Rank != 0)
                 {
                     Globals.BreakRuleInfo_PlayerList.Add(new BreakRuleInfo
                     {
                         Name = playerData.Name,
                         PersonaId = playerData.PersonaId,
-                        Reason = $"Min Rank Limit {ServerRule.MinRank:0}"
+                        Reason = $"Min Rank Limit {Globals.NowRule.MinRank:0}"
                     });
 
                     return;
                 }
 
                 // 限制玩家最高等级
-                if (playerData.Rank > ServerRule.MaxRank && ServerRule.MaxRank != 0 && playerData.Rank != 0)
+                if (playerData.Rank > Globals.NowRule.MaxRank && Globals.NowRule.MaxRank != 0 && playerData.Rank != 0)
                 {
                     Globals.BreakRuleInfo_PlayerList.Add(new BreakRuleInfo
                     {
                         Name = playerData.Name,
                         PersonaId = playerData.PersonaId,
-                        Reason = $"Max Rank Limit {ServerRule.MaxRank:0}"
+                        Reason = $"Max Rank Limit {Globals.NowRule.MaxRank:0}"
                     });
 
                     return;
                 }
 
                 // 从武器规则里遍历限制武器名称
-                for (int i = 0; i < Globals.Custom_WeaponList.Count; i++)
+                for (int i = 0; i < Globals.NowRule.Custom_WeaponList.Count; i++)
                 {
-                    var item = Globals.Custom_WeaponList[i];
+                    var item = Globals.NowRule.Custom_WeaponList[i];
 
                     // K 弹
                     if (item == "_KBullet")
@@ -894,9 +894,9 @@ namespace BF1.ServerAdminTools.Wpf.Views
                 }
 
                 // 黑名单
-                for (int i = 0; i < Globals.Custom_BlackList.Count; i++)
+                for (int i = 0; i < Globals.NowRule.Custom_BlackList.Count; i++)
                 {
-                    var item = Globals.Custom_BlackList[i];
+                    var item = Globals.NowRule.Custom_BlackList[i];
                     if (playerData.Name == item)
                     {
                         Globals.BreakRuleInfo_PlayerList.Add(new BreakRuleInfo
@@ -927,7 +927,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
                     if (!Globals.Server_AdminList.Contains(item.PersonaId.ToString()))
                     {
                         // 跳过白名单玩家
-                        if (!Globals.Custom_WhiteList.Contains(item.Name))
+                        if (!Globals.NowRule.Custom_WhiteList.Contains(item.Name))
                         {
                             // 先检查踢出玩家是否在 正在踢人 列表中
                             int index = Kicking_PlayerList.FindIndex(var => var.PersonaId == item.PersonaId);
@@ -1016,7 +1016,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
         // 手动踢出违规玩家
         private async void KickPlayer(string reason)
         {
-            if (!string.IsNullOrEmpty(Globals.SessionId))
+            if (!string.IsNullOrEmpty(Globals.Config.SessionId))
             {
                 if (_dataGridSelcContent.IsOK)
                 {
@@ -1048,7 +1048,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
         private void MenuItem_Admin_KickPlayer_Custom_Click(object sender, RoutedEventArgs e)
         {
             // 右键菜单 踢出玩家 - 自定义理由
-            if (!string.IsNullOrEmpty(Globals.SessionId))
+            if (!string.IsNullOrEmpty(Globals.Config.SessionId))
             {
                 if (_dataGridSelcContent.IsOK)
                 {
@@ -1094,7 +1094,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
         private async void MenuItem_Admin_ChangePlayerTeam_Click(object sender, RoutedEventArgs e)
         {
             // 右键菜单 更换玩家队伍
-            if (!string.IsNullOrEmpty(Globals.SessionId))
+            if (!string.IsNullOrEmpty(Globals.Config.SessionId))
             {
                 if (_dataGridSelcContent.IsOK)
                 {

@@ -62,7 +62,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
         {
             try
             {
-                if (!string.IsNullOrEmpty(Globals.Remid))
+                if (!string.IsNullOrEmpty(Globals.Config.Remid))
                 {
                     var str = "https://accounts.ea.com/connect/auth?response_type=code&locale=zh_CN&client_id=sparta-backend-as-user-pc";
                     var options = new RestClientOptions(str)
@@ -73,9 +73,9 @@ namespace BF1.ServerAdminTools.Wpf.Views
 
                     var client = new RestClient(options);
                     var request = new RestRequest()
-                        .AddHeader("Cookie", $"remid={Globals.Remid}");
+                        .AddHeader("Cookie", $"remid={Globals.Config.Remid}");
 
-                    LoggerHelper.Info($"当前Remin为 {Globals.Remid}");
+                    LoggerHelper.Info($"当前Remin为 {Globals.Config.Remid}");
 
                     var response = await client.ExecuteGetAsync(request);
                     if (response.StatusCode == HttpStatusCode.Redirect)
@@ -88,14 +88,11 @@ namespace BF1.ServerAdminTools.Wpf.Views
 
                         if (code.Contains("http://127.0.0.1/success?code="))
                         {
-                            Globals.Remid = response.Cookies[0].Value;
-                            Globals.Sid = response.Cookies[1].Value;
+                            Globals.Config.Remid = response.Cookies[0].Value;
+                            Globals.Config.Sid = response.Cookies[1].Value;
 
-                            LoggerHelper.Info($"当前Remid为 {Globals.Remid}");
-                            LoggerHelper.Info($"当前Sid为 {Globals.Sid}");
-
-                            IniHelper.WriteString("Globals", "Remid", Globals.Remid, FileUtil.SettingFile);
-                            IniHelper.WriteString("Globals", "Sid", Globals.Sid, FileUtil.SettingFile);
+                            LoggerHelper.Info($"当前Remid为 {Globals.Config.Remid}");
+                            LoggerHelper.Info($"当前Sid为 {Globals.Config.Sid}");
 
                             code = code.Replace("http://127.0.0.1/success?code=", "");
                             var result = await BF1API.API.BF1API.GetEnvIdViaAuthCode(code);
@@ -103,13 +100,15 @@ namespace BF1.ServerAdminTools.Wpf.Views
                             if (result.IsSuccess)
                             {
                                 var envIdViaAuthCode = JsonUtil.JsonDese<EnvIdViaAuthCode>(result.Message);
-                                Globals.SessionId = envIdViaAuthCode.result.sessionId;
-                                LoggerHelper.Info($"刷新SessionID成功 {Globals.SessionId}");
+                                Globals.Config.SessionId = envIdViaAuthCode.result.sessionId;
+                                LoggerHelper.Info($"刷新SessionID成功 {Globals.Config.SessionId}");
                             }
                             else
                             {
                                 LoggerHelper.Error($"刷新SessionID失败，code无效 {code}");
                             }
+
+                            FileUtil.SaveConfig();
                         }
                         else
                         {
@@ -118,7 +117,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
                     }
                     else
                     {
-                        LoggerHelper.Error($"刷新SessionID失败，玩家Remid不正确 {Globals.Remid}");
+                        LoggerHelper.Error($"刷新SessionID失败，玩家Remid不正确 {Globals.Config.Remid}");
                     }
                 }
                 else
@@ -170,7 +169,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
         {
             AudioUtil.ClickSound();
 
-            if (!string.IsNullOrEmpty(Globals.Remid))
+            if (!string.IsNullOrEmpty(Globals.Config.Remid))
             {
                 TextBlock_CheckSessionIdStatus.Text = "正在获取Code中，请等待...";
                 TextBlock_CheckSessionIdStatus.Background = Brushes.Gray;
@@ -185,7 +184,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
 
                 var client = new RestClient(options);
                 var request = new RestRequest()
-                    .AddHeader("Cookie", $"remid={Globals.Remid}");
+                    .AddHeader("Cookie", $"remid={Globals.Config.Remid}");
 
                 var response = await client.ExecuteGetAsync(request);
                 if (response.StatusCode == HttpStatusCode.Redirect)
@@ -200,11 +199,8 @@ namespace BF1.ServerAdminTools.Wpf.Views
                         TextBlock_CheckSessionIdStatus.Background = Brushes.Gray;
                         MainWindow._SetOperatingState(2, "正在刷新SessionID中，请等待...");
 
-                        Globals.Remid = response.Cookies[0].Value;
-                        Globals.Sid = response.Cookies[1].Value;
-
-                        IniHelper.WriteString("Globals", "Remid", Globals.Remid, FileUtil.SettingFile);
-                        IniHelper.WriteString("Globals", "Sid", Globals.Sid, FileUtil.SettingFile);
+                        Globals.Config.Remid = response.Cookies[0].Value;
+                        Globals.Config.Sid = response.Cookies[1].Value;
 
                         code = code.Replace("http://127.0.0.1/success?code=", "");
                         var result = await BF1API.API.BF1API.GetEnvIdViaAuthCode(code);
@@ -212,7 +208,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
                         if (result.IsSuccess)
                         {
                             var envIdViaAuthCode = JsonUtil.JsonDese<EnvIdViaAuthCode>(result.Message);
-                            Globals.SessionId = envIdViaAuthCode.result.sessionId;
+                            Globals.Config.SessionId = envIdViaAuthCode.result.sessionId;
 
                             TextBlock_CheckSessionIdStatus.Text = "刷新SessionID成功";
                             TextBlock_CheckSessionIdStatus.Background = Brushes.Green;
@@ -226,6 +222,8 @@ namespace BF1.ServerAdminTools.Wpf.Views
 
                             MainWindow._SetOperatingState(3, $"刷新SessionID失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
                         }
+
+                        FileUtil.SaveConfig();
                     }
                     else
                     {
@@ -253,7 +251,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
         {
             AudioUtil.ClickSound();
 
-            if (!string.IsNullOrEmpty(Globals.SessionId))
+            if (!string.IsNullOrEmpty(Globals.Config.SessionId))
             {
                 TextBlock_CheckSessionIdStatus.Text = "正在验证中，请等待...";
                 TextBlock_CheckSessionIdStatus.Background = Brushes.Gray;

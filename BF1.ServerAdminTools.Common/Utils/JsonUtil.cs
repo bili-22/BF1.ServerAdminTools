@@ -22,7 +22,7 @@ public static class JsonUtil
     /// <typeparam name="T"></typeparam>
     /// <param name="result"></param>
     /// <returns></returns>
-    public static T? JsonDese<T>(string result)
+    public static T JsonDese<T>(string result)
     {
         return JsonSerializer.Deserialize<T>(result, Options1);
     }

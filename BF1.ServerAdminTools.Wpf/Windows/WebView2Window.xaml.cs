@@ -68,35 +68,36 @@ namespace BF1.ServerAdminTools.Wpf.Windows
                     if (item.Name == "remid")
                     {
                         if (!string.IsNullOrEmpty(item.Value))
-                            Globals.Remid = item.Value;
+                            Globals.Config.Remid = item.Value;
                         continue;
                     }
 
                     if (item.Name == "sid")
                     {
                         if (!string.IsNullOrEmpty(item.Value))
-                            Globals.Sid = item.Value;
+                            Globals.Config.Sid = item.Value;
                         continue;
                     }
 
                     if (item.Name == "gatewaySessionId")
                     {
                         if (!string.IsNullOrEmpty(item.Value))
-                            Globals.SessionId = item.Value;
+                            Globals.Config.SessionId = item.Value;
                         continue;
                     }
                 }
 
                 if (MessageBox.Show($"成功获取到 玩家账号信息\n\n" +
-                    $"remid\n{Globals.Remid}\n\n" +
-                    $"sid\n{Globals.Sid}\n\n" +
-                    $"sessionId\n{Globals.SessionId}\n\n" +
+                    $"remid\n{Globals.Config.Remid}\n\n" +
+                    $"sid\n{Globals.Config.Sid}\n\n" +
+                    $"sessionId\n{Globals.Config.SessionId}\n\n" +
                     $"是否现在就关闭此窗口？",
                     "提示", MessageBoxButton.YesNo, MessageBoxImage.Information) == MessageBoxResult.Yes)
                 {
-                    LoggerHelper.Info($"成功获取到 Remid {Globals.Remid}");
-                    LoggerHelper.Info($"成功获取到 Sid {Globals.Sid}");
-                    LoggerHelper.Info($"成功获取到 SessionId {Globals.SessionId}");
+                    LoggerHelper.Info($"成功获取到 Remid {Globals.Config.Remid}");
+                    LoggerHelper.Info($"成功获取到 Sid {Globals.Config.Sid}");
+                    LoggerHelper.Info($"成功获取到 SessionId {Globals.Config.SessionId}");
+                    FileUtil.SaveConfig();
                     this.Close();
                 }
             }

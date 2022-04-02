@@ -26,80 +26,105 @@
             </TabControl.Resources>
             <!--  ################################  -->
             <TabItem Header="普通规则">
-                <StackPanel Margin="5">
-                    <StackPanel.Resources>
-                        <Style TargetType="{x:Type TextBlock}">
-                            <Setter Property="Margin" Value="5" />
-                        </Style>
-                        <Style TargetType="{x:Type Slider}">
-                            <Setter Property="Margin" Value="5" />
-                            <Setter Property="IsSnapToTickEnabled" Value="True" />
-                        </Style>
-                    </StackPanel.Resources>
-                    <TextBlock Text="{Binding ElementName=Slider_MaxKill, Path=Value, StringFormat=玩家最高击杀 : {0:0}, FallbackValue='玩家最高击杀 :'}" />
-                    <Slider
-                        x:Name="Slider_MaxKill"
-                        Maximum="100"
-                        Minimum="0"
-                        TickFrequency="1"
-                        TickPlacement="None" />
-                    <TextBlock />
-                    <!--  ################################  -->
-                    <TextBlock Text="{Binding ElementName=Slider_KDFlag, Path=Value, StringFormat=计算玩家KD的最低击杀数 : {0:0}, FallbackValue='计算玩家KD的最低击杀数 :'}" />
-                    <Slider
-                        x:Name="Slider_KDFlag"
-                        Maximum="100"
-                        Minimum="0"
-                        TickFrequency="1"
-                        TickPlacement="None" />
-                    <TextBlock Text="{Binding ElementName=Slider_MaxKD, Path=Value, StringFormat=玩家最高KD : {0:0.00}, FallbackValue='玩家最高KD :'}" />
-                    <Slider
-                        x:Name="Slider_MaxKD"
-                        Maximum="10"
-                        Minimum="0"
-                        TickFrequency="0.01"
-                        TickPlacement="None" />
-                    <TextBlock />
-                    <!--  ################################  -->
-                    <TextBlock Text="{Binding ElementName=Slider_KPMFlag, Path=Value, StringFormat=计算玩家KPM的最低击杀数 : {0:0}, FallbackValue='计算玩家KPM的最低击杀数 :'}" />
-                    <Slider
-                        x:Name="Slider_KPMFlag"
-                        Maximum="100"
-                        Minimum="0"
-                        TickFrequency="1"
-                        TickPlacement="None" />
-                    <TextBlock Text="{Binding ElementName=Slider_MaxKPM, Path=Value, StringFormat=玩家最高KPM : {0:0.00}, FallbackValue='玩家最高KPM :'}" />
-                    <Slider
-                        x:Name="Slider_MaxKPM"
-                        Maximum="10"
-                        Minimum="0"
-                        TickFrequency="0.01"
-                        TickPlacement="None" />
-                    <TextBlock />
-                    <!--  ################################  -->
-                    <TextBlock Text="{Binding ElementName=Slider_MinRank, Path=Value, StringFormat=玩家最低等级 : {0:0}, FallbackValue='玩家最低击等级 :'}" />
-                    <Slider
-                        x:Name="Slider_MinRank"
-                        Maximum="150"
-                        Minimum="0"
-                        TickFrequency="1"
-                        TickPlacement="None" />
-                    <TextBlock Text="{Binding ElementName=Slider_MaxRank, Path=Value, StringFormat=玩家最高等级 : {0:0}, FallbackValue='玩家最高等级 :'}" />
-                    <Slider
-                        x:Name="Slider_MaxRank"
-                        Maximum="150"
-                        Minimum="0"
-                        TickFrequency="1"
-                        TickPlacement="None" />
-                    <TextBlock />
-                    <TextBlock
-                        Foreground="Green"
-                        Text="说明：如果设置0则代表忽略该规则。假如设置玩家最大击杀数为50，那么玩家击杀数为51及以上则会被踢出，其他同理"
-                        TextWrapping="Wrap" />
-                    <TextBlock Foreground="Green" TextWrapping="Wrap">
-                        提示：KD和KPM的最低击杀数，假如设置10，那么玩家击杀数到达11及以上才会计算设置的KD，避免错误踢出玩家。
-                        如果没有设置最低击杀数，那么玩家可能开局摧毁一辆运兵车就会触发KD检测。如果要限制KD或者KPM，强烈建议设置最低击杀数
-                    </TextBlock>
+                <StackPanel>
+                    <StackPanel Margin="5,0,5,0" VerticalAlignment="Top">
+                        <StackPanel.Resources>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="Margin" Value="5" />
+                            </Style>
+                            <Style TargetType="{x:Type Slider}">
+                                <Setter Property="Margin" Value="5" />
+                                <Setter Property="IsSnapToTickEnabled" Value="True" />
+                            </Style>
+                        </StackPanel.Resources>
+                        <TextBlock Text="{Binding ElementName=Slider_MaxKill, Path=Value, StringFormat=玩家最高击杀 : {0:0}, FallbackValue='玩家最高击杀 :'}" />
+                        <Slider
+                            x:Name="Slider_MaxKill"
+                            Maximum="100"
+                            Minimum="0"
+                            TickFrequency="1"
+                            TickPlacement="None" />
+                        <TextBlock />
+                        <!--  ################################  -->
+                        <TextBlock Text="{Binding ElementName=Slider_KDFlag, Path=Value, StringFormat=计算玩家KD的最低击杀数 : {0:0}, FallbackValue='计算玩家KD的最低击杀数 :'}" />
+                        <Slider
+                            x:Name="Slider_KDFlag"
+                            Maximum="100"
+                            Minimum="0"
+                            TickFrequency="1"
+                            TickPlacement="None" />
+                        <TextBlock Text="{Binding ElementName=Slider_MaxKD, Path=Value, StringFormat=玩家最高KD : {0:0.00}, FallbackValue='玩家最高KD :'}" />
+                        <Slider
+                            x:Name="Slider_MaxKD"
+                            Maximum="10"
+                            Minimum="0"
+                            TickFrequency="0.01"
+                            TickPlacement="None" />
+                        <TextBlock />
+                        <!--  ################################  -->
+                        <TextBlock Text="{Binding ElementName=Slider_KPMFlag, Path=Value, StringFormat=计算玩家KPM的最低击杀数 : {0:0}, FallbackValue='计算玩家KPM的最低击杀数 :'}" />
+                        <Slider
+                            x:Name="Slider_KPMFlag"
+                            Maximum="100"
+                            Minimum="0"
+                            TickFrequency="1"
+                            TickPlacement="None" />
+                        <TextBlock Text="{Binding ElementName=Slider_MaxKPM, Path=Value, StringFormat=玩家最高KPM : {0:0.00}, FallbackValue='玩家最高KPM :'}" />
+                        <Slider
+                            x:Name="Slider_MaxKPM"
+                            Maximum="10"
+                            Minimum="0"
+                            TickFrequency="0.01"
+                            TickPlacement="None" />
+                        <TextBlock />
+                        <!--  ################################  -->
+                        <TextBlock Text="{Binding ElementName=Slider_MinRank, Path=Value, StringFormat=玩家最低等级 : {0:0}, FallbackValue='玩家最低击等级 :'}" />
+                        <Slider
+                            x:Name="Slider_MinRank"
+                            Maximum="150"
+                            Minimum="0"
+                            TickFrequency="1"
+                            TickPlacement="None" />
+                        <TextBlock Text="{Binding ElementName=Slider_MaxRank, Path=Value, StringFormat=玩家最高等级 : {0:0}, FallbackValue='玩家最高等级 :'}" />
+                        <Slider
+                            x:Name="Slider_MaxRank"
+                            Maximum="150"
+                            Minimum="0"
+                            TickFrequency="1"
+                            TickPlacement="None" />
+                        <TextBlock />
+                        <TextBlock
+                            Foreground="Green"
+                            Text="说明：如果设置0则代表忽略该规则。假如设置玩家最大击杀数为50，那么玩家击杀数为51及以上则会被踢出，其他同理"
+                            TextWrapping="Wrap" />
+                        <TextBlock Foreground="Green" TextWrapping="Wrap">
+                            提示：KD和KPM的最低击杀数，假如设置10，那么玩家击杀数到达11及以上才会计算设置的KD，避免错误踢出玩家。
+                            如果没有设置最低击杀数，那么玩家可能开局摧毁一辆运兵车就会触发KD检测。如果要限制KD或者KPM，强烈建议设置最低击杀数
+                        </TextBlock>
+                    </StackPanel>
+                    <StackPanel Margin="0,5,0,0">
+                        <ListView
+                            Name="Rule_List"
+                            Height="280"
+                            Margin="0"
+                            IsSynchronizedWithCurrentItem="False">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn
+                                        Width="600"
+                                        DisplayMemberBinding="{Binding Name}"
+                                        Header="规则名字" />
+                                </GridView>
+                            </ListView.View>
+                            <ListView.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Click="Add_Rule" Header="添加" />
+                                    <MenuItem Click="Delete_Rule" Header="删除" />
+                                    <MenuItem Click="Load_Rule" Header="加载" />
+                                </ContextMenu>
+                            </ListView.ContextMenu>
+                        </ListView>
+                    </StackPanel>
                 </StackPanel>
             </TabItem>
             <!--  ################################  -->

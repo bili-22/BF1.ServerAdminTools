@@ -53,6 +53,24 @@ namespace BF1.ServerAdminTools.Wpf
 
                 UpdateState("正在为您营造个性化体验...");
 
+                try
+                {
+                    // 创建文件夹
+                    Directory.CreateDirectory(FileUtil.ServerRule);
+                    Directory.CreateDirectory(FileUtil.Cache);
+                    Directory.CreateDirectory(FileUtil.Log);
+
+                    FileUtil.LoadConfig();
+
+                    SQLiteHelper.Initialize();
+                    LoggerHelper.Info($"SQLite数据库初始化成功");
+                }
+                catch (Exception ex)
+                {
+                    LoggerHelper.Error($"发生异常", ex);
+                    MsgBoxUtil.ExceptionMsgBox(ex);
+                }
+
                 BF1API.API.BF1API.Init();
                 LoggerHelper.Info("战地1API模块初始化成功");
 

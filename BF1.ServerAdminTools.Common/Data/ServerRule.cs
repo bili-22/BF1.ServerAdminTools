@@ -8,6 +8,7 @@ namespace BF1.ServerAdminTools.Common.Data;
 
 public record ServerRule
 {
+    public string Name { get; set; }
     public int MaxKill { get; set; }
 
     public int KDFlag { get; set; }
@@ -27,15 +28,15 @@ public record ServerRule
     /// <summary>
     /// 保存限制武器名称列表
     /// </summary>
-    public List<string> Custom_WeaponList { get; set; }
+    public List<string> Custom_WeaponList { get; set; } = new();
     /// <summary>
     /// 自定义黑名单玩家列表
     /// </summary>
-    public List<string> Custom_BlackList { get; set; }
+    public List<string> Custom_BlackList { get; set; } = new();
     /// <summary>
     /// 自定义白名单玩家列表
     /// </summary>
-    public List<string> Custom_WhiteList { get; set; }
+    public List<string> Custom_WhiteList { get; set; } = new();
 }
 
 

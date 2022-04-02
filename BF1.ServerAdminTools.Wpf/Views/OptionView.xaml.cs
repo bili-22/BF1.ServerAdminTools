@@ -1,4 +1,5 @@
-﻿using BF1.ServerAdminTools.Common.Helper;
+﻿using BF1.ServerAdminTools.Common.Data;
+using BF1.ServerAdminTools.Common.Helper;
 using BF1.ServerAdminTools.Common.Utils;
 using BF1.ServerAdminTools.Wpf.Utils;
 
@@ -13,9 +14,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
         {
             InitializeComponent();
 
-            var temp = IniHelper.ReadString("Options", "AudioIndex", "", FileUtil.SettingFile);
-            if (!string.IsNullOrEmpty(temp))
-                AudioUtil.ClickSoundIndex = Convert.ToInt32(temp);
+            AudioUtil.ClickSoundIndex = Globals.Config.AudioIndex;
 
             switch (AudioUtil.ClickSoundIndex)
             {
@@ -44,7 +43,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
 
         private void MainWindow_ClosingDisposeEvent()
         {
-            IniHelper.WriteString("Options", "AudioIndex", AudioUtil.ClickSoundIndex.ToString(), FileUtil.SettingFile);
+            Globals.Config.AudioIndex = AudioUtil.ClickSoundIndex;
         }
 
         private void RadioButton_ClickAudioSelect_Click(object sender, RoutedEventArgs e)

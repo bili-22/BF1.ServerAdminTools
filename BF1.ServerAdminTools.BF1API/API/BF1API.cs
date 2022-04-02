@@ -27,7 +27,7 @@ public static class BF1API
 
             headers = new Dictionary<string, string>();
             headers["User-Agent"] = "ProtoHttp 1.3/DS 15.1.2.1.0 (Windows)";
-            headers["X-GatewaySession"] = Globals.SessionId;
+            headers["X-GatewaySession"] = Globals.Config.SessionId;
             headers["X-ClientVersion"] = "release-bf1-lsu35_26385_ad7bf56a_tunguska_all_prod";
             headers["X-DbId"] = "Tunguska.Shipping2PC.Win32";
             headers["X-CodeCL"] = "3779779";
@@ -50,7 +50,7 @@ public static class BF1API
 
         try
         {
-            headers["X-GatewaySession"] = Globals.SessionId;
+            headers["X-GatewaySession"] = Globals.Config.SessionId;
             respContent.IsSuccess = false;
 
             var reqBody = new
@@ -106,7 +106,7 @@ public static class BF1API
 
         try
         {
-            headers["X-GatewaySession"] = Globals.SessionId;
+            headers["X-GatewaySession"] = Globals.Config.SessionId;
             respContent.IsSuccess = false;
 
             var reqBody = new
@@ -161,7 +161,7 @@ public static class BF1API
 
         try
         {
-            headers["X-GatewaySession"] = Globals.SessionId;
+            headers["X-GatewaySession"] = Globals.Config.SessionId;
             respContent.IsSuccess = false;
 
             var reqBody = new
@@ -171,7 +171,7 @@ public static class BF1API
                 @params = new
                 {
                     game = "tunguska",
-                    gameId = Globals.GameId,
+                    gameId = Globals.Config.GameId,
                     personaId = personaId,
                     reason = reason
                 },
@@ -219,7 +219,7 @@ public static class BF1API
 
         try
         {
-            headers["X-GatewaySession"] = Globals.SessionId;
+            headers["X-GatewaySession"] = Globals.Config.SessionId;
             respContent.IsSuccess = false;
 
             var reqBody = new
@@ -230,7 +230,7 @@ public static class BF1API
                 {
                     game = "tunguska",
                     personaId = personaId,
-                    gameId = Globals.GameId,
+                    gameId = Globals.Config.GameId,
                     teamId = teamId,
                     forceKill = true,
                     moveParty = false
@@ -279,7 +279,7 @@ public static class BF1API
 
         try
         {
-            headers["X-GatewaySession"] = Globals.SessionId;
+            headers["X-GatewaySession"] = Globals.Config.SessionId;
             respContent.IsSuccess = false;
 
             var reqBody = new
@@ -336,7 +336,7 @@ public static class BF1API
 
         try
         {
-            headers["X-GatewaySession"] = Globals.SessionId;
+            headers["X-GatewaySession"] = Globals.Config.SessionId;
             respContent.IsSuccess = false;
 
             var reqBody = new
@@ -346,7 +346,7 @@ public static class BF1API
                 @params = new
                 {
                     game = "tunguska",
-                    gameId = Globals.GameId
+                    gameId = Globals.Config.GameId
                 },
                 id = Guid.NewGuid()
             };
@@ -392,7 +392,7 @@ public static class BF1API
 
         try
         {
-            headers["X-GatewaySession"] = Globals.SessionId;
+            headers["X-GatewaySession"] = Globals.Config.SessionId;
             respContent.IsSuccess = false;
 
             var reqBody = new
@@ -402,7 +402,7 @@ public static class BF1API
                 @params = new
                 {
                     game = "tunguska",
-                    serverId = Globals.ServerId,
+                    serverId = Globals.Config.ServerId,
                     personaName = personaName
                 },
                 id = Guid.NewGuid()
@@ -449,7 +449,7 @@ public static class BF1API
 
         try
         {
-            headers["X-GatewaySession"] = Globals.SessionId;
+            headers["X-GatewaySession"] = Globals.Config.SessionId;
             respContent.IsSuccess = false;
 
             var reqBody = new
@@ -459,7 +459,7 @@ public static class BF1API
                 @params = new
                 {
                     game = "tunguska",
-                    serverId = Globals.ServerId,
+                    serverId = Globals.Config.ServerId,
                     personaId = personaId
                 },
                 id = Guid.NewGuid()
@@ -506,7 +506,7 @@ public static class BF1API
 
         try
         {
-            headers["X-GatewaySession"] = Globals.SessionId;
+            headers["X-GatewaySession"] = Globals.Config.SessionId;
             respContent.IsSuccess = false;
 
             var reqBody = new
@@ -516,7 +516,7 @@ public static class BF1API
                 @params = new
                 {
                     game = "tunguska",
-                    serverId = Globals.ServerId,
+                    serverId = Globals.Config.ServerId,
                     personaName = personaName
                 },
                 id = Guid.NewGuid()
@@ -563,7 +563,7 @@ public static class BF1API
 
         try
         {
-            headers["X-GatewaySession"] = Globals.SessionId;
+            headers["X-GatewaySession"] = Globals.Config.SessionId;
             respContent.IsSuccess = false;
 
             var reqBody = new
@@ -573,7 +573,7 @@ public static class BF1API
                 @params = new
                 {
                     game = "tunguska",
-                    serverId = Globals.ServerId,
+                    serverId = Globals.Config.ServerId,
                     personaId = personaId
                 },
                 id = Guid.NewGuid()
@@ -620,7 +620,7 @@ public static class BF1API
 
         try
         {
-            headers["X-GatewaySession"] = Globals.SessionId;
+            headers["X-GatewaySession"] = Globals.Config.SessionId;
             respContent.IsSuccess = false;
 
             var reqBody = new
@@ -630,7 +630,7 @@ public static class BF1API
                 @params = new
                 {
                     game = "tunguska",
-                    serverId = Globals.ServerId,
+                    serverId = Globals.Config.ServerId,
                     personaName = personaName
                 },
                 id = Guid.NewGuid()
@@ -677,7 +677,7 @@ public static class BF1API
 
         try
         {
-            headers["X-GatewaySession"] = Globals.SessionId;
+            headers["X-GatewaySession"] = Globals.Config.SessionId;
             respContent.IsSuccess = false;
 
             var reqBody = new
@@ -687,7 +687,7 @@ public static class BF1API
                 @params = new
                 {
                     game = "tunguska",
-                    serverId = Globals.ServerId,
+                    serverId = Globals.Config.ServerId,
                     personaId = personaId
                 },
                 id = Guid.NewGuid()
@@ -734,7 +734,7 @@ public static class BF1API
 
         try
         {
-            headers["X-GatewaySession"] = Globals.SessionId;
+            headers["X-GatewaySession"] = Globals.Config.SessionId;
             respContent.IsSuccess = false;
 
             var reqBody = new
@@ -744,7 +744,7 @@ public static class BF1API
                 @params = new
                 {
                     game = "tunguska",
-                    serverId = Globals.ServerId
+                    serverId = Globals.Config.ServerId
                 },
                 id = Guid.NewGuid()
             };
@@ -790,7 +790,7 @@ public static class BF1API
 
         try
         {
-            headers["X-GatewaySession"] = Globals.SessionId;
+            headers["X-GatewaySession"] = Globals.Config.SessionId;
             respContent.IsSuccess = false;
 
             var request = new RestRequest()
@@ -834,7 +834,7 @@ public static class BF1API
 
         try
         {
-            headers["X-GatewaySession"] = Globals.SessionId;
+            headers["X-GatewaySession"] = Globals.Config.SessionId;
             respContent.IsSuccess = false;
 
             var reqBody = new
@@ -890,7 +890,7 @@ public static class BF1API
 
         try
         {
-            headers["X-GatewaySession"] = Globals.SessionId;
+            headers["X-GatewaySession"] = Globals.Config.SessionId;
             respContent.IsSuccess = false;
 
             var reqBody = new

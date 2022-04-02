@@ -32,10 +32,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="Assets\Styles\Attached\" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<None Remove="Assets\Fonts\iconfont.ttf" />
 		<None Remove="Assets\Images\afdian-logo.png" />
 		<None Remove="Assets\Images\Avatar.jpg" />
@@ -1054,6 +1050,13 @@
 			<Generator>PublicResXFileCodeGenerator</Generator>
 			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
 		</EmbeddedResource>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Page Update="Windows\InputWindow.xaml">
+	    <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+	    <Generator>MSBuild:Compile</Generator>
+	  </Page>
 	</ItemGroup>
 
 </Project>

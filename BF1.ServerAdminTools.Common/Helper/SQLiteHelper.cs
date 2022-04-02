@@ -41,7 +41,7 @@ public static class SQLiteHelper
                 "date TimeStamp NOT NULL DEFAULT CURRENT_TIMESTAMP)");
         }
 
-        if (ExecuteScalar("SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name='kick_no'") == 0)
+        if (ExecuteScalar("SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name='kick_fail'") == 0)
         {
             ExecuteNonQuery("CREATE TABLE kick_fail ( " +
                 "id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +

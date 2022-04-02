@@ -1,49 +1,15 @@
 ﻿namespace BF1.ServerAdminTools.Common.Data;
 
-public static class ServerRule
-{
-    public static int MaxKill = 0;
-
-    public static int KDFlag = 0;
-    public static float MaxKD = 0.00f;
-
-    public static int KPMFlag = 0;
-    public static float MaxKPM = 0.00f;
-
-    public static int MaxRank = 0;
-    public static int MinRank = 0;
-
-    public static float LifeMaxKD = 0.00f;
-    public static float LifeMaxKPM = 0.00f;
-    public static int LifeMaxWeaponStar = 0;
-    public static int LifeMaxVehicleStar = 0;
-}
 public static class Globals
 {
-    public static string Remid = string.Empty;
-    public static string Sid = string.Empty;
-
-    public static string SessionId = string.Empty;
-    public static string GameId = string.Empty;
-    public static string ServerId = string.Empty;
-    public static string PersistedGameId = string.Empty;
-
+    public static ConfigObj Config;
     public static bool IsRuleSetRight = false;
 
     ///////////////////////////////////////////////////////
 
-    /// <summary>
-    /// 保存限制武器名称列表
-    /// </summary>
-    public static List<string> Custom_WeaponList = new();
-    /// <summary>
-    /// 自定义黑名单玩家列表
-    /// </summary>
-    public static List<string> Custom_BlackList = new();
-    /// <summary>
-    /// 自定义白名单玩家列表
-    /// </summary>
-    public static List<string> Custom_WhiteList = new();
+    public static Dictionary<string, ServerRule> Rules { get; } = new();
+
+    public static ServerRule NowRule { get; set; }
 
     /// <summary>
     /// 服务器管理员

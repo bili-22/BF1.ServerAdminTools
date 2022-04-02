@@ -1,6 +1,7 @@
 ﻿using BF1.ServerAdminTools.BF1API.Chat;
 using BF1.ServerAdminTools.BF1API.Core;
 using BF1.ServerAdminTools.BF1API.Utils;
+using BF1.ServerAdminTools.Common.Data;
 using BF1.ServerAdminTools.Common.Helper;
 using BF1.ServerAdminTools.Common.Utils;
 using BF1.ServerAdminTools.Wpf.Utils;
@@ -30,16 +31,16 @@ namespace BF1.ServerAdminTools.Wpf.Views
 
             this.DataContext = this;
 
-            defaultMsg[0] = IniHelper.ReadString("ChatMsg", "Msg0", "", FileUtil.SettingFile);
-            defaultMsg[1] = IniHelper.ReadString("ChatMsg", "Msg1", "", FileUtil.SettingFile);
-            defaultMsg[2] = IniHelper.ReadString("ChatMsg", "Msg2", "", FileUtil.SettingFile);
-            defaultMsg[3] = IniHelper.ReadString("ChatMsg", "Msg3", "", FileUtil.SettingFile);
-            defaultMsg[4] = IniHelper.ReadString("ChatMsg", "Msg4", "", FileUtil.SettingFile);
-            defaultMsg[5] = IniHelper.ReadString("ChatMsg", "Msg5", "", FileUtil.SettingFile);
-            defaultMsg[6] = IniHelper.ReadString("ChatMsg", "Msg6", "", FileUtil.SettingFile);
-            defaultMsg[7] = IniHelper.ReadString("ChatMsg", "Msg7", "", FileUtil.SettingFile);
-            defaultMsg[8] = IniHelper.ReadString("ChatMsg", "Msg8", "", FileUtil.SettingFile);
-            defaultMsg[9] = IniHelper.ReadString("ChatMsg", "Msg9", "", FileUtil.SettingFile);
+            defaultMsg[0] = Globals.Config.Msg0;
+            defaultMsg[1] = Globals.Config.Msg1;
+            defaultMsg[2] = Globals.Config.Msg2;
+            defaultMsg[3] = Globals.Config.Msg3;
+            defaultMsg[4] = Globals.Config.Msg4;
+            defaultMsg[5] = Globals.Config.Msg5;
+            defaultMsg[6] = Globals.Config.Msg6;
+            defaultMsg[7] = Globals.Config.Msg7;
+            defaultMsg[8] = Globals.Config.Msg8;
+            defaultMsg[9] = Globals.Config.Msg9;
 
             if (string.IsNullOrEmpty(defaultMsg[0]))
             {
@@ -68,16 +69,16 @@ namespace BF1.ServerAdminTools.Wpf.Views
         {
             defaultMsg[RadioButtonWhoIsChecked()] = TextBox_InputMsg.Text;
 
-            IniHelper.WriteString("ChatMsg", "Msg0", defaultMsg[0], FileUtil.SettingFile);
-            IniHelper.WriteString("ChatMsg", "Msg1", defaultMsg[1], FileUtil.SettingFile);
-            IniHelper.WriteString("ChatMsg", "Msg2", defaultMsg[2], FileUtil.SettingFile);
-            IniHelper.WriteString("ChatMsg", "Msg3", defaultMsg[3], FileUtil.SettingFile);
-            IniHelper.WriteString("ChatMsg", "Msg4", defaultMsg[4], FileUtil.SettingFile);
-            IniHelper.WriteString("ChatMsg", "Msg5", defaultMsg[5], FileUtil.SettingFile);
-            IniHelper.WriteString("ChatMsg", "Msg6", defaultMsg[6], FileUtil.SettingFile);
-            IniHelper.WriteString("ChatMsg", "Msg7", defaultMsg[7], FileUtil.SettingFile);
-            IniHelper.WriteString("ChatMsg", "Msg8", defaultMsg[8], FileUtil.SettingFile);
-            IniHelper.WriteString("ChatMsg", "Msg9", defaultMsg[9], FileUtil.SettingFile);
+            Globals.Config.Msg0 = defaultMsg[0];
+            Globals.Config.Msg1 = defaultMsg[1];
+            Globals.Config.Msg2 = defaultMsg[2];
+            Globals.Config.Msg3 = defaultMsg[3];
+            Globals.Config.Msg4 = defaultMsg[4];
+            Globals.Config.Msg5 = defaultMsg[5];
+            Globals.Config.Msg6 = defaultMsg[6];
+            Globals.Config.Msg7 = defaultMsg[7];
+            Globals.Config.Msg8 = defaultMsg[8];
+            Globals.Config.Msg9 = defaultMsg[9];
         }
 
         private void SetIMEState()

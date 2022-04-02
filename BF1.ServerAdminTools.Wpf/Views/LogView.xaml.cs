@@ -49,7 +49,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
             while (true)
             {
                 Semaphore.WaitOne();
-                if (string.IsNullOrEmpty(Globals.GameId))
+                if (string.IsNullOrEmpty(Globals.Config.GameId))
                     continue;
 
                 if (ScoreView.PlayerDatas_Team1?.Count == 0 && ScoreView.PlayerDatas_Team2?.Count == 0)
@@ -167,7 +167,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
                 AppendKickOKLog("踢出理由: " + info.Reason);
                 AppendKickOKLog("状态: " + info.Status + "\n");
 
-                SQLiteHelper.AddLog2SQLite("kick_ok", info);
+                SQLiteHelper.AddLog2SQLite(DataShell.KICKOK, info);
             });
         }
 
@@ -186,7 +186,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
                 AppendKickNOLog("踢出理由: " + info.Reason);
                 AppendKickNOLog("状态: " + info.Status + "\n");
 
-                SQLiteHelper.AddLog2SQLite("kick_no", info);
+                SQLiteHelper.AddLog2SQLite(DataShell.KICKFAIL, info);
             });
         }
 
