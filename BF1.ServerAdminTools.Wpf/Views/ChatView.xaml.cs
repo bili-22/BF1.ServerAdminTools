@@ -30,16 +30,16 @@ namespace BF1.ServerAdminTools.Wpf.Views
 
             this.DataContext = this;
 
-            defaultMsg[0] = IniHelper.ReadString("ChatMsg", "Msg0", "", FileUtil.F_Settings_Path);
-            defaultMsg[1] = IniHelper.ReadString("ChatMsg", "Msg1", "", FileUtil.F_Settings_Path);
-            defaultMsg[2] = IniHelper.ReadString("ChatMsg", "Msg2", "", FileUtil.F_Settings_Path);
-            defaultMsg[3] = IniHelper.ReadString("ChatMsg", "Msg3", "", FileUtil.F_Settings_Path);
-            defaultMsg[4] = IniHelper.ReadString("ChatMsg", "Msg4", "", FileUtil.F_Settings_Path);
-            defaultMsg[5] = IniHelper.ReadString("ChatMsg", "Msg5", "", FileUtil.F_Settings_Path);
-            defaultMsg[6] = IniHelper.ReadString("ChatMsg", "Msg6", "", FileUtil.F_Settings_Path);
-            defaultMsg[7] = IniHelper.ReadString("ChatMsg", "Msg7", "", FileUtil.F_Settings_Path);
-            defaultMsg[8] = IniHelper.ReadString("ChatMsg", "Msg8", "", FileUtil.F_Settings_Path);
-            defaultMsg[9] = IniHelper.ReadString("ChatMsg", "Msg9", "", FileUtil.F_Settings_Path);
+            defaultMsg[0] = IniHelper.ReadString("ChatMsg", "Msg0", "", FileUtil.SettingFile);
+            defaultMsg[1] = IniHelper.ReadString("ChatMsg", "Msg1", "", FileUtil.SettingFile);
+            defaultMsg[2] = IniHelper.ReadString("ChatMsg", "Msg2", "", FileUtil.SettingFile);
+            defaultMsg[3] = IniHelper.ReadString("ChatMsg", "Msg3", "", FileUtil.SettingFile);
+            defaultMsg[4] = IniHelper.ReadString("ChatMsg", "Msg4", "", FileUtil.SettingFile);
+            defaultMsg[5] = IniHelper.ReadString("ChatMsg", "Msg5", "", FileUtil.SettingFile);
+            defaultMsg[6] = IniHelper.ReadString("ChatMsg", "Msg6", "", FileUtil.SettingFile);
+            defaultMsg[7] = IniHelper.ReadString("ChatMsg", "Msg7", "", FileUtil.SettingFile);
+            defaultMsg[8] = IniHelper.ReadString("ChatMsg", "Msg8", "", FileUtil.SettingFile);
+            defaultMsg[9] = IniHelper.ReadString("ChatMsg", "Msg9", "", FileUtil.SettingFile);
 
             if (string.IsNullOrEmpty(defaultMsg[0]))
             {
@@ -68,16 +68,16 @@ namespace BF1.ServerAdminTools.Wpf.Views
         {
             defaultMsg[RadioButtonWhoIsChecked()] = TextBox_InputMsg.Text;
 
-            IniHelper.WriteString("ChatMsg", "Msg0", defaultMsg[0], FileUtil.F_Settings_Path);
-            IniHelper.WriteString("ChatMsg", "Msg1", defaultMsg[1], FileUtil.F_Settings_Path);
-            IniHelper.WriteString("ChatMsg", "Msg2", defaultMsg[2], FileUtil.F_Settings_Path);
-            IniHelper.WriteString("ChatMsg", "Msg3", defaultMsg[3], FileUtil.F_Settings_Path);
-            IniHelper.WriteString("ChatMsg", "Msg4", defaultMsg[4], FileUtil.F_Settings_Path);
-            IniHelper.WriteString("ChatMsg", "Msg5", defaultMsg[5], FileUtil.F_Settings_Path);
-            IniHelper.WriteString("ChatMsg", "Msg6", defaultMsg[6], FileUtil.F_Settings_Path);
-            IniHelper.WriteString("ChatMsg", "Msg7", defaultMsg[7], FileUtil.F_Settings_Path);
-            IniHelper.WriteString("ChatMsg", "Msg8", defaultMsg[8], FileUtil.F_Settings_Path);
-            IniHelper.WriteString("ChatMsg", "Msg9", defaultMsg[9], FileUtil.F_Settings_Path);
+            IniHelper.WriteString("ChatMsg", "Msg0", defaultMsg[0], FileUtil.SettingFile);
+            IniHelper.WriteString("ChatMsg", "Msg1", defaultMsg[1], FileUtil.SettingFile);
+            IniHelper.WriteString("ChatMsg", "Msg2", defaultMsg[2], FileUtil.SettingFile);
+            IniHelper.WriteString("ChatMsg", "Msg3", defaultMsg[3], FileUtil.SettingFile);
+            IniHelper.WriteString("ChatMsg", "Msg4", defaultMsg[4], FileUtil.SettingFile);
+            IniHelper.WriteString("ChatMsg", "Msg5", defaultMsg[5], FileUtil.SettingFile);
+            IniHelper.WriteString("ChatMsg", "Msg6", defaultMsg[6], FileUtil.SettingFile);
+            IniHelper.WriteString("ChatMsg", "Msg7", defaultMsg[7], FileUtil.SettingFile);
+            IniHelper.WriteString("ChatMsg", "Msg8", defaultMsg[8], FileUtil.SettingFile);
+            IniHelper.WriteString("ChatMsg", "Msg9", defaultMsg[9], FileUtil.SettingFile);
         }
 
         private void SetIMEState()

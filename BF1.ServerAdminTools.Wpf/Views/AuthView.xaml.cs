@@ -94,8 +94,8 @@ namespace BF1.ServerAdminTools.Wpf.Views
                             LoggerHelper.Info($"当前Remid为 {Globals.Remid}");
                             LoggerHelper.Info($"当前Sid为 {Globals.Sid}");
 
-                            IniHelper.WriteString("Globals", "Remid", Globals.Remid, FileUtil.F_Settings_Path);
-                            IniHelper.WriteString("Globals", "Sid", Globals.Sid, FileUtil.F_Settings_Path);
+                            IniHelper.WriteString("Globals", "Remid", Globals.Remid, FileUtil.SettingFile);
+                            IniHelper.WriteString("Globals", "Sid", Globals.Sid, FileUtil.SettingFile);
 
                             code = code.Replace("http://127.0.0.1/success?code=", "");
                             var result = await BF1API.API.BF1API.GetEnvIdViaAuthCode(code);
@@ -203,8 +203,8 @@ namespace BF1.ServerAdminTools.Wpf.Views
                         Globals.Remid = response.Cookies[0].Value;
                         Globals.Sid = response.Cookies[1].Value;
 
-                        IniHelper.WriteString("Globals", "Remid", Globals.Remid, FileUtil.F_Settings_Path);
-                        IniHelper.WriteString("Globals", "Sid", Globals.Sid, FileUtil.F_Settings_Path);
+                        IniHelper.WriteString("Globals", "Remid", Globals.Remid, FileUtil.SettingFile);
+                        IniHelper.WriteString("Globals", "Sid", Globals.Sid, FileUtil.SettingFile);
 
                         code = code.Replace("http://127.0.0.1/success?code=", "");
                         var result = await BF1API.API.BF1API.GetEnvIdViaAuthCode(code);

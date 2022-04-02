@@ -13,7 +13,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
         {
             InitializeComponent();
 
-            var temp = IniHelper.ReadString("Options", "AudioIndex", "", FileUtil.F_Settings_Path);
+            var temp = IniHelper.ReadString("Options", "AudioIndex", "", FileUtil.SettingFile);
             if (!string.IsNullOrEmpty(temp))
                 AudioUtil.ClickSoundIndex = Convert.ToInt32(temp);
 
@@ -44,7 +44,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
 
         private void MainWindow_ClosingDisposeEvent()
         {
-            IniHelper.WriteString("Options", "AudioIndex", AudioUtil.ClickSoundIndex.ToString(), FileUtil.F_Settings_Path);
+            IniHelper.WriteString("Options", "AudioIndex", AudioUtil.ClickSoundIndex.ToString(), FileUtil.SettingFile);
         }
 
         private void RadioButton_ClickAudioSelect_Click(object sender, RoutedEventArgs e)

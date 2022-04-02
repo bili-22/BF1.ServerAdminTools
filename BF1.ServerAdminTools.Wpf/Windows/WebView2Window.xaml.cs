@@ -25,7 +25,7 @@ namespace BF1.ServerAdminTools.Wpf.Windows
             CoreUtil.FlushDNSCache();
             LoggerHelper.Info($"启动WebView2成功，已刷新DNS缓存");
 
-            var env = await CoreWebView2Environment.CreateAsync(null, FileUtil.D_Cache_Path, null);
+            var env = await CoreWebView2Environment.CreateAsync(null, FileUtil.Cache, null);
 
             await WebView2.EnsureCoreWebView2Async(env);
 

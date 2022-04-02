@@ -54,38 +54,38 @@ namespace BF1.ServerAdminTools.Wpf.Views
             therad1.Start();
 
             string temp = string.Empty;
-            temp = IniHelper.ReadString("Rules", "MaxKill", "0", FileUtil.F_Settings_Path);
+            temp = IniHelper.ReadString("Rules", "MaxKill", "0", FileUtil.SettingFile);
             if (!string.IsNullOrEmpty(temp))
                 Slider_MaxKill.Value = Convert.ToInt32(temp);
-            temp = IniHelper.ReadString("Rules", "KDFlag", "0", FileUtil.F_Settings_Path);
+            temp = IniHelper.ReadString("Rules", "KDFlag", "0", FileUtil.SettingFile);
             if (!string.IsNullOrEmpty(temp))
                 Slider_KDFlag.Value = Convert.ToInt32(temp);
-            temp = IniHelper.ReadString("Rules", "MaxKD", "0.00", FileUtil.F_Settings_Path);
+            temp = IniHelper.ReadString("Rules", "MaxKD", "0.00", FileUtil.SettingFile);
             if (!string.IsNullOrEmpty(temp))
                 Slider_MaxKD.Value = Convert.ToDouble(temp);
-            temp = IniHelper.ReadString("Rules", "KPMFlag", "0", FileUtil.F_Settings_Path);
+            temp = IniHelper.ReadString("Rules", "KPMFlag", "0", FileUtil.SettingFile);
             if (!string.IsNullOrEmpty(temp))
                 Slider_KPMFlag.Value = Convert.ToInt32(temp);
-            temp = IniHelper.ReadString("Rules", "MaxKPM", "0.00", FileUtil.F_Settings_Path);
+            temp = IniHelper.ReadString("Rules", "MaxKPM", "0.00", FileUtil.SettingFile);
             if (!string.IsNullOrEmpty(temp))
                 Slider_MaxKPM.Value = Convert.ToDouble(temp);
-            temp = IniHelper.ReadString("Rules", "MinRank", "0", FileUtil.F_Settings_Path);
+            temp = IniHelper.ReadString("Rules", "MinRank", "0", FileUtil.SettingFile);
             if (!string.IsNullOrEmpty(temp))
                 Slider_MinRank.Value = Convert.ToInt32(temp);
-            temp = IniHelper.ReadString("Rules", "MaxRank", "0", FileUtil.F_Settings_Path);
+            temp = IniHelper.ReadString("Rules", "MaxRank", "0", FileUtil.SettingFile);
             if (!string.IsNullOrEmpty(temp))
                 Slider_MaxRank.Value = Convert.ToInt32(temp);
 
-            temp = IniHelper.ReadString("Rules", "LifeMaxKD", "0.00", FileUtil.F_Settings_Path);
+            temp = IniHelper.ReadString("Rules", "LifeMaxKD", "0.00", FileUtil.SettingFile);
             if (!string.IsNullOrEmpty(temp))
                 Slider_LifeMaxKD.Value = Convert.ToDouble(temp);
-            temp = IniHelper.ReadString("Rules", "LifeMaxKPM", "0.00", FileUtil.F_Settings_Path);
+            temp = IniHelper.ReadString("Rules", "LifeMaxKPM", "0.00", FileUtil.SettingFile);
             if (!string.IsNullOrEmpty(temp))
                 Slider_LifeMaxKPM.Value = Convert.ToDouble(temp);
-            temp = IniHelper.ReadString("Rules", "LifeMaxWeaponStar", "0", FileUtil.F_Settings_Path);
+            temp = IniHelper.ReadString("Rules", "LifeMaxWeaponStar", "0", FileUtil.SettingFile);
             if (!string.IsNullOrEmpty(temp))
                 Slider_LifeMaxWeaponStar.Value = Convert.ToInt32(temp);
-            temp = IniHelper.ReadString("Rules", "LifeMaxVehicleStar", "0", FileUtil.F_Settings_Path);
+            temp = IniHelper.ReadString("Rules", "LifeMaxVehicleStar", "0", FileUtil.SettingFile);
             if (!string.IsNullOrEmpty(temp))
                 Slider_LifeMaxVehicleStar.Value = Convert.ToInt32(temp);
 
@@ -169,18 +169,18 @@ namespace BF1.ServerAdminTools.Wpf.Views
 
         private void MainWindow_ClosingDisposeEvent()
         {
-            IniHelper.WriteString("Rules", "MaxKill", Slider_MaxKill.Value.ToString("0"), FileUtil.F_Settings_Path);
-            IniHelper.WriteString("Rules", "KDFlag", Slider_KDFlag.Value.ToString("0"), FileUtil.F_Settings_Path);
-            IniHelper.WriteString("Rules", "MaxKD", Slider_MaxKD.Value.ToString("0.00"), FileUtil.F_Settings_Path);
-            IniHelper.WriteString("Rules", "KPMFlag", Slider_KPMFlag.Value.ToString("0"), FileUtil.F_Settings_Path);
-            IniHelper.WriteString("Rules", "MaxKPM", Slider_MaxKPM.Value.ToString("0.00"), FileUtil.F_Settings_Path);
-            IniHelper.WriteString("Rules", "MinRank", Slider_MinRank.Value.ToString("0"), FileUtil.F_Settings_Path);
-            IniHelper.WriteString("Rules", "MaxRank", Slider_MaxRank.Value.ToString("0"), FileUtil.F_Settings_Path);
+            IniHelper.WriteString("Rules", "MaxKill", Slider_MaxKill.Value.ToString("0"), FileUtil.SettingFile);
+            IniHelper.WriteString("Rules", "KDFlag", Slider_KDFlag.Value.ToString("0"), FileUtil.SettingFile);
+            IniHelper.WriteString("Rules", "MaxKD", Slider_MaxKD.Value.ToString("0.00"), FileUtil.SettingFile);
+            IniHelper.WriteString("Rules", "KPMFlag", Slider_KPMFlag.Value.ToString("0"), FileUtil.SettingFile);
+            IniHelper.WriteString("Rules", "MaxKPM", Slider_MaxKPM.Value.ToString("0.00"), FileUtil.SettingFile);
+            IniHelper.WriteString("Rules", "MinRank", Slider_MinRank.Value.ToString("0"), FileUtil.SettingFile);
+            IniHelper.WriteString("Rules", "MaxRank", Slider_MaxRank.Value.ToString("0"), FileUtil.SettingFile);
 
-            IniHelper.WriteString("Rules", "LifeMaxKD", Slider_LifeMaxKD.Value.ToString("0.00"), FileUtil.F_Settings_Path);
-            IniHelper.WriteString("Rules", "LifeMaxKPM", Slider_LifeMaxKPM.Value.ToString("0.00"), FileUtil.F_Settings_Path);
-            IniHelper.WriteString("Rules", "LifeMaxWeaponStar", Slider_LifeMaxWeaponStar.Value.ToString("0"), FileUtil.F_Settings_Path);
-            IniHelper.WriteString("Rules", "LifeMaxVehicleStar", Slider_LifeMaxVehicleStar.Value.ToString("0"), FileUtil.F_Settings_Path);
+            IniHelper.WriteString("Rules", "LifeMaxKD", Slider_LifeMaxKD.Value.ToString("0.00"), FileUtil.SettingFile);
+            IniHelper.WriteString("Rules", "LifeMaxKPM", Slider_LifeMaxKPM.Value.ToString("0.00"), FileUtil.SettingFile);
+            IniHelper.WriteString("Rules", "LifeMaxWeaponStar", Slider_LifeMaxWeaponStar.Value.ToString("0"), FileUtil.SettingFile);
+            IniHelper.WriteString("Rules", "LifeMaxVehicleStar", Slider_LifeMaxVehicleStar.Value.ToString("0"), FileUtil.SettingFile);
 
             if (File.Exists(FileUtil.F_WeaponList_Path))
             {
@@ -996,7 +996,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
         {
             AudioUtil.ClickSound();
 
-            ProcessUtil.OpenLink(FileUtil.Default_Path);
+            ProcessUtil.OpenLink(FileUtil.Base);
         }
 
         private async void ManualKickPlayer(BreakRuleInfo info)

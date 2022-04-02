@@ -2,12 +2,18 @@
 using BF1.ServerAdminTools.Common.Utils;
 using Microsoft.Data.Sqlite;
 using System.Data;
+using Dapper;
 
 namespace BF1.ServerAdminTools.Common.Helper;
 
+public enum DataShell
+{ 
+    KICKOK, KICKFAIL
+}
+
 public static class SQLiteHelper
 {
-    private static string kickDbFile = FileUtil.D_DB_Path + @"\AdminLog.db";
+    private static string kickDbFile = $"{FileUtil.Base }/AdminLog.db";
 
     private static SqliteConnection connection;
 
@@ -24,25 +30,35 @@ public static class SQLiteHelper
         connection = new SqliteConnection(connStr);
         connection.Open();
 
-        string selectSheet1 = @"SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name='kick_ok'";
-        if (ExecuteScalar(selectSheet1) == 0)
+        if (ExecuteScalar("SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name='kick_ok'") == 0)
         {
-            string creatSheet1 = "CREATE TABLE kick_ok ( id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, name TEXT, personaId TEXT, reason TEXT, status TEXT, date TEXT )";
-            ExecuteNonQuery(creatSheet1);
+            ExecuteNonQuery("CREATE TABLE kick_ok ( " +
+                "id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
+                "name TEXT, " +
+                "personaId TEXT, " +
+                "reason TEXT, " +
+                "status TEXT, " +
+                "date TimeStamp NOT NULL DEFAULT CURRENT_TIMESTAMP)");
         }
 
-        string selectSheet2 = @"SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name='kick_no'";
-        if (ExecuteScalar(selectSheet2) == 0)
+        if (ExecuteScalar("SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name='kick_no'") == 0)
         {
-            string creatSheet2 = "CREATE TABLE kick_no ( id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, name TEXT, personaId TEXT, reason TEXT, status TEXT, date TEXT )";
-            ExecuteNonQuery(creatSheet2);
+            ExecuteNonQuery("CREATE TABLE kick_fail ( " +
+                "id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
+                "name TEXT, " +
+                "personaId TEXT, " +
+                "reason TEXT, " +
+                "status TEXT, " +
+                "date TimeStamp NOT NULL DEFAULT CURRENT_TIMESTAMP)");
         }
 
-        string selectSheet3 = @"SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name='change_team'";
-        if (ExecuteScalar(selectSheet3) == 0)
+        if (ExecuteScalar("SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name='change_team'") == 0)
         {
-            string creatSheet3 = "CREATE TABLE change_team ( id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, rank TEXT, name TEXT, personaId TEXT, status TEXT, date TEXT )";
-            ExecuteNonQuery(creatSheet3);
+            ExecuteNonQuery("CREATE TABLE change_team ( " +
+                "id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
+                "rank TEXT, name TEXT, personaId TEXT, " +
+                "status TEXT, " +
+                "date TimeStamp NOT NULL DEFAULT CURRENT_TIMESTAMP)");
         }
     }
 
@@ -74,10 +90,8 @@ public static class SQLiteHelper
     /// <returns></returns>
     public static int ExecuteScalar(string sqlStr)
     {
-        using (var cmd = new SqliteCommand(sqlStr, connection))
-        {
-            return Convert.ToInt32(cmd.ExecuteScalar());
-        }
+        using var cmd = new SqliteCommand(sqlStr, connection);
+        return Convert.ToInt32(cmd.ExecuteScalar());
     }
 
     /// <summary>
@@ -85,47 +99,15 @@ public static class SQLiteHelper
     /// </summary>
     /// <param name="sheetName"></param>
     /// <param name="info"></param>
-    public static void AddLog2SQLite(string sheetName, BreakRuleInfo info)
+    public static void AddLog2SQLite(DataShell sheetName, BreakRuleInfo info)
     {
         switch (sheetName)
         {
-            case "kick_ok":
-                using (var command = connection.CreateCommand())
-                {
-                    command.CommandText =
-                    @"
-                            INSERT INTO kick_ok
-                            ( name, personaId, reason, status, date ) 
-                            VALUES
-                            ( $name, $personaId, $reason, $status, $date )
-                        ";
-                    command.Parameters.AddWithValue("$name", info.Name);
-                    command.Parameters.AddWithValue("$personaId", info.PersonaId);
-                    command.Parameters.AddWithValue("$reason", info.Reason);
-                    command.Parameters.AddWithValue("$status", info.Status);
-                    command.Parameters.AddWithValue("$date", DateTime.Now.ToString());
-
-                    command.ExecuteNonQuery();
-                }
+            case DataShell.KICKOK:
+                connection.Execute(@"INSERT INTO kick_ok(name, personaId, reason, status, date)VALUES(@Name, @PersonaId, @Reason, @Status)", info);
                 break;
-            case "kick_no":
-                using (var command = connection.CreateCommand())
-                {
-                    command.CommandText =
-                    @"
-                            INSERT INTO kick_no
-                            ( name, personaId, reason, status, date )
-                            VALUES
-                            ( $name, $personaId, $reason, $status, $date )
-                        ";
-                    command.Parameters.AddWithValue("$name", info.Name);
-                    command.Parameters.AddWithValue("$personaId", info.PersonaId);
-                    command.Parameters.AddWithValue("$reason", info.Reason);
-                    command.Parameters.AddWithValue("$status", info.Status);
-                    command.Parameters.AddWithValue("$date", DateTime.Now.ToString());
-
-                    command.ExecuteNonQuery();
-                }
+            case DataShell.KICKFAIL:
+                connection.Execute(@"INSERT INTO kick_fail(name, personaId, reason, status)VALUES(@Name, @PersonaId, @Reason, @Status)", info);
                 break;
         }
     }
@@ -136,22 +118,6 @@ public static class SQLiteHelper
     /// <param name="info"></param>
     public static void AddLog2SQLite(ChangeTeamInfo info)
     {
-        using (var command = connection.CreateCommand())
-        {
-            command.CommandText =
-            @"
-                    INSERT INTO change_team
-                    ( rank, name, personaId, status, date ) 
-                    VALUES
-                    ( $rank, $name, $personaId, $status, $date )
-                ";
-            command.Parameters.AddWithValue("$rank", info.Rank);
-            command.Parameters.AddWithValue("$name", info.Name);
-            command.Parameters.AddWithValue("$personaId", info.PersonaId);
-            command.Parameters.AddWithValue("$status", info.Status);
-            command.Parameters.AddWithValue("$date", DateTime.Now.ToString());
-
-            command.ExecuteNonQuery();
-        }
+        connection.Execute(@"INSERT INTO change_team(rank, name, personaId, status)VALUES(@Rank,@Name,@PersonaId,@Status)", info);
     }
 }

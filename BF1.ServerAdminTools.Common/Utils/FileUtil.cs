@@ -4,19 +4,13 @@ public static class FileUtil
 {
     public static string MyDocument = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
-    public static string Default_Path = MyDocument + @"\BF1 Server";
+    public static string Base { get; } = $"{MyDocument}/BF1 Server";
 
-    public static string D_Admin_Path = Default_Path + @"\Admin";
-    public static string D_Config_Path = Default_Path + @"\Config";
-    public static string D_Cache_Path = Default_Path + @"\Cache";
-    public static string D_DB_Path = Default_Path + @"\DB";
-    public static string D_Log_Path = Default_Path + @"\Log";
+    public static string ServerRule { get; } =  $"{Base}/ServerRule";
+    public static string Cache { get; } = $"{Base}/Cache";
+    public static string Log { get; } = $"{Base}/Log";
 
-    public static string F_Settings_Path = D_Config_Path + @"\Settings.ini";
-
-    public static string F_BlackList_Path = D_Admin_Path + @"\BlackList.txt";
-    public static string F_WeaponList_Path = D_Admin_Path + @"\WeaponList.txt";
-    public static string F_WhiteList_Path = D_Admin_Path + @"\WhiteList.txt";
+    public static string SettingFile { get; } = $"{Base}/config.json";
 
     /// <summary>
     /// 获取当前运行文件完整路径
@@ -46,7 +40,7 @@ public static class FileUtil
     /// </summary>
     public static void FileReName(string OldPath, string NewPath)
     {
-        FileInfo ReName = new FileInfo(OldPath);
+        FileInfo ReName = new(OldPath);
         ReName.MoveTo(NewPath);
     }
 
@@ -58,7 +52,7 @@ public static class FileUtil
     {
         try
         {
-            string path = D_Log_Path + @"\ErrorLog";
+            string path = Log + @"\ErrorLog";
             Directory.CreateDirectory(path);
             path += $@"\#ErrorLog# { DateTime.Now:yyyyMMdd_HH-mm-ss_ffff}.log";
             File.WriteAllText(path, logContent);

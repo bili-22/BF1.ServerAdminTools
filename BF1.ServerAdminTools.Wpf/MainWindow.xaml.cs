@@ -80,24 +80,9 @@ namespace BF1.ServerAdminTools.Wpf
             try
             {
                 // 创建文件夹
-                Directory.CreateDirectory(FileUtil.D_Admin_Path);
-                Directory.CreateDirectory(FileUtil.D_Cache_Path);
-                Directory.CreateDirectory(FileUtil.D_Config_Path);
-                Directory.CreateDirectory(FileUtil.D_DB_Path);
-                Directory.CreateDirectory(FileUtil.D_Log_Path);
-
-                // 创建ini文件
-                if (!File.Exists(FileUtil.F_Settings_Path))
-                    File.Create(FileUtil.F_Settings_Path).Close();
-
-                // 创建txt文件
-                if (!File.Exists(FileUtil.F_WeaponList_Path))
-                    File.Create(FileUtil.F_WeaponList_Path).Close();
-                if (!File.Exists(FileUtil.F_BlackList_Path))
-                    File.Create(FileUtil.F_BlackList_Path).Close();
-                if (!File.Exists(FileUtil.F_WhiteList_Path))
-                    File.Create(FileUtil.F_WhiteList_Path).Close();
-
+                Directory.CreateDirectory(FileUtil.ServerRule);
+                Directory.CreateDirectory(FileUtil.Cache);
+                Directory.CreateDirectory(FileUtil.Log);
 
                 SQLiteHelper.Initialize();
                 LoggerHelper.Info($"SQLite数据库初始化成功");
@@ -119,11 +104,11 @@ namespace BF1.ServerAdminTools.Wpf
             LoggerHelper.Info($"调用关闭事件成功");
 
             // 写入SessionId
-            IniHelper.WriteString("Globals", "SessionId", Globals.SessionId, FileUtil.F_Settings_Path);
+            IniHelper.WriteString("Globals", "SessionId", Globals.SessionId, FileUtil.SettingFile);
             // 写入Remid
-            IniHelper.WriteString("Globals", "Remid", Globals.Remid, FileUtil.F_Settings_Path);
+            IniHelper.WriteString("Globals", "Remid", Globals.Remid, FileUtil.SettingFile);
             // 写入Sid
-            IniHelper.WriteString("Globals", "Sid", Globals.Sid, FileUtil.F_Settings_Path);
+            IniHelper.WriteString("Globals", "Sid", Globals.Sid, FileUtil.SettingFile);
             LoggerHelper.Info($"保存配置文件成功");
 
             SQLiteHelper.CloseConnection();
@@ -141,11 +126,11 @@ namespace BF1.ServerAdminTools.Wpf
         private void InitThread()
         {
             // 读取SessionId
-            Globals.SessionId = IniHelper.ReadString("Globals", "SessionId", "", FileUtil.F_Settings_Path);
+            Globals.SessionId = IniHelper.ReadString("Globals", "SessionId", "", FileUtil.SettingFile);
             // 读取Remid
-            Globals.Remid = IniHelper.ReadString("Globals", "Remid", "", FileUtil.F_Settings_Path);
+            Globals.Remid = IniHelper.ReadString("Globals", "Remid", "", FileUtil.SettingFile);
             // 读取Sid
-            Globals.Sid = IniHelper.ReadString("Globals", "Sid", "", FileUtil.F_Settings_Path);
+            Globals.Sid = IniHelper.ReadString("Globals", "Sid", "", FileUtil.SettingFile);
 
             // 调用刷新SessionID功能
             LoggerHelper.Info($"开始调用刷新SessionID功能");
