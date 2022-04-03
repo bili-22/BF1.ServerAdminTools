@@ -6,9 +6,9 @@
 [交流群：710801277](https://jq.qq.com/?_wv=1027&amp;k=ajEymecs)  
 [赞助](https://afdian.net/@crazyzhang)
 
-### 测试版
+### 预览版
 
-[preview](https://github.com/CrazyZhang666/BF1.ServerAdminTools/tree/preview)分支为测试版
+[preview](https://github.com/CrazyZhang666/BF1.ServerAdminTools/tree/preview)分支为预览版
 
 ### 编译
 
