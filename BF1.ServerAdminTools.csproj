@@ -536,6 +536,7 @@
 	<ItemGroup>
 		<PackageReference Include="Chinese" Version="0.4.6" />
 		<PackageReference Include="Downloader" Version="2.3.3" />
+		<PackageReference Include="Emoji.Wpf" Version="0.3.3" />
 		<PackageReference Include="Microsoft.Data.Sqlite" Version="6.0.3" />
 		<PackageReference Include="Microsoft.Toolkit.Mvvm" Version="7.1.2" />
 		<PackageReference Include="Microsoft.Web.WebView2" Version="1.0.1150.38" />
