@@ -26,7 +26,7 @@
             </TabControl.Resources>
             <!--  ################################  -->
             <TabItem Header="普通规则">
-                <StackPanel>
+                <Grid>
                     <StackPanel Margin="5,0,5,0" VerticalAlignment="Top">
                         <StackPanel.Resources>
                             <Style TargetType="{x:Type TextBlock}">
@@ -106,30 +106,28 @@
                             如果没有设置最低击杀数，那么玩家可能开局摧毁一辆运兵车就会触发KD检测。如果要限制KD或者KPM，强烈建议设置最低击杀数
                         </TextBlock>
                     </StackPanel>
-                    <StackPanel Margin="0,5,0,0">
-                        <ListView
-                            Name="Rule_List"
-                            Height="280"
-                            Margin="0"
-                            IsSynchronizedWithCurrentItem="False">
-                            <ListView.View>
-                                <GridView>
-                                    <GridViewColumn
-                                        Width="600"
-                                        DisplayMemberBinding="{Binding Name}"
-                                        Header="规则名字" />
-                                </GridView>
-                            </ListView.View>
-                            <ListView.ContextMenu>
-                                <ContextMenu>
-                                    <MenuItem Click="Add_Rule" Header="添加" />
-                                    <MenuItem Click="Delete_Rule" Header="删除" />
-                                    <MenuItem Click="Load_Rule" Header="加载" />
-                                </ContextMenu>
-                            </ListView.ContextMenu>
-                        </ListView>
-                    </StackPanel>
-                </StackPanel>
+                    <ListView
+                        Name="Rule_List"
+                        Margin="5,600,5,5"
+                        ScrollViewer.VerticalScrollBarVisibility="Visible"
+                        SelectionMode="Single">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn
+                                    Width="600"
+                                    DisplayMemberBinding="{Binding Name}"
+                                    Header="规则名字" />
+                            </GridView>
+                        </ListView.View>
+                        <ListView.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Click="Add_Rule" Header="添加" />
+                                <MenuItem Click="Delete_Rule" Header="删除" />
+                                <MenuItem Click="Load_Rule" Header="加载" />
+                            </ContextMenu>
+                        </ListView.ContextMenu>
+                    </ListView>
+                </Grid>
             </TabItem>
             <!--  ################################  -->
             <TabItem Header="高级规则">

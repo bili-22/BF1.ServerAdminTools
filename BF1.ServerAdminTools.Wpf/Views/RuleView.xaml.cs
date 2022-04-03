@@ -66,6 +66,8 @@ namespace BF1.ServerAdminTools.Wpf.Views
             Globals.NowRule = Globals.Rules["default"];
 
             LoadRule();
+
+            MainWindow.ClosingDisposeEvent += MainWindow_ClosingDisposeEvent;
         }
 
         private void LoadRule() 
@@ -127,22 +129,17 @@ namespace BF1.ServerAdminTools.Wpf.Views
                 ListBox_Custom_WhiteList.Items.Add(item);
             }
 
-            MainWindow.ClosingDisposeEvent += MainWindow_ClosingDisposeEvent;
-
-            for (int i = 0; i < ListBox_BreakWeaponInfo.Items.Count; i++)
+            foreach (WeaponInfo item in ListBox_WeaponInfo.Items)
             {
-                var bwi = ListBox_BreakWeaponInfo.Items[i] as WeaponInfo;
-                for (int j = 0; j < ListBox_WeaponInfo.Items.Count; j++)
+                foreach (WeaponInfo item1 in ListBox_BreakWeaponInfo.Items)
                 {
-                    var wi = ListBox_WeaponInfo.Items[j] as WeaponInfo;
-                    if (bwi.English == wi.English)
+                    if (item.English == item1.English)
                     {
-                        ListBox_WeaponInfo.Items[j] = new WeaponInfo()
-                        {
-                            English = wi.English,
-                            Chinese = wi.Chinese,
-                            Mark = "✔"
-                        };
+                        item.Mark = "✔";
+                    }
+                    else
+                    {
+                        item.Mark = "";
                     }
                 }
             }
