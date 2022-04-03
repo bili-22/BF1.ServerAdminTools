@@ -2,13 +2,13 @@
 
 一个方便服主和管理员管理服务器的工具
 
-[官方网站](https://bfkits.neocities.org)  
-[交流群：710801277](https://jq.qq.com/?_wv=1027&amp;k=ajEymecs)  
-[赞助](https://afdian.net/@crazyzhang)
+* [官方网站](https://battlefield.vip/)  
+* [交流群：710801277](https://jq.qq.com/?_wv=1027&amp;k=ajEymecs)  
+* [爱发电](https://afdian.net/@crazyzhang)
 
 ### 预览版
 
-[preview](https://github.com/CrazyZhang666/BF1.ServerAdminTools/tree/preview)分支为预览版
+[preview](https://github.com/CrazyZhang666/BF1.ServerAdminTools/tree/preview) 分支为预览版
 
 ### 编译
 
