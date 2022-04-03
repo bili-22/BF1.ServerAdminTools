@@ -56,7 +56,7 @@ namespace BF1.ServerAdminTools.Wpf
 
             ////////////////////////////////
 
-            Title = CoreUtil.MainAppWindowName + CoreUtil.ClientVersionInfo + " - 最后编译时间 : " + File.GetLastWriteTime(Process.GetCurrentProcess().MainModule.FileName);
+            Title = CoreUtil.MainAppWindowName + CoreUtil.ClientVersionInfo + "预览版 - 最后编译时间 : " + File.GetLastWriteTime(Process.GetCurrentProcess().MainModule.FileName);
 
             // 获取当前时间，存储到对于变量中
             Origin_DateTime = DateTime.Now;
