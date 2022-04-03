@@ -1149,15 +1149,18 @@ namespace BF1.ServerAdminTools.Wpf.Views
                     ManualKickPlayer(Globals.BreakRuleInfo_PlayerList[i]);
                 }
 
-                var team1Player = JsonSerializer.Deserialize<List<PlayerData>>(JsonSerializer.Serialize(ScoreView.PlayerDatas_Team1));
-                var team2Player = JsonSerializer.Deserialize<List<PlayerData>>(JsonSerializer.Serialize(ScoreView.PlayerDatas_Team2));
+                var team1Player = new List<PlayerData>();
 
-                foreach (var item in team1Player)
+                lock (ScoreView.PlayerDatas_Team1) 
                 {
-                    CheckBreakLifePlayer(item);
+                    team1Player.AddRange(ScoreView.PlayerDatas_Team1.Values);
+                }
+                lock (ScoreView.PlayerDatas_Team2) 
+                {
+                    team1Player.AddRange(ScoreView.PlayerDatas_Team2.Values);
                 }
 
-                foreach (var item in team2Player)
+                foreach (var item in team1Player)
                 {
                     CheckBreakLifePlayer(item);
                 }

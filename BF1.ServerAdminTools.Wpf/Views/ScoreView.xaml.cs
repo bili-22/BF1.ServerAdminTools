@@ -129,8 +129,6 @@ namespace BF1.ServerAdminTools.Wpf.Views
 
                 Globals.Server_SpectatorList.Clear();
 
-                Array.Clear(_tdCP.WeaponSlot, 0, _tdCP.WeaponSlot.Length);
-
                 _statisticData_Team1.MaxPlayerCount = 0;
                 _statisticData_Team1.PlayerCount = 0;
                 _statisticData_Team1.Rank150PlayerCount = 0;
@@ -143,7 +141,13 @@ namespace BF1.ServerAdminTools.Wpf.Views
                 _statisticData_Team2.AllKillCount = 0;
                 _statisticData_Team2.AllDeadCount = 0;
 
-                Globals.BreakRuleInfo_PlayerList.Clear();
+                if (!Globals.IsToolInit)
+                {
+                    Thread.Sleep(1000);
+                    continue;
+                }
+
+                Array.Clear(_tdCP.WeaponSlot, 0, _tdCP.WeaponSlot.Length);
 
                 //////////////////////////////// 自己数据 ////////////////////////////////
 

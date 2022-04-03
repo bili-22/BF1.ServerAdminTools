@@ -88,11 +88,167 @@
     <Style x:Key="ColumnHeaderStyle" TargetType="{x:Type DataGridColumnHeader}">
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="Background" Value="#CC1E88E5" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type DataGridColumnHeader}">
+                    <Grid SnapsToDevicePixels="True">
+                        <Border
+                            x:Name="HeaderBorder"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition MaxHeight="7" />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <Border Grid.RowSpan="2" Padding="{TemplateBinding Padding}">
+                                    <ContentPresenter
+                                        x:Name="HeaderContent"
+                                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                        Content="{TemplateBinding Content}"
+                                        ContentStringFormat="{TemplateBinding ContentStringFormat}"
+                                        ContentTemplate="{TemplateBinding ContentTemplate}"
+                                        RecognizesAccessKey="True"
+                                        SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                        TextBlock.FontSize="{TemplateBinding FontSize}"
+                                        TextBlock.Foreground="White" />
+                                </Border>
+                            </Grid>
+                        </Border>
+                        <Canvas>
+                            <Thumb x:Name="PART_TopHeaderGripper">
+                                <Thumb.Style>
+                                    <Style TargetType="{x:Type Thumb}">
+                                        <Setter Property="Canvas.Right" Value="-9" />
+                                        <Setter Property="Width" Value="18" />
+                                        <Setter Property="Height" Value="{Binding ActualHeight, RelativeSource={RelativeSource TemplatedParent}}" />
+                                        <Setter Property="Padding" Value="0" />
+                                        <Setter Property="Background" Value="White" />
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="{x:Type Thumb}">
+                                                    <Border Padding="{TemplateBinding Padding}" Background="Transparent">
+                                                        <Rectangle
+                                                            Width="1"
+                                                            HorizontalAlignment="Center"
+                                                            Fill="{TemplateBinding Background}" />
+                                                    </Border>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </Thumb.Style>
+                            </Thumb>
+                        </Canvas>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="HeaderBorder" Property="Background" Value="#CCAB312D" />
+                            <Setter TargetName="PART_TopHeaderGripper" Property="Background" Value="Transparent" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="HeaderBorder" Property="Background" Value="#CC1E88E5" />
+                            <Setter TargetName="PART_TopHeaderGripper" Property="Visibility" Value="Hidden" />
+                        </Trigger>
+                        <Trigger Property="Height" Value="Auto">
+                            <Setter Property="MinHeight" Value="20" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.5" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="ToolTip" Value="点击标题排序（只能排序一次）" />
             </Trigger>
         </Style.Triggers>
     </Style>
-
+    <Style x:Key="ColumnHeaderStyle1" TargetType="{x:Type DataGridColumnHeader}">
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="Background" Value="#CCAB312D" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type DataGridColumnHeader}">
+                    <Grid SnapsToDevicePixels="True">
+                        <Border
+                            x:Name="HeaderBorder"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition MaxHeight="7" />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <Border Grid.RowSpan="2" Padding="{TemplateBinding Padding}">
+                                    <ContentPresenter
+                                        x:Name="HeaderContent"
+                                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                        Content="{TemplateBinding Content}"
+                                        ContentStringFormat="{TemplateBinding ContentStringFormat}"
+                                        ContentTemplate="{TemplateBinding ContentTemplate}"
+                                        RecognizesAccessKey="True"
+                                        SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                        TextBlock.FontSize="{TemplateBinding FontSize}"
+                                        TextBlock.Foreground="White" />
+                                </Border>
+                            </Grid>
+                        </Border>
+                        <Canvas>
+                            <Thumb x:Name="PART_TopHeaderGripper">
+                                <Thumb.Style>
+                                    <Style TargetType="{x:Type Thumb}">
+                                        <Setter Property="Canvas.Right" Value="-9" />
+                                        <Setter Property="Width" Value="18" />
+                                        <Setter Property="Height" Value="{Binding ActualHeight, RelativeSource={RelativeSource TemplatedParent}}" />
+                                        <Setter Property="Padding" Value="0" />
+                                        <Setter Property="Background" Value="White" />
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="{x:Type Thumb}">
+                                                    <Border Padding="{TemplateBinding Padding}" Background="Transparent">
+                                                        <Rectangle
+                                                            Width="1"
+                                                            HorizontalAlignment="Center"
+                                                            Fill="{TemplateBinding Background}" />
+                                                    </Border>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </Thumb.Style>
+                            </Thumb>
+                        </Canvas>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="HeaderBorder" Property="Background" Value="#CC1E88E5" />
+                            <Setter TargetName="PART_TopHeaderGripper" Property="Background" Value="Transparent" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="HeaderBorder" Property="Background" Value="#CCAB312D" />
+                            <Setter TargetName="PART_TopHeaderGripper" Property="Visibility" Value="Hidden" />
+                        </Trigger>
+                        <Trigger Property="Height" Value="Auto">
+                            <Setter Property="MinHeight" Value="20" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.5" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="ToolTip" Value="点击标题排序（只能排序一次）" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
 </ResourceDictionary>
