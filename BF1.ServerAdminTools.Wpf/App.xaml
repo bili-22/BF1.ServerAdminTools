@@ -1,0 +1,33 @@
+﻿<Application
+    x:Class="BF1.ServerAdminTools.Wpf.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    StartupUri="AuthWindow.xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Assets/Styles/ColorStyle.xaml" />
+
+                <ResourceDictionary Source="Assets/Styles/GlobalStyle.xaml" />
+                <ResourceDictionary Source="Assets/Styles/ScrollViewerStyle.xaml" />
+                <ResourceDictionary Source="Assets/Styles/WindowStyle.xaml" />
+
+                <ResourceDictionary Source="Assets/Styles/TextBlockStyle.xaml" />
+                <ResourceDictionary Source="Assets/Styles/ButtonStyle.xaml" />
+                <ResourceDictionary Source="Assets/Styles/CheckBoxStyle.xaml" />
+
+                <ResourceDictionary Source="Assets/Styles/TextBoxStyle.xaml" />
+                <ResourceDictionary Source="Assets/Styles/BorderStyle.xaml" />
+                <ResourceDictionary Source="Assets/Styles/ImageStyle.xaml" />
+
+                <ResourceDictionary Source="Assets/Styles/ListBoxStyle.xaml" />
+                <ResourceDictionary Source="Assets/Styles/DataGridStyle.xaml" />
+
+                <ResourceDictionary Source="Assets/Styles/TabControlStyle.xaml" />
+                
+                <ResourceDictionary Source="Assets/Styles/ListView.xaml" />
+
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
