@@ -980,7 +980,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
 
                 foreach (var item in Globals.NowKick)
                 {
-                    if (!PlayerDatas_Team1.ContainsKey(item.Key) && PlayerDatas_Team2.ContainsKey(item.Key))
+                    if (!PlayerDatas_Team1.ContainsKey(item.Key) && !PlayerDatas_Team2.ContainsKey(item.Key))
                     {
                         //已经不在服务器了
                         remove.Add(item.Key);
