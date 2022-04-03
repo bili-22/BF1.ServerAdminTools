@@ -52,6 +52,7 @@
                         </Grid.RowDefinitions>
                         <Image
                             VerticalAlignment="Center"
+                            RenderOptions.BitmapScalingMode="HighQuality"
                             Source="{Binding mapImage}"
                             Stretch="UniformToFill" />
                         <UniformGrid Grid.Row="1" Rows="2">
@@ -127,6 +128,7 @@
                         <Image
                             Grid.Column="1"
                             VerticalAlignment="Center"
+                            RenderOptions.BitmapScalingMode="HighQuality"
                             Source="{Binding avatar}"
                             Stretch="UniformToFill" />
                         <UniformGrid Grid.Column="2" Rows="2">
@@ -202,6 +204,7 @@
                         <Image
                             Grid.Column="1"
                             VerticalAlignment="Center"
+                            RenderOptions.BitmapScalingMode="HighQuality"
                             Source="{Binding Avatar}"
                             Stretch="UniformToFill" />
                         <UniformGrid Grid.Column="2" Rows="2">

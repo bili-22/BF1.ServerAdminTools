@@ -146,7 +146,7 @@ namespace BF1.ServerAdminTools.Features.Utils
             {
                 int count = kills / 100;
 
-                return $"★ {count}";
+                return $"{count}";
             }
         }
 

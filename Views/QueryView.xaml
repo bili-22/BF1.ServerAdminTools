@@ -125,7 +125,16 @@
                                             Orientation="Horizontal">
                                             <TextBlock FontWeight="Bold" Text="{Binding weaponName}" />
                                             <TextBlock
+                                                Name="star"
                                                 Margin="10,0,0,0"
+                                                FontSize="14"
+                                                Foreground="#ffa200"
+                                                Style="{StaticResource TextBlockStyle_IconFontNormal}"
+                                                Text="&#xe670;" />
+                                            <TextBlock
+                                                Name="star_count"
+                                                Margin="5,0,0,0"
+                                                VerticalAlignment="Center"
                                                 Foreground="#ffa200"
                                                 Text="{Binding star}" />
                                         </StackPanel>
@@ -155,6 +164,11 @@
                                     </UniformGrid>
                                 </Grid>
                             </Border>
+                            <DataTemplate.Triggers>
+                                <DataTrigger Binding="{Binding ElementName=star_count, Path=Text}" Value="">
+                                    <Setter TargetName="star" Property="Visibility" Value="Collapsed" />
+                                </DataTrigger>
+                            </DataTemplate.Triggers>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
@@ -199,7 +213,16 @@
                                             Orientation="Horizontal">
                                             <TextBlock FontWeight="Bold" Text="{Binding vehicleName}" />
                                             <TextBlock
+                                                Name="star"
                                                 Margin="10,0,0,0"
+                                                FontSize="14"
+                                                Foreground="#ffa200"
+                                                Style="{StaticResource TextBlockStyle_IconFontNormal}"
+                                                Text="&#xe670;" />
+                                            <TextBlock
+                                                Name="star_count"
+                                                Margin="5,0,0,0"
+                                                VerticalAlignment="Center"
                                                 Foreground="#ffa200"
                                                 Text="{Binding star}" />
                                         </StackPanel>
@@ -219,6 +242,11 @@
                                     </UniformGrid>
                                 </Grid>
                             </Border>
+                            <DataTemplate.Triggers>
+                                <DataTrigger Binding="{Binding ElementName=star_count, Path=Text}" Value="">
+                                    <Setter TargetName="star" Property="Visibility" Value="Collapsed" />
+                                </DataTrigger>
+                            </DataTemplate.Triggers>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>

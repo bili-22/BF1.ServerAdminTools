@@ -10,8 +10,13 @@
     mc:Ignorable="d">
 
     <Grid>
-        <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+        <ScrollViewer Style="{StaticResource ScrollViewerStyle_VAHD}">
             <StackPanel Margin="10" Orientation="Vertical">
+                <StackPanel.Resources>
+                    <Style TargetType="{x:Type Image}">
+                        <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality" />
+                    </Style>
+                </StackPanel.Resources>
                 <Image
                     Height="150"
                     Margin="5"

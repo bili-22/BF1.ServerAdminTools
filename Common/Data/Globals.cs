@@ -60,6 +60,6 @@
         /// <summary>
         /// 是否显示中文武器名称
         /// </summary>
-        public static bool IsShowCHSWeaponName = false;
+        public static bool IsShowCHSWeaponName = true;
     }
 }
