@@ -63,7 +63,7 @@ namespace BF1.ServerAdminTools.Views
                         item.url = PlayerUtil.GetTempImagePath(item.url, "maps");
                         item.platform = new Random().Next(25, 45).ToString();
 
-                        Dispatcher.Invoke(DispatcherPriority.Background, new Action(() =>
+                        this.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() =>
                         {
                             ServersItems.Add(item);
                         }));

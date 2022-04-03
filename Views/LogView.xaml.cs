@@ -1,6 +1,5 @@
 ﻿using BF1.ServerAdminTools.Common.Data;
 using BF1.ServerAdminTools.Common.Helper;
-using BF1.ServerAdminTools.Features.Data;
 
 namespace BF1.ServerAdminTools.Views
 {
@@ -24,94 +23,11 @@ namespace BF1.ServerAdminTools.Views
             _dAddChangeTeamInfo = AddChangeTeamLog;
 
             MainWindow.ClosingDisposeEvent += MainWindow_ClosingDisposeEvent;
-
-            var thread0 = new Thread(CheckPlayerChangeTeam);
-            thread0.IsBackground = true;
-            thread0.Start();
         }
 
         private void MainWindow_ClosingDisposeEvent()
         {
 
-        }
-
-        private void CheckPlayerChangeTeam()
-        {
-            var Player_Team1 = new List<PlayerData>();
-            var Player_Team2 = new List<PlayerData>();
-
-            while (true)
-            {
-                if (string.IsNullOrEmpty(Globals.GameId))
-                    continue;
-
-                if (ScoreView.PlayerDatas_Team1.Count == 0 && ScoreView.PlayerDatas_Team2.Count == 0)
-                    continue;
-
-                // 通过序列化来实现深拷贝，但是要注意结果可能为null
-                var temp_Player_Team1 = JsonSerializer.Deserialize<List<PlayerData>>(JsonSerializer.Serialize(ScoreView.PlayerDatas_Team1));
-                var temp_Player_Team2 = JsonSerializer.Deserialize<List<PlayerData>>(JsonSerializer.Serialize(ScoreView.PlayerDatas_Team2));
-
-                // 第一次初始化
-                if (Player_Team1.Count == 0 && Player_Team2.Count == 0)
-                {
-                    if (temp_Player_Team1 != null)
-                        Player_Team1 = temp_Player_Team1;
-                    if (temp_Player_Team2 != null)
-                        Player_Team2 = temp_Player_Team2;
-                    continue;
-                }
-
-                if (temp_Player_Team2 != null)
-                {
-                    // 变量保存的队伍1玩家列表
-                    foreach (var item in Player_Team1)
-                    {
-                        // 查询这个玩家是否在目前的队伍2中
-                        int index = temp_Player_Team2.FindIndex(var => var.PersonaId == item.PersonaId);
-                        if (index != -1)
-                        {
-                            _dAddChangeTeamInfo(new ChangeTeamInfo()
-                            {
-                                Rank = item.Rank,
-                                Name = item.Name,
-                                PersonaId = item.PersonaId,
-                                Status = "从 队伍1 更换到 队伍2",
-                                Time = DateTime.Now
-                            });
-                            break;
-                        }
-                    }
-                }
-
-                if (temp_Player_Team1 != null)
-                {
-                    // 变量保存的队伍2玩家列表
-                    foreach (var item in Player_Team2)
-                    {
-                        // 查询这个玩家是否在目前的队伍1中
-                        int index = temp_Player_Team1.FindIndex(var => var.PersonaId == item.PersonaId);
-                        if (index != -1)
-                        {
-                            _dAddChangeTeamInfo(new ChangeTeamInfo()
-                            {
-                                Rank = item.Rank,
-                                Name = item.Name,
-                                PersonaId = item.PersonaId,
-                                Status = "从 队伍2 更换到 队伍1",
-                                Time = DateTime.Now
-                            });
-                            break;
-                        }
-                    }
-                }
-
-                // 更新保存的数据
-                Player_Team1 = temp_Player_Team1;
-                Player_Team2 = temp_Player_Team2;
-
-                Thread.Sleep(1000);
-            }
         }
 
         /////////////////////////////////////////////////////
@@ -135,7 +51,7 @@ namespace BF1.ServerAdminTools.Views
 
         private void AddKickOKLog(BreakRuleInfo info)
         {
-            Application.Current.Dispatcher.BeginInvoke(() =>
+            this.Dispatcher.Invoke(() =>
             {
                 if (TextBox_KickOKLog.LineCount >= 1000)
                 {
@@ -154,7 +70,7 @@ namespace BF1.ServerAdminTools.Views
 
         private void AddKickNOLog(BreakRuleInfo info)
         {
-            Application.Current.Dispatcher.BeginInvoke(() =>
+            this.Dispatcher.Invoke(() =>
             {
                 if (TextBox_KickNOLog.LineCount >= 1000)
                 {
@@ -173,7 +89,7 @@ namespace BF1.ServerAdminTools.Views
 
         private void AddChangeTeamLog(ChangeTeamInfo info)
         {
-            Application.Current.Dispatcher.BeginInvoke(() =>
+            this.Dispatcher.Invoke(() =>
             {
                 if (TextBox_ChangeTeamLog.LineCount >= 1000)
                 {

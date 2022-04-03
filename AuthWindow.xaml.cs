@@ -5,9 +5,9 @@ using BF1.ServerAdminTools.Common.Helper;
 using BF1.ServerAdminTools.Features.API;
 using BF1.ServerAdminTools.Features.API2;
 using BF1.ServerAdminTools.Features.Core;
+using BF1.ServerAdminTools.Features.Chat;
 using BF1.ServerAdminTools.Features.Data;
 using Chinese;
-using BF1.ServerAdminTools.Features.Chat;
 
 namespace BF1.ServerAdminTools
 {
@@ -52,7 +52,7 @@ namespace BF1.ServerAdminTools
                         LoggerHelper.Error($"获取新版本信息失败");
                         Task.Delay(2000).Wait();
 
-                        Application.Current.Dispatcher.BeginInvoke(() =>
+                        this.Dispatcher.Invoke(() =>
                         {
                             Application.Current.Shutdown();
                         });
@@ -71,7 +71,7 @@ namespace BF1.ServerAdminTools
                         CoreUtil.Notice_Address = updateInfo.Address.Notice;
                         CoreUtil.Change_Address = updateInfo.Address.Change;
 
-                        Application.Current.Dispatcher.Invoke(() =>
+                        this.Dispatcher.Invoke(() =>
                         {
                             this.Hide();
                         });
@@ -80,7 +80,7 @@ namespace BF1.ServerAdminTools
                             $"\n\n{updateInfo.Latest.Date}\n{updateInfo.Latest.Change}\n\n强烈建议大家使用最新版本！点否退出程序",
                             "发现新版本", MessageBoxButton.YesNo, MessageBoxImage.Information) == MessageBoxResult.Yes)
                         {
-                            Application.Current.Dispatcher.Invoke(() =>
+                            this.Dispatcher.Invoke(() =>
                             {
                                 var UpdateWindow = new UpdateWindow(updateInfo);
                                 UpdateWindow.Owner = MainWindow.ThisMainWindow;
@@ -92,7 +92,7 @@ namespace BF1.ServerAdminTools
                         else
                         {
                             // 强制更新版本，否则退出程序
-                            Application.Current.Dispatcher.Invoke(() =>
+                            this.Dispatcher.Invoke(() =>
                             {
                                 Application.Current.Shutdown();
                                 return;
@@ -101,8 +101,9 @@ namespace BF1.ServerAdminTools
                     }
                     else
                     {
-                        UpdateState("正在为您营造个性化体验...");
                         LoggerHelper.Info($"当前已是最新版本 {CoreUtil.ServerVersionInfo}");
+
+                        UpdateState("正在为您营造个性化体验...");
 
                         // 检测目标程序有没有启动
                         if (!ProcessUtil.IsBf1Run())
@@ -111,7 +112,7 @@ namespace BF1.ServerAdminTools
                             LoggerHelper.Error("未发现战地1进程");
                             Task.Delay(2000).Wait();
 
-                            Application.Current.Dispatcher.Invoke(() =>
+                            this.Dispatcher.Invoke(() =>
                             {
                                 Application.Current.Shutdown();
                                 return;
@@ -129,7 +130,7 @@ namespace BF1.ServerAdminTools
                             LoggerHelper.Error("战地1内存模块初始化失败");
                             Task.Delay(2000).Wait();
 
-                            Application.Current.Dispatcher.Invoke(() =>
+                            this.Dispatcher.Invoke(() =>
                             {
                                 Application.Current.Shutdown();
                                 return;
@@ -175,7 +176,7 @@ namespace BF1.ServerAdminTools
                         ChatMsg.AllocateMemory();
                         LoggerHelper.Info($"中文聊天指针分配成功 0x{ChatMsg.GetAllocateMemoryAddress():x}");
 
-                        Application.Current.Dispatcher.Invoke(() =>
+                        this.Dispatcher.Invoke(() =>
                         {
                             MainWindow mainWindow = new MainWindow();
                             mainWindow.Show();
@@ -192,7 +193,7 @@ namespace BF1.ServerAdminTools
                     LoggerHelper.Error($"发生了未知异常", ex);
                     Task.Delay(2000).Wait();
 
-                    Application.Current.Dispatcher.BeginInvoke(() =>
+                    this.Dispatcher.Invoke(() =>
                     {
                         Application.Current.Shutdown();
                     });
@@ -202,7 +203,7 @@ namespace BF1.ServerAdminTools
 
         private void UpdateState(string msg)
         {
-            Application.Current.Dispatcher.BeginInvoke(() =>
+            this.Dispatcher.Invoke(() =>
             {
                 TextBlock_State.Text = msg;
             });

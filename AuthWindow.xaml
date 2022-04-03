@@ -71,7 +71,6 @@
             Foreground="White"
             Opacity="0.7"
             Text="1.0.0.0" />
-
         <TextBlock
             x:Name="TextBlock_BuildDate"
             Margin="5"

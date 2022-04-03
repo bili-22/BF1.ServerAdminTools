@@ -105,7 +105,7 @@ namespace BF1.ServerAdminTools.Windows
 
         private void DownloadProgressChanged(object sender, Downloader.DownloadProgressChangedEventArgs e)
         {
-            Dispatcher.Invoke(() =>
+            this.Dispatcher.Invoke(() =>
             {
                 ProgressBar_Update.Minimum = 0;
                 ProgressBar_Update.Maximum = e.TotalBytesToReceive;
@@ -121,7 +121,7 @@ namespace BF1.ServerAdminTools.Windows
 
         private void DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
         {
-            Dispatcher.Invoke(() =>
+            this.Dispatcher.Invoke(() =>
             {
                 if (e.Error != null)
                 {

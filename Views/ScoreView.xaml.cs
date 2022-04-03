@@ -506,7 +506,7 @@ namespace BF1.ServerAdminTools.Views
 
                 ////////////////////////////////////////////////////////////////////////////////
 
-                Application.Current?.Dispatcher.Invoke(() =>
+                this.Dispatcher.Invoke(() =>
                 {
                     UpdateDataGridTeam1();
                     UpdateDataGridTeam2();
@@ -522,18 +522,8 @@ namespace BF1.ServerAdminTools.Views
 
                 ////////////////////////////////////////////////////////////////////////////////
 
-                // 暴露给外部使用
-                PlayerDatas_Team1.Clear();
-                foreach (var item in PlayerList_Team1)
-                {
-                    PlayerDatas_Team1.Add(item);
-                }
-
-                PlayerDatas_Team2.Clear();
-                foreach (var item in PlayerList_Team2)
-                {
-                    PlayerDatas_Team2.Add(item);
-                }
+                // 检测换边玩家
+                CheckPlayerChangeTeam();
 
                 ////////////////////////////////////////////////////////////////////////////////
 
@@ -918,6 +908,7 @@ namespace BF1.ServerAdminTools.Views
             }
         }
 
+        // 自动踢出违规玩家
         private void AutoKickBreakPlayer()
         {
             // 自动踢出违规玩家开关
@@ -994,7 +985,7 @@ namespace BF1.ServerAdminTools.Views
             }
         }
 
-        // 自动踢出违规玩家
+        // 自动踢出玩家
         private async void AutoKickPlayer(BreakRuleInfo info)
         {
             var result = await BF1API.AdminKickPlayer(info.PersonaId.ToString(), info.Reason);
@@ -1019,7 +1010,7 @@ namespace BF1.ServerAdminTools.Views
         }
         #endregion
 
-        // 手动踢出违规玩家
+        // 手动踢出玩家
         private async void KickPlayer(string reason)
         {
             if (!string.IsNullOrEmpty(Globals.SessionId))
@@ -1048,6 +1039,83 @@ namespace BF1.ServerAdminTools.Views
             {
                 MainWindow._SetOperatingState(2, "请先获取玩家SessionID");
             }
+        }
+
+        // 检测换边玩家
+        private void CheckPlayerChangeTeam()
+        {
+            // 如果玩家没有进入服务器，不检测跳变情况
+            if (string.IsNullOrEmpty(Globals.GameId))
+                return;
+
+            // 如果双方玩家人数都为0，不检测跳变情况
+            if (PlayerList_Team1.Count == 0 && PlayerList_Team2.Count == 0)
+                return;
+
+            // 第一次初始化
+            if (PlayerDatas_Team1.Count == 0 && PlayerDatas_Team2.Count == 0)
+            {
+                PlayerDatas_Team1 = CopyList(PlayerList_Team1);
+                PlayerDatas_Team2 = CopyList(PlayerList_Team2);
+                return;
+            }
+
+            // 变量保存的队伍1玩家列表
+            foreach (var item in PlayerDatas_Team2)
+            {
+                // 查询这个玩家是否在目前的队伍2中
+                int index = PlayerList_Team1.FindIndex(var => var.PersonaId == item.PersonaId);
+                if (index != -1)
+                {
+                    LogView._dAddChangeTeamInfo(new ChangeTeamInfo()
+                    {
+                        Rank = item.Rank,
+                        Name = item.Name,
+                        PersonaId = item.PersonaId,
+                        Status = "从 队伍1 更换到 队伍2",
+                        Time = DateTime.Now
+                    });
+                    break;
+                }
+            }
+
+            // 变量保存的队伍2玩家列表
+            foreach (var item in PlayerDatas_Team1)
+            {
+                // 查询这个玩家是否在目前的队伍1中
+                int index = PlayerList_Team2.FindIndex(var => var.PersonaId == item.PersonaId);
+                if (index != -1)
+                {
+                    LogView._dAddChangeTeamInfo(new ChangeTeamInfo()
+                    {
+                        Rank = item.Rank,
+                        Name = item.Name,
+                        PersonaId = item.PersonaId,
+                        Status = "从 队伍2 更换到 队伍1",
+                        Time = DateTime.Now
+                    });
+                    break;
+                }
+            }
+
+            // 更新保存的数据
+            PlayerDatas_Team1 = CopyList(PlayerList_Team1);
+            PlayerDatas_Team2 = CopyList(PlayerList_Team2);
+        }
+
+        // 深复制
+        private List<PlayerData> CopyList(List<PlayerData> originalList)
+        {
+            List<PlayerData> list = new List<PlayerData>();
+            foreach (var item in originalList)
+            {
+                PlayerData data = new PlayerData();
+                data.Rank = item.Rank;
+                data.Name = item.Name;
+                data.PersonaId = item.PersonaId;
+                list.Add(data);
+            }
+            return list;
         }
 
         #region 右键菜单事件

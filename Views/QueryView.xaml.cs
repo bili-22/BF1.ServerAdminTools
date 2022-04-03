@@ -172,7 +172,7 @@ namespace BF1.ServerAdminTools.Views
                         item.star = PlayerUtil.GetKillStar(item.kills);
                         item.time = PlayerUtil.GetPlayTime(item.timeEquipped);
 
-                        Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+                        this.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() =>
                         {
                             WeaponsItems.Add(item);
                         }));
@@ -191,7 +191,7 @@ namespace BF1.ServerAdminTools.Views
                         item.star = PlayerUtil.GetKillStar(item.kills);
                         item.time = PlayerUtil.GetPlayTime(item.timeIn);
 
-                        Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+                        this.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() =>
                         {
                             VehiclesItems.Add(item);
                         }));
@@ -202,7 +202,7 @@ namespace BF1.ServerAdminTools.Views
 
         private void AddPlayerInfo(string str)
         {
-            Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+            this.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() =>
             {
                 PlayerDatas.Add(str);
             }));
