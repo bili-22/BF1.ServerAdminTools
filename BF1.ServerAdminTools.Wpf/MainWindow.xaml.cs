@@ -124,6 +124,16 @@ namespace BF1.ServerAdminTools.Wpf
                 // 获取软件运行时间
                 MainModel.AppRunTime = "运行时间 : " + CoreUtil.ExecDateDiff(Origin_DateTime, DateTime.Now);
 
+                if (Globals.IsGameRun)
+                {
+                    if (!ProcessUtil.IsAppRun(CoreUtil.TargetAppName))
+                    {
+                        Globals.IsToolInit = false;
+                        Globals.IsGameRun = false;
+                        MsgBoxUtil.WarningMsgBox("游戏已退出，功能已关闭");
+                    }
+                }
+
                 Thread.Sleep(1000);
             }
         }

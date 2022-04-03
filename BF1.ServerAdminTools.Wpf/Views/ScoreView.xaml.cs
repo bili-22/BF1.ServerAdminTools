@@ -7,6 +7,7 @@ using BF1.ServerAdminTools.Wpf.Extension;
 using BF1.ServerAdminTools.Wpf.Models;
 using BF1.ServerAdminTools.Wpf.Utils;
 using BF1.ServerAdminTools.Wpf.Windows;
+using System.Collections.Generic;
 
 namespace BF1.ServerAdminTools.Wpf.Views
 {
@@ -18,16 +19,13 @@ namespace BF1.ServerAdminTools.Wpf.Views
         public ServerInfoModel ServerInfoModel { get; set; }
         public PlayerOtherModel PlayerOtherModel { get; set; }
 
-        private List<PlayerData> PlayerList_All = new List<PlayerData>();
-        private List<PlayerData> PlayerList_Team0 = new List<PlayerData>();
-        private List<PlayerData> PlayerList_Team1 = new List<PlayerData>();
-        private List<PlayerData> PlayerList_Team2 = new List<PlayerData>();
+        private List<PlayerData> PlayerList_All = new();
+        private List<PlayerData> PlayerList_Team0 = new();
+        private List<PlayerData> PlayerList_Team1 = new();
+        private List<PlayerData> PlayerList_Team2 = new();
 
-        public readonly static List<PlayerData> PlayerDatas_Team1 = new();
-        public readonly static List<PlayerData> PlayerDatas_Team2 = new();
-
-        // 正在执行踢人请求的玩家列表，保留指定时间秒数
-        private List<BreakRuleInfo> Kicking_PlayerList = new List<BreakRuleInfo>();
+        public static Dictionary<long, PlayerData> PlayerDatas_Team1 { get; } = new();
+        public static Dictionary<long, PlayerData> PlayerDatas_Team2 { get; } = new();
 
         public ObservableCollection<PlayerListModel> DataGrid_PlayerList_Team1 { get; set; }
         public ObservableCollection<PlayerListModel> DataGrid_PlayerList_Team2 { get; set; }
@@ -282,8 +280,8 @@ namespace BF1.ServerAdminTools.Wpf.Views
 
                 foreach (var item in PlayerList_All)
                 {
-                    item.Admin = PlayerUtil.CheckAdminVIP(item.PersonaId.ToString(), Globals.Server_AdminList);
-                    item.VIP = PlayerUtil.CheckAdminVIP(item.PersonaId.ToString(), Globals.Server_VIPList);
+                    item.Admin = PlayerUtil.CheckAdminVIP(item.PersonaId, Globals.Server_AdminList);
+                    item.VIP = PlayerUtil.CheckAdminVIP(item.PersonaId, Globals.Server_VIPList);
 
                     if (item.TeamID == 0)
                     {
@@ -296,12 +294,6 @@ namespace BF1.ServerAdminTools.Wpf.Views
                     else if (item.TeamID == 2)
                     {
                         PlayerList_Team2.Add(item);
-                    }
-
-                    // 检查违规玩家
-                    if (item.TeamID == 1 || item.TeamID == 2)
-                    {
-                        CheckPlayerIsBreakRule(item);
                     }
                 }
 
@@ -519,17 +511,45 @@ namespace BF1.ServerAdminTools.Wpf.Views
 
                 ////////////////////////////////////////////////////////////////////////////////
 
-                // 自动踢出违规玩家
-                AutoKickBreakPlayer();
+                // 暴露给外部使用
+                lock (PlayerDatas_Team1)
+                {
+                    PlayerDatas_Team1.Clear();
+                    foreach (var item in PlayerList_Team1)
+                    {
+                        if (PlayerDatas_Team1.ContainsKey(item.PersonaId))
+                            PlayerDatas_Team1[item.PersonaId] = item;
+                        else
+                            PlayerDatas_Team1.Add(item.PersonaId, item);
+                    }
+                }
+                lock (PlayerDatas_Team2)
+                {
+                    PlayerDatas_Team2.Clear();
+                    foreach (var item in PlayerList_Team2)
+                    {
+                        if (PlayerDatas_Team2.ContainsKey(item.PersonaId))
+                            PlayerDatas_Team2[item.PersonaId] = item;
+                        else
+                            PlayerDatas_Team2.Add(item.PersonaId, item);
+                    }
+                }
+
+                LogView.Semaphore.Release();
 
                 ////////////////////////////////////////////////////////////////////////////////
 
-                // 暴露给外部使用
-                PlayerDatas_Team1.Clear();
-                PlayerDatas_Team1.AddRange(PlayerList_Team1);
-                PlayerDatas_Team2.Clear();
-                PlayerDatas_Team2.AddRange(PlayerList_Team2);
-                LogView.Semaphore.Release();
+                // 检查违规玩家
+                foreach (var item in PlayerDatas_Team1.Values)
+                {
+                    CheckPlayerIsBreakRule(item);
+                }
+                foreach (var item in PlayerDatas_Team2.Values)
+                {
+                    CheckPlayerIsBreakRule(item);
+                }
+                // 自动踢出违规玩家
+                AutoKickBreakPlayer();
 
                 ////////////////////////////////////////////////////////////////////////////////
 
@@ -704,214 +724,225 @@ namespace BF1.ServerAdminTools.Wpf.Views
         {
             if (Globals.NowRule == null)
                 return;
-            int index = Globals.BreakRuleInfo_PlayerList.FindIndex(val => val.PersonaId == playerData.PersonaId);
-            if (index == -1)
+
+            if (Globals.BreakRuleInfo_PlayerList.ContainsKey(playerData.PersonaId))
+                return;
+
+            // 限制玩家击杀
+            if (playerData.Kill > Globals.NowRule.MaxKill && Globals.NowRule.MaxKill != 0)
             {
-                // 限制玩家击杀
-                if (playerData.Kill > Globals.NowRule.MaxKill && Globals.NowRule.MaxKill != 0)
+                Globals.BreakRuleInfo_PlayerList.Add(playerData.PersonaId, new BreakRuleInfo
                 {
-                    Globals.BreakRuleInfo_PlayerList.Add(new BreakRuleInfo
+                    Name = playerData.Name,
+                    PersonaId = playerData.PersonaId,
+                    Reason = $"Kill Limit {Globals.NowRule.MaxKill:0}",
+                    Type = BreakType.Kill_Limit
+                });
+
+                return;
+            }
+
+            // 计算玩家KD最低击杀数
+            if (playerData.Kill > Globals.NowRule.KDFlag && Globals.NowRule.KDFlag != 0)
+            {
+                // 限制玩家KD
+                if (playerData.KD > Globals.NowRule.MaxKD && Globals.NowRule.MaxKD != 0.00f)
+                {
+                    Globals.BreakRuleInfo_PlayerList.Add(playerData.PersonaId, new BreakRuleInfo
                     {
                         Name = playerData.Name,
                         PersonaId = playerData.PersonaId,
-                        Reason = $"Kill Limit {Globals.NowRule.MaxKill:0}"
+                        Reason = $"KD Limit {Globals.NowRule.MaxKD:0.00}",
+                        Type = BreakType.KD_Limit
                     });
-
-                    return;
                 }
 
-                // 计算玩家KD最低击杀数
-                if (playerData.Kill > Globals.NowRule.KDFlag && Globals.NowRule.KDFlag != 0)
+                return;
+            }
+
+            // 计算玩家KPM比条件
+            if (playerData.Kill > Globals.NowRule.KPMFlag && Globals.NowRule.KPMFlag != 0)
+            {
+                // 限制玩家KPM
+                if (playerData.KPM > Globals.NowRule.MaxKPM && Globals.NowRule.MaxKPM != 0.00f)
                 {
-                    // 限制玩家KD
-                    if (playerData.KD > Globals.NowRule.MaxKD && Globals.NowRule.MaxKD != 0.00f)
-                    {
-                        Globals.BreakRuleInfo_PlayerList.Add(new BreakRuleInfo
-                        {
-                            Name = playerData.Name,
-                            PersonaId = playerData.PersonaId,
-                            Reason = $"KD Limit {Globals.NowRule.MaxKD:0.00}"
-                        });
-                    }
-
-                    return;
-                }
-
-                // 计算玩家KPM比条件
-                if (playerData.Kill > Globals.NowRule.KPMFlag && Globals.NowRule.KPMFlag != 0)
-                {
-                    // 限制玩家KPM
-                    if (playerData.KPM > Globals.NowRule.MaxKPM && Globals.NowRule.MaxKPM != 0.00f)
-                    {
-                        Globals.BreakRuleInfo_PlayerList.Add(new BreakRuleInfo
-                        {
-                            Name = playerData.Name,
-                            PersonaId = playerData.PersonaId,
-                            Reason = $"KPM Limit {Globals.NowRule.MaxKPM:0.00}"
-                        });
-                    }
-
-                    return;
-                }
-
-                // 限制玩家最低等级
-                if (playerData.Rank < Globals.NowRule.MinRank && Globals.NowRule.MinRank != 0 && playerData.Rank != 0)
-                {
-                    Globals.BreakRuleInfo_PlayerList.Add(new BreakRuleInfo
+                    Globals.BreakRuleInfo_PlayerList.Add(playerData.PersonaId, new BreakRuleInfo
                     {
                         Name = playerData.Name,
                         PersonaId = playerData.PersonaId,
-                        Reason = $"Min Rank Limit {Globals.NowRule.MinRank:0}"
+                        Reason = $"KPM Limit {Globals.NowRule.MaxKPM:0.00}",
+                        Type = BreakType.KPM_Limit
                     });
-
-                    return;
                 }
 
-                // 限制玩家最高等级
-                if (playerData.Rank > Globals.NowRule.MaxRank && Globals.NowRule.MaxRank != 0 && playerData.Rank != 0)
+                return;
+            }
+
+            // 限制玩家最低等级
+            if (playerData.Rank < Globals.NowRule.MinRank && Globals.NowRule.MinRank != 0 && playerData.Rank != 0)
+            {
+                Globals.BreakRuleInfo_PlayerList.Add(playerData.PersonaId, new BreakRuleInfo
                 {
-                    Globals.BreakRuleInfo_PlayerList.Add(new BreakRuleInfo
-                    {
-                        Name = playerData.Name,
-                        PersonaId = playerData.PersonaId,
-                        Reason = $"Max Rank Limit {Globals.NowRule.MaxRank:0}"
-                    });
+                    Name = playerData.Name,
+                    PersonaId = playerData.PersonaId,
+                    Reason = $"Min Rank Limit {Globals.NowRule.MinRank:0}",
+                    Type = BreakType.Min_Rank_Limit
+                });
 
-                    return;
-                }
+                return;
+            }
 
-                // 从武器规则里遍历限制武器名称
-                for (int i = 0; i < Globals.NowRule.Custom_WeaponList.Count; i++)
+            // 限制玩家最高等级
+            if (playerData.Rank > Globals.NowRule.MaxRank && Globals.NowRule.MaxRank != 0 && playerData.Rank != 0)
+            {
+                Globals.BreakRuleInfo_PlayerList.Add(playerData.PersonaId, new BreakRuleInfo
                 {
-                    var item = Globals.NowRule.Custom_WeaponList[i];
+                    Name = playerData.Name,
+                    PersonaId = playerData.PersonaId,
+                    Reason = $"Max Rank Limit {Globals.NowRule.MaxRank:0}",
+                    Type = BreakType.Max_Rank_Limit
+                });
 
-                    // K 弹
-                    if (item == "_KBullet")
+                return;
+            }
+
+            // 从武器规则里遍历限制武器名称
+            for (int i = 0; i < Globals.NowRule.Custom_WeaponList.Count; i++)
+            {
+                var item = Globals.NowRule.Custom_WeaponList[i];
+
+                // K 弹
+                if (item == "_KBullet")
+                {
+                    if (playerData.WeaponS0.Contains("_KBullet") ||
+                        playerData.WeaponS1.Contains("_KBullet") ||
+                        playerData.WeaponS2.Contains("_KBullet") ||
+                        playerData.WeaponS3.Contains("_KBullet") ||
+                        playerData.WeaponS4.Contains("_KBullet") ||
+                        playerData.WeaponS5.Contains("_KBullet") ||
+                        playerData.WeaponS6.Contains("_KBullet") ||
+                        playerData.WeaponS7.Contains("_KBullet"))
                     {
-                        if (playerData.WeaponS0.Contains("_KBullet") ||
-                            playerData.WeaponS1.Contains("_KBullet") ||
-                            playerData.WeaponS2.Contains("_KBullet") ||
-                            playerData.WeaponS3.Contains("_KBullet") ||
-                            playerData.WeaponS4.Contains("_KBullet") ||
-                            playerData.WeaponS5.Contains("_KBullet") ||
-                            playerData.WeaponS6.Contains("_KBullet") ||
-                            playerData.WeaponS7.Contains("_KBullet"))
-                        {
-                            Globals.BreakRuleInfo_PlayerList.Add(new BreakRuleInfo
-                            {
-                                Name = playerData.Name,
-                                PersonaId = playerData.PersonaId,
-                                Reason = $"Weapon Limit K Bullet"
-                            });
-
-                            return;
-                        }
-                    }
-
-                    // 步枪手榴弹（破片）
-                    if (item == "_RGL_Frag")
-                    {
-                        if (playerData.WeaponS0.Contains("_RGL_Frag") ||
-                            playerData.WeaponS1.Contains("_RGL_Frag") ||
-                            playerData.WeaponS2.Contains("_RGL_Frag") ||
-                            playerData.WeaponS3.Contains("_RGL_Frag") ||
-                            playerData.WeaponS4.Contains("_RGL_Frag") ||
-                            playerData.WeaponS5.Contains("_RGL_Frag") ||
-                            playerData.WeaponS6.Contains("_RGL_Frag") ||
-                            playerData.WeaponS7.Contains("_RGL_Frag"))
-                        {
-                            Globals.BreakRuleInfo_PlayerList.Add(new BreakRuleInfo
-                            {
-                                Name = playerData.Name,
-                                PersonaId = playerData.PersonaId,
-                                Reason = $"Weapon Limit RGL Frag"
-                            });
-
-                            return;
-                        }
-                    }
-
-                    // 步枪手榴弹（烟雾）
-                    if (item == "_RGL_Smoke")
-                    {
-                        if (playerData.WeaponS0.Contains("_RGL_Smoke") ||
-                            playerData.WeaponS1.Contains("_RGL_Smoke") ||
-                            playerData.WeaponS2.Contains("_RGL_Smoke") ||
-                            playerData.WeaponS3.Contains("_RGL_Smoke") ||
-                            playerData.WeaponS4.Contains("_RGL_Smoke") ||
-                            playerData.WeaponS5.Contains("_RGL_Smoke") ||
-                            playerData.WeaponS6.Contains("_RGL_Smoke") ||
-                            playerData.WeaponS7.Contains("_RGL_Smoke"))
-                        {
-                            Globals.BreakRuleInfo_PlayerList.Add(new BreakRuleInfo
-                            {
-                                Name = playerData.Name,
-                                PersonaId = playerData.PersonaId,
-                                Reason = $"Weapon Limit RGL Smoke"
-                            });
-
-                            return;
-                        }
-                    }
-
-                    // 步枪手榴弹（高爆）
-                    if (item == "_RGL_HE")
-                    {
-                        if (playerData.WeaponS0.Contains("_RGL_HE") ||
-                            playerData.WeaponS1.Contains("_RGL_HE") ||
-                            playerData.WeaponS2.Contains("_RGL_HE") ||
-                            playerData.WeaponS3.Contains("_RGL_HE") ||
-                            playerData.WeaponS4.Contains("_RGL_HE") ||
-                            playerData.WeaponS5.Contains("_RGL_HE") ||
-                            playerData.WeaponS6.Contains("_RGL_HE") ||
-                            playerData.WeaponS7.Contains("_RGL_HE"))
-                        {
-                            Globals.BreakRuleInfo_PlayerList.Add(new BreakRuleInfo
-                            {
-                                Name = playerData.Name,
-                                PersonaId = playerData.PersonaId,
-                                Reason = $"Weapon Limit RGL HE"
-                            });
-
-                            return;
-                        }
-                    }
-
-                    if (playerData.WeaponS0 == item ||
-                        playerData.WeaponS1 == item ||
-                        playerData.WeaponS2 == item ||
-                        playerData.WeaponS3 == item ||
-                        playerData.WeaponS4 == item ||
-                        playerData.WeaponS5 == item ||
-                        playerData.WeaponS6 == item ||
-                        playerData.WeaponS7 == item)
-                    {
-                        Globals.BreakRuleInfo_PlayerList.Add(new BreakRuleInfo
+                        Globals.BreakRuleInfo_PlayerList.Add(playerData.PersonaId, new BreakRuleInfo
                         {
                             Name = playerData.Name,
                             PersonaId = playerData.PersonaId,
-                            Reason = $"Weapon Limit {PlayerUtil.GetWeaponShortTxt(item)}"
+                            Reason = $"Weapon Limit K Bullet",
+                            Type = BreakType.Weapon_Limit
                         });
 
                         return;
                     }
                 }
 
-                // 黑名单
-                for (int i = 0; i < Globals.NowRule.Custom_BlackList.Count; i++)
+                // 步枪手榴弹（破片）
+                if (item == "_RGL_Frag")
                 {
-                    var item = Globals.NowRule.Custom_BlackList[i];
-                    if (playerData.Name == item)
+                    if (playerData.WeaponS0.Contains("_RGL_Frag") ||
+                        playerData.WeaponS1.Contains("_RGL_Frag") ||
+                        playerData.WeaponS2.Contains("_RGL_Frag") ||
+                        playerData.WeaponS3.Contains("_RGL_Frag") ||
+                        playerData.WeaponS4.Contains("_RGL_Frag") ||
+                        playerData.WeaponS5.Contains("_RGL_Frag") ||
+                        playerData.WeaponS6.Contains("_RGL_Frag") ||
+                        playerData.WeaponS7.Contains("_RGL_Frag"))
                     {
-                        Globals.BreakRuleInfo_PlayerList.Add(new BreakRuleInfo
+                        Globals.BreakRuleInfo_PlayerList.Add(playerData.PersonaId, new BreakRuleInfo
                         {
                             Name = playerData.Name,
                             PersonaId = playerData.PersonaId,
-                            Reason = "Server Black List"
+                            Reason = $"Weapon Limit RGL Frag",
+                            Type = BreakType.Weapon_Limit
                         });
 
                         return;
                     }
+                }
+
+                // 步枪手榴弹（烟雾）
+                if (item == "_RGL_Smoke")
+                {
+                    if (playerData.WeaponS0.Contains("_RGL_Smoke") ||
+                        playerData.WeaponS1.Contains("_RGL_Smoke") ||
+                        playerData.WeaponS2.Contains("_RGL_Smoke") ||
+                        playerData.WeaponS3.Contains("_RGL_Smoke") ||
+                        playerData.WeaponS4.Contains("_RGL_Smoke") ||
+                        playerData.WeaponS5.Contains("_RGL_Smoke") ||
+                        playerData.WeaponS6.Contains("_RGL_Smoke") ||
+                        playerData.WeaponS7.Contains("_RGL_Smoke"))
+                    {
+                        Globals.BreakRuleInfo_PlayerList.Add(playerData.PersonaId, new BreakRuleInfo
+                        {
+                            Name = playerData.Name,
+                            PersonaId = playerData.PersonaId,
+                            Reason = $"Weapon Limit RGL Smoke",
+                            Type = BreakType.Weapon_Limit
+                        });
+
+                        return;
+                    }
+                }
+
+                // 步枪手榴弹（高爆）
+                if (item == "_RGL_HE")
+                {
+                    if (playerData.WeaponS0.Contains("_RGL_HE") ||
+                        playerData.WeaponS1.Contains("_RGL_HE") ||
+                        playerData.WeaponS2.Contains("_RGL_HE") ||
+                        playerData.WeaponS3.Contains("_RGL_HE") ||
+                        playerData.WeaponS4.Contains("_RGL_HE") ||
+                        playerData.WeaponS5.Contains("_RGL_HE") ||
+                        playerData.WeaponS6.Contains("_RGL_HE") ||
+                        playerData.WeaponS7.Contains("_RGL_HE"))
+                    {
+                        Globals.BreakRuleInfo_PlayerList.Add(playerData.PersonaId, new BreakRuleInfo
+                        {
+                            Name = playerData.Name,
+                            PersonaId = playerData.PersonaId,
+                            Reason = $"Weapon Limit RGL HE",
+                            Type = BreakType.Weapon_Limit
+                        });
+
+                        return;
+                    }
+                }
+
+                if (playerData.WeaponS0 == item ||
+                    playerData.WeaponS1 == item ||
+                    playerData.WeaponS2 == item ||
+                    playerData.WeaponS3 == item ||
+                    playerData.WeaponS4 == item ||
+                    playerData.WeaponS5 == item ||
+                    playerData.WeaponS6 == item ||
+                    playerData.WeaponS7 == item)
+                {
+                    Globals.BreakRuleInfo_PlayerList.Add(playerData.PersonaId, new BreakRuleInfo
+                    {
+                        Name = playerData.Name,
+                        PersonaId = playerData.PersonaId,
+                        Reason = $"Weapon Limit {PlayerUtil.GetWeaponShortTxt(item)}",
+                        Type = BreakType.Weapon_Limit
+                    });
+
+                    return;
+                }
+            }
+
+            // 黑名单
+            for (int i = 0; i < Globals.NowRule.Custom_BlackList.Count; i++)
+            {
+                var item = Globals.NowRule.Custom_BlackList[i];
+                if (playerData.Name == item)
+                {
+                    Globals.BreakRuleInfo_PlayerList.Add(playerData.PersonaId, new BreakRuleInfo
+                    {
+                        Name = playerData.Name,
+                        PersonaId = playerData.PersonaId,
+                        Reason = "Server Black List",
+                        Type = BreakType.Server_Black_List
+                    });
+
+                    return;
                 }
             }
         }
@@ -922,72 +953,50 @@ namespace BF1.ServerAdminTools.Wpf.Views
             if (Globals.AutoKickBreakPlayer)
             {
                 // 遍历违规玩家列表
-                for (int i = 0; i < Globals.BreakRuleInfo_PlayerList.Count; i++)
+                foreach (var item in Globals.BreakRuleInfo_PlayerList)
                 {
-                    var item = Globals.BreakRuleInfo_PlayerList[i];
-                    item.Flag = -1;
+                    // 先检查踢出玩家是否在 正在踢人 列表中
+                    if (Globals.NowKick.ContainsKey(item.Key))
+                        continue;
+                    // 该玩家不在 正在踢人 列表中
+                    item.Value.Flag = -1;
 
                     // 跳过管理员
-                    if (!Globals.Server_AdminList.Contains(item.PersonaId.ToString()))
+                    if (!Globals.Server_AdminList.Contains(item.Key))
                     {
                         // 跳过白名单玩家
-                        if (!Globals.NowRule.Custom_WhiteList.Contains(item.Name))
+                        if (!Globals.NowRule.Custom_WhiteList.Contains(item.Value.Name))
                         {
-                            // 先检查踢出玩家是否在 正在踢人 列表中
-                            int index = Kicking_PlayerList.FindIndex(var => var.PersonaId == item.PersonaId);
-                            if (index == -1)
-                            {
-                                // 该玩家不在 正在踢人 列表中
-                                item.Flag = 0;
-                                item.Status = "正在踢人中...";
-                                item.Time = DateTime.Now;
-                                Kicking_PlayerList.Add(item);
-
-                                // 执行踢人请求
-                                AutoKickPlayer(item);
-                            }
+                            item.Value.Time = DateTime.Now;
+                            // 执行踢人请求
+                            AutoKickPlayer(item.Value);
                         }
                     }
                 }
+                //本轮踢出指令已发完
+                Globals.BreakRuleInfo_PlayerList.Clear();
 
-                for (int i = 0; i < Kicking_PlayerList.Count; i++)
+                List<long> remove = new();
+
+                foreach (var item in Globals.NowKick)
                 {
-                    if (Kicking_PlayerList.Count != 0)
+                    if (!PlayerDatas_Team1.ContainsKey(item.Key) && PlayerDatas_Team2.ContainsKey(item.Key))
                     {
-                        // 如果超过15秒，清空列表
-                        if (CoreUtil.DiffSeconds(Kicking_PlayerList[i].Time, DateTime.Now) > 10)
-                        {
-                            Kicking_PlayerList.Clear();
-                            break;
-                        }
+                        //已经不在服务器了
+                        remove.Add(item.Key);
+                        continue;
                     }
+                    // 如果超过15秒还在服务器
+                    if (CoreUtil.DiffSeconds(item.Value.Time, DateTime.Now) > 15)
+                    {
+                        Globals.BreakRuleInfo_PlayerList.Add(item.Key, item.Value);
+                        break;
+                    }
+                }
 
-                    if (Kicking_PlayerList.Count != 0 && Kicking_PlayerList[i].Flag == 0)
-                    {
-                        // 如果超过3秒，移除 正在踢人 玩家
-                        if (CoreUtil.DiffSeconds(Kicking_PlayerList[i].Time, DateTime.Now) > 3)
-                        {
-                            Kicking_PlayerList.RemoveAt(i);
-                        }
-                    }
-
-                    if (Kicking_PlayerList.Count != 0 && Kicking_PlayerList[i].Flag == 1)
-                    {
-                        // 如果超过10秒，移除 踢出成功 玩家
-                        if (CoreUtil.DiffSeconds(Kicking_PlayerList[i].Time, DateTime.Now) > 10)
-                        {
-                            Kicking_PlayerList.RemoveAt(i);
-                        }
-                    }
-
-                    if (Kicking_PlayerList.Count != 0 && Kicking_PlayerList[i].Flag == 2)
-                    {
-                        // 如果超过5秒，移除 踢出失败 玩家
-                        if (CoreUtil.DiffSeconds(Kicking_PlayerList[i].Time, DateTime.Now) > 5)
-                        {
-                            Kicking_PlayerList.RemoveAt(i);
-                        }
-                    }
+                foreach (var item in remove)
+                {
+                    Globals.NowKick.Remove(item);
                 }
             }
         }
@@ -995,6 +1004,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
         // 自动踢出违规玩家
         private async void AutoKickPlayer(BreakRuleInfo info)
         {
+            Globals.NowKick.Add(info.PersonaId, info);
             var result = await BF1API.API.BF1API.AdminKickPlayer(info.PersonaId.ToString(), info.Reason);
 
             if (result.IsSuccess)

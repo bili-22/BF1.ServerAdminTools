@@ -1,5 +1,10 @@
 ﻿namespace BF1.ServerAdminTools.Common.Data;
 
+public enum BreakType
+{
+    Kill_Limit, KD_Limit, KPM_Limit, Rank_Limit, Weapon_Limit, Life_KD_Limit, Life_KPM_Limit, Life_Weapon_Star_Limit, Life_Vehicle_Star_Limit, Min_Rank_Limit, Max_Rank_Limit, Server_Black_List
+}
+
 public record BreakRuleInfo
 {
     /// <summary>
@@ -10,6 +15,10 @@ public record BreakRuleInfo
     /// 被踢出的玩家数字ID
     /// </summary>
     public long PersonaId { get; set; }
+    /// <summary>
+    /// 被踢出原因
+    /// </summary>
+    public BreakType Type { get; set; }
     /// <summary>
     /// 被踢出的原因
     /// </summary>

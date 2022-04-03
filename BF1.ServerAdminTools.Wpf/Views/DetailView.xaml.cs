@@ -125,7 +125,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
                             displayName = fullServerDetails.result.rspInfo.owner.displayName,
                             personaId = fullServerDetails.result.rspInfo.owner.personaId
                         });
-                        Globals.Server_AdminList.Add(fullServerDetails.result.rspInfo.owner.personaId);
+                        Globals.Server_AdminList.Add(long.Parse(fullServerDetails.result.rspInfo.owner.personaId));
                         Globals.Server_Admin2List.Add(fullServerDetails.result.rspInfo.owner.displayName);
                         // 管理员列表
                         foreach (var item in fullServerDetails.result.rspInfo.adminList)
@@ -138,7 +138,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
                                 personaId = item.personaId
                             });
 
-                            Globals.Server_AdminList.Add(item.personaId);
+                            Globals.Server_AdminList.Add(long.Parse(item.personaId));
                             Globals.Server_Admin2List.Add(item.displayName);
                         }
 
@@ -154,7 +154,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
                                 personaId = item.personaId
                             });
 
-                            Globals.Server_VIPList.Add(item.personaId);
+                            Globals.Server_VIPList.Add(long.Parse(item.personaId));
                         }
 
                         // BAN列表

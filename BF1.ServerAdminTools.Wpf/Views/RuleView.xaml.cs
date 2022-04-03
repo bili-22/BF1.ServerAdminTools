@@ -1,4 +1,5 @@
 ﻿using BF1.ServerAdminTools.BF1API.API.RespJson;
+using BF1.ServerAdminTools.BF1API.Core;
 using BF1.ServerAdminTools.BF1API.Data;
 using BF1.ServerAdminTools.BF1API.Utils;
 using BF1.ServerAdminTools.Common.Data;
@@ -15,7 +16,6 @@ namespace BF1.ServerAdminTools.Wpf.Views
     /// </summary>
     public partial class RuleView : UserControl
     {
-
         /// <summary>
         /// 是否已经执行
         /// </summary>
@@ -205,20 +205,31 @@ namespace BF1.ServerAdminTools.Wpf.Views
 
         private void AutoKickLifeBreakPlayer()
         {
+            List<PlayerData> players = new();
             while (true)
             {
                 // 自动踢出违规玩家
                 if (Globals.AutoKickBreakPlayer)
                 {
-                    var team1Player = JsonSerializer.Deserialize<List<PlayerData>>(JsonSerializer.Serialize(ScoreView.PlayerDatas_Team1));
-                    var team2Player = JsonSerializer.Deserialize<List<PlayerData>>(JsonSerializer.Serialize(ScoreView.PlayerDatas_Team2));
-
-                    foreach (var item in team1Player)
+                    if (!Globals.IsGameRun || !Globals.IsToolInit)
                     {
-                        CheckBreakLifePlayer(item);
+                        Globals.AutoKickBreakPlayer = false;
+                        Dispatcher.Invoke(() =>
+                        {
+                            CheckBox_RunAutoKick.IsChecked = false;
+                        });
                     }
 
-                    foreach (var item in team2Player)
+                    lock (ScoreView.PlayerDatas_Team1)
+                    {
+                        players.AddRange(ScoreView.PlayerDatas_Team1.Values);
+                    }
+                    lock (ScoreView.PlayerDatas_Team2)
+                    {
+                        players.AddRange(ScoreView.PlayerDatas_Team2.Values);
+                    }
+
+                    foreach (var item in players)
                     {
                         CheckBreakLifePlayer(item);
                     }
@@ -231,11 +242,15 @@ namespace BF1.ServerAdminTools.Wpf.Views
         private async void CheckBreakLifePlayer(PlayerData data)
         {
             // 跳过管理员
-            if (Globals.Server_AdminList.Contains(data.PersonaId.ToString()))
+            if (Globals.Server_AdminList.Contains(data.PersonaId))
                 return;
 
             // 跳过白名单玩家
             if (Globals.NowRule.Custom_WhiteList.Contains(data.Name))
+                return;
+
+            //已经不在服务器了
+            if (!ScoreView.PlayerDatas_Team1.ContainsKey(data.PersonaId) && !ScoreView.PlayerDatas_Team2.ContainsKey(data.PersonaId))
                 return;
 
             var resultTemp = await BF1API.API.BF1API.GetCareerForOwnedGamesByPersonaId(data.PersonaId.ToString());
@@ -264,7 +279,8 @@ namespace BF1.ServerAdminTools.Wpf.Views
                     {
                         Name = data.Name,
                         PersonaId = data.PersonaId,
-                        Reason = $"Life KD Limit {Globals.NowRule.LifeMaxKD:0.00}"
+                        Reason = $"Life KD Limit {Globals.NowRule.LifeMaxKD:0.00}",
+                        Type = BreakType.Life_KD_Limit
                     });
 
                     return;
@@ -277,7 +293,8 @@ namespace BF1.ServerAdminTools.Wpf.Views
                     {
                         Name = data.Name,
                         PersonaId = data.PersonaId,
-                        Reason = $"Life KPM Limit {Globals.NowRule.LifeMaxKPM:0.00}"
+                        Reason = $"Life KPM Limit {Globals.NowRule.LifeMaxKPM:0.00}",
+                        Type = BreakType.Life_KPM_Limit
                     });
 
                     return;
@@ -290,7 +307,8 @@ namespace BF1.ServerAdminTools.Wpf.Views
                     {
                         Name = data.Name,
                         PersonaId = data.PersonaId,
-                        Reason = $"Life Weapon Star Limit {Globals.NowRule.LifeMaxWeaponStar:0}"
+                        Reason = $"Life Weapon Star Limit {Globals.NowRule.LifeMaxWeaponStar:0}",
+                        Type = BreakType.Life_Weapon_Star_Limit
                     });
 
                     return;
@@ -303,7 +321,8 @@ namespace BF1.ServerAdminTools.Wpf.Views
                     {
                         Name = data.Name,
                         PersonaId = data.PersonaId,
-                        Reason = $"Life Vehicle Star Limit {Globals.NowRule.LifeMaxVehicleStar:0}"
+                        Reason = $"Life Vehicle Star Limit {Globals.NowRule.LifeMaxVehicleStar:0}",
+                        Type = BreakType.Life_Vehicle_Star_Limit
                     });
 
                     return;
@@ -683,60 +702,50 @@ namespace BF1.ServerAdminTools.Wpf.Views
             int index = 1;
             AppendLog($"========== 违规类型 : 限制玩家最高击杀 ==========");
             AppendLog("");
-            foreach (var item in Globals.BreakRuleInfo_PlayerList)
+            var list = Globals.BreakRuleInfo_PlayerList.Values.Where(item => item.Type is BreakType.Kill_Limit);
+            foreach (var item in list)
             {
-                if (item.Reason.Contains("Kill Limit"))
-                {
-                    AppendLog($"玩家ID {index++} : {item.Name}");
-                }
+                AppendLog($"玩家ID {index++} : {item.Name}");
             }
             AppendLog("\n");
 
             index = 1;
             AppendLog($"========== 违规类型 : 限制玩家最高KD ==========");
             AppendLog("");
-            foreach (var item in Globals.BreakRuleInfo_PlayerList)
+            list = Globals.BreakRuleInfo_PlayerList.Values.Where(item => item.Type is BreakType.KD_Limit);
+            foreach (var item in list)
             {
-                if (item.Reason.Contains("KD Limit"))
-                {
-                    AppendLog($"玩家ID {index++} : {item.Name}");
-                }
+                AppendLog($"玩家ID {index++} : {item.Name}");
             }
             AppendLog("\n");
 
             index = 1;
             AppendLog($"========== 违规类型 : 限制玩家最高KPM ==========");
             AppendLog("");
-            foreach (var item in Globals.BreakRuleInfo_PlayerList)
+            list = Globals.BreakRuleInfo_PlayerList.Values.Where(item => item.Type is BreakType.KPM_Limit);
+            foreach (var item in list)
             {
-                if (item.Reason.Contains("KPM Limit"))
-                {
-                    AppendLog($"玩家ID {index++} : {item.Name}");
-                }
+                AppendLog($"玩家ID {index++} : {item.Name}");
             }
             AppendLog("\n");
 
             index = 1;
             AppendLog($"========== 违规类型 : 限制玩家等级范围 ==========");
             AppendLog("");
-            foreach (var item in Globals.BreakRuleInfo_PlayerList)
+            list = Globals.BreakRuleInfo_PlayerList.Values.Where(item => item.Type is BreakType.Rank_Limit);
+            foreach (var item in list)
             {
-                if (item.Reason.Contains("Rank Limit"))
-                {
-                    AppendLog($"玩家ID {index++} : {item.Name}");
-                }
+                AppendLog($"玩家ID {index++} : {item.Name}");
             }
             AppendLog("\n");
 
             index = 1;
             AppendLog($"========== 违规类型 : 限制玩家使用武器 ==========");
             AppendLog("");
-            foreach (var item in Globals.BreakRuleInfo_PlayerList)
+            list = Globals.BreakRuleInfo_PlayerList.Values.Where(item => item.Type is BreakType.Weapon_Limit);
+            foreach (var item in list)
             {
-                if (item.Reason.Contains("Weapon Limit"))
-                {
-                    AppendLog($"玩家ID {index++} : {item.Name}");
-                }
+                AppendLog($"玩家ID {index++} : {item.Name}");
             }
             AppendLog("\n");
 
@@ -961,6 +970,30 @@ namespace BF1.ServerAdminTools.Wpf.Views
             AppendLog($"{DateTime.Now:yyyy/MM/dd HH:mm:ss}");
 
             AppendLog("");
+            AppendLog("正在检查游戏是否启动...");
+            if (!Globals.IsGameRun)
+            {
+                if (!ProcessUtil.IsAppRun(CoreUtil.TargetAppName))
+                {
+                    AppendLog("游戏没有启动");
+                    return false;
+                }
+            }
+            AppendLog("游戏已启动");
+
+            AppendLog("");
+            AppendLog("正在检查游戏是否启动...");
+            if (!Globals.IsToolInit)
+            {
+                if (!Memory.Initialize(CoreUtil.TargetAppName))
+                {
+                    AppendLog("战地1内存模块初始化失败");
+                    return false;
+                }
+            }
+            AppendLog("战地1内存模块初始化完成");
+
+            AppendLog("");
             AppendLog("正在检查玩家是否应用规则...");
             if (!isApplyRule)
             {
@@ -1073,10 +1106,14 @@ namespace BF1.ServerAdminTools.Wpf.Views
             ProcessUtil.OpenLink(FileUtil.Base);
         }
 
+        /// <summary>
+        /// 手动T人
+        /// </summary>
+        /// <param name="info"></param>
         private async void ManualKickPlayer(BreakRuleInfo info)
         {
             // 跳过管理员
-            if (!Globals.Server_AdminList.Contains(info.Name))
+            if (!Globals.Server_AdminList.Contains(info.PersonaId))
             {
                 // 白名单玩家不踢出
                 if (!Globals.NowRule.Custom_WhiteList.Contains(info.Name))

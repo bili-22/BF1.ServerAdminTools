@@ -1,4 +1,5 @@
-﻿using BF1.ServerAdminTools.Common.Helper;
+﻿using BF1.ServerAdminTools.Common.Data;
+using BF1.ServerAdminTools.Common.Helper;
 
 namespace BF1.ServerAdminTools.BF1API.Core;
 
@@ -13,6 +14,7 @@ public static class Memory
     {
         try
         {
+            Globals.IsToolInit = false;
             LoggerHelper.Info($"目标程序名称 {ProcessName}");
             var pArray = Process.GetProcessesByName(ProcessName);
             if (pArray.Length > 0)
@@ -32,6 +34,7 @@ public static class Memory
                 {
                     processBaseAddress = process.MainModule.BaseAddress.ToInt64();
                     LoggerHelper.Info($"目标程序主模块基址 0x{processBaseAddress:x}");
+                    Globals.IsToolInit = true;
                     return true;
                 }
                 else

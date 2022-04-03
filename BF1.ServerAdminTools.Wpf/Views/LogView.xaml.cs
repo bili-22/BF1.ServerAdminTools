@@ -66,11 +66,11 @@ namespace BF1.ServerAdminTools.Wpf.Views
                 {
                     foreach (var item in ScoreView.PlayerDatas_Team1)
                     {
-                        Player_Team1.Add(item.PersonaId, item);
+                        Player_Team1.Add(item.Key, item.Value);
                     }
                     foreach (var item in ScoreView.PlayerDatas_Team2)
                     {
-                        Player_Team2.Add(item.PersonaId, item);
+                        Player_Team2.Add(item.Key, item.Value);
                     }
                     continue;
                 }
@@ -80,17 +80,11 @@ namespace BF1.ServerAdminTools.Wpf.Views
                 // 更新保存的数据
                 foreach (var item in ScoreView.PlayerDatas_Team1)
                 {
-                    if (New_Player_Team1.ContainsKey(item.PersonaId))
-                        New_Player_Team1[item.PersonaId] = item;
-                    else
-                        New_Player_Team1.Add(item.PersonaId, item);
+                    New_Player_Team1.Add(item.Key, item.Value);
                 }
                 foreach (var item in ScoreView.PlayerDatas_Team2)
                 {
-                    if (New_Player_Team2.ContainsKey(item.PersonaId))
-                        New_Player_Team2[item.PersonaId] = item;
-                    else
-                        New_Player_Team2.Add(item.PersonaId, item);
+                    New_Player_Team2.Add(item.Key, item.Value);
                 }
 
                 // 变量保存的队伍1玩家列表
@@ -126,19 +120,13 @@ namespace BF1.ServerAdminTools.Wpf.Views
                 Player_Team1.Clear();
                 Player_Team2.Clear();
                 // 更新保存的数据
-                foreach (var item in ScoreView.PlayerDatas_Team1)
+                foreach (var item in New_Player_Team1)
                 {
-                    if (Player_Team1.ContainsKey(item.PersonaId))
-                        Player_Team1[item.PersonaId] = item;
-                    else
-                        Player_Team1.Add(item.PersonaId, item);
+                    Player_Team1.Add(item.Key, item.Value);
                 }
-                foreach (var item in ScoreView.PlayerDatas_Team2)
+                foreach (var item in New_Player_Team2)
                 {
-                    if (Player_Team2.ContainsKey(item.PersonaId))
-                        Player_Team2[item.PersonaId] = item;
-                    else
-                        Player_Team2.Add(item.PersonaId, item);
+                    Player_Team2.Add(item.Key, item.Value);
                 }
             }
         }

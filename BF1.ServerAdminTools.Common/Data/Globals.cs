@@ -14,28 +14,30 @@ public static class Globals
     /// <summary>
     /// 服务器管理员
     /// </summary>
-
-    public static List<string> Server_AdminList = new();
+    public static List<long> Server_AdminList { get; } = new();
     /// <summary>
     /// 服务器管理员
     /// </summary>
-    public static List<string> Server_Admin2List = new();
+    public static List<string> Server_Admin2List { get; } = new();
     /// <summary>
     /// 服务器VIP
     /// </summary>
-    public static List<string> Server_VIPList = new();
+    public static List<long> Server_VIPList { get; } = new();
 
 
     /// <summary>
     /// 保存违规玩家列表信息
     /// </summary>
-    public static readonly List<BreakRuleInfo> BreakRuleInfo_PlayerList = new();
-
+    public static Dictionary<long, BreakRuleInfo> BreakRuleInfo_PlayerList { get; } = new();
+    /// <summary>
+    /// 已经发送踢出的ID
+    /// </summary>
+    public static Dictionary<long, BreakRuleInfo> NowKick { get; } = new();
 
     /// <summary>
     /// 观战玩家列表
     /// </summary>
-    public static readonly List<SpectatorInfo> Server_SpectatorList = new();
+    public static List<SpectatorInfo> Server_SpectatorList { get; } = new();
 
     ///////////////////////////////////////////////////////
 
