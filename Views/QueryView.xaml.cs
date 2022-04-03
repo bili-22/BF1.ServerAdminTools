@@ -136,7 +136,7 @@ namespace BF1.ServerAdminTools.Views
 
                 AddPlayerInfo($"步兵KD : {all.infantryKillDeath}");
                 AddPlayerInfo($"步兵KPM : {all.infantryKillsPerMinute}");
-                AddPlayerInfo($"最佳兵种 : {all.bestClass}");
+                AddPlayerInfo($"最佳兵种 : {ChsUtil.ToSimplifiedChinese(all.bestClass)}");
 
                 AddPlayerInfo("");
 

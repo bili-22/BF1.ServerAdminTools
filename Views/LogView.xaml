@@ -30,7 +30,16 @@
                 Foreground="Green"
                 HorizontalScrollBarVisibility="Disabled"
                 IsReadOnly="True"
-                VerticalScrollBarVisibility="Auto" />
+                VerticalScrollBarVisibility="Auto">
+                <TextBox.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem
+                            x:Name="MenuItem_ClearKickOKLog"
+                            Click="MenuItem_ClearKickOKLog_Click"
+                            Header="清空踢人成功日志" />
+                    </ContextMenu>
+                </TextBox.ContextMenu>
+            </TextBox>
             <TextBox
                 x:Name="TextBox_KickNOLog"
                 Margin="2.5,5,2.5,5"
@@ -39,7 +48,16 @@
                 Foreground="Red"
                 HorizontalScrollBarVisibility="Disabled"
                 IsReadOnly="True"
-                VerticalScrollBarVisibility="Auto" />
+                VerticalScrollBarVisibility="Auto">
+                <TextBox.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem
+                            x:Name="MenuItem_ClearKickNOLog"
+                            Click="MenuItem_ClearKickNOLog_Click"
+                            Header="清空踢人失败日志" />
+                    </ContextMenu>
+                </TextBox.ContextMenu>
+            </TextBox>
             <TextBox
                 x:Name="TextBox_ChangeTeamLog"
                 Margin="2.5,5,5,5"
@@ -47,7 +65,16 @@
                 Cursor="Arrow"
                 HorizontalScrollBarVisibility="Disabled"
                 IsReadOnly="True"
-                VerticalScrollBarVisibility="Auto" />
+                VerticalScrollBarVisibility="Auto">
+                <TextBox.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem
+                            x:Name="MenuItem_ClearChangeTeamLog"
+                            Click="MenuItem_ClearChangeTeamLog_Click"
+                            Header="清空更换队伍日志" />
+                    </ContextMenu>
+                </TextBox.ContextMenu>
+            </TextBox>
         </UniformGrid>
     </Grid>
 </UserControl>

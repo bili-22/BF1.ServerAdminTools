@@ -877,26 +877,26 @@ namespace BF1.ServerAdminTools.Views
             AppendLog("正在检查玩家是否应用规则...");
             if (!isApplyRule)
             {
-                AppendLog("玩家没有正确应用规则，操作取消");
+                AppendLog("❌ 玩家没有正确应用规则，操作取消");
                 MainWindow._SetOperatingState(2, $"环境检查未通过，操作取消");
                 return false;
             }
             else
             {
-                AppendLog("玩家已正确应用规则");
+                AppendLog("✔ 玩家已正确应用规则");
             }
 
             AppendLog("");
             AppendLog("正在检查 SessionId 是否正确...");
             if (string.IsNullOrEmpty(Globals.SessionId))
             {
-                AppendLog("SessionId为空，操作取消");
+                AppendLog("❌ SessionId为空，操作取消");
                 MainWindow._SetOperatingState(2, $"环境检查未通过，操作取消");
                 return false;
             }
             else
             {
-                AppendLog("SessionId 检查正确");
+                AppendLog("✔ SessionId 检查正确");
             }
 
             AppendLog("");
@@ -904,39 +904,39 @@ namespace BF1.ServerAdminTools.Views
             var result = await BF1API.GetWelcomeMessage();
             if (!result.IsSuccess)
             {
-                AppendLog("SessionId 已过期，请重新获取，操作取消");
+                AppendLog("❌ SessionId 已过期，请重新获取，操作取消");
                 MainWindow._SetOperatingState(2, $"环境检查未通过，操作取消");
                 return false;
             }
             else
             {
-                AppendLog("SessionId 检查有效，可以使用");
+                AppendLog("✔ SessionId 检查有效，可以使用");
             }
 
             AppendLog("");
             AppendLog("正在检查 GameId 是否正确...");
             if (string.IsNullOrEmpty(Globals.GameId))
             {
-                AppendLog("GameId 为空，操作取消");
+                AppendLog("❌ GameId 为空，操作取消");
                 MainWindow._SetOperatingState(2, $"环境检查未通过，操作取消");
                 return false;
             }
             else
             {
-                AppendLog("GameId检查正确");
+                AppendLog("✔ GameId检查正确");
             }
 
             AppendLog("");
             AppendLog("正在检查 服务器管理员列表 是否正确...");
             if (Globals.Server_AdminList.Count == 0)
             {
-                AppendLog("服务器管理员列表 为空，请先获取当前服务器详情数据，操作取消");
+                AppendLog("❌ 服务器管理员列表 为空，请先获取当前服务器详情数据，操作取消");
                 MainWindow._SetOperatingState(2, $"环境检查未通过，操作取消");
                 return false;
             }
             else
             {
-                AppendLog("服务器管理员列表 检查正确");
+                AppendLog("✔ 服务器管理员列表 检查正确");
             }
 
             AppendLog("");
@@ -946,13 +946,13 @@ namespace BF1.ServerAdminTools.Views
             string playerName = firstMessage.Substring(0, firstMessage.IndexOf("，"));
             if (!Globals.Server_Admin2List.Contains(playerName))
             {
-                AppendLog("玩家不是当前服务器管理，操作取消");
+                AppendLog("❌ 玩家不是当前服务器管理，操作取消");
                 MainWindow._SetOperatingState(2, $"环境检查未通过，操作取消");
                 return false;
             }
             else
             {
-                AppendLog("已确认玩家为当前服务器管理");
+                AppendLog("✔ 已确认玩家为当前服务器管理");
             }
 
             return true;

@@ -9,15 +9,6 @@
     d:DesignWidth="1600"
     mc:Ignorable="d">
 
-    <UserControl.Resources>
-        <ContextMenu x:Key="ContextMenu_RefushNotice">
-            <MenuItem
-                Name="MenuItem_RefushNotice"
-                Click="MenuItem_RefushNotice_Click"
-                Header="刷新通知公告" />
-        </ContextMenu>
-    </UserControl.Resources>
-
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -32,11 +23,19 @@
                 x:Name="TextBox_Notice"
                 Margin="5,5,2.5,5"
                 Padding="5"
-                ContextMenu="{StaticResource ContextMenu_RefushNotice}"
                 Cursor="Arrow"
                 IsReadOnly="True"
                 Text="加载中..."
-                TextWrapping="Wrap" />
+                TextWrapping="Wrap">
+                <TextBox.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem
+                            Name="MenuItem_RefushNotice"
+                            Click="MenuItem_RefushNotice_Click"
+                            Header="刷新通知公告" />
+                    </ContextMenu>
+                </TextBox.ContextMenu>
+            </TextBox>
             <TextBox
                 x:Name="TextBox_Change"
                 Margin="2.5,5,5,5"

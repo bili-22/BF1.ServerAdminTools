@@ -17,7 +17,7 @@ namespace BF1.ServerAdminTools.Views
                 string notice = HttpHelper.HttpClientGET(CoreUtil.Notice_Address).Result;
                 string change = HttpHelper.HttpClientGET(CoreUtil.Change_Address).Result;
 
-                Application.Current.Dispatcher.BeginInvoke(() =>
+                this.Dispatcher.Invoke(() =>
                 {
                     TextBox_Notice.Text = notice;
                     TextBox_Change.Text = change;
@@ -29,14 +29,14 @@ namespace BF1.ServerAdminTools.Views
         {
             Task.Run(() =>
             {
-                Application.Current.Dispatcher.BeginInvoke(() =>
+                this.Dispatcher.Invoke(() =>
                 {
                     TextBox_Notice.Text = "加载中...";
                 });
 
                 string notice = HttpHelper.HttpClientGET(CoreUtil.Notice_Address).Result;
 
-                Application.Current.Dispatcher.BeginInvoke(() =>
+                this.Dispatcher.Invoke(() =>
                 {
                     TextBox_Notice.Text = notice;
                 });
