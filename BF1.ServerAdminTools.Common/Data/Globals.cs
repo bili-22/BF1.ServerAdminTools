@@ -48,4 +48,14 @@ public static class Globals
     /// 是否显示中文武器名称
     /// </summary>
     public static bool IsShowCHSWeaponName = false;
+
+    /// <summary>
+    /// 游戏是否在运行
+    /// </summary>
+    public static bool IsGameRun = false;
+
+    /// <summary>
+    /// 内存模块是否运行
+    /// </summary>
+    public static bool IsToolInit = false;
 }

@@ -6,7 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="clr-namespace:BF1.ServerAdminTools.Wpf.Views"
     Name="Window_Main"
-    Title="战地1服务器管理工具"
+    Title="战地1服务器管理工具-预览版"
     Width="1920"
     Height="1080"
     Closing="Window_Main_Closing"

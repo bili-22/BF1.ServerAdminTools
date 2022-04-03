@@ -4,6 +4,7 @@ using BF1.ServerAdminTools.BF1API.Utils;
 using BF1.ServerAdminTools.Common.Data;
 using BF1.ServerAdminTools.Common.Helper;
 using BF1.ServerAdminTools.Common.Utils;
+using BF1.ServerAdminTools.Wpf.Models;
 using BF1.ServerAdminTools.Wpf.Utils;
 using BF1.ServerAdminTools.Wpf.Windows;
 
@@ -14,12 +15,6 @@ namespace BF1.ServerAdminTools.Wpf.Views
     /// </summary>
     public partial class RuleView : UserControl
     {
-        private class WeaponInfo
-        {
-            public string English { get; set; }
-            public string Chinese { get; set; }
-            public string Mark { get; set; }
-        }
 
         /// <summary>
         /// 是否已经执行
@@ -37,7 +32,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
             // 添加武器信息列表
             foreach (var item in WeaponData.AllWeaponInfo)
             {
-                ListBox_WeaponInfo.Items.Add(new WeaponInfo()
+                ListBox_WeaponInfo.Items.Add(new WeaponInfoModel()
                 {
                     English = item.English,
                     Chinese = item.Chinese,
@@ -105,7 +100,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
             ListBox_BreakWeaponInfo.Items.Clear();
             foreach (var item in Globals.NowRule.Custom_WeaponList)
             {
-                ListBox_BreakWeaponInfo.Items.Add(new WeaponInfo()
+                ListBox_BreakWeaponInfo.Items.Add(new WeaponInfoModel()
                 {
                     English = item,
                     Chinese = PlayerUtil.GetWeaponChsName(item)
@@ -129,9 +124,9 @@ namespace BF1.ServerAdminTools.Wpf.Views
                 ListBox_Custom_WhiteList.Items.Add(item);
             }
 
-            foreach (WeaponInfo item in ListBox_WeaponInfo.Items)
+            foreach (WeaponInfoModel item in ListBox_WeaponInfo.Items)
             {
-                foreach (WeaponInfo item1 in ListBox_BreakWeaponInfo.Items)
+                foreach (WeaponInfoModel item1 in ListBox_BreakWeaponInfo.Items)
                 {
                     if (item.English == item1.English)
                     {
@@ -163,7 +158,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
             Globals.NowRule.LifeMaxVehicleStar = (int)Slider_LifeMaxVehicleStar.Value;
 
             Globals.NowRule.Custom_WeaponList.Clear();
-            foreach (WeaponInfo item in ListBox_BreakWeaponInfo.Items)
+            foreach (WeaponInfoModel item in ListBox_BreakWeaponInfo.Items)
             {
                 Globals.NowRule.Custom_WeaponList.Add(item.English);
             }
@@ -346,17 +341,16 @@ namespace BF1.ServerAdminTools.Wpf.Views
             int index = ListBox_WeaponInfo.SelectedIndex;
             if (index != -1)
             {
-                var wi = ListBox_WeaponInfo.SelectedItem as WeaponInfo;
+                var wi = ListBox_WeaponInfo.SelectedItem as WeaponInfoModel;
                 if (string.IsNullOrEmpty(wi.Chinese))
                 {
                     MainWindow._SetOperatingState(2, "请不要把分类项添加到限制武器列表");
                     return;
                 }
 
-                for (int i = 0; i < ListBox_BreakWeaponInfo.Items.Count; i++)
+                foreach (WeaponInfoModel item in ListBox_BreakWeaponInfo.Items)
                 {
-                    var bwi = ListBox_BreakWeaponInfo.SelectedItem as WeaponInfo;
-                    if (wi.English == bwi.English)
+                    if (wi.English == item.English)
                     {
                         isContains = true;
                         break;
@@ -375,12 +369,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
                 if (!isContains)
                 {
                     ListBox_BreakWeaponInfo.Items.Add(ListBox_WeaponInfo.SelectedItem);
-                    ListBox_WeaponInfo.Items[ListBox_WeaponInfo.SelectedIndex] = new WeaponInfo()
-                    {
-                        English = wi.English,
-                        Chinese = wi.Chinese,
-                        Mark = "✔"
-                    };
+                    (ListBox_WeaponInfo.Items[ListBox_WeaponInfo.SelectedIndex] as WeaponInfoModel).Mark = "✔";
 
                     ListBox_WeaponInfo.SelectedIndex = index;
 
@@ -411,18 +400,12 @@ namespace BF1.ServerAdminTools.Wpf.Views
             int index2 = ListBox_BreakWeaponInfo.SelectedIndex;
             if (index2 != -1)
             {
-                var bwi = ListBox_BreakWeaponInfo.SelectedItem as WeaponInfo;
-                for (int i = 0; i < ListBox_WeaponInfo.Items.Count; i++)
+                var bwi = ListBox_BreakWeaponInfo.SelectedItem as WeaponInfoModel;
+                foreach (WeaponInfoModel item in ListBox_WeaponInfo.Items)
                 {
-                    var wi = ListBox_WeaponInfo.Items[i] as WeaponInfo;
-                    if (bwi.English == wi.English)
+                    if (item.English == bwi.English)
                     {
-                        ListBox_WeaponInfo.Items[i] = new WeaponInfo()
-                        {
-                            English = bwi.English,
-                            Chinese = bwi.Chinese,
-                            Mark = ""
-                        };
+                        item.Mark = "";
                     }
                 }
 
@@ -454,15 +437,9 @@ namespace BF1.ServerAdminTools.Wpf.Views
             Globals.NowRule.Custom_WeaponList.Clear();
             ListBox_BreakWeaponInfo.Items.Clear();
 
-            for (int i = 0; i < ListBox_WeaponInfo.Items.Count; i++)
+            foreach (WeaponInfoModel item in ListBox_WeaponInfo.Items)
             {
-                var wi = ListBox_WeaponInfo.Items[i] as WeaponInfo;
-                ListBox_WeaponInfo.Items[i] = new WeaponInfo()
-                {
-                    English = wi.English,
-                    Chinese = wi.Chinese,
-                    Mark = ""
-                };
+                item.Mark = "";
             }
 
             ListBox_WeaponInfo.SelectedIndex = index;
@@ -592,7 +569,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
             // 添加自定义限制武器
             foreach (var item in ListBox_BreakWeaponInfo.Items)
             {
-                Globals.NowRule.Custom_WeaponList.Add((item as WeaponInfo).English);
+                Globals.NowRule.Custom_WeaponList.Add((item as WeaponInfoModel).English);
             }
 
             // 清空黑名单列表

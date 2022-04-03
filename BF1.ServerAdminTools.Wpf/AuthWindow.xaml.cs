@@ -41,14 +41,9 @@ namespace BF1.ServerAdminTools.Wpf
                 }
                 else
                 {
-                    UpdateState($"战地1内存模块初始化失败！程序即将关闭");
+                    UpdateState($"战地1内存模块初始化失败！");
                     LoggerHelper.Error("战地1内存模块初始化失败");
-                    Task.Delay(2000).Wait();
-
-                    Application.Current.Dispatcher.BeginInvoke(() =>
-                    {
-                        Application.Current.Shutdown();
-                    });
+                    Task.Delay(1000).Wait();
                 }
 
                 UpdateState("正在为您营造个性化体验...");

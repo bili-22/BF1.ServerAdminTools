@@ -16,17 +16,14 @@ namespace BF1.ServerAdminTools.Wpf
 
             if (createdNew)
             {
-                if (ProcessUtil.IsAppRun(CoreUtil.TargetAppName))
+                if (!ProcessUtil.IsAppRun(CoreUtil.TargetAppName))
                 {
-                    RegisterEvents();
+                    MessageBox.Show("未检测到《战地1》游戏启动，工具功能不可用", " 警告", MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
 
-                    base.OnStartup(e);
-                }
-                else
-                {
-                    MessageBox.Show("请先启动《战地1》游戏后，再打开本程序", " 警告", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    Current.Shutdown();
-                }
+                RegisterEvents();
+
+                base.OnStartup(e);
             }
             else
             {

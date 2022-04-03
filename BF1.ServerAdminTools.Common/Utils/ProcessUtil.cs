@@ -1,4 +1,6 @@
-﻿namespace BF1.ServerAdminTools.Common.Utils;
+﻿using BF1.ServerAdminTools.Common.Data;
+
+namespace BF1.ServerAdminTools.Common.Utils;
 
 public static class ProcessUtil
 {
@@ -9,7 +11,7 @@ public static class ProcessUtil
     /// <returns>正在运行返回true，未运行返回false</returns>
     public static bool IsAppRun(string appName)
     {
-        return Process.GetProcessesByName(appName).ToList().Count > 0;
+        return Globals.IsGameRun = Process.GetProcessesByName(appName).ToList().Count > 0;
     }
 
     /// <summary>

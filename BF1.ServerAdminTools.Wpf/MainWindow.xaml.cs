@@ -124,15 +124,6 @@ namespace BF1.ServerAdminTools.Wpf
                 // 获取软件运行时间
                 MainModel.AppRunTime = "运行时间 : " + CoreUtil.ExecDateDiff(Origin_DateTime, DateTime.Now);
 
-                if (!ProcessUtil.IsAppRun(CoreUtil.TargetAppName))
-                {
-                    Application.Current.Dispatcher.Invoke(() =>
-                    {
-                        this.Close();
-                    });
-                    return;
-                }
-
                 Thread.Sleep(1000);
             }
         }

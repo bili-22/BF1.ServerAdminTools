@@ -1,4 +1,5 @@
-﻿using BF1.ServerAdminTools.Common.Data;
+﻿using BF1.ServerAdminTools.BF1API.Core;
+using BF1.ServerAdminTools.Common.Data;
 using BF1.ServerAdminTools.Common.Helper;
 using BF1.ServerAdminTools.Common.Utils;
 using BF1.ServerAdminTools.Wpf.Utils;
@@ -76,6 +77,25 @@ namespace BF1.ServerAdminTools.Wpf.Views
                     AudioUtil.ClickSound();
                     break;
             }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (!ProcessUtil.IsAppRun(CoreUtil.TargetAppName))
+            {
+                MsgBoxUtil.ErrorMsgBox("没有检测到游戏进程");
+                return;
+            }
+
+            if (!Memory.Initialize(CoreUtil.TargetAppName))
+            {
+                LoggerHelper.Error("战地1内存模块初始化失败");
+                MsgBoxUtil.ErrorMsgBox("战地1内存模块初始化失败");
+                return;
+            }
+
+            LoggerHelper.Info("战地1内存模块初始化成功");
+            MsgBoxUtil.InformationMsgBox("检测到游戏运行");
         }
     }
 }

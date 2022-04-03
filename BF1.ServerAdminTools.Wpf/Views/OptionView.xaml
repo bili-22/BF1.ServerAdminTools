@@ -57,6 +57,14 @@
                         GroupName="ClickAudioSelect" />
                 </WrapPanel>
             </GroupBox>
+            <GroupBox Header="检测游戏">
+                <Grid Margin="5">
+                    <Button
+                        Click="Button_Click"
+                        Content="重新检测游戏"
+                        Style="{StaticResource ButtonStyle_Web}" />
+                </Grid>
+            </GroupBox>
         </StackPanel>
     </Grid>
 </UserControl>
