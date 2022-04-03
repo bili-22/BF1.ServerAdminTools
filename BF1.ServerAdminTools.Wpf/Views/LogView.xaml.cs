@@ -29,11 +29,11 @@ namespace BF1.ServerAdminTools.Wpf.Views
 
             MainWindow.ClosingDisposeEvent += MainWindow_ClosingDisposeEvent;
 
-            var thread0 = new Thread(CheckPlayerChangeTeam)
+            new Thread(CheckPlayerChangeTeam)
             {
+                Name = "CheckPlayerChangeTeamThread",
                 IsBackground = true
-            };
-            thread0.Start();
+            }.Start();
         }
 
         private void MainWindow_ClosingDisposeEvent()

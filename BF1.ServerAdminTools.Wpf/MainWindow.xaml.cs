@@ -63,17 +63,17 @@ namespace BF1.ServerAdminTools.Wpf
 
             ////////////////////////////////
 
-            var thread0 = new Thread(UpdateState)
+            new Thread(UpdateState)
             {
+                Name= "UpdateStateThead",
                 IsBackground = true
-            };
-            thread0.Start();
+            }.Start();
 
-            var therad1 = new Thread(InitThread)
+            new Thread(InitThread)
             {
+                Name = "InitThread",
                 IsBackground = true
-            };
-            therad1.Start();
+            }.Start();
 
             this.DataContext = this;
 

@@ -41,17 +41,17 @@ namespace BF1.ServerAdminTools.Wpf.Views
             }
             ListBox_WeaponInfo.SelectedIndex = 0;
 
-            var thread0 = new Thread(AutoKickLifeBreakPlayer)
+            new Thread(AutoKickLifeBreakPlayer)
             {
+                Name= "AutoKickLifeThread",
                 IsBackground = true
-            };
-            thread0.Start();
+            }.Start();
 
-            var therad1 = new Thread(CheckState)
+            new Thread(CheckState)
             {
+                Name = "CheckStateThread",
                 IsBackground = true
-            };
-            therad1.Start();
+            }.Start();
 
             foreach (var item in Globals.Rules)
             {
