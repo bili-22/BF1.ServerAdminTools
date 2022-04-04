@@ -1,4 +1,4 @@
-﻿namespace BF1.ServerAdminTools.BF1API.API.RespJson;
+﻿namespace BF1.ServerAdminTools.Common.API.BF1Server.RespJson;
 
 public record CareerForOwnedGamesByPersonaId
 {

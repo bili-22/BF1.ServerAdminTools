@@ -10,6 +10,8 @@ namespace BF1.ServerAdminTools.Wpf
     {
         protected override void OnStartup(StartupEventArgs e)
         {
+            //初始化内核
+            Core.Init(this);
             new Mutex(true, ResourceAssembly.GetName().Name, out var createdNew);
 
             if (createdNew)

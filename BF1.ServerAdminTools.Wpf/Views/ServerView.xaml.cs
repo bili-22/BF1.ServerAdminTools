@@ -1,5 +1,5 @@
-﻿using BF1.ServerAdminTools.BF1API.API2;
-using BF1.ServerAdminTools.BF1API.API2.RespJson;
+﻿using BF1.ServerAdminTools.Common.API.GT;
+using BF1.ServerAdminTools.Common.API2.RespJson;
 using BF1.ServerAdminTools.Common.Utils;
 using BF1.ServerAdminTools.Wpf.Models;
 using BF1.ServerAdminTools.Wpf.Utils;

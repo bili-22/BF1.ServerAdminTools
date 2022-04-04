@@ -1,4 +1,4 @@
-﻿using BF1.ServerAdminTools.BF1API.Core;
+﻿using BF1.ServerAdminTools.Common.Core;
 using BF1.ServerAdminTools.Common;
 using BF1.ServerAdminTools.Common.Helper;
 using BF1.ServerAdminTools.Common.Utils;

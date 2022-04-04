@@ -1,9 +1,5 @@
-﻿using BF1.ServerAdminTools.BF1API.Chat;
-using BF1.ServerAdminTools.BF1API.Core;
-using BF1.ServerAdminTools.BF1API.Utils;
+﻿using BF1.ServerAdminTools.Common.Utils;
 using BF1.ServerAdminTools.Common;
-using BF1.ServerAdminTools.Common.Helper;
-using BF1.ServerAdminTools.Common.Utils;
 using BF1.ServerAdminTools.Wpf.Utils;
 using Microsoft.Toolkit.Mvvm.Input;
 
@@ -51,13 +47,13 @@ namespace BF1.ServerAdminTools.Wpf.Views
 
             MainWindow.ClosingDisposeEvent += MainWindow_ClosingDisposeEvent;
 
-            timerAutoSendMsg = new Timer();
+            timerAutoSendMsg = new();
             timerAutoSendMsg.AutoReset = true;
             timerAutoSendMsg.Elapsed += TimerAutoSendMsg_Elapsed;
 
             queueMsg = new List<string>();
 
-            timerNoAFK = new Timer();
+            timerNoAFK = new();
             timerNoAFK.AutoReset = true;
             timerNoAFK.Interval = 30000;
             timerNoAFK.Elapsed += TimerNoAFK_Elapsed;
@@ -90,108 +86,59 @@ namespace BF1.ServerAdminTools.Wpf.Views
             });
         }
 
-        private void TimerAutoSendMsg_Elapsed(object sender, ElapsedEventArgs e)
+        private void TimerAutoSendMsg_Elapsed(object? sender, ElapsedEventArgs e)
         {
+            if (!Globals.IsGameRun)
+                MsgBoxUtil.ErrorMsgBox("游戏还未启动");
+
+            if(!Globals.IsToolInit)
+                MsgBoxUtil.ErrorMsgBox("工具还未正常初始化");
+
             SetIMEState();
             Thread.Sleep(50);
 
             for (int i = 0; i < queueMsg.Count; i++)
             {
-                ChatHelper.SendText2Bf1Game(queueMsg[i]);
+                Core.SendText(queueMsg[i]);
                 Thread.Sleep(queueMsgSleep * 1000);
             }
         }
 
-        private void TimerNoAFK_Elapsed(object sender, ElapsedEventArgs e)
+        private void TimerNoAFK_Elapsed(object? sender, ElapsedEventArgs e)
         {
             SetIMEState();
             Thread.Sleep(50);
 
-            Memory.SetForegroundWindow();
+            Core.SetForegroundWindow();
             Thread.Sleep(50);
 
-            WinAPI.Keybd_Event(WinVK.TAB, WinAPI.MapVirtualKey(WinVK.TAB, 0), 0, 0);
-            Thread.Sleep(3000);
-            WinAPI.Keybd_Event(WinVK.TAB, WinAPI.MapVirtualKey(WinVK.TAB, 0), 2, 0);
-            Thread.Sleep(50);
+            Core.KeyTab();
         }
 
         private void SendChsMessage()
         {
             AudioUtil.ClickSound();
 
+            if (!Globals.IsGameRun)
+                MsgBoxUtil.ErrorMsgBox("游戏还未启动");
+
+            if (!Globals.IsToolInit)
+                MsgBoxUtil.ErrorMsgBox("工具还未正常初始化");
+
             SetIMEState();
             Thread.Sleep(20);
 
-            ChatHelper.KeyPressDelay = (int)Slider_KeyPressDelay.Value;
+            Core.SetKeyPressDelay((int)Slider_KeyPressDelay.Value);
 
-            if (string.IsNullOrEmpty(TextBox_InputMsg.Text.Trim()))
+            string msg = TextBox_InputMsg.Text.Trim();
+
+            if (string.IsNullOrEmpty(msg))
             {
                 MainWindow._SetOperatingState(2, "聊天框内容为空，操作取消");
                 return;
             }
 
-            if (ChatMsg.GetAllocateMemoryAddress() != 0)
-            {
-                // 将窗口置顶
-                Memory.SetForegroundWindow();
-                Thread.Sleep(50);
-
-                // 如果聊天框开启，让他关闭
-                if (ChatMsg.GetChatIsOpen())
-                    ChatHelper.KeyPress(WinVK.RETURN, ChatHelper.KeyPressDelay);
-
-                // 模拟按键，开启聊天框
-                ChatHelper.KeyPress(WinVK.J, ChatHelper.KeyPressDelay);
-
-                if (ChatMsg.GetChatIsOpen())
-                {
-                    if (ChatMsg.ChatMessagePointer() != 0)
-                    {
-                        // 挂起战地1进程
-                        NtProc.SuspendProcess(Memory.GetProcessId());
-
-                        string msg = TextBox_InputMsg.Text.Trim();
-                        msg = ChsUtil.ToTraditionalChinese(ChatHelper.ToDBC(msg));
-                        var length = PlayerUtil.GetStrLength(msg);
-                        Memory.WriteStringUTF8(ChatMsg.GetAllocateMemoryAddress(), null, msg);
-
-                        var startPtr = ChatMsg.ChatMessagePointer() + ChatMsg.OFFSET_CHAT_MESSAGE_START;
-                        var endPtr = ChatMsg.ChatMessagePointer() + ChatMsg.OFFSET_CHAT_MESSAGE_END;
-
-                        var oldStartPtr = Memory.Read<long>(startPtr);
-                        var oldEndPtr = Memory.Read<long>(endPtr);
-
-                        Memory.Write<long>(startPtr, ChatMsg.GetAllocateMemoryAddress());
-                        Memory.Write<long>(endPtr, ChatMsg.GetAllocateMemoryAddress() + length);
-
-                        // 恢复战地1进程
-                        NtProc.ResumeProcess(Memory.GetProcessId());
-                        ChatHelper.KeyPress(WinVK.RETURN, ChatHelper.KeyPressDelay);
-
-                        // 挂起战地1进程
-                        NtProc.SuspendProcess(Memory.GetProcessId());
-                        Memory.Write<long>(startPtr, oldStartPtr);
-                        Memory.Write<long>(endPtr, oldEndPtr);
-                        // 恢复战地1进程
-                        NtProc.ResumeProcess(Memory.GetProcessId());
-
-                        MainWindow._SetOperatingState(1, "发送文本到战地1聊天框成功");
-                    }
-                    else
-                    {
-                        MainWindow._SetOperatingState(2, "聊天框消息指针未发现");
-                    }
-                }
-                else
-                {
-                    MainWindow._SetOperatingState(2, "聊天框未开启");
-                }
-            }
-            else
-            {
-                MainWindow._SetOperatingState(3, "聊天功能初始化失败，请重启程序");
-            }
+            MainWindow._SetOperatingState(2, Core.SendText(msg));
         }
 
         private void TextBox_InputMsg_TextChanged(object sender, TextChangedEventArgs e)
@@ -277,7 +224,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
                 if (CheckBox_DefaultText9 != null && CheckBox_DefaultText9.IsChecked == true)
                     queueMsg.Add(defaultMsg[9]);
 
-                ChatHelper.KeyPressDelay = (int)Slider_KeyPressDelay.Value;
+                Core.SetKeyPressDelay((int)Slider_KeyPressDelay.Value);
 
                 queueMsgSleep = (int)Slider_AutoSendMsgSleep.Value;
 

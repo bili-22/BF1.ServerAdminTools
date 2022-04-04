@@ -1,8 +1,8 @@
-﻿using BF1.ServerAdminTools.Common;
+﻿using BF1.ServerAdminTools.Common.API.BF1Server.RespJson;
 using BF1.ServerAdminTools.Common.Utils;
 using RestSharp;
 
-namespace BF1.ServerAdminTools.BF1API.API;
+namespace BF1.ServerAdminTools.Common.API.BF1Server;
 
 public static class ServerAPI
 {
@@ -75,6 +75,8 @@ public static class ServerAPI
             {
                 respContent.IsSuccess = true;
                 respContent.Message = response.Content;
+
+                respContent.Obj = JsonUtil.JsonDese<WelcomeMsg>(respContent.Message);
             }
             else
             {
@@ -172,8 +174,8 @@ public static class ServerAPI
                 {
                     game = "tunguska",
                     gameId = Globals.Config.GameId,
-                    personaId = personaId,
-                    reason = reason
+                    personaId,
+                    reason
                 },
                 id = Guid.NewGuid()
             };
@@ -229,9 +231,9 @@ public static class ServerAPI
                 @params = new
                 {
                     game = "tunguska",
-                    personaId = personaId,
+                    personaId,
                     gameId = Globals.Config.GameId,
-                    teamId = teamId,
+                    teamId,
                     forceKill = true,
                     moveParty = false
                 },
@@ -289,8 +291,8 @@ public static class ServerAPI
                 @params = new
                 {
                     game = "tunguska",
-                    persistedGameId = persistedGameId,
-                    levelIndex = levelIndex
+                    persistedGameId,
+                    levelIndex
                 },
                 id = Guid.NewGuid()
             };
@@ -403,7 +405,7 @@ public static class ServerAPI
                 {
                     game = "tunguska",
                     serverId = Globals.Config.ServerId,
-                    personaName = personaName
+                    personaName
                 },
                 id = Guid.NewGuid()
             };
@@ -460,7 +462,7 @@ public static class ServerAPI
                 {
                     game = "tunguska",
                     serverId = Globals.Config.ServerId,
-                    personaId = personaId
+                    personaId
                 },
                 id = Guid.NewGuid()
             };
@@ -517,7 +519,7 @@ public static class ServerAPI
                 {
                     game = "tunguska",
                     serverId = Globals.Config.ServerId,
-                    personaName = personaName
+                    personaName
                 },
                 id = Guid.NewGuid()
             };
@@ -574,7 +576,7 @@ public static class ServerAPI
                 {
                     game = "tunguska",
                     serverId = Globals.Config.ServerId,
-                    personaId = personaId
+                    personaId
                 },
                 id = Guid.NewGuid()
             };
@@ -631,7 +633,7 @@ public static class ServerAPI
                 {
                     game = "tunguska",
                     serverId = Globals.Config.ServerId,
-                    personaName = personaName
+                    personaName
                 },
                 id = Guid.NewGuid()
             };
@@ -688,7 +690,7 @@ public static class ServerAPI
                 {
                     game = "tunguska",
                     serverId = Globals.Config.ServerId,
-                    personaId = personaId
+                    personaId
                 },
                 id = Guid.NewGuid()
             };
@@ -843,7 +845,7 @@ public static class ServerAPI
                 method = "Authentication.getEnvIdViaAuthCode",
                 @params = new
                 {
-                    authCode = authCode,
+                    authCode,
                     locale = "zh-tw"
                 },
                 id = Guid.NewGuid()
@@ -900,7 +902,7 @@ public static class ServerAPI
                 @params = new
                 {
                     game = "tunguska",
-                    personaId = personaId
+                    personaId
                 },
                 id = Guid.NewGuid()
             };

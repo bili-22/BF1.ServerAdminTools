@@ -1,5 +1,5 @@
-﻿using BF1.ServerAdminTools.BF1API.Chat;
-using BF1.ServerAdminTools.BF1API.Core;
+﻿using BF1.ServerAdminTools.Common.Chat;
+using BF1.ServerAdminTools.Common.Hook;
 using BF1.ServerAdminTools.Common;
 using BF1.ServerAdminTools.Common.Helper;
 using BF1.ServerAdminTools.Common.Utils;
@@ -65,7 +65,7 @@ namespace BF1.ServerAdminTools.Wpf
 
             new Thread(UpdateState)
             {
-                Name= "UpdateStateThead",
+                Name = "UpdateStateThead",
                 IsBackground = true
             }.Start();
 
@@ -77,43 +77,30 @@ namespace BF1.ServerAdminTools.Wpf
 
             this.DataContext = this;
 
-            try
-            {
-                Core.MsgAllocateMemory();
-                Core.core.Info($"中文聊天指针分配成功 0x{Core.core.GetAllocateMemoryAddress():x}");
-            }
-            catch (Exception ex)
-            {
-                LoggerHelper.Error($"发生异常", ex);
-                MsgBoxUtil.ExceptionMsgBox(ex);
-            }
+            if (Core.MsgAllocateMemory())
+                Core.LogInfo($"中文聊天指针分配成功 0x{Core.MsgGetAllocateMemoryAddress():x}");
+            else
+                Core.LogError($"中文聊天指针分配失败");
         }
 
         private void Window_Main_Closing(object sender, CancelEventArgs e)
         {
             // 关闭事件
             ClosingDisposeEvent();
-            LoggerHelper.Info($"调用关闭事件成功");
-
+            Core.LogInfo($"调用关闭事件成功");
             Core.SaveAll();
-            LoggerHelper.Info($"保存配置文件成功");
+            Core.SQLClose();
+            Core.MsgFreeMemory();
+            Core.HookClose();
 
-            SQLiteHelper.CloseConnection();
-            LoggerHelper.Info($"关闭数据库链接成功");
-
-            ChatMsg.FreeMemory();
-            LoggerHelper.Info($"释放中文聊天指针内存成功");
-            Memory.CloseHandle();
-            LoggerHelper.Info($"释放目标进程句柄成功");
-
+            Core.LogInfo($"程序关闭\n\n");
             Application.Current.Shutdown();
-            LoggerHelper.Info($"程序关闭\n\n");
         }
 
         private void InitThread()
         {
             // 调用刷新SessionID功能
-            LoggerHelper.Info($"开始调用刷新SessionID功能");
+            Core.LogInfo($"开始调用刷新SessionID功能");
             AuthView._AutoRefreshSID();
         }
 

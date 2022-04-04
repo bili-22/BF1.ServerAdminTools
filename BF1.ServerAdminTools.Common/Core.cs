@@ -1,5 +1,5 @@
-﻿using BF1.ServerAdminTools.BF1API.Chat;
-using BF1.ServerAdminTools.BF1API.Core;
+﻿using BF1.ServerAdminTools.Common.Chat;
+using BF1.ServerAdminTools.Common.Hook;
 using BF1.ServerAdminTools.Common.Helper;
 using BF1.ServerAdminTools.Common.Utils;
 using Chinese;
@@ -31,7 +31,19 @@ public static class Core
         => ConfigHelper.WriteErrorLog(data);
 
     public static void SaveAll()
-        => ConfigHelper.SaveAll();
+    {
+        try
+        {
+            LoggerHelper.Info($"正在保存配置文件");
+            ConfigHelper.SaveAll();
+            LoggerHelper.Info($"配置文件保存完成");
+        }
+        catch (Exception e)
+        {
+            LoggerHelper.Error($"配置文件保存失败", e);
+            Msg.Error("配置文件保存失败", e);
+        }
+    }
 
     public static void ConfigInit()
     {
@@ -45,6 +57,21 @@ public static class Core
         {
             LoggerHelper.Error($"配置文件读取失败", e);
             Msg.Error("配置文件读取失败", e);
+        }
+    }
+
+    public static void SaveConfig() 
+    {
+        try
+        {
+            LoggerHelper.Info($"正在保存配置文件");
+            ConfigHelper.SaveConfig();
+            LoggerHelper.Info($"配置文件保存完成");
+        }
+        catch (Exception e)
+        {
+            LoggerHelper.Error($"配置文件保存失败", e);
+            Msg.Error("配置文件保存失败", e);
         }
     }
 
@@ -71,15 +98,113 @@ public static class Core
             Msg.Error("SQLite数据库初始化失败", e);
         }
     }
+
+    public static void SQLClose() 
+    {
+        try
+        {
+            LoggerHelper.Info($"SQLite数据库正在关闭");
+            SQLiteHelper.CloseConnection();
+            LoggerHelper.Info($"SQLite数据库关闭成功");
+        }
+        catch (Exception e)
+        {
+            LoggerHelper.Error($"SQLite数据库关闭失败", e);
+            Msg.Error("SQLite数据库关闭失败", e);
+        }
+    }
+
     public static bool HookInit()
-        => MemoryHook.Initialize(Globals.TargetAppName);
-
+    {
+        try
+        {
+            LoggerHelper.Info($"正在初始化内存钩子");
+            var res = MemoryHook.Initialize(Globals.TargetAppName);
+            if (res)
+            {
+                LoggerHelper.Info($"初始化内存钩子成功");
+            }
+            else
+            {
+                LoggerHelper.Info($"初始化内存钩子失败");
+            }
+            return res;
+        }
+        catch (Exception e)
+        {
+            LoggerHelper.Error($"初始化内存钩子错误", e);
+            Msg.Error("初始化内存钩子错误", e);
+        }
+        return false;
+    }
+    public static void HookClose()
+    {
+        try
+        {
+            LoggerHelper.Info($"正在释放内存钩子");
+            MemoryHook.CloseHandle();
+            LoggerHelper.Info($"释放内存钩子失败");
+        }
+        catch (Exception e)
+        {
+            LoggerHelper.Error($"释放内存钩子错误", e);
+            Msg.Error("释放内存钩子错误", e);
+        }
+    }
+    public static int HookGetProcessId()
+        => MemoryHook.GetProcessId();
     public static bool MsgAllocateMemory()
-        => ChatMsg.AllocateMemory();
-
+    {
+        try
+        {
+            LoggerHelper.Info($"中文聊天指针正在初始化");
+            var res = ChatMsg.AllocateMemory();
+            LoggerHelper.Info($"中文聊天指针初始化成功");
+            return res;
+        }
+        catch (Exception e)
+        {
+            LoggerHelper.Error($"中文聊天指针初始化失败", e);
+            Msg.Error("中文聊天指针初始化失败", e);
+        }
+        return false;
+    } 
     public static long MsgGetAllocateMemoryAddress()
         => ChatMsg.GetAllocateMemoryAddress();
-
     public static void MsgFreeMemory()
-        => ChatMsg.FreeMemory();
+    {
+        try
+        {
+            LoggerHelper.Info($"正在释放中文聊天指针内存");
+            ChatMsg.FreeMemory();
+            LoggerHelper.Info($"释放中文聊天指针内存成功");
+        }
+        catch (Exception e)
+        {
+            LoggerHelper.Error($"释放中文聊天指针内存成功失败", e);
+            Msg.Error("释放中文聊天指针内存成功失败", e);
+        }
+    }
+    public static bool MsgGetChatIsOpen()
+        => ChatMsg.GetChatIsOpen();
+    public static long MsgChatMessagePointer() 
+        => ChatMsg.ChatMessagePointer()
+    public static void KeyPress(WinVK key)
+        => ChatHelper.KeyPress(key, ChatHelper.KeyPressDelay);
+    public static void DnsFlushResolverCache() 
+        => WinAPI.DnsFlushResolverCache();
+    public static string SendText(string data)
+        => ChatHelper.SendText2Bf1Game(data);
+
+    public static Task<string> Login()
+        => LoginHelper.LoginSessionID();
+
+    public static void SetForegroundWindow()
+        => MemoryHook.SetForegroundWindow();
+
+    public static void KeyTab()
+        => ChatHelper.KeyTab();
+
+    public static void SetKeyPressDelay(int data)
+        => ChatHelper.KeyPressDelay = data;
 }

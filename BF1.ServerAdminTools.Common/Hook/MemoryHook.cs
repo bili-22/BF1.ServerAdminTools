@@ -1,8 +1,8 @@
-﻿using BF1.ServerAdminTools.BF1API.Chat;
+﻿using BF1.ServerAdminTools.Common.Chat;
 using BF1.ServerAdminTools.Common;
 using BF1.ServerAdminTools.Common.Helper;
 
-namespace BF1.ServerAdminTools.BF1API.Core;
+namespace BF1.ServerAdminTools.Common.Hook;
 
 internal static class MemoryHook
 {

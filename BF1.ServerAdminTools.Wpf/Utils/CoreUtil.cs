@@ -1,4 +1,5 @@
-﻿using BF1.ServerAdminTools.BF1API.Core;
+﻿using BF1.ServerAdminTools.Common;
+using BF1.ServerAdminTools.Common.Core;
 using Microsoft.Web.WebView2.Core;
 using System.Diagnostics;
 
@@ -111,6 +112,6 @@ public static class CoreUtil
     /// </summary>
     public static void FlushDNSCache()
     {
-        WinAPI.DnsFlushResolverCache();
+        Core.DnsFlushResolverCache();
     }
 }

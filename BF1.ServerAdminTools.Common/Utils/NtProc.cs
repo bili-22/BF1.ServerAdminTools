@@ -1,8 +1,8 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace BF1.ServerAdminTools.BF1API.Chat;
+namespace BF1.ServerAdminTools.Common.Utils;
 
-internal static class NtProc
+public static class NtProc
 {
     [Flags]
     public enum ProcessAccess : uint

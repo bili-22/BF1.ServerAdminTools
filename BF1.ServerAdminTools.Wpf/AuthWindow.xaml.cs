@@ -1,6 +1,4 @@
-﻿using BF1.ServerAdminTools.BF1API.API;
-using BF1.ServerAdminTools.BF1API.API2;
-using BF1.ServerAdminTools.BF1API.Core;
+﻿using BF1.ServerAdminTools.Common.Core;
 using BF1.ServerAdminTools.Common;
 using BF1.ServerAdminTools.Common.Data;
 using BF1.ServerAdminTools.Common.Helper;
@@ -8,6 +6,8 @@ using BF1.ServerAdminTools.Common.Utils;
 using BF1.ServerAdminTools.Wpf.Utils;
 using BF1.ServerAdminTools.Wpf.Windows;
 using Chinese;
+using BF1.ServerAdminTools.Common.API.GT;
+using BF1.ServerAdminTools.Common.API.BF1Server;
 
 namespace BF1.ServerAdminTools.Wpf
 {
@@ -29,22 +29,22 @@ namespace BF1.ServerAdminTools.Wpf
             Task.Run(() =>
             {
                 UpdateState("欢迎来到《BATTLEFIELD 1》...");
-                Core.Info("开始初始化程序...");
-                Core.Info($"当前程序版本号 {CoreUtil.ClientVersionInfo}");
-                Core.Info($"当前程序最后编译时间 {CoreUtil.ClientBuildTime}");
+                Core.LogInfo("开始初始化程序...");
+                Core.LogInfo($"当前程序版本号 {CoreUtil.ClientVersionInfo}");
+                Core.LogInfo($"当前程序最后编译时间 {CoreUtil.ClientBuildTime}");
 
                 CoreUtil.FlushDNSCache();
-                Core.Info("刷新DNS缓存成功");
+                Core.LogInfo("刷新DNS缓存成功");
 
                 // 初始化
                 if (Core.HookInit())
                 {
-                    Core.Info("战地1内存模块初始化成功");
+                    Core.LogInfo("战地1内存模块初始化成功");
                 }
                 else
                 {
                     UpdateState($"战地1内存模块初始化失败！");
-                    Core.Error("战地1内存模块初始化失败");
+                    Core.LogError("战地1内存模块初始化失败");
                     Task.Delay(1000).Wait();
                 }
 
@@ -54,30 +54,30 @@ namespace BF1.ServerAdminTools.Wpf
                 Core.SQLInit();
 
                 ServerAPI.Init();
-                Core.Info("战地1ServerAPI模块初始化成功");
+                Core.LogInfo("战地1ServerAPI模块初始化成功");
 
                 GTAPI.Init();
-                Core.Info("GameToolsAPI模块初始化成功");
+                Core.LogInfo("GameToolsAPI模块初始化成功");
 
                 ImageData.InitDict();
-                Core.Info("本地图片缓存库初始化成功");
+                Core.LogInfo("本地图片缓存库初始化成功");
 
                 ChsUtil.ToTraditionalChinese("免费，跨平台，开源！");
-                Core.Info("简繁翻译库初始化成功");
+                Core.LogInfo("简繁翻译库初始化成功");
 
                 ////////////////////////////////////////////////////////////////////
 
                 try
                 {
                     UpdateState("正在检测版本更新...");
-                    Core.Info($"正在检测版本更新...");
+                    Core.LogInfo($"正在检测版本更新...");
 
                     // 获取版本更新
                     var webConfig = HttpUtil.HttpClientGET(CoreUtil.Config_Address).Result;
                     if (string.IsNullOrEmpty(webConfig))
                     {
                         UpdateState("获取新版本信息失败！程序即将关闭");
-                        Core.Error($"获取新版本信息失败");
+                        Core.LogError($"获取新版本信息失败");
                         Task.Delay(2000).Wait();
 
                         Application.Current.Dispatcher.BeginInvoke(() =>
@@ -94,7 +94,7 @@ namespace BF1.ServerAdminTools.Wpf
 
                     if (CoreUtil.ServerVersionInfo > CoreUtil.ClientVersionInfo)
                     {
-                        Core.Info($"发现新版本 {CoreUtil.ServerVersionInfo}");
+                        Core.LogInfo($"发现新版本 {CoreUtil.ServerVersionInfo}");
 
                         CoreUtil.Notice_Address = updateInfo.Address.Notice;
                         CoreUtil.Change_Address = updateInfo.Address.Change;
@@ -125,7 +125,7 @@ namespace BF1.ServerAdminTools.Wpf
                     else
                     {
                         UpdateState("连线中...");
-                        Core.Info($"当前已是最新版本 {CoreUtil.ServerVersionInfo}");
+                        Core.LogInfo($"当前已是最新版本 {CoreUtil.ServerVersionInfo}");
 
                         Application.Current.Dispatcher.BeginInvoke(() =>
                         {
@@ -140,7 +140,7 @@ namespace BF1.ServerAdminTools.Wpf
                 catch (Exception ex)
                 {
                     UpdateState("发生了未知异常！程序即将关闭");
-                    Core.Error($"发生了未知异常", ex);
+                    Core.LogError($"发生了未知异常", ex);
                     Task.Delay(2000).Wait();
 
                     Dispatcher.BeginInvoke(() =>

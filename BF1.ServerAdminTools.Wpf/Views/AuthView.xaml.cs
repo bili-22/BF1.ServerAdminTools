@@ -1,13 +1,14 @@
-﻿using BF1.ServerAdminTools.BF1API.API.RespJson;
-using BF1.ServerAdminTools.BF1API.API2;
-using BF1.ServerAdminTools.BF1API.API2.RespJson;
-using BF1.ServerAdminTools.Common;
+﻿using BF1.ServerAdminTools.Common;
 using BF1.ServerAdminTools.Common.Helper;
 using BF1.ServerAdminTools.Common.Utils;
 using BF1.ServerAdminTools.Wpf.Utils;
 using BF1.ServerAdminTools.Wpf.Windows;
 using RestSharp;
 using ScottPlot;
+using BF1.ServerAdminTools.Common.API.GT;
+using BF1.ServerAdminTools.Common.API.BF1Server;
+using BF1.ServerAdminTools.Common.API.BF1Server.RespJson;
+using BF1.ServerAdminTools.Common.API.GT.RespJson;
 
 namespace BF1.ServerAdminTools.Wpf.Views
 {
@@ -54,7 +55,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
 
         private void AutoRefresh()
         {
-            LoggerHelper.Info($"调用刷新SessionID功能成功");
+            Core.LogInfo($"调用刷新SessionID功能成功");
             TimerAutoRefresh_Elapsed(null, null);
         }
 
@@ -62,72 +63,11 @@ namespace BF1.ServerAdminTools.Wpf.Views
         {
             try
             {
-                if (!string.IsNullOrEmpty(Globals.Config.Remid))
-                {
-                    var str = "https://accounts.ea.com/connect/auth?response_type=code&locale=zh_CN&client_id=sparta-backend-as-user-pc";
-                    var options = new RestClientOptions(str)
-                    {
-                        Timeout = 5000,
-                        FollowRedirects = false
-                    };
-
-                    var client = new RestClient(options);
-                    var request = new RestRequest()
-                        .AddHeader("Cookie", $"remid={Globals.Config.Remid}");
-
-                    LoggerHelper.Info($"当前Remin为 {Globals.Config.Remid}");
-
-                    var response = await client.ExecuteGetAsync(request);
-                    if (response.StatusCode == HttpStatusCode.Redirect)
-                    {
-                        string code = response.Headers.ToList()
-                            .Find(x => x.Name == "Location")
-                            .Value.ToString();
-
-                        LoggerHelper.Info($"当前Location为 {code}");
-
-                        if (code.Contains("http://127.0.0.1/success?code="))
-                        {
-                            Globals.Config.Remid = response.Cookies[0].Value;
-                            Globals.Config.Sid = response.Cookies[1].Value;
-
-                            LoggerHelper.Info($"当前Remid为 {Globals.Config.Remid}");
-                            LoggerHelper.Info($"当前Sid为 {Globals.Config.Sid}");
-
-                            code = code.Replace("http://127.0.0.1/success?code=", "");
-                            var result = await BF1API.API.ServerAPI.GetEnvIdViaAuthCode(code);
-
-                            if (result.IsSuccess)
-                            {
-                                var envIdViaAuthCode = JsonUtil.JsonDese<EnvIdViaAuthCode>(result.Message);
-                                Globals.Config.SessionId = envIdViaAuthCode.result.sessionId;
-                                LoggerHelper.Info($"刷新SessionID成功 {Globals.Config.SessionId}");
-                            }
-                            else
-                            {
-                                LoggerHelper.Error($"刷新SessionID失败，code无效 {code}");
-                            }
-
-                            FileUtil.SaveConfig();
-                        }
-                        else
-                        {
-                            LoggerHelper.Error($"刷新SessionID失败，code错误 {code}");
-                        }
-                    }
-                    else
-                    {
-                        LoggerHelper.Error($"刷新SessionID失败，玩家Remid不正确 {Globals.Config.Remid}");
-                    }
-                }
-                else
-                {
-                    LoggerHelper.Error($"刷新SessionID失败，玩家Remid为空");
-                }
+                await Core.Login();
             }
             catch (Exception ex)
             {
-                LoggerHelper.Error($"刷新SessionID失败", ex);
+                Core.LogError($"刷新SessionID失败", ex);
             }
         }
 
@@ -152,7 +92,6 @@ namespace BF1.ServerAdminTools.Wpf.Views
                     }
                     else
                     {
-                        WebView2Window = null;
                         WebView2Window = new WebView2Window();
                         WebView2Window.Show();
                     }
@@ -168,83 +107,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
         private async void Button_RefreshPlayerSessionId_Click(object sender, RoutedEventArgs e)
         {
             AudioUtil.ClickSound();
-
-            if (!string.IsNullOrEmpty(Globals.Config.Remid))
-            {
-                TextBlock_CheckSessionIdStatus.Text = "正在获取Code中，请等待...";
-                TextBlock_CheckSessionIdStatus.Background = Brushes.Gray;
-                MainWindow._SetOperatingState(2, "正在获取Code中，请等待...");
-
-                var str = "https://accounts.ea.com/connect/auth?response_type=code&locale=zh_CN&client_id=sparta-backend-as-user-pc";
-                var options = new RestClientOptions(str)
-                {
-                    Timeout = 5000,
-                    FollowRedirects = false
-                };
-
-                var client = new RestClient(options);
-                var request = new RestRequest()
-                    .AddHeader("Cookie", $"remid={Globals.Config.Remid}");
-
-                var response = await client.ExecuteGetAsync(request);
-                if (response.StatusCode == HttpStatusCode.Redirect)
-                {
-                    string code = response.Headers.ToList()
-                        .Find(x => x.Name == "Location")
-                        .Value.ToString();
-
-                    if (code.Contains("http://127.0.0.1/success?code="))
-                    {
-                        TextBlock_CheckSessionIdStatus.Text = "正在刷新SessionID中，请等待...";
-                        TextBlock_CheckSessionIdStatus.Background = Brushes.Gray;
-                        MainWindow._SetOperatingState(2, "正在刷新SessionID中，请等待...");
-
-                        Globals.Config.Remid = response.Cookies[0].Value;
-                        Globals.Config.Sid = response.Cookies[1].Value;
-
-                        code = code.Replace("http://127.0.0.1/success?code=", "");
-                        var result = await BF1API.API.ServerAPI.GetEnvIdViaAuthCode(code);
-
-                        if (result.IsSuccess)
-                        {
-                            var envIdViaAuthCode = JsonUtil.JsonDese<EnvIdViaAuthCode>(result.Message);
-                            Globals.Config.SessionId = envIdViaAuthCode.result.sessionId;
-
-                            TextBlock_CheckSessionIdStatus.Text = "刷新SessionID成功";
-                            TextBlock_CheckSessionIdStatus.Background = Brushes.Green;
-
-                            MainWindow._SetOperatingState(1, $"刷新SessionID成功  |  耗时: {result.ExecTime:0.00} 秒");
-                        }
-                        else
-                        {
-                            TextBlock_CheckSessionIdStatus.Text = "刷新SessionID失败";
-                            TextBlock_CheckSessionIdStatus.Background = Brushes.Red;
-
-                            MainWindow._SetOperatingState(3, $"刷新SessionID失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
-                        }
-
-                        FileUtil.SaveConfig();
-                    }
-                    else
-                    {
-                        TextBlock_CheckSessionIdStatus.Text = "获取Code失败，Code无效";
-                        TextBlock_CheckSessionIdStatus.Background = Brushes.Red;
-
-                        MainWindow._SetOperatingState(3, "获取Code失败，Code无效");
-                    }
-                }
-                else
-                {
-                    TextBlock_CheckSessionIdStatus.Text = "获取Code失败，Remid无效";
-                    TextBlock_CheckSessionIdStatus.Background = Brushes.Red;
-
-                    MainWindow._SetOperatingState(3, "获取Code失败，Remid无效，请执行第一步修复Code获取失败，然后重新获取玩家账号信息");
-                }
-            }
-            else
-            {
-                MainWindow._SetOperatingState(2, "请先获取玩家Remid后，再执行本操作");
-            }
+            MainWindow._SetOperatingState(2, await Core.Login());
         }
 
         private async void Button_VerifyPlayerSessionId_Click(object sender, RoutedEventArgs e)
@@ -257,12 +120,12 @@ namespace BF1.ServerAdminTools.Wpf.Views
                 TextBlock_CheckSessionIdStatus.Background = Brushes.Gray;
                 MainWindow._SetOperatingState(2, "正在验证中，请等待...");
 
-                await BF1API.API.ServerAPI.SetAPILocale();
-                var result = await BF1API.API.ServerAPI.GetWelcomeMessage();
+                await ServerAPI.SetAPILocale();
+                var result = await ServerAPI.GetWelcomeMessage();
 
                 if (result.IsSuccess)
                 {
-                    var welcomeMsg = JsonUtil.JsonDese<WelcomeMsg>(result.Message);
+                    var welcomeMsg = result.Obj as WelcomeMsg;
 
                     var msg = ChsUtil.ToSimplifiedChinese(welcomeMsg.result.firstMessage);
 
@@ -297,7 +160,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
 
             if (result.IsSuccess)
             {
-                var statusArray = JsonUtil.JsonDese<StatusArray>(result.Message);
+                var statusArray = result.Obj as StatusArray;
 
                 int count = statusArray.timeStamps.Count;
 
@@ -364,13 +227,15 @@ namespace BF1.ServerAdminTools.Wpf.Views
 
         private void DeployCustomMenu1(object sender, EventArgs e)
         {
-            MenuItem updateDataMenuItem = new MenuItem() { Header = "更新表格数据" };
+            MenuItem updateDataMenuItem = new() 
+            { Header = "更新表格数据" };
             updateDataMenuItem.Click += UpdateData1;
 
-            MenuItem defaultViewMenuItem = new MenuItem() { Header = "恢复默认视图" };
+            MenuItem defaultViewMenuItem = new() 
+            { Header = "恢复默认视图" };
             defaultViewMenuItem.Click += DefaultView1;
 
-            ContextMenu rightClickMenu = new ContextMenu();
+            ContextMenu rightClickMenu = new();
             rightClickMenu.Items.Add(updateDataMenuItem);
             rightClickMenu.Items.Add(defaultViewMenuItem);
 
@@ -391,13 +256,13 @@ namespace BF1.ServerAdminTools.Wpf.Views
 
         private void DeployCustomMenu2(object sender, EventArgs e)
         {
-            MenuItem updateDataMenuItem = new MenuItem() { Header = "更新表格数据" };
+            MenuItem updateDataMenuItem = new() { Header = "更新表格数据" };
             updateDataMenuItem.Click += UpdateData2;
 
-            MenuItem defaultViewMenuItem = new MenuItem() { Header = "恢复默认视图" };
+            MenuItem defaultViewMenuItem = new() { Header = "恢复默认视图" };
             defaultViewMenuItem.Click += DefaultView2;
 
-            ContextMenu rightClickMenu = new ContextMenu();
+            ContextMenu rightClickMenu = new();
             rightClickMenu.Items.Add(updateDataMenuItem);
             rightClickMenu.Items.Add(defaultViewMenuItem);
 

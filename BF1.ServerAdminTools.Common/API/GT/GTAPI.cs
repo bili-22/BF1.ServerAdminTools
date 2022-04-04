@@ -1,6 +1,8 @@
-﻿using RestSharp;
+﻿using BF1.ServerAdminTools.Common.API.GT.RespJson;
+using BF1.ServerAdminTools.Common.Utils;
+using RestSharp;
 
-namespace BF1.ServerAdminTools.BF1API.API2;
+namespace BF1.ServerAdminTools.Common.API.GT;
 
 public static class GTAPI
 {
@@ -190,6 +192,8 @@ public static class GTAPI
             {
                 respContent.IsSuccess = true;
                 respContent.Message = response.Content;
+
+                respContent.Obj = JsonUtil.JsonDese<StatusArray>(respContent.Message);
             }
             else
             {

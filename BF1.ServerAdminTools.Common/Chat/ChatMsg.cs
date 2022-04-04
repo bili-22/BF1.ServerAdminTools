@@ -1,6 +1,6 @@
-﻿using BF1.ServerAdminTools.BF1API.Core;
+﻿using BF1.ServerAdminTools.Common.Hook;
 
-namespace BF1.ServerAdminTools.BF1API.Chat;
+namespace BF1.ServerAdminTools.Common.Chat;
 
 internal static class ChatMsg
 {

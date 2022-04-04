@@ -1,7 +1,7 @@
-﻿using BF1.ServerAdminTools.BF1API.API.RespJson;
-using BF1.ServerAdminTools.BF1API.Core;
-using BF1.ServerAdminTools.BF1API.Data;
-using BF1.ServerAdminTools.BF1API.Utils;
+﻿using BF1.ServerAdminTools.Common.API.RespJson;
+using BF1.ServerAdminTools.Common.Core;
+using BF1.ServerAdminTools.Common.Data;
+using BF1.ServerAdminTools.Common.Utils;
 using BF1.ServerAdminTools.Common;
 using BF1.ServerAdminTools.Common.Data;
 using BF1.ServerAdminTools.Common.Helper;
@@ -9,6 +9,7 @@ using BF1.ServerAdminTools.Common.Utils;
 using BF1.ServerAdminTools.Wpf.Models;
 using BF1.ServerAdminTools.Wpf.Utils;
 using BF1.ServerAdminTools.Wpf.Windows;
+using BF1.ServerAdminTools.Common.API.BF1Server;
 
 namespace BF1.ServerAdminTools.Wpf.Views
 {
@@ -254,7 +255,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
             if (!ScoreView.PlayerDatas_Team1.ContainsKey(data.PersonaId) && !ScoreView.PlayerDatas_Team2.ContainsKey(data.PersonaId))
                 return;
 
-            var resultTemp = await BF1API.API.ServerAPI.GetCareerForOwnedGamesByPersonaId(data.PersonaId.ToString());
+            var resultTemp = await ServerAPI.GetCareerForOwnedGamesByPersonaId(data.PersonaId.ToString());
 
             if (resultTemp.IsSuccess)
             {
@@ -334,7 +335,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
         // 自动踢出违规玩家
         private async void AutoKickPlayer(BreakRuleInfo info)
         {
-            var result = await BF1API.API.ServerAPI.AdminKickPlayer(info.PersonaId.ToString(), info.Reason);
+            var result = await ServerAPI.AdminKickPlayer(info.PersonaId.ToString(), info.Reason);
 
             if (result.IsSuccess)
             {
@@ -1016,7 +1017,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
 
             AppendLog("");
             AppendLog("正在检查 SessionId 是否有效...");
-            var result = await BF1API.API.ServerAPI.GetWelcomeMessage();
+            var result = await ServerAPI.GetWelcomeMessage();
             if (!result.IsSuccess)
             {
                 AppendLog("SessionId 已过期，请重新获取，操作取消");
@@ -1119,7 +1120,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
                 // 白名单玩家不踢出
                 if (!Globals.NowRule.Custom_WhiteList.Contains(info.Name))
                 {
-                    var result = await BF1API.API.ServerAPI.AdminKickPlayer(info.PersonaId.ToString(), info.Reason);
+                    var result = await ServerAPI.AdminKickPlayer(info.PersonaId.ToString(), info.Reason);
 
                     if (result.IsSuccess)
                     {

@@ -1,4 +1,4 @@
-﻿namespace BF1.ServerAdminTools.BF1API.Data;
+﻿namespace BF1.ServerAdminTools.Common.Data;
 
 public class WeaponData
 {

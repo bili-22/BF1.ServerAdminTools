@@ -1,6 +1,6 @@
-﻿using BF1.ServerAdminTools.BF1API.Data;
+﻿using BF1.ServerAdminTools.Common.Data;
 
-namespace BF1.ServerAdminTools.BF1API.Utils;
+namespace BF1.ServerAdminTools.Common.Utils;
 
 public static class PlayerUtil
 {
