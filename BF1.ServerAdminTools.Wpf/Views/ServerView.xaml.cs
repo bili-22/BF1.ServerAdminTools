@@ -1,5 +1,5 @@
 ﻿using BF1.ServerAdminTools.Common.API.GT;
-using BF1.ServerAdminTools.Common.API2.RespJson;
+using BF1.ServerAdminTools.Common.API.GT.RespJson;
 using BF1.ServerAdminTools.Common.Utils;
 using BF1.ServerAdminTools.Wpf.Models;
 using BF1.ServerAdminTools.Wpf.Utils;
@@ -13,7 +13,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
     public partial class ServerView : UserControl
     {
         public ServerModel ServerModel { get; set; }
-        public ObservableCollection<Servers.ServersItem> ServersItems { get; set; }
+        public ObservableCollection<ServerInfos.ServersItem> ServersItems { get; set; }
 
         public RelayCommand QueryServerCommand { get; private set; }
         public RelayCommand<string> ServerInfoCommand { get; private set; }
@@ -25,7 +25,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
             this.DataContext = this;
 
             ServerModel = new ServerModel();
-            ServersItems = new ObservableCollection<Servers.ServersItem>();
+            ServersItems = new ObservableCollection<ServerInfos.ServersItem>();
 
             QueryServerCommand = new RelayCommand(QueryServer);
             ServerInfoCommand = new RelayCommand<string>(ServerInfo);
@@ -54,7 +54,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
 
                 if (result.IsSuccess)
                 {
-                    var servers = JsonUtil.JsonDese<Servers>(result.Message);
+                    var servers = result.Obj;
 
                     foreach (var item in servers.servers)
                     {

@@ -51,6 +51,8 @@ namespace BF1.ServerAdminTools.Wpf
                 UpdateState("正在为您营造个性化体验...");
 
                 Core.ConfigInit();
+                ConfigUtil.Init();
+                ConfigUtil.LoadAll();
                 Core.SQLInit();
 
                 ServerAPI.Init();

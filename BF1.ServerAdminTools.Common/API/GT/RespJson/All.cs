@@ -1,6 +1,6 @@
 ﻿namespace BF1.ServerAdminTools.Common.API.GT.RespJson;
 
-public record All
+public record AllPlayerData
 {
     public string avatar { get; set; }
     public string userName { get; set; }

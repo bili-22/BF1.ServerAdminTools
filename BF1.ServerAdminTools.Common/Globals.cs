@@ -14,10 +14,6 @@ public static class Globals
 
     ///////////////////////////////////////////////////////
 
-    public static Dictionary<string, ServerRule> Rules { get; } = new();
-
-    public static ServerRule NowRule { get; set; }
-
     /// <summary>
     /// 服务器管理员
     /// </summary>

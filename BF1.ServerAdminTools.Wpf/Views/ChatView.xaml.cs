@@ -12,14 +12,12 @@ namespace BF1.ServerAdminTools.Wpf.Views
     {
         private string[] defaultMsg = new string[10];
 
-        private Timer timerAutoSendMsg;
-        private List<string> queueMsg;
+        private Timer timerAutoSendMsg = new();
+        private Timer timerNoAFK = new();
+
+        private List<string> queueMsg = new();
 
         private int queueMsgSleep = 1;
-
-        private Timer timerNoAFK;
-
-        public RelayCommand SendChsMessageCommand { get; set; }
 
         public ChatView()
         {
@@ -47,18 +45,12 @@ namespace BF1.ServerAdminTools.Wpf.Views
 
             MainWindow.ClosingDisposeEvent += MainWindow_ClosingDisposeEvent;
 
-            timerAutoSendMsg = new();
             timerAutoSendMsg.AutoReset = true;
             timerAutoSendMsg.Elapsed += TimerAutoSendMsg_Elapsed;
 
-            queueMsg = new List<string>();
-
-            timerNoAFK = new();
             timerNoAFK.AutoReset = true;
             timerNoAFK.Interval = 30000;
             timerNoAFK.Elapsed += TimerNoAFK_Elapsed;
-
-            SendChsMessageCommand = new RelayCommand(SendChsMessage);
         }
 
         private void MainWindow_ClosingDisposeEvent()
@@ -115,7 +107,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
             Core.KeyTab();
         }
 
-        private void SendChsMessage()
+        private void SendChsMessage(object sender, RoutedEventArgs e)
         {
             AudioUtil.ClickSound();
 

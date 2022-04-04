@@ -166,7 +166,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
                 AppendKickOKLog("踢出理由: " + info.Reason);
                 AppendKickOKLog("状态: " + info.Status + "\n");
 
-                SQLiteHelper.AddLog2SQLite(DataShell.KICKOK, info);
+                Core.AddLog2SQLite(DataShell.KICKOK, info);
             });
         }
 
@@ -185,7 +185,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
                 AppendKickNOLog("踢出理由: " + info.Reason);
                 AppendKickNOLog("状态: " + info.Status + "\n");
 
-                SQLiteHelper.AddLog2SQLite(DataShell.KICKFAIL, info);
+                Core.AddLog2SQLite(DataShell.KICKFAIL, info);
             });
         }
 
@@ -204,7 +204,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
                 AppendChangeTeamLog("玩家数字ID: " + info.PersonaId);
                 AppendChangeTeamLog("状态: " + info.Status + "\n");
 
-                SQLiteHelper.AddLog2SQLite(info);
+                Core.AddLog2SQLite(info);
             });
         }
     }

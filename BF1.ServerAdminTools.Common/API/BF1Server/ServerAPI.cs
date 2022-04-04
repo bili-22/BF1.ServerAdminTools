@@ -41,12 +41,12 @@ public static class ServerAPI
     /// <summary>
     /// 获取战地1欢迎语
     /// </summary>
-    public static async Task<RespContent> GetWelcomeMessage()
+    public static async Task<RespContent<WelcomeMsg>> GetWelcomeMessage()
     {
         Stopwatch sw = new();
         sw.Start();
 
-        RespContent respContent = new();
+        RespContent<WelcomeMsg> respContent = new();
 
         try
         {
@@ -99,12 +99,12 @@ public static class ServerAPI
     /// <summary>
     /// 设置API语言
     /// </summary>
-    public static async Task<RespContent> SetAPILocale()
+    public static async Task<RespContent<object>> SetAPILocale()
     {
         Stopwatch sw = new();
         sw.Start();
 
-        RespContent respContent = new();
+        RespContent<object> respContent = new();
 
         try
         {
@@ -154,12 +154,12 @@ public static class ServerAPI
     /// <summary>
     /// 踢出指定玩家
     /// </summary>
-    public static async Task<RespContent> AdminKickPlayer(string personaId, string reason)
+    public static async Task<RespContent<object>> AdminKickPlayer(string personaId, string reason)
     {
         Stopwatch sw = new();
         sw.Start();
 
-        RespContent respContent = new();
+        RespContent<object> respContent = new();
 
         try
         {
@@ -212,12 +212,12 @@ public static class ServerAPI
     /// <summary>
     /// 更换指定玩家队伍
     /// </summary>
-    public static async Task<RespContent> AdminMovePlayer(string personaId, string teamId)
+    public static async Task<RespContent<object>> AdminMovePlayer(string personaId, string teamId)
     {
         Stopwatch sw = new();
         sw.Start();
 
-        RespContent respContent = new();
+        RespContent<object> respContent = new();
 
         try
         {
@@ -272,12 +272,12 @@ public static class ServerAPI
     /// <summary>
     /// 更换服务器地图
     /// </summary>
-    public static async Task<RespContent> ChangeServerMap(string persistedGameId, string levelIndex)
+    public static async Task<RespContent<object>> ChangeServerMap(string persistedGameId, string levelIndex)
     {
         Stopwatch sw = new();
         sw.Start();
 
-        RespContent respContent = new();
+        RespContent<object> respContent = new();
 
         try
         {
@@ -329,12 +329,12 @@ public static class ServerAPI
     /// <summary>
     /// 获取完整服务器详情
     /// </summary>
-    public static async Task<RespContent> GetFullServerDetails()
+    public static async Task<RespContent<FullServerDetails>> GetFullServerDetails()
     {
         Stopwatch sw = new();
         sw.Start();
 
-        RespContent respContent = new();
+        RespContent<FullServerDetails> respContent = new();
 
         try
         {
@@ -363,6 +363,8 @@ public static class ServerAPI
             {
                 respContent.IsSuccess = true;
                 respContent.Message = response.Content;
+
+                respContent.Obj = JsonUtil.JsonDese<FullServerDetails>(respContent.Message);
             }
             else
             {
@@ -385,12 +387,12 @@ public static class ServerAPI
     /// <summary>
     /// 添加服务器管理员
     /// </summary>
-    public static async Task<RespContent> AddServerAdmin(string personaName)
+    public static async Task<RespContent<object>> AddServerAdmin(string personaName)
     {
         Stopwatch sw = new();
         sw.Start();
 
-        RespContent respContent = new();
+        RespContent<object> respContent = new();
 
         try
         {
@@ -442,12 +444,12 @@ public static class ServerAPI
     /// <summary>
     /// 移除服务器管理员
     /// </summary>
-    public static async Task<RespContent> RemoveServerAdmin(string personaId)
+    public static async Task<RespContent<object>> RemoveServerAdmin(string personaId)
     {
         Stopwatch sw = new();
         sw.Start();
 
-        RespContent respContent = new();
+        RespContent<object> respContent = new();
 
         try
         {
@@ -499,12 +501,12 @@ public static class ServerAPI
     /// <summary>
     /// 添加服务器VIP
     /// </summary>
-    public static async Task<RespContent> AddServerVip(string personaName)
+    public static async Task<RespContent<object>> AddServerVip(string personaName)
     {
         Stopwatch sw = new();
         sw.Start();
 
-        RespContent respContent = new();
+        RespContent<object> respContent = new();
 
         try
         {
@@ -556,12 +558,12 @@ public static class ServerAPI
     /// <summary>
     /// 移除服务器VIP
     /// </summary>
-    public static async Task<RespContent> RemoveServerVip(string personaId)
+    public static async Task<RespContent<object>> RemoveServerVip(string personaId)
     {
         Stopwatch sw = new();
         sw.Start();
 
-        RespContent respContent = new();
+        RespContent<object> respContent = new();
 
         try
         {
@@ -613,12 +615,12 @@ public static class ServerAPI
     /// <summary>
     /// 添加服务器BAN
     /// </summary>
-    public static async Task<RespContent> AddServerBan(string personaName)
+    public static async Task<RespContent<object>> AddServerBan(string personaName)
     {
         Stopwatch sw = new();
         sw.Start();
 
-        RespContent respContent = new();
+        RespContent<object> respContent = new();
 
         try
         {
@@ -670,12 +672,12 @@ public static class ServerAPI
     /// <summary>
     /// 移除服务器BAN
     /// </summary>
-    public static async Task<RespContent> RemoveServerBan(string personaId)
+    public static async Task<RespContent<object>> RemoveServerBan(string personaId)
     {
         Stopwatch sw = new();
         sw.Start();
 
-        RespContent respContent = new();
+        RespContent<object> respContent = new();
 
         try
         {
@@ -727,12 +729,12 @@ public static class ServerAPI
     /// <summary>
     /// 获取服务器RSP信息
     /// </summary>
-    public static async Task<RespContent> GetServerDetails()
+    public static async Task<RespContent<object>> GetServerDetails()
     {
         Stopwatch sw = new();
         sw.Start();
 
-        RespContent respContent = new();
+        RespContent<object> respContent = new();
 
         try
         {
@@ -761,6 +763,8 @@ public static class ServerAPI
             {
                 respContent.IsSuccess = true;
                 respContent.Message = response.Content;
+
+                respContent.Obj = JsonUtil.JsonDese<ServerDetails>(respContent.Message);
             }
             else
             {
@@ -783,12 +787,12 @@ public static class ServerAPI
     /// <summary>
     /// 更新服务器信息
     /// </summary>
-    public static async Task<RespContent> UpdateServer(UpdateServerReqBody reqBody)
+    public static async Task<RespContent<object>> UpdateServer(UpdateServerReqBody reqBody)
     {
         Stopwatch sw = new();
         sw.Start();
 
-        RespContent respContent = new();
+        RespContent<object> respContent = new();
 
         try
         {
@@ -827,12 +831,12 @@ public static class ServerAPI
     /// <summary>
     /// 获取玩家SessionID
     /// </summary>
-    public static async Task<RespContent> GetEnvIdViaAuthCode(string authCode)
+    public static async Task<RespContent<EnvIdViaAuthCode>> GetEnvIdViaAuthCode(string authCode)
     {
         Stopwatch sw = new();
         sw.Start();
 
-        RespContent respContent = new();
+        RespContent<EnvIdViaAuthCode> respContent = new();
 
         try
         {
@@ -861,6 +865,8 @@ public static class ServerAPI
             {
                 respContent.IsSuccess = true;
                 respContent.Message = response.Content;
+
+                respContent.Obj = JsonUtil.JsonDese<EnvIdViaAuthCode>(respContent.Message);
             }
             else
             {
@@ -883,12 +889,12 @@ public static class ServerAPI
     /// <summary>
     /// 获取玩家SessionID
     /// </summary>
-    public static async Task<RespContent> GetCareerForOwnedGamesByPersonaId(string personaId)
+    public static async Task<RespContent<CareerForOwnedGamesByPersonaId>> GetCareerForOwnedGamesByPersonaId(string personaId)
     {
         Stopwatch sw = new();
         sw.Start();
 
-        RespContent respContent = new();
+        RespContent<CareerForOwnedGamesByPersonaId> respContent = new();
 
         try
         {
@@ -917,6 +923,8 @@ public static class ServerAPI
             {
                 respContent.IsSuccess = true;
                 respContent.Message = response.Content;
+
+                respContent.Obj = JsonUtil.JsonDese<CareerForOwnedGamesByPersonaId>(respContent.Message);
             }
             else
             {

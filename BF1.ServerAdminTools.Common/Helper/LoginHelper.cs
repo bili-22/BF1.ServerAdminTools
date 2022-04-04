@@ -60,7 +60,7 @@ internal static class LoginHelper
 
         if (result.IsSuccess)
         {
-            var envIdViaAuthCode = JsonUtil.JsonDese<EnvIdViaAuthCode>(result.Message);
+            var envIdViaAuthCode = result.Obj;
             Globals.Config.SessionId = envIdViaAuthCode.result.sessionId;
             temp = $"刷新SessionID成功 {Globals.Config.SessionId} |  耗时: {result.ExecTime:0.00} 秒";
             Core.LogInfo(temp);

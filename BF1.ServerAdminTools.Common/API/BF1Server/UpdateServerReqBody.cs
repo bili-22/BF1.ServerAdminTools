@@ -2,14 +2,14 @@
 
 public record UpdateServerReqBody
 {
-    public string jsonrpc { get; set; }
-    public string method { get; set; }
+    public string jsonrpc { get; set; } = "2.0";
+    public string method { get; set; } = "RSP.updateServer";
     public Params @params { get; set; }
     public string id { get; set; }
     public record Params
     {
         public DeviceIdMap deviceIdMap { get; set; }
-        public string game { get; set; }
+        public string game { get; set; } = "tunguska";
         public string serverId { get; set; }
         public BannerSettings bannerSettings { get; set; }
         public MapRotation mapRotation { get; set; }

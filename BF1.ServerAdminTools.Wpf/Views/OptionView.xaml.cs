@@ -81,20 +81,20 @@ namespace BF1.ServerAdminTools.Wpf.Views
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            if (!ProcessUtil.IsAppRun(CoreUtil.TargetAppName))
+            if (!Core.IsGameRun())
             {
                 MsgBoxUtil.ErrorMsgBox("没有检测到游戏进程");
                 return;
             }
 
-            if (!Memory.Initialize(CoreUtil.TargetAppName))
+            if (!Core.HookInit())
             {
-                LoggerHelper.Error("战地1内存模块初始化失败");
+                Core.LogError("战地1内存模块初始化失败");
                 MsgBoxUtil.ErrorMsgBox("战地1内存模块初始化失败");
                 return;
             }
 
-            LoggerHelper.Info("战地1内存模块初始化成功");
+            Core.LogInfo("战地1内存模块初始化成功");
             MsgBoxUtil.InformationMsgBox("检测到游戏运行");
         }
     }

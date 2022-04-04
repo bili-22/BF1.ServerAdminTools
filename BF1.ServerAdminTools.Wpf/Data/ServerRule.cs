@@ -6,6 +6,12 @@ using System.Threading.Tasks;
 
 namespace BF1.ServerAdminTools.Common.Data;
 
+public static class ServerRules
+{
+    public static Dictionary<string, ServerRule> Rules { get; } = new();
+    public static ServerRule NowRule { get; set; }
+}
+
 public record ServerRule
 {
     public string Name { get; set; }

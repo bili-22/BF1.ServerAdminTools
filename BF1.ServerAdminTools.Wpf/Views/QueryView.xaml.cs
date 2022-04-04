@@ -1,6 +1,5 @@
 ﻿using BF1.ServerAdminTools.Common.API.GT;
-using BF1.ServerAdminTools.Common.API2.RespJson;
-using BF1.ServerAdminTools.Common.Utils;
+using BF1.ServerAdminTools.Common.API.GT.RespJson;
 using BF1.ServerAdminTools.Common.Utils;
 using BF1.ServerAdminTools.Wpf.Models;
 using BF1.ServerAdminTools.Wpf.Utils;
@@ -15,8 +14,8 @@ namespace BF1.ServerAdminTools.Wpf.Views
     {
         public QueryModel QueryModel { get; set; }
         public ObservableCollection<string> PlayerDatas { get; set; }
-        public ObservableCollection<All.WeaponsItem> WeaponsItems { get; set; }
-        public ObservableCollection<All.VehiclesItem> VehiclesItems { get; set; }
+        public ObservableCollection<AllPlayerData.WeaponsItem> WeaponsItems { get; set; }
+        public ObservableCollection<AllPlayerData.VehiclesItem> VehiclesItems { get; set; }
 
         public RelayCommand QueryPlayerCommand { get; set; }
 
@@ -33,8 +32,8 @@ namespace BF1.ServerAdminTools.Wpf.Views
             QueryModel = new QueryModel();
 
             PlayerDatas = new ObservableCollection<string>();
-            WeaponsItems = new ObservableCollection<All.WeaponsItem>();
-            VehiclesItems = new ObservableCollection<All.VehiclesItem>();
+            WeaponsItems = new ObservableCollection<AllPlayerData.WeaponsItem>();
+            VehiclesItems = new ObservableCollection<AllPlayerData.VehiclesItem>();
 
             QueryPlayerCommand = new RelayCommand(QueryPlayer);
 
@@ -81,7 +80,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
 
                 if (result.IsSuccess)
                 {
-                    var all = JsonUtil.JsonDese<All>(result.Message);
+                    var all = result.Obj as AllPlayerData;
 
                     all.weapons.Sort((a, b) => b.kills.CompareTo(a.kills));
                     all.vehicles.Sort((a, b) => b.kills.CompareTo(a.kills));
@@ -107,7 +106,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
             }
         }
 
-        private void Update(All all)
+        private void Update(AllPlayerData all)
         {
             Task.Run(() =>
             {

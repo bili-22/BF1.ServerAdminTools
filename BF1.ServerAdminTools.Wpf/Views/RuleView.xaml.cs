@@ -1,15 +1,11 @@
-﻿using BF1.ServerAdminTools.Common.API.RespJson;
-using BF1.ServerAdminTools.Common.Core;
-using BF1.ServerAdminTools.Common.Data;
+﻿using BF1.ServerAdminTools.Common.Data;
 using BF1.ServerAdminTools.Common.Utils;
 using BF1.ServerAdminTools.Common;
-using BF1.ServerAdminTools.Common.Data;
-using BF1.ServerAdminTools.Common.Helper;
-using BF1.ServerAdminTools.Common.Utils;
 using BF1.ServerAdminTools.Wpf.Models;
 using BF1.ServerAdminTools.Wpf.Utils;
 using BF1.ServerAdminTools.Wpf.Windows;
 using BF1.ServerAdminTools.Common.API.BF1Server;
+using BF1.ServerAdminTools.Common.API.BF1Server.RespJson;
 
 namespace BF1.ServerAdminTools.Wpf.Views
 {
@@ -55,12 +51,12 @@ namespace BF1.ServerAdminTools.Wpf.Views
                 IsBackground = true
             }.Start();
 
-            foreach (var item in Globals.Rules)
+            foreach (var item in ServerRules.Rules)
             {
                 Rule_List.Items.Add(item.Value);
             }
 
-            Globals.NowRule = Globals.Rules["default"];
+            ServerRules.NowRule = ServerRules.Rules["default"];
 
             LoadRule();
 
@@ -69,38 +65,38 @@ namespace BF1.ServerAdminTools.Wpf.Views
 
         private void LoadRule() 
         {
-            NowName.Text = Globals.NowRule.Name;
+            NowName.Text = ServerRules.NowRule.Name;
 
-            if (Globals.NowRule.Custom_WeaponList == null)
+            if (ServerRules.NowRule.Custom_WeaponList == null)
             {
-                Globals.NowRule.Custom_WeaponList = new();
+                ServerRules.NowRule.Custom_WeaponList = new();
             }
 
-            if (Globals.NowRule.Custom_BlackList == null)
+            if (ServerRules.NowRule.Custom_BlackList == null)
             {
-                Globals.NowRule.Custom_BlackList = new();
+                ServerRules.NowRule.Custom_BlackList = new();
             }
 
-            if (Globals.NowRule.Custom_WhiteList == null)
+            if (ServerRules.NowRule.Custom_WhiteList == null)
             {
-                Globals.NowRule.Custom_WhiteList = new();
+                ServerRules.NowRule.Custom_WhiteList = new();
             }
 
-            Slider_MaxKill.Value = Globals.NowRule.MaxKill;
-            Slider_KDFlag.Value = Globals.NowRule.KDFlag;
-            Slider_MaxKD.Value = Globals.NowRule.MaxKD;
-            Slider_KPMFlag.Value = Globals.NowRule.KPMFlag;
-            Slider_MaxKPM.Value = Globals.NowRule.MaxKPM;
-            Slider_MinRank.Value = Globals.NowRule.MinRank;
-            Slider_MaxRank.Value = Globals.NowRule.MaxRank;
+            Slider_MaxKill.Value = ServerRules.NowRule.MaxKill;
+            Slider_KDFlag.Value = ServerRules.NowRule.KDFlag;
+            Slider_MaxKD.Value = ServerRules.NowRule.MaxKD;
+            Slider_KPMFlag.Value = ServerRules.NowRule.KPMFlag;
+            Slider_MaxKPM.Value = ServerRules.NowRule.MaxKPM;
+            Slider_MinRank.Value = ServerRules.NowRule.MinRank;
+            Slider_MaxRank.Value = ServerRules.NowRule.MaxRank;
 
-            Slider_LifeMaxKD.Value = Globals.NowRule.LifeMaxKD;
-            Slider_LifeMaxKPM.Value = Globals.NowRule.LifeMaxKPM;
-            Slider_LifeMaxWeaponStar.Value = Globals.NowRule.LifeMaxWeaponStar;
-            Slider_LifeMaxVehicleStar.Value = Globals.NowRule.LifeMaxVehicleStar;
+            Slider_LifeMaxKD.Value = ServerRules.NowRule.LifeMaxKD;
+            Slider_LifeMaxKPM.Value = ServerRules.NowRule.LifeMaxKPM;
+            Slider_LifeMaxWeaponStar.Value = ServerRules.NowRule.LifeMaxWeaponStar;
+            Slider_LifeMaxVehicleStar.Value = ServerRules.NowRule.LifeMaxVehicleStar;
 
             ListBox_BreakWeaponInfo.Items.Clear();
-            foreach (var item in Globals.NowRule.Custom_WeaponList)
+            foreach (var item in ServerRules.NowRule.Custom_WeaponList)
             {
                 ListBox_BreakWeaponInfo.Items.Add(new WeaponInfoModel()
                 {
@@ -115,13 +111,13 @@ namespace BF1.ServerAdminTools.Wpf.Views
             }
 
             ListBox_Custom_BlackList.Items.Clear();
-            foreach (var item in Globals.NowRule.Custom_BlackList)
+            foreach (var item in ServerRules.NowRule.Custom_BlackList)
             {
                 ListBox_Custom_BlackList.Items.Add(item);
             }
 
             ListBox_Custom_WhiteList.Items.Clear();
-            foreach (var item in Globals.NowRule.Custom_WhiteList)
+            foreach (var item in ServerRules.NowRule.Custom_WhiteList)
             {
                 ListBox_Custom_WhiteList.Items.Add(item);
             }
@@ -147,32 +143,32 @@ namespace BF1.ServerAdminTools.Wpf.Views
 
         private void MainWindow_ClosingDisposeEvent()
         {
-            Globals.NowRule.MaxKill = (int)Slider_MaxKill.Value;
-            Globals.NowRule.KDFlag = (int)Slider_KDFlag.Value;
-            Globals.NowRule.MaxKD = (float)Slider_MaxKD.Value;
-            Globals.NowRule.KPMFlag = (int)Slider_KPMFlag.Value;
-            Globals.NowRule.MaxKPM = (float)Slider_MaxKPM.Value;
-            Globals.NowRule.MinRank = (int)Slider_MinRank.Value;
-            Globals.NowRule.MaxRank = (int)Slider_MaxRank.Value;
-            Globals.NowRule.LifeMaxKD = (float)Slider_LifeMaxKD.Value;
-            Globals.NowRule.LifeMaxKPM = (float)Slider_LifeMaxKPM.Value;
-            Globals.NowRule.LifeMaxWeaponStar = (int)Slider_LifeMaxWeaponStar.Value;
-            Globals.NowRule.LifeMaxVehicleStar = (int)Slider_LifeMaxVehicleStar.Value;
+            ServerRules.NowRule.MaxKill = (int)Slider_MaxKill.Value;
+            ServerRules.NowRule.KDFlag = (int)Slider_KDFlag.Value;
+            ServerRules.NowRule.MaxKD = (float)Slider_MaxKD.Value;
+            ServerRules.NowRule.KPMFlag = (int)Slider_KPMFlag.Value;
+            ServerRules.NowRule.MaxKPM = (float)Slider_MaxKPM.Value;
+            ServerRules.NowRule.MinRank = (int)Slider_MinRank.Value;
+            ServerRules.NowRule.MaxRank = (int)Slider_MaxRank.Value;
+            ServerRules.NowRule.LifeMaxKD = (float)Slider_LifeMaxKD.Value;
+            ServerRules.NowRule.LifeMaxKPM = (float)Slider_LifeMaxKPM.Value;
+            ServerRules.NowRule.LifeMaxWeaponStar = (int)Slider_LifeMaxWeaponStar.Value;
+            ServerRules.NowRule.LifeMaxVehicleStar = (int)Slider_LifeMaxVehicleStar.Value;
 
-            Globals.NowRule.Custom_WeaponList.Clear();
+            ServerRules.NowRule.Custom_WeaponList.Clear();
             foreach (WeaponInfoModel item in ListBox_BreakWeaponInfo.Items)
             {
-                Globals.NowRule.Custom_WeaponList.Add(item.English);
+                ServerRules.NowRule.Custom_WeaponList.Add(item.English);
             }
-            Globals.NowRule.Custom_BlackList.Clear();
+            ServerRules.NowRule.Custom_BlackList.Clear();
             foreach (string item in ListBox_Custom_BlackList.Items)
             {
-                Globals.NowRule.Custom_BlackList.Add(item);
+                ServerRules.NowRule.Custom_BlackList.Add(item);
             }
-            Globals.NowRule.Custom_WhiteList.Clear();
+            ServerRules.NowRule.Custom_WhiteList.Clear();
             foreach (string item in ListBox_Custom_WhiteList.Items)
             {
-                Globals.NowRule.Custom_WhiteList.Add(item);
+                ServerRules.NowRule.Custom_WhiteList.Add(item);
             }
         }
 
@@ -248,7 +244,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
                 return;
 
             // 跳过白名单玩家
-            if (Globals.NowRule.Custom_WhiteList.Contains(data.Name))
+            if (ServerRules.NowRule.Custom_WhiteList.Contains(data.Name))
                 return;
 
             //已经不在服务器了
@@ -259,7 +255,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
 
             if (resultTemp.IsSuccess)
             {
-                var career = JsonUtil.JsonDese<CareerForOwnedGamesByPersonaId>(resultTemp.Message);
+                var career = resultTemp.Obj;
 
                 // 拿到该玩家的生涯数据
                 int kills = career.result.gameStats.tunguska.kills;
@@ -275,13 +271,13 @@ namespace BF1.ServerAdminTools.Wpf.Views
                 vehicleStar = vehicleStar / 100;
 
                 // 限制玩家生涯KD
-                if (Globals.NowRule.LifeMaxKD != 0 && kd > Globals.NowRule.LifeMaxKD)
+                if (ServerRules.NowRule.LifeMaxKD != 0 && kd > ServerRules.NowRule.LifeMaxKD)
                 {
                     AutoKickPlayer(new BreakRuleInfo
                     {
                         Name = data.Name,
                         PersonaId = data.PersonaId,
-                        Reason = $"Life KD Limit {Globals.NowRule.LifeMaxKD:0.00}",
+                        Reason = $"Life KD Limit {ServerRules.NowRule.LifeMaxKD:0.00}",
                         Type = BreakType.Life_KD_Limit
                     });
 
@@ -289,13 +285,13 @@ namespace BF1.ServerAdminTools.Wpf.Views
                 }
 
                 // 限制玩家生涯KPM
-                if (Globals.NowRule.LifeMaxKPM != 0 && kpm > Globals.NowRule.LifeMaxKPM)
+                if (ServerRules.NowRule.LifeMaxKPM != 0 && kpm > ServerRules.NowRule.LifeMaxKPM)
                 {
                     AutoKickPlayer(new BreakRuleInfo
                     {
                         Name = data.Name,
                         PersonaId = data.PersonaId,
-                        Reason = $"Life KPM Limit {Globals.NowRule.LifeMaxKPM:0.00}",
+                        Reason = $"Life KPM Limit {ServerRules.NowRule.LifeMaxKPM:0.00}",
                         Type = BreakType.Life_KPM_Limit
                     });
 
@@ -303,13 +299,13 @@ namespace BF1.ServerAdminTools.Wpf.Views
                 }
 
                 // 限制玩家武器星级
-                if (Globals.NowRule.LifeMaxWeaponStar != 0 && weaponStar > Globals.NowRule.LifeMaxWeaponStar)
+                if (ServerRules.NowRule.LifeMaxWeaponStar != 0 && weaponStar > ServerRules.NowRule.LifeMaxWeaponStar)
                 {
                     AutoKickPlayer(new BreakRuleInfo
                     {
                         Name = data.Name,
                         PersonaId = data.PersonaId,
-                        Reason = $"Life Weapon Star Limit {Globals.NowRule.LifeMaxWeaponStar:0}",
+                        Reason = $"Life Weapon Star Limit {ServerRules.NowRule.LifeMaxWeaponStar:0}",
                         Type = BreakType.Life_Weapon_Star_Limit
                     });
 
@@ -317,13 +313,13 @@ namespace BF1.ServerAdminTools.Wpf.Views
                 }
 
                 // 限制玩家载具星级
-                if (Globals.NowRule.LifeMaxVehicleStar != 0 && vehicleStar > Globals.NowRule.LifeMaxVehicleStar)
+                if (ServerRules.NowRule.LifeMaxVehicleStar != 0 && vehicleStar > ServerRules.NowRule.LifeMaxVehicleStar)
                 {
                     AutoKickPlayer(new BreakRuleInfo
                     {
                         Name = data.Name,
                         PersonaId = data.PersonaId,
-                        Reason = $"Life Vehicle Star Limit {Globals.NowRule.LifeMaxVehicleStar:0}",
+                        Reason = $"Life Vehicle Star Limit {ServerRules.NowRule.LifeMaxVehicleStar:0}",
                         Type = BreakType.Life_Vehicle_Star_Limit
                     });
 
@@ -455,7 +451,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
             int index = ListBox_WeaponInfo.SelectedIndex;
 
             // 清空限制武器列表
-            Globals.NowRule.Custom_WeaponList.Clear();
+            ServerRules.NowRule.Custom_WeaponList.Clear();
             ListBox_BreakWeaponInfo.Items.Clear();
 
             foreach (WeaponInfoModel item in ListBox_WeaponInfo.Items)
@@ -479,7 +475,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
             if (string.IsNullOrWhiteSpace(name))
                 return;
 
-            if(Globals.Rules.ContainsKey(name))
+            if(ServerRules.Rules.ContainsKey(name))
             {
                 MessageBox.Show("改名字已被占用");
                 return;
@@ -490,9 +486,9 @@ namespace BF1.ServerAdminTools.Wpf.Views
                 Name = name
             };
 
-            Globals.Rules.Add(name.ToLower(), rule);
+            ServerRules.Rules.Add(name.ToLower(), rule);
             Rule_List.Items.Add(rule);
-            FileUtil.SaveRule(rule);
+            ConfigUtil.SaveRule(rule);
 
             Rule_List.SelectedItem = null;
         }
@@ -504,7 +500,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
             if (item == null)
                 return;
 
-            Globals.NowRule = item;
+            ServerRules.NowRule = item;
             LoadRule();
             isApplyRule = false;
             Rule_List.SelectedItem = null;
@@ -527,17 +523,17 @@ namespace BF1.ServerAdminTools.Wpf.Views
                 return;
             }
 
-            if (Globals.NowRule == item)
+            if (ServerRules.NowRule == item)
             {
-                Globals.NowRule = Globals.Rules["default"];
+                ServerRules.NowRule = ServerRules.Rules["default"];
                 LoadRule();
             }
 
             var name = item.Name.ToLower().Trim();
 
-            Globals.Rules.Remove(name);
+            ServerRules.Rules.Remove(name);
             Rule_List.Items.Remove(item);
-            FileUtil.DeleteRule(name);
+            ConfigUtil.DeleteRule(name);
 
             Rule_List.SelectedItem = null;
         }
@@ -553,24 +549,24 @@ namespace BF1.ServerAdminTools.Wpf.Views
             AppendLog($"{DateTime.Now:yyyy/MM/dd HH:mm:ss}");
             AppendLog("");
 
-            Globals.NowRule.MaxKill = (int)Slider_MaxKill.Value;
+            ServerRules.NowRule.MaxKill = (int)Slider_MaxKill.Value;
 
-            Globals.NowRule.KDFlag = (int)Slider_KDFlag.Value;
-            Globals.NowRule.MaxKD = (float)Slider_MaxKD.Value;
+            ServerRules.NowRule.KDFlag = (int)Slider_KDFlag.Value;
+            ServerRules.NowRule.MaxKD = (float)Slider_MaxKD.Value;
 
-            Globals.NowRule.KPMFlag = (int)Slider_KPMFlag.Value;
-            Globals.NowRule.MaxKPM = (float)Slider_MaxKPM.Value;
+            ServerRules.NowRule.KPMFlag = (int)Slider_KPMFlag.Value;
+            ServerRules.NowRule.MaxKPM = (float)Slider_MaxKPM.Value;
 
-            Globals.NowRule.MinRank = (int)Slider_MinRank.Value;
-            Globals.NowRule.MaxRank = (int)Slider_MaxRank.Value;
+            ServerRules.NowRule.MinRank = (int)Slider_MinRank.Value;
+            ServerRules.NowRule.MaxRank = (int)Slider_MaxRank.Value;
 
-            Globals.NowRule.LifeMaxKD = (float)Slider_LifeMaxKD.Value;
-            Globals.NowRule.LifeMaxKPM = (float)Slider_LifeMaxKPM.Value;
+            ServerRules.NowRule.LifeMaxKD = (float)Slider_LifeMaxKD.Value;
+            ServerRules.NowRule.LifeMaxKPM = (float)Slider_LifeMaxKPM.Value;
 
-            Globals.NowRule.LifeMaxWeaponStar = Convert.ToInt32(Slider_LifeMaxWeaponStar.Value);
-            Globals.NowRule.LifeMaxVehicleStar = Convert.ToInt32(Slider_LifeMaxVehicleStar.Value);
+            ServerRules.NowRule.LifeMaxWeaponStar = Convert.ToInt32(Slider_LifeMaxWeaponStar.Value);
+            ServerRules.NowRule.LifeMaxVehicleStar = Convert.ToInt32(Slider_LifeMaxVehicleStar.Value);
 
-            if (Globals.NowRule.MinRank >= Globals.NowRule.MaxRank && Globals.NowRule.MinRank != 0 && Globals.NowRule.MaxRank != 0)
+            if (ServerRules.NowRule.MinRank >= ServerRules.NowRule.MaxRank && ServerRules.NowRule.MinRank != 0 && ServerRules.NowRule.MaxRank != 0)
             {
                 Globals.IsRuleSetRight = false;
                 isApplyRule = false;
@@ -586,27 +582,27 @@ namespace BF1.ServerAdminTools.Wpf.Views
             /////////////////////////////////////////////////////////////////////////////
 
             // 清空限制武器列表
-            Globals.NowRule.Custom_WeaponList.Clear();
+            ServerRules.NowRule.Custom_WeaponList.Clear();
             // 添加自定义限制武器
             foreach (var item in ListBox_BreakWeaponInfo.Items)
             {
-                Globals.NowRule.Custom_WeaponList.Add((item as WeaponInfoModel).English);
+                ServerRules.NowRule.Custom_WeaponList.Add((item as WeaponInfoModel).English);
             }
 
             // 清空黑名单列表
-            Globals.NowRule.Custom_BlackList.Clear();
+            ServerRules.NowRule.Custom_BlackList.Clear();
             // 添加自定义黑名单列表
             foreach (var item in ListBox_Custom_BlackList.Items)
             {
-                Globals.NowRule.Custom_BlackList.Add(item as string);
+                ServerRules.NowRule.Custom_BlackList.Add(item as string);
             }
 
             // 清空白名单列表
-            Globals.NowRule.Custom_WhiteList.Clear();
+            ServerRules.NowRule.Custom_WhiteList.Clear();
             // 添加自定义白名单列表
             foreach (var item in ListBox_Custom_WhiteList.Items)
             {
-                Globals.NowRule.Custom_WhiteList.Add(item as string);
+                ServerRules.NowRule.Custom_WhiteList.Add(item as string);
             }
 
             if (CheckBox_RunAutoKick.IsChecked == true)
@@ -623,7 +619,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
 
             MainWindow._SetOperatingState(1, $"应用当前规则成功，请点击<查询当前规则>检验规则是否正确");
 
-            FileUtil.SaveRule();
+            ConfigUtil.SaveRule();
         }
 
         private void Button_QueryRule_Click(object sender, RoutedEventArgs e)
@@ -637,53 +633,53 @@ namespace BF1.ServerAdminTools.Wpf.Views
             AppendLog($"{DateTime.Now:yyyy/MM/dd HH:mm:ss}");
             AppendLog("");
 
-            AppendLog($"规则名字 : {Globals.NowRule.Name}");
+            AppendLog($"规则名字 : {ServerRules.NowRule.Name}");
             AppendLog("");
 
-            AppendLog($"玩家最高击杀限制 : {Globals.NowRule.MaxKill}");
+            AppendLog($"玩家最高击杀限制 : {ServerRules.NowRule.MaxKill}");
             AppendLog("");
 
-            AppendLog($"计算玩家KD的最低击杀数 : {Globals.NowRule.KDFlag}");
-            AppendLog($"玩家最高KD限制 : {Globals.NowRule.MaxKD}");
+            AppendLog($"计算玩家KD的最低击杀数 : {ServerRules.NowRule.KDFlag}");
+            AppendLog($"玩家最高KD限制 : {ServerRules.NowRule.MaxKD}");
             AppendLog("");
 
-            AppendLog($"计算玩家KPM的最低击杀数 : {Globals.NowRule.KPMFlag}");
-            AppendLog($"玩家最高KPM限制 : {Globals.NowRule.MaxKPM}");
+            AppendLog($"计算玩家KPM的最低击杀数 : {ServerRules.NowRule.KPMFlag}");
+            AppendLog($"玩家最高KPM限制 : {ServerRules.NowRule.MaxKPM}");
             AppendLog("");
 
-            AppendLog($"玩家最低等级限制 : {Globals.NowRule.MinRank}");
-            AppendLog($"玩家最高等级限制 : {Globals.NowRule.MaxRank}");
+            AppendLog($"玩家最低等级限制 : {ServerRules.NowRule.MinRank}");
+            AppendLog($"玩家最高等级限制 : {ServerRules.NowRule.MaxRank}");
             AppendLog("");
 
-            AppendLog($"玩家最高生涯KD限制 : {Globals.NowRule.LifeMaxKD}");
-            AppendLog($"玩家最高生涯KPM限制 : {Globals.NowRule.LifeMaxKPM}");
+            AppendLog($"玩家最高生涯KD限制 : {ServerRules.NowRule.LifeMaxKD}");
+            AppendLog($"玩家最高生涯KPM限制 : {ServerRules.NowRule.LifeMaxKPM}");
             AppendLog("");
 
-            AppendLog($"玩家最高生涯武器星数限制 : {Globals.NowRule.LifeMaxWeaponStar}");
-            AppendLog($"玩家最高生涯载具星数限制 : {Globals.NowRule.LifeMaxVehicleStar}");
+            AppendLog($"玩家最高生涯武器星数限制 : {ServerRules.NowRule.LifeMaxWeaponStar}");
+            AppendLog($"玩家最高生涯载具星数限制 : {ServerRules.NowRule.LifeMaxVehicleStar}");
             AppendLog("\n");
 
             AppendLog($"========== 禁武器列表 ==========");
             AppendLog("");
-            foreach (var item in Globals.NowRule.Custom_WeaponList)
+            foreach (var item in ServerRules.NowRule.Custom_WeaponList)
             {
-                AppendLog($"武器名称 {Globals.NowRule.Custom_WeaponList.IndexOf(item) + 1} : {item}");
+                AppendLog($"武器名称 {ServerRules.NowRule.Custom_WeaponList.IndexOf(item) + 1} : {item}");
             }
             AppendLog("\n");
 
             AppendLog($"========== 黑名单列表 ==========");
             AppendLog("");
-            foreach (var item in Globals.NowRule.Custom_BlackList)
+            foreach (var item in ServerRules.NowRule.Custom_BlackList)
             {
-                AppendLog($"玩家ID {Globals.NowRule.Custom_BlackList.IndexOf(item) + 1} : {item}");
+                AppendLog($"玩家ID {ServerRules.NowRule.Custom_BlackList.IndexOf(item) + 1} : {item}");
             }
             AppendLog("\n");
 
             AppendLog($"========== 白名单列表 ==========");
             AppendLog("");
-            foreach (var item in Globals.NowRule.Custom_WhiteList)
+            foreach (var item in ServerRules.NowRule.Custom_WhiteList)
             {
-                AppendLog($"玩家ID {Globals.NowRule.Custom_WhiteList.IndexOf(item) + 1} : {item}");
+                AppendLog($"玩家ID {ServerRules.NowRule.Custom_WhiteList.IndexOf(item) + 1} : {item}");
             }
             AppendLog("\n");
 
@@ -819,7 +815,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
                 var data = File.ReadAllText(res);
 
                 // 清空黑名单列表
-                Globals.NowRule.Custom_BlackList.Clear();
+                ServerRules.NowRule.Custom_BlackList.Clear();
                 ListBox_Custom_BlackList.Items.Clear();
 
                 var list = data.Split("\n");
@@ -829,7 +825,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
                     if (string.IsNullOrWhiteSpace(name))
                         continue;
 
-                    Globals.NowRule.Custom_BlackList.Add(name);
+                    ServerRules.NowRule.Custom_BlackList.Add(name);
                     ListBox_Custom_BlackList.Items.Add(name);
                 }
 
@@ -838,7 +834,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
             catch (Exception ex)
             {
                 MsgBoxUtil.ErrorMsgBox("导入黑名单时发生错误");
-                LoggerHelper.Error("导入黑名单发生错误", ex);
+                Core.LogError("导入黑名单发生错误", ex);
                 MainWindow._SetOperatingState(1, "导入黑名单列表发生错误");
                 return;
             }
@@ -849,7 +845,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
             AudioUtil.ClickSound();
 
             // 清空黑名单列表
-            Globals.NowRule.Custom_BlackList.Clear();
+            ServerRules.NowRule.Custom_BlackList.Clear();
             ListBox_Custom_BlackList.Items.Clear();
 
             MainWindow._SetOperatingState(1, $"清空黑名单列表成功");
@@ -921,7 +917,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
                 var data = File.ReadAllText(res);
 
                 // 清空黑名单列表
-                Globals.NowRule.Custom_WhiteList.Clear();
+                ServerRules.NowRule.Custom_WhiteList.Clear();
                 ListBox_Custom_WhiteList.Items.Clear();
 
                 var list = data.Split("\n");
@@ -931,7 +927,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
                     if (string.IsNullOrWhiteSpace(name))
                         continue;
 
-                    Globals.NowRule.Custom_WhiteList.Add(name);
+                    ServerRules.NowRule.Custom_WhiteList.Add(name);
                     ListBox_Custom_WhiteList.Items.Add(name);
                 }
 
@@ -940,7 +936,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
             catch (Exception ex)
             {
                 MsgBoxUtil.ErrorMsgBox("导入白名单时发生错误");
-                LoggerHelper.Error("导入白名单发生错误", ex);
+                Core.LogError("导入白名单发生错误", ex);
                 MainWindow._SetOperatingState(1, "导入白名单列表发生错误");
                 return;
             }
@@ -951,7 +947,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
             AudioUtil.ClickSound();
 
             // 清空白名单列表
-            Globals.NowRule.Custom_WhiteList.Clear();
+            ServerRules.NowRule.Custom_WhiteList.Clear();
             ListBox_Custom_WhiteList.Items.Clear();
 
             MainWindow._SetOperatingState(1, $"清空白名单列表成功");
@@ -975,7 +971,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
             AppendLog("正在检查游戏是否启动...");
             if (!Globals.IsGameRun)
             {
-                if (!ProcessUtil.IsAppRun(CoreUtil.TargetAppName))
+                if (!Core.IsGameRun())
                 {
                     AppendLog("游戏没有启动");
                     return false;
@@ -987,7 +983,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
             AppendLog("正在检查游戏是否启动...");
             if (!Globals.IsToolInit)
             {
-                if (!Memory.Initialize(CoreUtil.TargetAppName))
+                if (!Core.HookInit())
                 {
                     AppendLog("战地1内存模块初始化失败");
                     return false;
@@ -1118,7 +1114,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
             if (!Globals.Server_AdminList.Contains(info.PersonaId))
             {
                 // 白名单玩家不踢出
-                if (!Globals.NowRule.Custom_WhiteList.Contains(info.Name))
+                if (!ServerRules.NowRule.Custom_WhiteList.Contains(info.Name))
                 {
                     var result = await ServerAPI.AdminKickPlayer(info.PersonaId.ToString(), info.Reason);
 

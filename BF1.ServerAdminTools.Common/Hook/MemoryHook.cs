@@ -1,6 +1,4 @@
-﻿using BF1.ServerAdminTools.Common.Chat;
-using BF1.ServerAdminTools.Common;
-using BF1.ServerAdminTools.Common.Helper;
+﻿using BF1.ServerAdminTools.Common.Helper;
 
 namespace BF1.ServerAdminTools.Common.Hook;
 

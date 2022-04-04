@@ -3,17 +3,19 @@ using BF1.ServerAdminTools.Common.Utils;
 
 namespace BF1.ServerAdminTools.Common.Helper;
 
-internal static class ConfigHelper
+public static class ConfigLocal
 {
     public static string MyDocument = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
     public static string Base { get; } = $"{MyDocument}/BF1 Server";
-
-    public static string ServerRule { get; } = $"{Base}/ServerRule";
     public static string Cache { get; } = $"{Base}/Cache";
     public static string Log { get; } = $"{Base}/Log";
 
     public static string SettingFile { get; } = $"{Base}/config.json";
+}
+
+internal static class ConfigHelper
+{
 
     /// <summary>
     /// 获取当前运行文件完整路径
@@ -55,7 +57,7 @@ internal static class ConfigHelper
     {
         try
         {
-            string path = Log + @"\ErrorLog";
+            string path = ConfigLocal.Log + @"\ErrorLog";
             Directory.CreateDirectory(path);
             path += $@"\#ErrorLog# { DateTime.Now:yyyyMMdd_HH-mm-ss_ffff}.log";
             File.WriteAllText(path, logContent);
@@ -63,86 +65,26 @@ internal static class ConfigHelper
         catch (Exception) { }
     }
 
-    public static void WriteFile(string file, string data)
-    {
-        using var stream = File.Open(file, FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite);
-        var temp = Encoding.UTF8.GetBytes(data);
-        stream.Write(temp, 0, temp.Length);
-    }
-
-    public static void SaveAll()
-    {
-        SaveConfig();
-        foreach (var item in Globals.Rules)
-        {
-            WriteFile($"{ServerRule}/{item.Key}.json", JsonUtil.JsonSeri(item.Value));
-        }
-    }
-
     public static void SaveConfig()
     {
-        WriteFile(SettingFile, JsonUtil.JsonSeri(Globals.Config));
+        FileUtil.WriteFile(ConfigLocal.SettingFile, JsonUtil.JsonSeri(Globals.Config));
     }
 
     public static void LoadConfig()
     {
-        Directory.CreateDirectory(ConfigHelper.ServerRule);
-        Directory.CreateDirectory(ConfigHelper.Cache);
-        Directory.CreateDirectory(ConfigHelper.Log);
-        if (!File.Exists(SettingFile))
+        Directory.CreateDirectory(ConfigLocal.Cache);
+        Directory.CreateDirectory(ConfigLocal.Log);
+        if (!File.Exists(ConfigLocal.SettingFile))
         {
             Globals.Config = new()
             {
                 AudioIndex = 3
             };
-            File.WriteAllText(SettingFile, JsonUtil.JsonSeri(Globals.Config));
+            File.WriteAllText(ConfigLocal.SettingFile, JsonUtil.JsonSeri(Globals.Config));
         }
         else
         {
-            Globals.Config = JsonUtil.JsonDese<ConfigObj>(File.ReadAllText(SettingFile));
+            Globals.Config = JsonUtil.JsonDese<ConfigObj>(File.ReadAllText(ConfigLocal.SettingFile));
         }
-
-        var dir = new DirectoryInfo(ServerRule);
-        foreach (var item in dir.GetFiles())
-        {
-            if (item.Extension is ".json")
-            {
-                var name = item.Name.Trim().ToLower().Replace(".json", "");
-                var data = File.ReadAllText(item.FullName);
-                var rule = JsonUtil.JsonDese<ServerRule>(data);
-
-                if (rule != null)
-                {
-                    Globals.Rules.Add(name, rule);
-                }
-            }
-        }
-
-        if (!Globals.Rules.ContainsKey("default"))
-        {
-            var rule = new ServerRule()
-            {
-                Name = "Default"
-            };
-            Globals.Rules.Add("default", rule);
-            WriteFile($"{ServerRule}/default.json", JsonUtil.JsonSeri(rule));
-        }
-    }
-
-    public static void DeleteRule(string name)
-    {
-        File.Delete($"{ServerRule}/{name}.json");
-    }
-
-    public static void SaveRule()
-    {
-        WriteFile($"{ServerRule}/{Globals.NowRule.Name.Trim().ToLower()}.json", 
-            JsonUtil.JsonSeri(Globals.NowRule));
-    }
-
-    public static void SaveRule(ServerRule rule)
-    {
-        WriteFile($"{ServerRule}/{rule.Name.Trim().ToLower()}.json",
-            JsonUtil.JsonSeri(rule));
     }
 }

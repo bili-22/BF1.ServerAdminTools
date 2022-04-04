@@ -16,7 +16,7 @@ namespace BF1.ServerAdminTools.Wpf
 
             if (createdNew)
             {
-                if (!Core.IsAppRun())
+                if (!Core.IsGameRun())
                 {
                     MessageBox.Show("未检测到《战地1》游戏启动，工具功能不可用", " 警告", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }

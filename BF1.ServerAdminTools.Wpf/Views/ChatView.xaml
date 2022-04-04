@@ -88,7 +88,7 @@
                     </WrapPanel>
                 </GroupBox>
                 <Button
-                    Command="{Binding SendChsMessageCommand}"
+                    Click="SendChsMessage"
                     Content="发送文本到战地1聊天框"
                     Style="{StaticResource ButtonStyle_Web}" />
                 <TextBlock />

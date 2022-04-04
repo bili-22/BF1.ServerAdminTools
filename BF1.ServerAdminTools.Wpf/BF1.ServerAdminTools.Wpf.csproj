@@ -1033,7 +1033,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\BF1.ServerAdminTools.BF1API\BF1.ServerAdminTools.BF1API.csproj" />
 	  <ProjectReference Include="..\BF1.ServerAdminTools.Common\BF1.ServerAdminTools.Common.csproj" />
 	</ItemGroup>
 

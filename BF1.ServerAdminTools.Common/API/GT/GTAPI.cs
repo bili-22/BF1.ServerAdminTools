@@ -33,12 +33,12 @@ public static class GTAPI
     /// <summary>
     /// 根据玩家ID获取玩家数字ID
     /// </summary>
-    public static async Task<RespContent> GetPersonaIdByName(string playerName)
+    public static async Task<RespContent<long>> GetPersonaIdByName(string playerName)
     {
         Stopwatch sw = new();
         sw.Start();
 
-        RespContent respContent = new();
+        RespContent<long> respContent = new();
 
         try
         {
@@ -75,12 +75,12 @@ public static class GTAPI
     /// <summary>
     /// 获取玩家全部数据
     /// </summary>
-    public static async Task<RespContent> GetPlayerAllData(string playerName)
+    public static async Task<RespContent<AllPlayerData>> GetPlayerAllData(string playerName)
     {
         Stopwatch sw = new();
         sw.Start();
 
-        RespContent respContent = new();
+        RespContent<AllPlayerData> respContent = new();
 
         try
         {
@@ -99,6 +99,8 @@ public static class GTAPI
             {
                 respContent.IsSuccess = true;
                 respContent.Message = response.Content;
+
+                respContent.Obj = JsonUtil.JsonDese<AllPlayerData>(respContent.Message);
             }
             else
             {
@@ -119,12 +121,12 @@ public static class GTAPI
     /// <summary>
     /// 获取服务器列表
     /// </summary>
-    public static async Task<RespContent> GetServersData(string serverName)
+    public static async Task<RespContent<ServerInfos>> GetServersData(string serverName)
     {
         Stopwatch sw = new();
         sw.Start();
 
-        RespContent respContent = new();
+        RespContent<ServerInfos> respContent = new();
 
         try
         {
@@ -144,6 +146,8 @@ public static class GTAPI
             {
                 respContent.IsSuccess = true;
                 respContent.Message = response.Content;
+
+                respContent.Obj = JsonUtil.JsonDese<ServerInfos>(respContent.Message);
             }
             else
             {

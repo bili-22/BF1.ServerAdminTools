@@ -2,7 +2,8 @@
 using BF1.ServerAdminTools.Common.Hook;
 using BF1.ServerAdminTools.Common.Helper;
 using BF1.ServerAdminTools.Common.Utils;
-using Chinese;
+using BF1.ServerAdminTools.Common.API.BF1Server.RespJson;
+using BF1.ServerAdminTools.Common.Data;
 
 namespace BF1.ServerAdminTools.Common;
 
@@ -22,28 +23,13 @@ public static class Core
         Msg = call;
     }
 
-    public static bool IsAppRun()
+    public static bool IsGameRun()
     {
         return ProcessUtil.IsAppRun(Globals.TargetAppName);
     }
 
     public static void WriteErrorLog(string data)
         => ConfigHelper.WriteErrorLog(data);
-
-    public static void SaveAll()
-    {
-        try
-        {
-            LoggerHelper.Info($"正在保存配置文件");
-            ConfigHelper.SaveAll();
-            LoggerHelper.Info($"配置文件保存完成");
-        }
-        catch (Exception e)
-        {
-            LoggerHelper.Error($"配置文件保存失败", e);
-            Msg.Error("配置文件保存失败", e);
-        }
-    }
 
     public static void ConfigInit()
     {
@@ -207,4 +193,30 @@ public static class Core
 
     public static void SetKeyPressDelay(int data)
         => ChatHelper.KeyPressDelay = data;
+
+    public static void InitServerInfo(FullServerDetails server) 
+    {
+        Globals.Config.ServerId = server.result.rspInfo.server.serverId;
+        Globals.Config.PersistedGameId = server.result.rspInfo.server.persistedGameId;
+
+        Globals.Server_AdminList.Add(long.Parse(server.result.rspInfo.owner.personaId));
+        Globals.Server_Admin2List.Add(server.result.rspInfo.owner.displayName);
+
+        foreach (var item in server.result.rspInfo.adminList)
+        {
+            Globals.Server_AdminList.Add(long.Parse(item.personaId));
+            Globals.Server_Admin2List.Add(item.displayName);
+        }
+
+        foreach (var item in server.result.rspInfo.vipList)
+        {
+            Globals.Server_VIPList.Add(long.Parse(item.personaId));
+        }
+    }
+
+    public static void AddLog2SQLite(DataShell sheetName, BreakRuleInfo info) 
+        => SQLiteHelper.AddLog2SQLite(sheetName, info);
+
+    public static void AddLog2SQLite(ChangeTeamInfo info)
+        => SQLiteHelper.AddLog2SQLite(info);
 }

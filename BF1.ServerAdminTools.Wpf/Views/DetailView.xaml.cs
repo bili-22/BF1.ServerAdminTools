@@ -1,12 +1,11 @@
-﻿using BF1.ServerAdminTools.Common.API;
-using BF1.ServerAdminTools.Common.API.RespJson;
-using BF1.ServerAdminTools.Common;
+﻿using BF1.ServerAdminTools.Common;
 using BF1.ServerAdminTools.Common.Data;
 using BF1.ServerAdminTools.Common.Utils;
 using BF1.ServerAdminTools.Wpf.Models;
 using BF1.ServerAdminTools.Wpf.Utils;
 using BF1.ServerAdminTools.Wpf.Windows;
 using BF1.ServerAdminTools.Common.API.BF1Server;
+using BF1.ServerAdminTools.Common.API.BF1Server.RespJson;
 
 namespace BF1.ServerAdminTools.Wpf.Views
 {
@@ -91,24 +90,22 @@ namespace BF1.ServerAdminTools.Wpf.Views
 
                     if (result.IsSuccess)
                     {
-                        var fullServerDetails = JsonUtil.JsonDese<FullServerDetails>(result.Message);
+                        var server = result.Obj as FullServerDetails;
+                        Core.InitServerInfo(server);
 
-                        Globals.Config.ServerId = fullServerDetails.result.rspInfo.server.serverId;
-                        Globals.Config.PersistedGameId = fullServerDetails.result.rspInfo.server.persistedGameId;
+                        DetailModel.ServerName = server.result.serverInfo.name;
+                        DetailModel.ServerDescription = server.result.serverInfo.description;
 
-                        DetailModel.ServerName = fullServerDetails.result.serverInfo.name;
-                        DetailModel.ServerDescription = fullServerDetails.result.serverInfo.description;
+                        DetailModel.ServerID = server.result.rspInfo.server.serverId;
+                        DetailModel.ServerGameID = server.result.rspInfo.server.persistedGameId;
 
-                        DetailModel.ServerID = Globals.Config.ServerId;
-                        DetailModel.ServerGameID = Globals.Config.GameId;
-
-                        DetailModel.ServerOwnerName = fullServerDetails.result.rspInfo.owner.displayName;
-                        DetailModel.ServerOwnerPersonaId = fullServerDetails.result.rspInfo.owner.personaId;
-                        DetailModel.ServerOwnerImage = fullServerDetails.result.rspInfo.owner.avatar;
-                        DetailModel.ServerCurrentMap = ImageData.GetTempImagePath(fullServerDetails.result.serverInfo.mapImageUrl, "maps");
+                        DetailModel.ServerOwnerName = server.result.rspInfo.owner.displayName;
+                        DetailModel.ServerOwnerPersonaId = server.result.rspInfo.owner.personaId;
+                        DetailModel.ServerOwnerImage = server.result.rspInfo.owner.avatar;
+                        DetailModel.ServerCurrentMap = ImageData.GetTempImagePath(server.result.serverInfo.mapImageUrl, "maps");
 
                         // 地图列表
-                        foreach (var item in fullServerDetails.result.serverInfo.rotation)
+                        foreach (var item in server.result.serverInfo.rotation)
                         {
                             ListBox_Map.Items.Add(new Map()
                             {
@@ -123,14 +120,13 @@ namespace BF1.ServerAdminTools.Wpf.Views
                         ListBox_Admin.Items.Add(new ListItem()
                         {
                             Index = index++,
-                            avatar = fullServerDetails.result.rspInfo.owner.avatar,
-                            displayName = fullServerDetails.result.rspInfo.owner.displayName,
-                            personaId = fullServerDetails.result.rspInfo.owner.personaId
+                            avatar = server.result.rspInfo.owner.avatar,
+                            displayName = server.result.rspInfo.owner.displayName,
+                            personaId = server.result.rspInfo.owner.personaId
                         });
-                        Globals.Server_AdminList.Add(long.Parse(fullServerDetails.result.rspInfo.owner.personaId));
-                        Globals.Server_Admin2List.Add(fullServerDetails.result.rspInfo.owner.displayName);
+
                         // 管理员列表
-                        foreach (var item in fullServerDetails.result.rspInfo.adminList)
+                        foreach (var item in server.result.rspInfo.adminList)
                         {
                             ListBox_Admin.Items.Add(new ListItem()
                             {
@@ -139,14 +135,11 @@ namespace BF1.ServerAdminTools.Wpf.Views
                                 displayName = item.displayName,
                                 personaId = item.personaId
                             });
-
-                            Globals.Server_AdminList.Add(long.Parse(item.personaId));
-                            Globals.Server_Admin2List.Add(item.displayName);
                         }
 
                         // VIP列表
                         index = 1;
-                        foreach (var item in fullServerDetails.result.rspInfo.vipList)
+                        foreach (var item in server.result.rspInfo.vipList)
                         {
                             ListBox_VIP.Items.Add(new ListItem()
                             {
@@ -155,13 +148,11 @@ namespace BF1.ServerAdminTools.Wpf.Views
                                 displayName = item.displayName,
                                 personaId = item.personaId
                             });
-
-                            Globals.Server_VIPList.Add(long.Parse(item.personaId));
                         }
 
                         // BAN列表
                         index = 1;
-                        foreach (var item in fullServerDetails.result.rspInfo.bannedList)
+                        foreach (var item in server.result.rspInfo.bannedList)
                         {
                             ListBox_BAN.Items.Add(new ListItem()
                             {
@@ -213,8 +204,10 @@ namespace BF1.ServerAdminTools.Wpf.Views
                 {
                     string mapInfo = currMap.modePrettyName + " - " + currMap.mapPrettyName;
 
-                    var changeMapWindow = new ChangeMapWindow(mapInfo, currMap.mapImage);
-                    changeMapWindow.Owner = MainWindow.ThisMainWindow;
+                    var changeMapWindow = new ChangeMapWindow(mapInfo, currMap.mapImage)
+                    {
+                        Owner = MainWindow.ThisMainWindow
+                    };
 
                     if (changeMapWindow.ShowDialog() == true)
                     {
@@ -404,7 +397,6 @@ namespace BF1.ServerAdminTools.Wpf.Views
 
             ListBox_Spectator.Items.Clear();
 
-            //string defaultAvatar = "https://secure.download.dm.origin.com/production/avatar/prod/1/599/208x208.JPEG";
             int index = 1;
             foreach (var item in Globals.Server_SpectatorList)
             {
@@ -432,7 +424,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
 
                     if (result.IsSuccess)
                     {
-                        serverDetails = JsonUtil.JsonDese<ServerDetails>(result.Message);
+                        serverDetails = result.Obj as ServerDetails;
 
                         TextBox_ServerName.Text = serverDetails.result.serverSettings.name;
                         TextBox_ServerDescription.Text = serverDetails.result.serverSettings.description;
@@ -482,22 +474,20 @@ namespace BF1.ServerAdminTools.Wpf.Views
                 {
                     MainWindow._SetOperatingState(2, $"正在更新服务器 {Globals.Config.ServerId} 数据中...");
 
-                    UpdateServerReqBody reqBody = new UpdateServerReqBody();
-                    reqBody.jsonrpc = "2.0";
-                    reqBody.method = "RSP.updateServer";
+                    UpdateServerReqBody reqBody = new();
 
-                    var tempParams = new UpdateServerReqBody.Params();
-
-                    tempParams.deviceIdMap = new UpdateServerReqBody.Params.DeviceIdMap()
+                    var tempParams = new UpdateServerReqBody.Params
                     {
-                        machash = Guid.NewGuid().ToString()
-                    };
-                    tempParams.game = "tunguska";
-                    tempParams.serverId = Globals.Config.ServerId;
-                    tempParams.bannerSettings = new UpdateServerReqBody.Params.BannerSettings()
-                    {
-                        bannerUrl = "",
-                        clearBanner = true
+                        deviceIdMap = new UpdateServerReqBody.Params.DeviceIdMap()
+                        {
+                            machash = Guid.NewGuid().ToString()
+                        },
+                        serverId = Globals.Config.ServerId,
+                        bannerSettings = new UpdateServerReqBody.Params.BannerSettings()
+                        {
+                            bannerUrl = "",
+                            clearBanner = true
+                        }
                     };
 
                     var tempMapRotation = new UpdateServerReqBody.Params.MapRotation();

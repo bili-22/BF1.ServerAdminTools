@@ -88,7 +88,8 @@ namespace BF1.ServerAdminTools.Wpf
             // 关闭事件
             ClosingDisposeEvent();
             Core.LogInfo($"调用关闭事件成功");
-            Core.SaveAll();
+            Core.SaveConfig();
+            ConfigUtil.SaveAll();
             Core.SQLClose();
             Core.MsgFreeMemory();
             Core.HookClose();
@@ -113,7 +114,7 @@ namespace BF1.ServerAdminTools.Wpf
 
                 if (Globals.IsGameRun)
                 {
-                    if (!Core.IsAppRun())
+                    if (!Core.IsGameRun())
                     {
                         Globals.IsToolInit = false;
                         Globals.IsGameRun = false;
