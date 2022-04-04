@@ -1,16 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BF1.ServerAdminTools.Common.Data;
-
-public static class ServerRules
-{
-    public static Dictionary<string, ServerRule> Rules { get; } = new();
-    public static ServerRule NowRule { get; set; }
-}
+﻿namespace BF1.ServerAdminTools.Wpf.Data;
 
 public record ServerRule
 {

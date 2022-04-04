@@ -1,15 +1,15 @@
-﻿using BF1.ServerAdminTools.Common.Core;
-using BF1.ServerAdminTools.Common.Data;
-using BF1.ServerAdminTools.Common.Utils;
-using BF1.ServerAdminTools.Common;
-using BF1.ServerAdminTools.Common.Data;
-using BF1.ServerAdminTools.Common.Utils;
+﻿using BF1.ServerAdminTools.Wpf.Core;
+using BF1.ServerAdminTools.Wpf.Data;
+using BF1.ServerAdminTools.Wpf.Utils;
+using BF1.ServerAdminTools.Wpf;
+using BF1.ServerAdminTools.Wpf.Data;
+using BF1.ServerAdminTools.Wpf.Utils;
 using BF1.ServerAdminTools.Wpf.Extension;
 using BF1.ServerAdminTools.Wpf.Models;
 using BF1.ServerAdminTools.Wpf.Utils;
 using BF1.ServerAdminTools.Wpf.Windows;
 using System.Collections.Generic;
-using BF1.ServerAdminTools.Common.API.BF1Server;
+using BF1.ServerAdminTools.Wpf.API.BF1Server;
 
 namespace BF1.ServerAdminTools.Wpf.Views
 {

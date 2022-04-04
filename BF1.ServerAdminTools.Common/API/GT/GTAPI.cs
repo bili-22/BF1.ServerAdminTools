@@ -1,8 +1,8 @@
-﻿using BF1.ServerAdminTools.Common.API.GT.RespJson;
-using BF1.ServerAdminTools.Common.Utils;
+﻿using BF1.ServerAdminTools.Wpf.API.GT.RespJson;
+using BF1.ServerAdminTools.Wpf.Utils;
 using RestSharp;
 
-namespace BF1.ServerAdminTools.Common.API.GT;
+namespace BF1.ServerAdminTools.Wpf.API.GT;
 
 public static class GTAPI
 {

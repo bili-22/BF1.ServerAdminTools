@@ -1,4 +1,4 @@
-﻿using BF1.ServerAdminTools.Common.Helper;
+﻿using BF1.ServerAdminTools.Wpf.Helper;
 using BF1.ServerAdminTools.Wpf.Utils;
 
 namespace BF1.ServerAdminTools.Wpf.Views
@@ -12,12 +12,12 @@ namespace BF1.ServerAdminTools.Wpf.Views
         {
             InitializeComponent();
 
-            Task.Run(() =>
+            Task.Run(async () =>
             {
-                string notice = HttpUtil.HttpClientGET(CoreUtil.Notice_Address).Result;
-                string change = HttpUtil.HttpClientGET(CoreUtil.Change_Address).Result;
+                string notice = await HttpUtil.HttpClientGET(CoreUtil.Notice_Address);
+                string change = await  HttpUtil.HttpClientGET(CoreUtil.Change_Address);
 
-                Application.Current.Dispatcher.BeginInvoke(() =>
+                Dispatcher.Invoke(() =>
                 {
                     TextBox_Notice.Text = notice;
                     TextBox_Change.Text = change;
@@ -25,21 +25,18 @@ namespace BF1.ServerAdminTools.Wpf.Views
             });
         }
 
-        private void MenuItem_RefushNotice_Click(object sender, RoutedEventArgs e)
+        private async void MenuItem_RefushNotice_Click(object sender, RoutedEventArgs e)
         {
-            Task.Run(() =>
+            Dispatcher.Invoke(() =>
             {
-                Application.Current.Dispatcher.BeginInvoke(() =>
-                {
-                    TextBox_Notice.Text = "加载中...";
-                });
+                TextBox_Notice.Text = "加载中...";
+            });
 
-                string notice = HttpUtil.HttpClientGET(CoreUtil.Notice_Address).Result;
+            string notice = await HttpUtil.HttpClientGET(CoreUtil.Notice_Address);
 
-                Application.Current.Dispatcher.BeginInvoke(() =>
-                {
-                    TextBox_Notice.Text = notice;
-                });
+            Dispatcher.Invoke(() =>
+            {
+                TextBox_Notice.Text = notice;
             });
         }
     }

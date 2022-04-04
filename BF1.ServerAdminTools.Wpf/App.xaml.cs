@@ -1,4 +1,4 @@
-﻿using BF1.ServerAdminTools.Common;
+﻿using BF1.ServerAdminTools.Wpf;
 using BF1.ServerAdminTools.Wpf.Utils;
 
 namespace BF1.ServerAdminTools.Wpf

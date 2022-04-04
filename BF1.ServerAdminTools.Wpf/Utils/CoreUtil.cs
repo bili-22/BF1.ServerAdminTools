@@ -1,5 +1,5 @@
-﻿using BF1.ServerAdminTools.Common;
-using BF1.ServerAdminTools.Common.Core;
+﻿using BF1.ServerAdminTools.Wpf;
+using BF1.ServerAdminTools.Wpf.Core;
 using Microsoft.Web.WebView2.Core;
 using System.Diagnostics;
 

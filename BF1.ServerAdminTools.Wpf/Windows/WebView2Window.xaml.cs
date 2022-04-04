@@ -1,6 +1,6 @@
-﻿using BF1.ServerAdminTools.Common;
-using BF1.ServerAdminTools.Common.Helper;
-using BF1.ServerAdminTools.Common.Utils;
+﻿using BF1.ServerAdminTools.Wpf;
+using BF1.ServerAdminTools.Wpf.Helper;
+using BF1.ServerAdminTools.Wpf.Utils;
 using BF1.ServerAdminTools.Wpf.Utils;
 using Microsoft.Web.WebView2.Core;
 

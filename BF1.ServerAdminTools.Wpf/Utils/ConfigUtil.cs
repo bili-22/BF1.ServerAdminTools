@@ -1,7 +1,7 @@
-﻿using BF1.ServerAdminTools.Common;
-using BF1.ServerAdminTools.Common.Data;
-using BF1.ServerAdminTools.Common.Helper;
-using BF1.ServerAdminTools.Common.Utils;
+﻿using BF1.ServerAdminTools.Wpf;
+using BF1.ServerAdminTools.Wpf.Data;
+using BF1.ServerAdminTools.Wpf.Helper;
+using BF1.ServerAdminTools.Wpf.Utils;
 
 namespace BF1.ServerAdminTools.Wpf.Utils;
 
@@ -17,7 +17,7 @@ internal static class ConfigUtil
 
     public static void SaveAll()
     {
-        foreach (var item in ServerRules.Rules)
+        foreach (var item in DataSave.Rules)
         {
             FileUtil.WriteFile($"{ServerRule}/{item.Key}.json", JsonUtil.JsonSeri(item.Value));
         }
@@ -36,18 +36,18 @@ internal static class ConfigUtil
 
                 if (rule != null)
                 {
-                    ServerRules.Rules.Add(name, rule);
+                    DataSave.Rules.Add(name, rule);
                 }
             }
         }
 
-        if (!ServerRules.Rules.ContainsKey("default"))
+        if (!DataSave.Rules.ContainsKey("default"))
         {
             var rule = new ServerRule()
             {
                 Name = "Default"
             };
-            ServerRules.Rules.Add("default", rule);
+            DataSave.Rules.Add("default", rule);
             FileUtil.WriteFile($"{ServerRule}/default.json", JsonUtil.JsonSeri(rule));
         }
     }
@@ -59,8 +59,8 @@ internal static class ConfigUtil
 
     public static void SaveRule()
     {
-        FileUtil.WriteFile($"{ServerRule}/{ServerRules.NowRule.Name.Trim().ToLower()}.json",
-            JsonUtil.JsonSeri(ServerRules.NowRule));
+        FileUtil.WriteFile($"{ServerRule}/{DataSave.NowRule.Name.Trim().ToLower()}.json",
+            JsonUtil.JsonSeri(DataSave.NowRule));
     }
 
     public static void SaveRule(ServerRule rule)

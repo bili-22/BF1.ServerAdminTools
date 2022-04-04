@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:emoji="clr-namespace:Emoji.Wpf;assembly=Emoji.Wpf"
     xmlns:local="clr-namespace:BF1.ServerAdminTools.Wpf.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Name="View_Log"
@@ -17,9 +18,9 @@
         </Grid.RowDefinitions>
 
         <UniformGrid Columns="3">
-            <TextBlock Style="{StaticResource TextBlockStyle_Title}" Text="踢出成功" />
-            <TextBlock Style="{StaticResource TextBlockStyle_Title}" Text="踢出失败" />
-            <TextBlock Style="{StaticResource TextBlockStyle_Title}" Text="换边记录" />
+            <emoji:TextBlock Style="{StaticResource TextBlockStyle_Title}" Text="✔️ 踢出成功" />
+            <emoji:TextBlock Style="{StaticResource TextBlockStyle_Title}" Text="❌ 踢出失败" />
+            <emoji:TextBlock Style="{StaticResource TextBlockStyle_Title}" Text="♻️ 换边记录" />
         </UniformGrid>
 
         <UniformGrid Grid.Row="1" Columns="3">
@@ -31,7 +32,16 @@
                 Foreground="Green"
                 HorizontalScrollBarVisibility="Disabled"
                 IsReadOnly="True"
-                VerticalScrollBarVisibility="Auto" />
+                VerticalScrollBarVisibility="Auto">
+                <TextBox.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem
+                            x:Name="MenuItem_ClearKickOKLog"
+                            Click="MenuItem_ClearKickOKLog_Click"
+                            Header="清空日志" />
+                    </ContextMenu>
+                </TextBox.ContextMenu>
+            </TextBox>
             <TextBox
                 x:Name="TextBox_KickNOLog"
                 Margin="2.5,5,2.5,5"
@@ -40,7 +50,16 @@
                 Foreground="Red"
                 HorizontalScrollBarVisibility="Disabled"
                 IsReadOnly="True"
-                VerticalScrollBarVisibility="Auto" />
+                VerticalScrollBarVisibility="Auto">
+                <TextBox.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem
+                            x:Name="MenuItem_ClearKickNOLog"
+                            Click="MenuItem_ClearKickNOLog_Click"
+                            Header="清空日志" />
+                    </ContextMenu>
+                </TextBox.ContextMenu>
+            </TextBox>
             <TextBox
                 x:Name="TextBox_ChangeTeamLog"
                 Margin="2.5,5,5,5"
@@ -48,7 +67,16 @@
                 Cursor="Arrow"
                 HorizontalScrollBarVisibility="Disabled"
                 IsReadOnly="True"
-                VerticalScrollBarVisibility="Auto" />
+                VerticalScrollBarVisibility="Auto">
+                <TextBox.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem
+                            x:Name="MenuItem_ClearChangeTeamLog"
+                            Click="MenuItem_ClearChangeTeamLog_Click"
+                            Header="清空日志" />
+                    </ContextMenu>
+                </TextBox.ContextMenu>
+            </TextBox>
         </UniformGrid>
     </Grid>
 </UserControl>

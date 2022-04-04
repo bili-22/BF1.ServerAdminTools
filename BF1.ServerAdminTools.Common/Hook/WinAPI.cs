@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace BF1.ServerAdminTools.Common.Hook;
+namespace BF1.ServerAdminTools.Wpf.Hook;
 
 internal static class WinAPI
 {

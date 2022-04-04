@@ -1,4 +1,4 @@
-﻿namespace BF1.ServerAdminTools.Common.API.BF1Server;
+﻿namespace BF1.ServerAdminTools.Wpf.API.BF1Server;
 
 public record RespError
 {

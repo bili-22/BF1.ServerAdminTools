@@ -72,7 +72,7 @@
                     Click="MenuItem_ShowWeaponNameZHCN_Click"
                     Header="显示中文武器名称"
                     IsCheckable="True"
-                    IsChecked="False" />
+                    IsChecked="True" />
             </MenuItem>
         </ContextMenu>
     </UserControl.Resources>

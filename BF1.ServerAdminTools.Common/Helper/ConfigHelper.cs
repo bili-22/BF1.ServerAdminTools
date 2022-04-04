@@ -1,7 +1,7 @@
-﻿using BF1.ServerAdminTools.Common.Data;
-using BF1.ServerAdminTools.Common.Utils;
+﻿using BF1.ServerAdminTools.Wpf.Data;
+using BF1.ServerAdminTools.Wpf.Utils;
 
-namespace BF1.ServerAdminTools.Common.Helper;
+namespace BF1.ServerAdminTools.Wpf.Helper;
 
 public static class ConfigLocal
 {

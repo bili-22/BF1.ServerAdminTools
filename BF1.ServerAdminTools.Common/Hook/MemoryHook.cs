@@ -1,6 +1,6 @@
-﻿using BF1.ServerAdminTools.Common.Helper;
+﻿using BF1.ServerAdminTools.Wpf.Helper;
 
-namespace BF1.ServerAdminTools.Common.Hook;
+namespace BF1.ServerAdminTools.Wpf.Hook;
 
 internal static class MemoryHook
 {

@@ -1,6 +1,6 @@
-﻿using BF1.ServerAdminTools.Common.API.GT;
-using BF1.ServerAdminTools.Common.API.GT.RespJson;
-using BF1.ServerAdminTools.Common.Utils;
+﻿using BF1.ServerAdminTools.Wpf.API.GT;
+using BF1.ServerAdminTools.Wpf.API.GT.RespJson;
+using BF1.ServerAdminTools.Wpf.Utils;
 using BF1.ServerAdminTools.Wpf.Models;
 using BF1.ServerAdminTools.Wpf.Utils;
 using Microsoft.Toolkit.Mvvm.Input;
@@ -136,7 +136,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
 
                 AddPlayerInfo($"步兵KD : {all.infantryKillDeath}");
                 AddPlayerInfo($"步兵KPM : {all.infantryKillsPerMinute}");
-                AddPlayerInfo($"最佳兵种 : {all.bestClass}");
+                AddPlayerInfo($"最佳兵种 : {ChsUtil.ToSimplifiedChinese(all.bestClass)}");
 
                 AddPlayerInfo("");
 

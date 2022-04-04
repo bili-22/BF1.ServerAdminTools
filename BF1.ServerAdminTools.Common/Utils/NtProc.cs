@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace BF1.ServerAdminTools.Common.Utils;
+namespace BF1.ServerAdminTools.Wpf.Utils;
 
 public static class NtProc
 {

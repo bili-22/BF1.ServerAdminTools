@@ -1,7 +1,7 @@
-﻿using BF1.ServerAdminTools.Common.Data;
-using BF1.ServerAdminTools.Common;
-using BF1.ServerAdminTools.Common.Data;
-using BF1.ServerAdminTools.Common.Helper;
+﻿using BF1.ServerAdminTools.Wpf.Data;
+using BF1.ServerAdminTools.Wpf;
+using BF1.ServerAdminTools.Wpf.Data;
+using BF1.ServerAdminTools.Wpf.Helper;
 
 namespace BF1.ServerAdminTools.Wpf.Views
 {
@@ -98,7 +98,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
                             Rank = item.Value.Rank,
                             Name = item.Value.Name,
                             PersonaId = item.Value.PersonaId,
-                            Status = "从 队伍1 更换到 队伍2"
+                            Status = "从 队伍2 更换到 队伍1"
                         });
                     }
                 }
@@ -206,6 +206,23 @@ namespace BF1.ServerAdminTools.Wpf.Views
 
                 Core.AddLog2SQLite(info);
             });
+        }
+        private void MenuItem_ClearKickOKLog_Click(object sender, RoutedEventArgs e)
+        {
+            TextBox_KickOKLog.Clear();
+            MainWindow._SetOperatingState(1, "清空踢人成功日志成功");
+        }
+
+        private void MenuItem_ClearKickNOLog_Click(object sender, RoutedEventArgs e)
+        {
+            TextBox_KickNOLog.Clear();
+            MainWindow._SetOperatingState(1, "清空踢人失败日志成功");
+        }
+
+        private void MenuItem_ClearChangeTeamLog_Click(object sender, RoutedEventArgs e)
+        {
+            TextBox_ChangeTeamLog.Clear();
+            MainWindow._SetOperatingState(1, "清空更换队伍日志成功");
         }
     }
 }

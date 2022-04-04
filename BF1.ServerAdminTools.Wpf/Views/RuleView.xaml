@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:emoji="clr-namespace:Emoji.Wpf;assembly=Emoji.Wpf"
     xmlns:local="clr-namespace:BF1.ServerAdminTools.Wpf.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Name="View_Rule"
@@ -203,18 +204,25 @@
                                         DockPanel.Dock="Left"
                                         Text="{Binding Mark}"
                                         TextAlignment="Center" />
-                                    <UniformGrid DockPanel.Dock="Right" Rows="2">
+                                    <StackPanel VerticalAlignment="Center" DockPanel.Dock="Right">
                                         <TextBlock
-                                            Margin="0,0,0,2.5"
+                                            Name="txt1"
+                                            Margin="0"
                                             VerticalAlignment="Bottom"
                                             FontWeight="Bold"
                                             Text="{Binding English}" />
                                         <TextBlock
-                                            Margin="0,2.5,0,0"
+                                            Name="txt2"
+                                            Margin="0,3,0,0"
                                             VerticalAlignment="Top"
                                             Text="{Binding Chinese}" />
-                                    </UniformGrid>
+                                    </StackPanel>
                                 </DockPanel>
+                                <DataTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=txt2, Path=Text}" Value="">
+                                        <Setter TargetName="txt2" Property="Visibility" Value="Collapsed" />
+                                    </DataTrigger>
+                                </DataTemplate.Triggers>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
@@ -248,17 +256,19 @@
                         Style="{StaticResource ListBoxStyle_WebList}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <UniformGrid Height="40" Rows="2">
-                                    <TextBlock
-                                        Margin="0,0,0,2.5"
-                                        VerticalAlignment="Bottom"
-                                        FontWeight="Bold"
-                                        Text="{Binding English}" />
-                                    <TextBlock
-                                        Margin="0,2.5,0,0"
-                                        VerticalAlignment="Top"
-                                        Text="{Binding Chinese}" />
-                                </UniformGrid>
+                                <Grid Height="40">
+                                    <StackPanel VerticalAlignment="Center">
+                                        <TextBlock
+                                            Margin="0"
+                                            VerticalAlignment="Bottom"
+                                            FontWeight="Bold"
+                                            Text="{Binding English}" />
+                                        <TextBlock
+                                            Margin="0,3,0,0"
+                                            VerticalAlignment="Top"
+                                            Text="{Binding Chinese}" />
+                                    </StackPanel>
+                                </Grid>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
@@ -356,11 +366,11 @@
         </TabControl>
         <!--  ################################  -->
         <DockPanel Grid.Column="1" LastChildFill="True">
-            <TextBlock
+            <emoji:TextBlock
                 Margin="0,5,5,5"
                 DockPanel.Dock="Top"
                 Style="{StaticResource TextBlockStyle_Title}"
-                Text="规则日志" />
+                Text="📃 规则日志" />
             <TextBox
                 x:Name="TextBox_RuleLog"
                 Margin="0,5,5,5"
@@ -374,6 +384,17 @@
         <!--  ################################  -->
         <DockPanel Grid.Column="2" LastChildFill="True">
             <StackPanel DockPanel.Dock="Bottom">
+                <TextBlock Margin="5">
+                    <Run>
+                        SQLite数据库查询软件下载
+                    </Run>
+                    <Hyperlink NavigateUri="https://download.sqlitebrowser.org/DB.Browser.for.SQLite-3.12.2-win64.msi" RequestNavigate="Hyperlink_RequestNavigate">
+                        👉 点我下载安装
+                    </Hyperlink>
+                    <TextBlock.ToolTip>
+                        https://download.sqlitebrowser.org/DB.Browser.for.SQLite-3.12.2-win64.msi
+                    </TextBlock.ToolTip>
+                </TextBlock>
                 <Button
                     x:Name="Button_OpenConfigurationFolder"
                     Margin="0,5,5,5"

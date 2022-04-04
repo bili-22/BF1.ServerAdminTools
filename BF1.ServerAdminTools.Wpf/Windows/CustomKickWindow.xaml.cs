@@ -1,5 +1,5 @@
-﻿using BF1.ServerAdminTools.Common.API.BF1Server;
-using BF1.ServerAdminTools.Common.Utils;
+﻿using BF1.ServerAdminTools.Wpf.API.BF1Server;
+using BF1.ServerAdminTools.Wpf.Utils;
 
 namespace BF1.ServerAdminTools.Wpf.Windows
 {

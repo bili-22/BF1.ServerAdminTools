@@ -1,10 +1,10 @@
-﻿using BF1.ServerAdminTools.Common.Data;
-using BF1.ServerAdminTools.Common.Utils;
+﻿using BF1.ServerAdminTools.Wpf.Data;
+using BF1.ServerAdminTools.Wpf.Utils;
 using Microsoft.Data.Sqlite;
 using System.Data;
 using Dapper;
 
-namespace BF1.ServerAdminTools.Common.Helper;
+namespace BF1.ServerAdminTools.Wpf.Helper;
 
 public enum DataShell
 { 

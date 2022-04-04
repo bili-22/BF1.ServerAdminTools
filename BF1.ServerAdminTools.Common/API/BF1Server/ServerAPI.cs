@@ -1,8 +1,8 @@
-﻿using BF1.ServerAdminTools.Common.API.BF1Server.RespJson;
-using BF1.ServerAdminTools.Common.Utils;
+﻿using BF1.ServerAdminTools.Wpf.API.BF1Server.RespJson;
+using BF1.ServerAdminTools.Wpf.Utils;
 using RestSharp;
 
-namespace BF1.ServerAdminTools.Common.API.BF1Server;
+namespace BF1.ServerAdminTools.Wpf.API.BF1Server;
 
 public static class ServerAPI
 {

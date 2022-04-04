@@ -1,6 +1,6 @@
-﻿using BF1.ServerAdminTools.Common.Data;
+﻿using BF1.ServerAdminTools.Wpf.Data;
 
-namespace BF1.ServerAdminTools.Common.Utils;
+namespace BF1.ServerAdminTools.Wpf.Utils;
 
 public static class PlayerUtil
 {
@@ -145,8 +145,10 @@ public static class PlayerUtil
         else
         {
             int count = kills / 100;
+            if (count > 100)
+                count = 100;
 
-            return $"★ {count}";
+            return $"{count}";
         }
     }
 

@@ -1,6 +1,6 @@
-﻿using BF1.ServerAdminTools.Common.Data;
+﻿using BF1.ServerAdminTools.Wpf.Data;
 
-namespace BF1.ServerAdminTools.Common;
+namespace BF1.ServerAdminTools.Wpf;
 
 public static class Globals
 {
@@ -26,33 +26,6 @@ public static class Globals
     /// 服务器VIP
     /// </summary>
     public static List<long> Server_VIPList { get; } = new();
-
-
-    /// <summary>
-    /// 保存违规玩家列表信息
-    /// </summary>
-    public static Dictionary<long, BreakRuleInfo> BreakRuleInfo_PlayerList { get; } = new();
-    /// <summary>
-    /// 已经发送踢出的ID
-    /// </summary>
-    public static Dictionary<long, BreakRuleInfo> NowKick { get; } = new();
-
-    /// <summary>
-    /// 观战玩家列表
-    /// </summary>
-    public static List<SpectatorInfo> Server_SpectatorList { get; } = new();
-
-    ///////////////////////////////////////////////////////
-
-    /// <summary>
-    /// 是否自动踢出违规玩家
-    /// </summary>
-    public static bool AutoKickBreakPlayer = false;
-
-    /// <summary>
-    /// 是否显示中文武器名称
-    /// </summary>
-    public static bool IsShowCHSWeaponName = false;
 
     /// <summary>
     /// 游戏是否在运行

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BF1.ServerAdminTools.Common.Data;
+namespace BF1.ServerAdminTools.Wpf.Data;
 
 public record ConfigObj
 {

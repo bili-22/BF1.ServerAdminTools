@@ -1,7 +1,7 @@
-﻿using BF1.ServerAdminTools.Common.Hook;
-using BF1.ServerAdminTools.Common.Utils;
+﻿using BF1.ServerAdminTools.Wpf.Hook;
+using BF1.ServerAdminTools.Wpf.Utils;
 
-namespace BF1.ServerAdminTools.Common.Chat;
+namespace BF1.ServerAdminTools.Wpf.Chat;
 
 internal static class ChatHelper
 {

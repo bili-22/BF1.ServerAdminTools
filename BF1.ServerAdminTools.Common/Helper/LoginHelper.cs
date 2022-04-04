@@ -1,8 +1,8 @@
-﻿using BF1.ServerAdminTools.Common.API.BF1Server;
-using BF1.ServerAdminTools.Common.API.BF1Server.RespJson;
-using BF1.ServerAdminTools.Common.Utils;
+﻿using BF1.ServerAdminTools.Wpf.API.BF1Server;
+using BF1.ServerAdminTools.Wpf.API.BF1Server.RespJson;
+using BF1.ServerAdminTools.Wpf.Utils;
 using RestSharp;
-namespace BF1.ServerAdminTools.Common.Helper;
+namespace BF1.ServerAdminTools.Wpf.Helper;
 
 internal static class LoginHelper
 {

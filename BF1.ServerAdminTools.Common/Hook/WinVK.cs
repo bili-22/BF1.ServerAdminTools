@@ -1,4 +1,4 @@
-﻿namespace BF1.ServerAdminTools.Common.Hook;
+﻿namespace BF1.ServerAdminTools.Wpf.Hook;
 
 public enum WinVK : uint
 {

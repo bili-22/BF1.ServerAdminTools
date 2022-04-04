@@ -1,11 +1,11 @@
-﻿using BF1.ServerAdminTools.Common.Chat;
-using BF1.ServerAdminTools.Common.Hook;
-using BF1.ServerAdminTools.Common.Helper;
-using BF1.ServerAdminTools.Common.Utils;
-using BF1.ServerAdminTools.Common.API.BF1Server.RespJson;
-using BF1.ServerAdminTools.Common.Data;
+﻿using BF1.ServerAdminTools.Wpf.Chat;
+using BF1.ServerAdminTools.Wpf.Hook;
+using BF1.ServerAdminTools.Wpf.Helper;
+using BF1.ServerAdminTools.Wpf.Utils;
+using BF1.ServerAdminTools.Wpf.API.BF1Server.RespJson;
+using BF1.ServerAdminTools.Wpf.Data;
 
-namespace BF1.ServerAdminTools.Common;
+namespace BF1.ServerAdminTools.Wpf;
 
 public interface IMsgCall
 {
