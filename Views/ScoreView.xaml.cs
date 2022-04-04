@@ -34,21 +34,6 @@ namespace BF1.ServerAdminTools.Views
 
         private const int MaxPlayer = 74;
 
-        private TempData.ClientPlayer _tdCP;
-        private TempData.ClientSoldierEntity _tdCSE;
-
-        private struct ClientPlayer
-        {
-            public long BaseAddress;
-
-            public int TeamID;
-            public byte Spectator;
-
-            public long PersonaId;
-            public string PlayerName;
-        }
-        private ClientPlayer _localPlayer;
-
         private struct StatisticData
         {
             public int MaxPlayerCount;
@@ -109,8 +94,6 @@ namespace BF1.ServerAdminTools.Views
             DataGrid_PlayerList_Team1 = new ObservableCollection<PlayerListModel>();
             DataGrid_PlayerList_Team2 = new ObservableCollection<PlayerListModel>();
 
-            _tdCP.WeaponSlot = new string[8] { "", "", "", "", "", "", "", "" };
-
             var thread0 = new Thread(UpdatePlayerList);
             thread0.IsBackground = true;
             thread0.Start();
@@ -129,7 +112,7 @@ namespace BF1.ServerAdminTools.Views
 
                 Globals.Server_SpectatorList.Clear();
 
-                Array.Clear(_tdCP.WeaponSlot, 0, _tdCP.WeaponSlot.Length);
+                var _weaponSlot = new string[8] { "", "", "", "", "", "", "", "" };
 
                 _statisticData_Team1.MaxPlayerCount = 0;
                 _statisticData_Team1.PlayerCount = 0;
@@ -147,82 +130,123 @@ namespace BF1.ServerAdminTools.Views
 
                 //////////////////////////////// 自己数据 ////////////////////////////////
 
-                _localPlayer.BaseAddress = Player.GetLocalPlayer();
+                var _myBaseAddress = Player.GetLocalPlayer();
 
-                _localPlayer.TeamID = Memory.Read<int>(_localPlayer.BaseAddress + 0x1C34);
-                PlayerOtherModel.MySelfTeamID = $"队伍ID : {_localPlayer.TeamID}";
+                var _myTeamId = Memory.Read<int>(_myBaseAddress + 0x1C34);
+                PlayerOtherModel.MySelfTeamID = $"队伍ID : {_myTeamId}";
 
-                _localPlayer.Spectator = Memory.Read<byte>(_localPlayer.BaseAddress + 0x1C31);
-                _localPlayer.PersonaId = Memory.Read<long>(_localPlayer.BaseAddress + 0x38);
-                _localPlayer.PlayerName = Memory.ReadString(_localPlayer.BaseAddress + 0x2156, 64);
-                if (_localPlayer.PlayerName != "")
+                var _mySpectator = Memory.Read<byte>(_myBaseAddress + 0x1C31);
+                var _myPersonaId = Memory.Read<long>(_myBaseAddress + 0x38);
+                var _myPlayerName = Memory.ReadString(_myBaseAddress + 0x2156, 64);
+                if (!string.IsNullOrEmpty(_myPlayerName))
                 {
-                    PlayerOtherModel.MySelfName = $"玩家ID : {_localPlayer.PlayerName}";
+                    PlayerOtherModel.MySelfName = $"玩家ID : {_myPlayerName}";
                 }
                 else
                 {
                     PlayerOtherModel.MySelfName = "玩家ID : 未知";
                 }
 
+                //////////////////////////////// 服务器数据 ////////////////////////////////
+
+                // 服务器名称
+                _serverInfo.ServerName = Memory.ReadString(Memory.GetBaseAddress() + Offsets.ServerName_Offset, Offsets.ServerName, 64);
+                _serverInfo.ServerName = _serverInfo.ServerName == "" ? "未知" : _serverInfo.ServerName;
+
+                // 如果玩家没有进入服务器，要进行一些数据清理
+                if (PlayerList_Team1.Count == 0 && PlayerList_Team2.Count == 0 && _serverInfo.ServerName == "未知")
+                {
+                    // 清理服务器ID（GameID）
+                    _serverInfo.ServerID = 0;
+                    Globals.GameId = string.Empty;
+
+                    Globals.Server_AdminList.Clear();
+                    Globals.Server_Admin2List.Clear();
+                    Globals.Server_VIPList.Clear();
+                }
+                else
+                {
+                    // 服务器数字ID
+                    _serverInfo.ServerID = Memory.Read<long>(Memory.GetBaseAddress() + Offsets.ServerID_Offset, Offsets.ServerID);
+                    Globals.GameId = _serverInfo.ServerID.ToString();
+                }
+
+                // 服务器时间
+                _serverInfo.ServerTime = Memory.Read<float>(Memory.GetBaseAddress() + Offsets.ServerTime_Offset, Offsets.ServerTime);
+
+                _serverInfo.Offset0 = Memory.Read<long>(Memory.GetBaseAddress() + Offsets.ServerScore_Offset, Offsets.ServerScoreTeam);
+
+                // 队伍1、队伍2分数
+                _serverInfo.Team1Score = Memory.Read<int>(_serverInfo.Offset0 + 0x2B0);
+                _serverInfo.Team2Score = Memory.Read<int>(_serverInfo.Offset0 + 0x2B0 + 0x08);
+
+                // 队伍1、队伍2从击杀获取得分
+                _serverInfo.Team1FromeKill = Memory.Read<int>(_serverInfo.Offset0 + 0x2B0 + 0x60);
+                _serverInfo.Team2FromeKill = Memory.Read<int>(_serverInfo.Offset0 + 0x2B0 + 0x68);
+
+                // 队伍1、队伍2从旗帜获取得分
+                _serverInfo.Team1FromeFlag = Memory.Read<int>(_serverInfo.Offset0 + 0x2B0 + 0x100);
+                _serverInfo.Team2FromeFlag = Memory.Read<int>(_serverInfo.Offset0 + 0x2B0 + 0x108);
+
                 //////////////////////////////// 玩家数据 ////////////////////////////////
 
                 for (int i = 0; i < MaxPlayer; i++)
                 {
-                    _tdCP.BaseAddress = Player.GetPlayerById(i);
-                    if (!Memory.IsValid(_tdCP.BaseAddress))
+                    var _baseAddress = Player.GetPlayerById(i);
+                    if (!Memory.IsValid(_baseAddress))
                         continue;
 
-                    _tdCP.Mark = Memory.Read<byte>(_tdCP.BaseAddress + 0x1D7C);
-                    _tdCP.TeamID = Memory.Read<int>(_tdCP.BaseAddress + 0x1C34);
-                    _tdCP.Spectator = Memory.Read<byte>(_tdCP.BaseAddress + 0x1C31);
-                    _tdCP.PersonaId = Memory.Read<long>(_tdCP.BaseAddress + 0x38);
-                    _tdCP.PartyId = Memory.Read<int>(_tdCP.BaseAddress + 0x1E50);
-                    _tdCP.Name = Memory.ReadString(_tdCP.BaseAddress + 0x2156, 64);
-                    if (string.IsNullOrEmpty(_tdCP.Name))
+                    var _mark = Memory.Read<byte>(_baseAddress + 0x1D7C);
+                    var _teamId = Memory.Read<int>(_baseAddress + 0x1C34);
+                    var _spectator = Memory.Read<byte>(_baseAddress + 0x1C31);
+                    var _personaId = Memory.Read<long>(_baseAddress + 0x38);
+                    var _squadId = Memory.Read<int>(_baseAddress + 0x1E50);
+                    var _name = Memory.ReadString(_baseAddress + 0x2156, 64);
+                    if (string.IsNullOrEmpty(_name))
                         continue;
 
-                    _tdCSE.pClientVehicleEntity = Memory.Read<long>(_tdCP.BaseAddress + 0x1D38);
-                    if (Memory.IsValid(_tdCSE.pClientVehicleEntity))
+                    var _pClientVehicleEntity = Memory.Read<long>(_baseAddress + 0x1D38);
+                    if (Memory.IsValid(_pClientVehicleEntity))
                     {
-                        _tdCSE.pVehicleEntityData = Memory.Read<long>(_tdCSE.pClientVehicleEntity + 0x30);
-                        _tdCP.WeaponSlot[0] = Memory.ReadString(Memory.Read<long>(_tdCSE.pVehicleEntityData + 0x2F8), 64);
+                        var _pVehicleEntityData = Memory.Read<long>(_pClientVehicleEntity + 0x30);
+                        _weaponSlot[0] = Memory.ReadString(Memory.Read<long>(_pVehicleEntityData + 0x2F8), 64);
 
                         for (int j = 1; j < 8; j++)
                         {
-                            _tdCP.WeaponSlot[j] = "";
+                            _weaponSlot[j] = "";
                         }
                     }
                     else
                     {
-                        _tdCSE.pClientSoldierEntity = Memory.Read<long>(_tdCP.BaseAddress + 0x1D48);
-                        _tdCSE.pClientSoldierWeaponComponent = Memory.Read<long>(_tdCSE.pClientSoldierEntity + 0x698);
-                        _tdCSE.m_handler = Memory.Read<long>(_tdCSE.pClientSoldierWeaponComponent + 0x8A8);
+                        var _pClientSoldierEntity = Memory.Read<long>(_baseAddress + 0x1D48);
+                        var _pClientSoldierWeaponComponent = Memory.Read<long>(_pClientSoldierEntity + 0x698);
+                        var _m_handler = Memory.Read<long>(_pClientSoldierWeaponComponent + 0x8A8);
 
                         for (int j = 0; j < 8; j++)
                         {
-                            var offset0 = Memory.Read<long>(_tdCSE.m_handler + j * 0x8);
+                            var offset0 = Memory.Read<long>(_m_handler + j * 0x8);
 
                             offset0 = Memory.Read<long>(offset0 + 0x4A30);
                             offset0 = Memory.Read<long>(offset0 + 0x20);
                             offset0 = Memory.Read<long>(offset0 + 0x38);
                             offset0 = Memory.Read<long>(offset0 + 0x20);
 
-                            _tdCP.WeaponSlot[j] = Memory.ReadString(offset0, 64);
+                            _weaponSlot[j] = Memory.ReadString(offset0, 64);
                         }
                     }
 
-                    int index = PlayerList_All.FindIndex(val => val.Name == _tdCP.Name);
+                    var index = PlayerList_All.FindIndex(val => val.Name == _name);
                     if (index == -1)
                     {
                         PlayerList_All.Add(new PlayerData()
                         {
-                            Mark = _tdCP.Mark,
-                            TeamID = _tdCP.TeamID,
-                            Spectator = _tdCP.Spectator,
-                            Clan = PlayerUtil.GetPlayerTargetName(_tdCP.Name, true),
-                            Name = PlayerUtil.GetPlayerTargetName(_tdCP.Name, false),
-                            PersonaId = _tdCP.PersonaId,
-                            SquadId = PlayerUtil.GetSquadChsName(_tdCP.PartyId),
+                            Mark = _mark,
+                            TeamId = _teamId,
+                            Spectator = _spectator,
+                            Clan = PlayerUtil.GetPlayerTargetName(_name, true),
+                            Name = PlayerUtil.GetPlayerTargetName(_name, false),
+                            PersonaId = _personaId,
+                            SquadId = PlayerUtil.GetSquadChsName(_squadId),
 
                             Rank = 0,
                             Kill = 0,
@@ -232,47 +256,47 @@ namespace BF1.ServerAdminTools.Views
                             KD = 0,
                             KPM = 0,
 
-                            WeaponS0 = _tdCP.WeaponSlot[0],
-                            WeaponS1 = _tdCP.WeaponSlot[1],
-                            WeaponS2 = _tdCP.WeaponSlot[2],
-                            WeaponS3 = _tdCP.WeaponSlot[3],
-                            WeaponS4 = _tdCP.WeaponSlot[4],
-                            WeaponS5 = _tdCP.WeaponSlot[5],
-                            WeaponS6 = _tdCP.WeaponSlot[6],
-                            WeaponS7 = _tdCP.WeaponSlot[7],
+                            WeaponS0 = _weaponSlot[0],
+                            WeaponS1 = _weaponSlot[1],
+                            WeaponS2 = _weaponSlot[2],
+                            WeaponS3 = _weaponSlot[3],
+                            WeaponS4 = _weaponSlot[4],
+                            WeaponS5 = _weaponSlot[5],
+                            WeaponS6 = _weaponSlot[6],
+                            WeaponS7 = _weaponSlot[7],
                         });
                     }
                 }
 
                 //////////////////////////////// 得分板数据 ////////////////////////////////
 
-                var pClientScoreBA = Memory.Read<long>(Memory.GetBaseAddress() + 0x39EB8D8);
-                pClientScoreBA = Memory.Read<long>(pClientScoreBA + 0x68);
+                var _pClientScoreBA = Memory.Read<long>(Memory.GetBaseAddress() + 0x39EB8D8);
+                _pClientScoreBA = Memory.Read<long>(_pClientScoreBA + 0x68);
 
                 for (int i = 0; i < MaxPlayer; i++)
                 {
-                    pClientScoreBA = Memory.Read<long>(pClientScoreBA);
-                    var pClientScoreOffset = Memory.Read<long>(pClientScoreBA + 0x10);
-                    if (!Memory.IsValid(pClientScoreBA))
+                    _pClientScoreBA = Memory.Read<long>(_pClientScoreBA);
+                    var _pClientScoreOffset = Memory.Read<long>(_pClientScoreBA + 0x10);
+                    if (!Memory.IsValid(_pClientScoreBA))
                         continue;
 
-                    var Mark = Memory.Read<byte>(pClientScoreOffset + 0x300);
-                    var Rank = Memory.Read<int>(pClientScoreOffset + 0x304);
-                    if (Rank == 0)
+                    var _mark = Memory.Read<byte>(_pClientScoreOffset + 0x300);
+                    var _rank = Memory.Read<int>(_pClientScoreOffset + 0x304);
+                    if (_rank == 0)
                         continue;
-                    var Kill = Memory.Read<int>(pClientScoreOffset + 0x308);
-                    var Dead = Memory.Read<int>(pClientScoreOffset + 0x30C);
-                    var Score = Memory.Read<int>(pClientScoreOffset + 0x314);
+                    var _kill = Memory.Read<int>(_pClientScoreOffset + 0x308);
+                    var _dead = Memory.Read<int>(_pClientScoreOffset + 0x30C);
+                    var _score = Memory.Read<int>(_pClientScoreOffset + 0x314);
 
-                    int index = PlayerList_All.FindIndex(val => val.Mark == Mark);
+                    var index = PlayerList_All.FindIndex(val => val.Mark == _mark);
                     if (index != -1)
                     {
-                        PlayerList_All[index].Rank = Rank;
-                        PlayerList_All[index].Kill = Kill;
-                        PlayerList_All[index].Dead = Dead;
-                        PlayerList_All[index].Score = Score;
-                        PlayerList_All[index].KD = PlayerUtil.GetPlayerKD(Kill, Dead);
-                        PlayerList_All[index].KPM = PlayerUtil.GetPlayerKPM(Kill, PlayerUtil.SecondsToMM(_serverInfo.ServerTime));
+                        PlayerList_All[index].Rank = _rank;
+                        PlayerList_All[index].Kill = _kill;
+                        PlayerList_All[index].Dead = _dead;
+                        PlayerList_All[index].Score = _score;
+                        PlayerList_All[index].KD = PlayerUtil.GetPlayerKD(_kill, _dead);
+                        PlayerList_All[index].KPM = PlayerUtil.GetPlayerKPM(_kill, PlayerUtil.SecondsToMM(_serverInfo.ServerTime));
                     }
                 }
 
@@ -283,21 +307,21 @@ namespace BF1.ServerAdminTools.Views
                     item.Admin = PlayerUtil.CheckAdminVIP(item.PersonaId.ToString(), Globals.Server_AdminList);
                     item.VIP = PlayerUtil.CheckAdminVIP(item.PersonaId.ToString(), Globals.Server_VIPList);
 
-                    if (item.TeamID == 0)
+                    if (item.TeamId == 0)
                     {
                         PlayerList_Team0.Add(item);
                     }
-                    if (item.TeamID == 1)
+                    if (item.TeamId == 1)
                     {
                         PlayerList_Team1.Add(item);
                     }
-                    else if (item.TeamID == 2)
+                    else if (item.TeamId == 2)
                     {
                         PlayerList_Team2.Add(item);
                     }
 
                     // 检查违规玩家
-                    if (item.TeamID == 1 || item.TeamID == 2)
+                    if (item.TeamId == 1 || item.TeamId == 2)
                     {
                         CheckPlayerIsBreakRule(item);
                     }
@@ -399,48 +423,7 @@ namespace BF1.ServerAdminTools.Views
                     }
                 }
 
-                ////////////////////////////////////////////////////////////////////////////////
-
-                // 服务器名称
-                _serverInfo.ServerName = Memory.ReadString(Memory.GetBaseAddress() + Offsets.ServerName_Offset, Offsets.ServerName, 64);
-                _serverInfo.ServerName = _serverInfo.ServerName == "" ? "未知" : _serverInfo.ServerName;
-
-                // 如果玩家没有进入服务器，要进行一些数据清理
-                if (PlayerList_Team1.Count == 0 && PlayerList_Team2.Count == 0 && _serverInfo.ServerName == "未知")
-                {
-                    // 清理服务器ID（GameID）
-                    _serverInfo.ServerID = 0;
-                    Globals.GameId = string.Empty;
-
-                    Globals.Server_AdminList.Clear();
-                    Globals.Server_Admin2List.Clear();
-                    Globals.Server_VIPList.Clear();
-                }
-                else
-                {
-                    // 服务器数字ID
-                    _serverInfo.ServerID = Memory.Read<long>(Memory.GetBaseAddress() + Offsets.ServerID_Offset, Offsets.ServerID);
-                    Globals.GameId = _serverInfo.ServerID.ToString();
-                }
-
-                // 服务器时间
-                _serverInfo.ServerTime = Memory.Read<float>(Memory.GetBaseAddress() + Offsets.ServerTime_Offset, Offsets.ServerTime);
-
-                _serverInfo.Offset0 = Memory.Read<long>(Memory.GetBaseAddress() + Offsets.ServerScore_Offset, Offsets.ServerScoreTeam);
-
-                // 队伍1、队伍2分数
-                _serverInfo.Team1Score = Memory.Read<int>(_serverInfo.Offset0 + 0x2B0);
-                _serverInfo.Team2Score = Memory.Read<int>(_serverInfo.Offset0 + 0x2B0 + 0x08);
-
-                // 队伍1、队伍2从击杀获取得分
-                _serverInfo.Team1FromeKill = Memory.Read<int>(_serverInfo.Offset0 + 0x2B0 + 0x60);
-                _serverInfo.Team2FromeKill = Memory.Read<int>(_serverInfo.Offset0 + 0x2B0 + 0x68);
-
-                // 队伍1、队伍2从旗帜获取得分
-                _serverInfo.Team1FromeFlag = Memory.Read<int>(_serverInfo.Offset0 + 0x2B0 + 0x100);
-                _serverInfo.Team2FromeFlag = Memory.Read<int>(_serverInfo.Offset0 + 0x2B0 + 0x108);
-
-                ////////////////////////////////////////////////////////////////////////////////
+                //////////////////////////////// 统计信息数据 ////////////////////////////////
 
                 ServerInfoModel.ServerName = $"服务器名称 : {_serverInfo.ServerName}  |  GameID : {_serverInfo.ServerID}";
 
@@ -601,6 +584,7 @@ namespace BF1.ServerAdminTools.Views
                             WeaponS6 = PlayerList_Team1[i].WeaponS6,
                             WeaponS7 = PlayerList_Team1[i].WeaponS7
                         });
+
                     }
                 }
 
