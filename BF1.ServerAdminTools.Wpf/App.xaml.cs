@@ -1,4 +1,4 @@
-﻿using BF1.ServerAdminTools.Common.Utils;
+﻿using BF1.ServerAdminTools.Common;
 using BF1.ServerAdminTools.Wpf.Utils;
 
 namespace BF1.ServerAdminTools.Wpf
@@ -6,17 +6,15 @@ namespace BF1.ServerAdminTools.Wpf
     /// <summary>
     /// App.xaml 的交互逻辑
     /// </summary>
-    public partial class App : Application
+    public partial class App : Application, IMsgCall
     {
-        public static Mutex AppMainMutex;
-
         protected override void OnStartup(StartupEventArgs e)
         {
-            AppMainMutex = new Mutex(true, ResourceAssembly.GetName().Name, out var createdNew);
+            new Mutex(true, ResourceAssembly.GetName().Name, out var createdNew);
 
             if (createdNew)
             {
-                if (!ProcessUtil.IsAppRun(CoreUtil.TargetAppName))
+                if (!Core.IsAppRun())
                 {
                     MessageBox.Show("未检测到《战地1》游戏启动，工具功能不可用", " 警告", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
@@ -48,19 +46,19 @@ namespace BF1.ServerAdminTools.Wpf
         private void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
             string str = GetExceptionMsg(e.Exception, e.ToString());
-            FileUtil.SaveErrorLog(str);
+            Core.WriteErrorLog(str);
         }
 
         private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             string str = GetExceptionMsg(e.ExceptionObject as Exception, e.ToString());
-            FileUtil.SaveErrorLog(str);
+            Core.WriteErrorLog(str);
         }
 
         private void TaskScheduler_UnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs e)
         {
             string str = GetExceptionMsg(e.Exception, e.ToString());
-            FileUtil.SaveErrorLog(str);
+            Core.WriteErrorLog(str);
         }
 
         /// <summary>
@@ -84,6 +82,16 @@ namespace BF1.ServerAdminTools.Wpf
                 sb.AppendLine("【未处理异常】：" + backStr);
             }
             return sb.ToString();
+        }
+
+        public void Info(string data)
+        {
+            MsgBoxUtil.InformationMsgBox(data);
+        }
+
+        public void Error(string data, Exception e)
+        {
+            MsgBoxUtil.ErrorMsgBox(data, e);
         }
     }
 }

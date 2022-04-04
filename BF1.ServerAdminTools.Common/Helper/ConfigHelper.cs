@@ -1,8 +1,9 @@
 ﻿using BF1.ServerAdminTools.Common.Data;
+using BF1.ServerAdminTools.Common.Helper;
 
 namespace BF1.ServerAdminTools.Common.Utils;
 
-public static class FileUtil
+internal static class ConfigHelper
 {
     public static string MyDocument = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
@@ -50,7 +51,7 @@ public static class FileUtil
     /// 保存错误Log日志文件到本地
     /// </summary>
     /// <param name="logContent">保存内容</param>
-    public static void SaveErrorLog(string logContent)
+    public static void WriteErrorLog(string logContent)
     {
         try
         {
@@ -85,6 +86,9 @@ public static class FileUtil
 
     public static void LoadConfig()
     {
+        Directory.CreateDirectory(ConfigHelper.ServerRule);
+        Directory.CreateDirectory(ConfigHelper.Cache);
+        Directory.CreateDirectory(ConfigHelper.Log);
         if (!File.Exists(SettingFile))
         {
             Globals.Config = new()

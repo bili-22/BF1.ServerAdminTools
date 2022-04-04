@@ -26,19 +26,19 @@ public static class ImageData
         switch (type)
         {
             case "maps":
-                return ImageData.MapsDict.ContainsKey(extension) ? ImageData.MapsDict[extension] : string.Empty;
+                return MapsDict.ContainsKey(extension) ? MapsDict[extension] : string.Empty;
             case "weapons":
-                return ImageData.WeaponsDict.ContainsKey(extension) ? ImageData.WeaponsDict[extension] : string.Empty;
+                return WeaponsDict.ContainsKey(extension) ? WeaponsDict[extension] : string.Empty;
             case "weapons2":
-                return ImageData.Weapons2Dict.ContainsKey(extension) ? ImageData.Weapons2Dict[extension] : string.Empty;
+                return Weapons2Dict.ContainsKey(extension) ? Weapons2Dict[extension] : string.Empty;
             case "vehicles":
-                return ImageData.VehiclesDict.ContainsKey(extension) ? ImageData.VehiclesDict[extension] : string.Empty;
+                return VehiclesDict.ContainsKey(extension) ? VehiclesDict[extension] : string.Empty;
             case "vehicles2":
-                return ImageData.Vehicles2Dict.ContainsKey(extension) ? ImageData.Vehicles2Dict[extension] : string.Empty;
+                return Vehicles2Dict.ContainsKey(extension) ? Vehicles2Dict[extension] : string.Empty;
             case "classes":
-                return ImageData.ClassesDict.ContainsKey(extension) ? ImageData.ClassesDict[extension] : string.Empty;
+                return ClassesDict.ContainsKey(extension) ? ClassesDict[extension] : string.Empty;
             case "classes2":
-                return ImageData.Classes2Dict.ContainsKey(extension) ? ImageData.Classes2Dict[extension] : string.Empty;
+                return  Classes2Dict.ContainsKey(extension) ? Classes2Dict[extension] : string.Empty;
             default:
                 return string.Empty;
         }

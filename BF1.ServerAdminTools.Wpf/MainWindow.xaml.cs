@@ -1,6 +1,6 @@
 ﻿using BF1.ServerAdminTools.BF1API.Chat;
 using BF1.ServerAdminTools.BF1API.Core;
-using BF1.ServerAdminTools.Common.Data;
+using BF1.ServerAdminTools.Common;
 using BF1.ServerAdminTools.Common.Helper;
 using BF1.ServerAdminTools.Common.Utils;
 using BF1.ServerAdminTools.Wpf.Models;
@@ -79,8 +79,8 @@ namespace BF1.ServerAdminTools.Wpf
 
             try
             {
-                ChatMsg.AllocateMemory();
-                LoggerHelper.Info($"中文聊天指针分配成功 0x{ChatMsg.GetAllocateMemoryAddress():x}");
+                Core.MsgAllocateMemory();
+                Core.core.Info($"中文聊天指针分配成功 0x{Core.core.GetAllocateMemoryAddress():x}");
             }
             catch (Exception ex)
             {
@@ -95,7 +95,7 @@ namespace BF1.ServerAdminTools.Wpf
             ClosingDisposeEvent();
             LoggerHelper.Info($"调用关闭事件成功");
 
-            FileUtil.SaveAll();
+            Core.SaveAll();
             LoggerHelper.Info($"保存配置文件成功");
 
             SQLiteHelper.CloseConnection();
@@ -126,7 +126,7 @@ namespace BF1.ServerAdminTools.Wpf
 
                 if (Globals.IsGameRun)
                 {
-                    if (!ProcessUtil.IsAppRun(CoreUtil.TargetAppName))
+                    if (!Core.IsAppRun())
                     {
                         Globals.IsToolInit = false;
                         Globals.IsGameRun = false;

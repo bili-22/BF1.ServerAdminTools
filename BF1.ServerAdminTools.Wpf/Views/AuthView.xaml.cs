@@ -1,7 +1,7 @@
 ﻿using BF1.ServerAdminTools.BF1API.API.RespJson;
 using BF1.ServerAdminTools.BF1API.API2;
 using BF1.ServerAdminTools.BF1API.API2.RespJson;
-using BF1.ServerAdminTools.Common.Data;
+using BF1.ServerAdminTools.Common;
 using BF1.ServerAdminTools.Common.Helper;
 using BF1.ServerAdminTools.Common.Utils;
 using BF1.ServerAdminTools.Wpf.Utils;
@@ -95,7 +95,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
                             LoggerHelper.Info($"当前Sid为 {Globals.Config.Sid}");
 
                             code = code.Replace("http://127.0.0.1/success?code=", "");
-                            var result = await BF1API.API.BF1API.GetEnvIdViaAuthCode(code);
+                            var result = await BF1API.API.ServerAPI.GetEnvIdViaAuthCode(code);
 
                             if (result.IsSuccess)
                             {
@@ -203,7 +203,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
                         Globals.Config.Sid = response.Cookies[1].Value;
 
                         code = code.Replace("http://127.0.0.1/success?code=", "");
-                        var result = await BF1API.API.BF1API.GetEnvIdViaAuthCode(code);
+                        var result = await BF1API.API.ServerAPI.GetEnvIdViaAuthCode(code);
 
                         if (result.IsSuccess)
                         {
@@ -257,8 +257,8 @@ namespace BF1.ServerAdminTools.Wpf.Views
                 TextBlock_CheckSessionIdStatus.Background = Brushes.Gray;
                 MainWindow._SetOperatingState(2, "正在验证中，请等待...");
 
-                await BF1API.API.BF1API.SetAPILocale();
-                var result = await BF1API.API.BF1API.GetWelcomeMessage();
+                await BF1API.API.ServerAPI.SetAPILocale();
+                var result = await BF1API.API.ServerAPI.GetWelcomeMessage();
 
                 if (result.IsSuccess)
                 {

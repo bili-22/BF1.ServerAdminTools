@@ -2,7 +2,7 @@
 
 namespace BF1.ServerAdminTools.Common.Helper;
 
-public static class LoggerHelper
+internal static class LoggerHelper
 {
     private static readonly Logger logger = LogManager.GetCurrentClassLogger();
 
@@ -95,4 +95,6 @@ public static class LoggerHelper
         logger.Fatal(err, msg);
     }
     #endregion
+
+    
 }

@@ -1,6 +1,6 @@
 ﻿namespace BF1.ServerAdminTools.Common.Helper;
 
-public static class HttpHelper
+public static class HttpUtil
 {
     private static readonly HttpClient client = new();
 

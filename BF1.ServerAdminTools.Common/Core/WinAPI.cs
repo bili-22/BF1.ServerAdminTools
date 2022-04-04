@@ -2,7 +2,7 @@
 
 namespace BF1.ServerAdminTools.BF1API.Core;
 
-public static class WinAPI
+internal static class WinAPI
 {
     public const int WM_ACTIVATE = 0x0006;
     public const int WM_KILLFOCUS = 0x0008;
@@ -58,7 +58,7 @@ public static class WinAPI
 
 // OpenProcess signture https://www.pinvoke.net/default.aspx/kernel32.openprocess
 [Flags]
-public enum ProcessAccessFlags : uint
+internal enum ProcessAccessFlags : uint
 {
     All = 0x001F0FFF,
     Terminate = 0x00000001,
@@ -77,7 +77,7 @@ public enum ProcessAccessFlags : uint
 
 // VirtualAllocEx signture https://www.pinvoke.net/default.aspx/kernel32.virtualallocex
 [Flags]
-public enum AllocationType
+internal enum AllocationType
 {
     Commit = 0x1000,
     Reserve = 0x2000,
@@ -91,7 +91,7 @@ public enum AllocationType
 }
 
 [Flags]
-public enum MemoryProtection
+internal enum MemoryProtection
 {
     Execute = 0x10,
     ExecuteRead = 0x20,

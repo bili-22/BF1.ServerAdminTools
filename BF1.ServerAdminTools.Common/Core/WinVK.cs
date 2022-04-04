@@ -1,6 +1,6 @@
 ﻿namespace BF1.ServerAdminTools.BF1API.Core;
 
-public enum WinVK : uint
+internal enum WinVK : uint
 {
     LBUTTON = 0x01,     // 鼠标左键
     RBUTTON = 0x02,     // 鼠标右键

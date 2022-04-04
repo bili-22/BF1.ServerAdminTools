@@ -1,7 +1,14 @@
-﻿namespace BF1.ServerAdminTools.Common.Data;
+﻿using BF1.ServerAdminTools.Common.Data;
+
+namespace BF1.ServerAdminTools.Common;
 
 public static class Globals
 {
+    /// <summary>
+    /// 目标进程
+    /// </summary>
+    public const string TargetAppName = "bf1";    // 战地1
+
     public static ConfigObj Config;
     public static bool IsRuleSetRight = false;
 

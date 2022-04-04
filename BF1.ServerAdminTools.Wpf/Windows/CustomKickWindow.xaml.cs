@@ -31,7 +31,7 @@ namespace BF1.ServerAdminTools.Wpf.Windows
                 reason = "ADMINPRIORITY";
             }
 
-            var result = await BF1API.API.BF1API.AdminKickPlayer(PersonaId, reason);
+            var result = await BF1API.API.ServerAPI.AdminKickPlayer(PersonaId, reason);
 
             if (result.IsSuccess)
             {

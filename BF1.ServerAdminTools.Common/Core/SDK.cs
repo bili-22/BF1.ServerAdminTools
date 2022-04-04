@@ -1,6 +1,6 @@
 ﻿namespace BF1.ServerAdminTools.BF1API.Core;
 
-public class SDK
+internal class SDK
 {
     public class ClientSoldierWeapon
     {

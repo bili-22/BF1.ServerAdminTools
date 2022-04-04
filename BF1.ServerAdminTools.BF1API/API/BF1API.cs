@@ -1,10 +1,10 @@
-﻿using BF1.ServerAdminTools.Common.Data;
+﻿using BF1.ServerAdminTools.Common;
 using BF1.ServerAdminTools.Common.Utils;
 using RestSharp;
 
 namespace BF1.ServerAdminTools.BF1API.API;
 
-public static class BF1API
+public static class ServerAPI
 {
     private const string Host = "https://sparta-gw.battlelog.com/jsonrpc/pc/api";
 

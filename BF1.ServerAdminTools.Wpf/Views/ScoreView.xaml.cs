@@ -1,6 +1,7 @@
 ﻿using BF1.ServerAdminTools.BF1API.Core;
 using BF1.ServerAdminTools.BF1API.Data;
 using BF1.ServerAdminTools.BF1API.Utils;
+using BF1.ServerAdminTools.Common;
 using BF1.ServerAdminTools.Common.Data;
 using BF1.ServerAdminTools.Common.Utils;
 using BF1.ServerAdminTools.Wpf.Extension;
@@ -1009,7 +1010,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
         private async void AutoKickPlayer(BreakRuleInfo info)
         {
             Globals.NowKick.Add(info.PersonaId, info);
-            var result = await BF1API.API.BF1API.AdminKickPlayer(info.PersonaId.ToString(), info.Reason);
+            var result = await BF1API.API.ServerAPI.AdminKickPlayer(info.PersonaId.ToString(), info.Reason);
 
             if (result.IsSuccess)
             {
@@ -1040,7 +1041,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
                 {
                     MainWindow._SetOperatingState(2, $"正在踢出玩家 {_dataGridSelcContent.Name} 中...");
 
-                    var result = await BF1API.API.BF1API.AdminKickPlayer(_dataGridSelcContent.PersonaId.ToString(), reason);
+                    var result = await BF1API.API.ServerAPI.AdminKickPlayer(_dataGridSelcContent.PersonaId.ToString(), reason);
 
                     if (result.IsSuccess)
                     {
@@ -1118,7 +1119,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
                 {
                     MainWindow._SetOperatingState(2, $"正在更换玩家 {_dataGridSelcContent.Name} 队伍中...");
 
-                    var result = await BF1API.API.BF1API.AdminMovePlayer(_dataGridSelcContent.PersonaId.ToString(), _dataGridSelcContent.TeamID.ToString());
+                    var result = await BF1API.API.ServerAPI.AdminMovePlayer(_dataGridSelcContent.PersonaId.ToString(), _dataGridSelcContent.TeamID.ToString());
 
                     if (result.IsSuccess)
                     {

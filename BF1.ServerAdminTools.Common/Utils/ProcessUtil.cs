@@ -1,6 +1,4 @@
-﻿using BF1.ServerAdminTools.Common.Data;
-
-namespace BF1.ServerAdminTools.Common.Utils;
+﻿namespace BF1.ServerAdminTools.Common.Utils;
 
 public static class ProcessUtil
 {

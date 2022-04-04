@@ -1,9 +1,10 @@
-﻿using BF1.ServerAdminTools.Common.Data;
+﻿using BF1.ServerAdminTools.BF1API.Chat;
+using BF1.ServerAdminTools.Common;
 using BF1.ServerAdminTools.Common.Helper;
 
 namespace BF1.ServerAdminTools.BF1API.Core;
 
-public static class Memory
+internal static class MemoryHook
 {
     private static IntPtr windowHandle;
     private static IntPtr processHandle;

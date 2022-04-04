@@ -1,6 +1,6 @@
 ﻿namespace BF1.ServerAdminTools.BF1API.Core;
 
-public static class Offsets
+internal static class Offsets
 {
     public const long OFFSET_CLIENTGAMECONTEXT = 0x1437F7758;
     public const long OFFSET_GAMERENDERER = 0x1439E6D08;

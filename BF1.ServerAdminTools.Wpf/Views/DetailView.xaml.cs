@@ -1,5 +1,6 @@
 ﻿using BF1.ServerAdminTools.BF1API.API;
 using BF1.ServerAdminTools.BF1API.API.RespJson;
+using BF1.ServerAdminTools.Common;
 using BF1.ServerAdminTools.Common.Data;
 using BF1.ServerAdminTools.Common.Utils;
 using BF1.ServerAdminTools.Wpf.Models;
@@ -84,8 +85,8 @@ namespace BF1.ServerAdminTools.Wpf.Views
 
                     MainWindow._SetOperatingState(2, $"正在获取服务器 {Globals.Config.GameId} 详细数据中...");
 
-                    await BF1API.API.BF1API.SetAPILocale();
-                    var result = await BF1API.API.BF1API.GetFullServerDetails();
+                    await BF1API.API.ServerAPI.SetAPILocale();
+                    var result = await BF1API.API.ServerAPI.GetFullServerDetails();
 
                     if (result.IsSuccess)
                     {
@@ -218,7 +219,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
                     {
                         MainWindow._SetOperatingState(2, $"正在更换服务器 {Globals.Config.GameId} 地图为 {currMap.mapPrettyName} 中...");
 
-                        var result = await BF1API.API.BF1API.ChangeServerMap(Globals.Config.PersistedGameId, index.ToString());
+                        var result = await BF1API.API.ServerAPI.ChangeServerMap(Globals.Config.PersistedGameId, index.ToString());
 
                         if (result.IsSuccess)
                         {
@@ -249,7 +250,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
 
             MainWindow._SetOperatingState(2, $"正在移除服务器管理员 {currListItem.displayName} 中...");
 
-            var result = await BF1API.API.BF1API.RemoveServerAdmin(currListItem.personaId);
+            var result = await BF1API.API.ServerAPI.RemoveServerAdmin(currListItem.personaId);
 
             if (result.IsSuccess)
             {
@@ -268,7 +269,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
 
             MainWindow._SetOperatingState(2, $"正在增加服务器管理员 {TextBox_NewAdminName.Text} 中...");
 
-            var result = await BF1API.API.BF1API.AddServerAdmin(TextBox_NewAdminName.Text);
+            var result = await BF1API.API.ServerAPI.AddServerAdmin(TextBox_NewAdminName.Text);
 
             if (result.IsSuccess)
             {
@@ -289,7 +290,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
 
             MainWindow._SetOperatingState(2, $"正在移除服务器VIP {currListItem.displayName} 中...");
 
-            var result = await BF1API.API.BF1API.RemoveServerVip(currListItem.personaId);
+            var result = await BF1API.API.ServerAPI.RemoveServerVip(currListItem.personaId);
 
             if (result.IsSuccess)
             {
@@ -308,7 +309,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
 
             MainWindow._SetOperatingState(2, $"正在增加服务器VIP {TextBox_NewVIPName.Text} 中...");
 
-            var result = await BF1API.API.BF1API.AddServerVip(TextBox_NewVIPName.Text);
+            var result = await BF1API.API.ServerAPI.AddServerVip(TextBox_NewVIPName.Text);
 
             if (result.IsSuccess)
             {
@@ -329,7 +330,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
 
             MainWindow._SetOperatingState(2, $"正在移除服务器BAN {currListItem.displayName} 中...");
 
-            var result = await BF1API.API.BF1API.RemoveServerBan(currListItem.personaId);
+            var result = await BF1API.API.ServerAPI.RemoveServerBan(currListItem.personaId);
 
             if (result.IsSuccess)
             {
@@ -348,7 +349,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
 
             MainWindow._SetOperatingState(2, $"正在增加服务器BAN {TextBox_NewBANName.Text} 中...");
 
-            var result = await BF1API.API.BF1API.AddServerBan(TextBox_NewBANName.Text);
+            var result = await BF1API.API.ServerAPI.AddServerBan(TextBox_NewBANName.Text);
 
             if (result.IsSuccess)
             {
@@ -378,7 +379,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
                     reason = "ADMINPRIORITY";
                 }
 
-                var result = await BF1API.API.BF1API.AdminKickPlayer(info.PersonaId.ToString(), reason);
+                var result = await BF1API.API.ServerAPI.AdminKickPlayer(info.PersonaId.ToString(), reason);
 
                 if (result.IsSuccess)
                 {
@@ -426,7 +427,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
                 {
                     MainWindow._SetOperatingState(2, $"正在获取服务器 {Globals.Config.ServerId} 数据中...");
 
-                    var result = await BF1API.API.BF1API.GetServerDetails();
+                    var result = await BF1API.API.ServerAPI.GetServerDetails();
 
                     if (result.IsSuccess)
                     {
@@ -533,7 +534,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
                     reqBody.@params = tempParams;
                     reqBody.id = Guid.NewGuid().ToString();
 
-                    var result = await BF1API.API.BF1API.UpdateServer(reqBody);
+                    var result = await BF1API.API.ServerAPI.UpdateServer(reqBody);
 
                     if (result.IsSuccess)
                     {

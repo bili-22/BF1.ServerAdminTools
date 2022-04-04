@@ -7,10 +7,6 @@ namespace BF1.ServerAdminTools.Wpf.Utils;
 public static class CoreUtil
 {
     /// <summary>
-    /// 目标进程
-    /// </summary>
-    public const string TargetAppName = "bf1";    // 战地1
-    /// <summary>
     /// 主窗口标题
     /// </summary>
     public const string MainAppWindowName = "战地1服务器管理工具 v";

@@ -1,5 +1,7 @@
-﻿using BF1.ServerAdminTools.BF1API.API2;
+﻿using BF1.ServerAdminTools.BF1API.API;
+using BF1.ServerAdminTools.BF1API.API2;
 using BF1.ServerAdminTools.BF1API.Core;
+using BF1.ServerAdminTools.Common;
 using BF1.ServerAdminTools.Common.Data;
 using BF1.ServerAdminTools.Common.Helper;
 using BF1.ServerAdminTools.Common.Utils;
@@ -27,70 +29,55 @@ namespace BF1.ServerAdminTools.Wpf
             Task.Run(() =>
             {
                 UpdateState("欢迎来到《BATTLEFIELD 1》...");
-                LoggerHelper.Info("开始初始化程序...");
-                LoggerHelper.Info($"当前程序版本号 {CoreUtil.ClientVersionInfo}");
-                LoggerHelper.Info($"当前程序最后编译时间 {CoreUtil.ClientBuildTime}");
+                Core.Info("开始初始化程序...");
+                Core.Info($"当前程序版本号 {CoreUtil.ClientVersionInfo}");
+                Core.Info($"当前程序最后编译时间 {CoreUtil.ClientBuildTime}");
 
                 CoreUtil.FlushDNSCache();
-                LoggerHelper.Info("刷新DNS缓存成功");
+                Core.Info("刷新DNS缓存成功");
 
                 // 初始化
-                if (Memory.Initialize(CoreUtil.TargetAppName))
+                if (Core.HookInit())
                 {
-                    LoggerHelper.Info("战地1内存模块初始化成功");
+                    Core.Info("战地1内存模块初始化成功");
                 }
                 else
                 {
                     UpdateState($"战地1内存模块初始化失败！");
-                    LoggerHelper.Error("战地1内存模块初始化失败");
+                    Core.Error("战地1内存模块初始化失败");
                     Task.Delay(1000).Wait();
                 }
 
                 UpdateState("正在为您营造个性化体验...");
 
-                try
-                {
-                    // 创建文件夹
-                    Directory.CreateDirectory(FileUtil.ServerRule);
-                    Directory.CreateDirectory(FileUtil.Cache);
-                    Directory.CreateDirectory(FileUtil.Log);
+                Core.ConfigInit();
+                Core.SQLInit();
 
-                    FileUtil.LoadConfig();
-
-                    SQLiteHelper.Initialize();
-                    LoggerHelper.Info($"SQLite数据库初始化成功");
-                }
-                catch (Exception ex)
-                {
-                    LoggerHelper.Error($"发生异常", ex);
-                    MsgBoxUtil.ExceptionMsgBox(ex);
-                }
-
-                BF1API.API.BF1API.Init();
-                LoggerHelper.Info("战地1API模块初始化成功");
+                ServerAPI.Init();
+                Core.Info("战地1ServerAPI模块初始化成功");
 
                 GTAPI.Init();
-                LoggerHelper.Info("GameToolsAPI模块初始化成功");
+                Core.Info("GameToolsAPI模块初始化成功");
 
                 ImageData.InitDict();
-                LoggerHelper.Info("本地图片缓存库初始化成功");
+                Core.Info("本地图片缓存库初始化成功");
 
-                ChineseConverter.ToTraditional("免费，跨平台，开源！");
-                LoggerHelper.Info("简繁翻译库初始化成功");
+                ChsUtil.ToTraditionalChinese("免费，跨平台，开源！");
+                Core.Info("简繁翻译库初始化成功");
 
                 ////////////////////////////////////////////////////////////////////
 
                 try
                 {
                     UpdateState("正在检测版本更新...");
-                    LoggerHelper.Info($"正在检测版本更新...");
+                    Core.Info($"正在检测版本更新...");
 
                     // 获取版本更新
-                    var webConfig = HttpHelper.HttpClientGET(CoreUtil.Config_Address).Result;
+                    var webConfig = HttpUtil.HttpClientGET(CoreUtil.Config_Address).Result;
                     if (string.IsNullOrEmpty(webConfig))
                     {
                         UpdateState("获取新版本信息失败！程序即将关闭");
-                        LoggerHelper.Error($"获取新版本信息失败");
+                        Core.Error($"获取新版本信息失败");
                         Task.Delay(2000).Wait();
 
                         Application.Current.Dispatcher.BeginInvoke(() =>
@@ -107,7 +94,7 @@ namespace BF1.ServerAdminTools.Wpf
 
                     if (CoreUtil.ServerVersionInfo > CoreUtil.ClientVersionInfo)
                     {
-                        LoggerHelper.Info($"发现新版本 {CoreUtil.ServerVersionInfo}");
+                        Core.Info($"发现新版本 {CoreUtil.ServerVersionInfo}");
 
                         CoreUtil.Notice_Address = updateInfo.Address.Notice;
                         CoreUtil.Change_Address = updateInfo.Address.Change;
@@ -138,7 +125,7 @@ namespace BF1.ServerAdminTools.Wpf
                     else
                     {
                         UpdateState("连线中...");
-                        LoggerHelper.Info($"当前已是最新版本 {CoreUtil.ServerVersionInfo}");
+                        Core.Info($"当前已是最新版本 {CoreUtil.ServerVersionInfo}");
 
                         Application.Current.Dispatcher.BeginInvoke(() =>
                         {
@@ -153,10 +140,10 @@ namespace BF1.ServerAdminTools.Wpf
                 catch (Exception ex)
                 {
                     UpdateState("发生了未知异常！程序即将关闭");
-                    LoggerHelper.Error($"发生了未知异常", ex);
+                    Core.Error($"发生了未知异常", ex);
                     Task.Delay(2000).Wait();
 
-                    Application.Current.Dispatcher.BeginInvoke(() =>
+                    Dispatcher.BeginInvoke(() =>
                     {
                         Application.Current.Shutdown();
                     });
@@ -166,7 +153,7 @@ namespace BF1.ServerAdminTools.Wpf
 
         private void UpdateState(string msg)
         {
-            Application.Current.Dispatcher.BeginInvoke(() =>
+            Dispatcher.BeginInvoke(() =>
             {
                 TextBlock_State.Text = msg;
             });

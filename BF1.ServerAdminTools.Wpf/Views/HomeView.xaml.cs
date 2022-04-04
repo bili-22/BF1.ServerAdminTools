@@ -14,8 +14,8 @@ namespace BF1.ServerAdminTools.Wpf.Views
 
             Task.Run(() =>
             {
-                string notice = HttpHelper.HttpClientGET(CoreUtil.Notice_Address).Result;
-                string change = HttpHelper.HttpClientGET(CoreUtil.Change_Address).Result;
+                string notice = HttpUtil.HttpClientGET(CoreUtil.Notice_Address).Result;
+                string change = HttpUtil.HttpClientGET(CoreUtil.Change_Address).Result;
 
                 Application.Current.Dispatcher.BeginInvoke(() =>
                 {
@@ -34,7 +34,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
                     TextBox_Notice.Text = "加载中...";
                 });
 
-                string notice = HttpHelper.HttpClientGET(CoreUtil.Notice_Address).Result;
+                string notice = HttpUtil.HttpClientGET(CoreUtil.Notice_Address).Result;
 
                 Application.Current.Dispatcher.BeginInvoke(() =>
                 {

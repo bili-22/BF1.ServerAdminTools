@@ -2,7 +2,7 @@
 
 namespace BF1.ServerAdminTools.BF1API.Chat;
 
-public static class NtProc
+internal static class NtProc
 {
     [Flags]
     public enum ProcessAccess : uint

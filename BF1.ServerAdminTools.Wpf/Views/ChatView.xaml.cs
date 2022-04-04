@@ -1,7 +1,7 @@
 ﻿using BF1.ServerAdminTools.BF1API.Chat;
 using BF1.ServerAdminTools.BF1API.Core;
 using BF1.ServerAdminTools.BF1API.Utils;
-using BF1.ServerAdminTools.Common.Data;
+using BF1.ServerAdminTools.Common;
 using BF1.ServerAdminTools.Common.Helper;
 using BF1.ServerAdminTools.Common.Utils;
 using BF1.ServerAdminTools.Wpf.Utils;

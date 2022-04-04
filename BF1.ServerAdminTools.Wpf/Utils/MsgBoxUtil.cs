@@ -27,6 +27,16 @@ public static class MsgBoxUtil
     }
 
     /// <summary>
+    /// 通用错误弹窗，Error
+    /// </summary>
+    public static void ErrorMsgBox(string msg, Exception e)
+    {
+        MessageBox.Show(msg+ "\n\n" +
+            "错误信息 : \n" + e.Message,
+            "错误", MessageBoxButton.OK, MessageBoxImage.Error);
+    }
+
+    /// <summary>
     /// 通用异常弹窗，Exception
     /// </summary>
     public static void ExceptionMsgBox(Exception ex)

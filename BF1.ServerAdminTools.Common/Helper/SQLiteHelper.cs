@@ -11,9 +11,9 @@ public enum DataShell
     KICKOK, KICKFAIL
 }
 
-public static class SQLiteHelper
+internal static class SQLiteHelper
 {
-    private static string kickDbFile = $"{FileUtil.Base }/AdminLog.db";
+    private static string kickDbFile = $"{ConfigHelper.Base }/AdminLog.db";
 
     private static SqliteConnection connection;
 
