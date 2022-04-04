@@ -1061,10 +1061,10 @@ namespace BF1.ServerAdminTools.Views
             }
 
             // 变量保存的队伍1玩家列表
-            foreach (var item in PlayerDatas_Team2)
+            foreach (var item in PlayerDatas_Team1)
             {
                 // 查询这个玩家是否在目前的队伍2中
-                int index = PlayerList_Team1.FindIndex(var => var.PersonaId == item.PersonaId);
+                int index = PlayerList_Team2.FindIndex(var => var.PersonaId == item.PersonaId);
                 if (index != -1)
                 {
                     LogView._dAddChangeTeamInfo(new ChangeTeamInfo()
@@ -1080,10 +1080,10 @@ namespace BF1.ServerAdminTools.Views
             }
 
             // 变量保存的队伍2玩家列表
-            foreach (var item in PlayerDatas_Team1)
+            foreach (var item in PlayerDatas_Team2)
             {
                 // 查询这个玩家是否在目前的队伍1中
-                int index = PlayerList_Team2.FindIndex(var => var.PersonaId == item.PersonaId);
+                int index = PlayerList_Team1.FindIndex(var => var.PersonaId == item.PersonaId);
                 if (index != -1)
                 {
                     LogView._dAddChangeTeamInfo(new ChangeTeamInfo()
