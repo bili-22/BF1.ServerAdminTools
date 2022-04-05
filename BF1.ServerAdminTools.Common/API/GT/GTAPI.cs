@@ -1,8 +1,8 @@
-﻿using BF1.ServerAdminTools.Wpf.API.GT.RespJson;
-using BF1.ServerAdminTools.Wpf.Utils;
+﻿using BF1.ServerAdminTools.Common.API.GT.RespJson;
+using BF1.ServerAdminTools.Common.Utils;
 using RestSharp;
 
-namespace BF1.ServerAdminTools.Wpf.API.GT;
+namespace BF1.ServerAdminTools.Common.API.GT;
 
 public static class GTAPI
 {
@@ -171,14 +171,14 @@ public static class GTAPI
     /// <param name="days"></param>
     /// <param name="region">ALL, EU, Asia, NAm, SAm, AU, OC</param>
     /// <returns></returns>
-    public static async Task<RespContent> GetStatusArray(string days, string region)
+    public static async Task<RespContent<StatusArray>> GetStatusArray(string days, string region)
     {
         // Possible regions are: ALL, EU, Asia, NAm, SAm, AU, OC. For platform there is pc, xboxone, ps4 and all
 
         Stopwatch sw = new();
         sw.Start();
 
-        RespContent respContent = new();
+        RespContent<StatusArray> respContent = new();
 
         try
         {

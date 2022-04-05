@@ -1,11 +1,11 @@
-﻿using BF1.ServerAdminTools.Wpf.Chat;
-using BF1.ServerAdminTools.Wpf.Hook;
-using BF1.ServerAdminTools.Wpf.Helper;
-using BF1.ServerAdminTools.Wpf.Utils;
-using BF1.ServerAdminTools.Wpf.API.BF1Server.RespJson;
-using BF1.ServerAdminTools.Wpf.Data;
+﻿using BF1.ServerAdminTools.Common.API.BF1Server.RespJson;
+using BF1.ServerAdminTools.Common.Chat;
+using BF1.ServerAdminTools.Common.Data;
+using BF1.ServerAdminTools.Common.Helper;
+using BF1.ServerAdminTools.Common.Hook;
+using BF1.ServerAdminTools.Common.Utils;
 
-namespace BF1.ServerAdminTools.Wpf;
+namespace BF1.ServerAdminTools.Common;
 
 public interface IMsgCall
 {
@@ -46,7 +46,7 @@ public static class Core
         }
     }
 
-    public static void SaveConfig() 
+    public static void SaveConfig()
     {
         try
         {
@@ -85,7 +85,7 @@ public static class Core
         }
     }
 
-    public static void SQLClose() 
+    public static void SQLClose()
     {
         try
         {
@@ -154,7 +154,7 @@ public static class Core
             Msg.Error("中文聊天指针初始化失败", e);
         }
         return false;
-    } 
+    }
     public static long MsgGetAllocateMemoryAddress()
         => ChatMsg.GetAllocateMemoryAddress();
     public static void MsgFreeMemory()
@@ -173,11 +173,11 @@ public static class Core
     }
     public static bool MsgGetChatIsOpen()
         => ChatMsg.GetChatIsOpen();
-    public static long MsgChatMessagePointer() 
-        => ChatMsg.ChatMessagePointer()
+    public static long MsgChatMessagePointer()
+        => ChatMsg.ChatMessagePointer();
     public static void KeyPress(WinVK key)
         => ChatHelper.KeyPress(key, ChatHelper.KeyPressDelay);
-    public static void DnsFlushResolverCache() 
+    public static void DnsFlushResolverCache()
         => WinAPI.DnsFlushResolverCache();
     public static string SendText(string data)
         => ChatHelper.SendText2Bf1Game(data);
@@ -194,7 +194,7 @@ public static class Core
     public static void SetKeyPressDelay(int data)
         => ChatHelper.KeyPressDelay = data;
 
-    public static void InitServerInfo(FullServerDetails server) 
+    public static void InitServerInfo(FullServerDetails server)
     {
         Globals.Config.ServerId = server.result.rspInfo.server.serverId;
         Globals.Config.PersistedGameId = server.result.rspInfo.server.persistedGameId;
@@ -214,9 +214,12 @@ public static class Core
         }
     }
 
-    public static void AddLog2SQLite(DataShell sheetName, BreakRuleInfo info) 
+    public static void AddLog2SQLite(DataShell sheetName, BreakRuleInfo info)
         => SQLiteHelper.AddLog2SQLite(sheetName, info);
 
     public static void AddLog2SQLite(ChangeTeamInfo info)
         => SQLiteHelper.AddLog2SQLite(info);
+
+    public static void Tick()
+        => MemoryHook.Tick();
 }

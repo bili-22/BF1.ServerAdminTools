@@ -1,10 +1,9 @@
-﻿using BF1.ServerAdminTools.Wpf.Data;
-using BF1.ServerAdminTools.Wpf.Helper;
-using BF1.ServerAdminTools.Wpf.Utils;
-using BF1.ServerAdminTools.Wpf.Utils;
+﻿using BF1.ServerAdminTools.Common.Data;
+using BF1.ServerAdminTools.Common.Helper;
+using BF1.ServerAdminTools.Common.Utils;
 using Downloader;
 
-namespace BF1.ServerAdminTools.Wpf.Windows
+namespace BF1.ServerAdminTools.Common.Windows
 {
     /// <summary>
     /// UpdateWindow.xaml 的交互逻辑
@@ -153,7 +152,7 @@ namespace BF1.ServerAdminTools.Wpf.Windows
                         // 下载完成后旧文件重命名
                         string oldFileName = $"[旧版本服管工具请手动删除] {Guid.NewGuid()}.exe";
                         // 旧版本小助手重命名
-                        FileUtil.FileReName(FileUtil.Current_Path, FileUtil.GetCurrFullPath(oldFileName));
+                        FileUtil.FileReName(ConfigLocal.Current_Path, FileUtil.GetCurrFullPath(oldFileName));
 
                         TextBlock_Info.Text = "更新下载完成，程序将在3秒内重新启动";
 
@@ -164,8 +163,8 @@ namespace BF1.ServerAdminTools.Wpf.Windows
                     }
                     catch (Exception ex)
                     {
+                        Core.LogError("下载错误", ex);
                         MsgBoxUtil.ExceptionMsgBox(ex);
-                        LoggerHelper.Error("下载错误", ex);
                     }
                 }
             }));

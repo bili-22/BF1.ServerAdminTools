@@ -1,6 +1,6 @@
 ﻿using NLog;
 
-namespace BF1.ServerAdminTools.Wpf.Helper;
+namespace BF1.ServerAdminTools.Common.Helper;
 
 internal static class LoggerHelper
 {
@@ -96,5 +96,5 @@ internal static class LoggerHelper
     }
     #endregion
 
-    
+
 }

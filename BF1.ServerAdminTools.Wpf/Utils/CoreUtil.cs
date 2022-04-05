@@ -1,9 +1,6 @@
-﻿using BF1.ServerAdminTools.Wpf;
-using BF1.ServerAdminTools.Wpf.Core;
-using Microsoft.Web.WebView2.Core;
-using System.Diagnostics;
+﻿using Microsoft.Web.WebView2.Core;
 
-namespace BF1.ServerAdminTools.Wpf.Utils;
+namespace BF1.ServerAdminTools.Common.Utils;
 
 public static class CoreUtil
 {

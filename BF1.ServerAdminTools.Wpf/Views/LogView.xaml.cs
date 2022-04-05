@@ -1,9 +1,7 @@
-﻿using BF1.ServerAdminTools.Wpf.Data;
-using BF1.ServerAdminTools.Wpf;
-using BF1.ServerAdminTools.Wpf.Data;
-using BF1.ServerAdminTools.Wpf.Helper;
+﻿using BF1.ServerAdminTools.Common.Data;
+using BF1.ServerAdminTools.Common.Helper;
 
-namespace BF1.ServerAdminTools.Wpf.Views
+namespace BF1.ServerAdminTools.Common.Views
 {
     /// <summary>
     /// LogView.xaml 的交互逻辑
@@ -53,7 +51,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
                 if (string.IsNullOrEmpty(Globals.Config.GameId))
                     continue;
 
-                if (ScoreView.PlayerDatas_Team1?.Count == 0 && ScoreView.PlayerDatas_Team2?.Count == 0)
+                if (Globals.PlayerDatas_Team1.Count == 0 && Globals.PlayerDatas_Team2.Count == 0)
                 {
                     New_Player_Team1.Clear();
                     New_Player_Team2.Clear();
@@ -65,11 +63,11 @@ namespace BF1.ServerAdminTools.Wpf.Views
                 // 第一次初始化
                 if (Player_Team1.Count == 0 && Player_Team2.Count == 0)
                 {
-                    foreach (var item in ScoreView.PlayerDatas_Team1)
+                    foreach (var item in Globals.PlayerDatas_Team1)
                     {
                         Player_Team1.Add(item.Key, item.Value);
                     }
-                    foreach (var item in ScoreView.PlayerDatas_Team2)
+                    foreach (var item in Globals.PlayerDatas_Team2)
                     {
                         Player_Team2.Add(item.Key, item.Value);
                     }
@@ -79,11 +77,11 @@ namespace BF1.ServerAdminTools.Wpf.Views
                 New_Player_Team1.Clear();
                 New_Player_Team2.Clear();
                 // 更新保存的数据
-                foreach (var item in ScoreView.PlayerDatas_Team1)
+                foreach (var item in Globals.PlayerDatas_Team1)
                 {
                     New_Player_Team1.Add(item.Key, item.Value);
                 }
-                foreach (var item in ScoreView.PlayerDatas_Team2)
+                foreach (var item in Globals.PlayerDatas_Team2)
                 {
                     New_Player_Team2.Add(item.Key, item.Value);
                 }

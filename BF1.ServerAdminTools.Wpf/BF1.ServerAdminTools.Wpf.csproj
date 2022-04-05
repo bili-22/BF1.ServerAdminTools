@@ -7,7 +7,7 @@
 		<UseWPF>true</UseWPF>
 		<Platforms>x64</Platforms>
 		<DebugType>full</DebugType>
-		<StartupObject>BF1.ServerAdminTools.Wpf.App</StartupObject>
+		<StartupObject></StartupObject>
 		<FileVersion>2.0.0</FileVersion>
 		<AssemblyVersion>2.0.0</AssemblyVersion>
 		<ApplicationIcon>Assets\Images\Battlefield-1-Favicon.ico</ApplicationIcon>

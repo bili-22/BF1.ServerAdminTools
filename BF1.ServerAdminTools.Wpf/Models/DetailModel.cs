@@ -1,7 +1,7 @@
-﻿using BF1.ServerAdminTools.Wpf.Utils;
+﻿using BF1.ServerAdminTools.Common.Utils;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 
-namespace BF1.ServerAdminTools.Wpf.Models;
+namespace BF1.ServerAdminTools.Common.Models;
 
 public class DetailModel : ObservableObject
 {

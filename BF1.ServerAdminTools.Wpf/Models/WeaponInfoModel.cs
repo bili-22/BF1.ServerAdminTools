@@ -1,11 +1,6 @@
 ﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace BF1.ServerAdminTools.Wpf.Models;
+namespace BF1.ServerAdminTools.Common.Models;
 
 public class WeaponInfoModel : ObservableObject
 {

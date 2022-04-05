@@ -1,6 +1,6 @@
 ﻿using Chinese;
 
-namespace BF1.ServerAdminTools.Wpf.Utils;
+namespace BF1.ServerAdminTools.Common.Utils;
 
 public class ChsUtil
 {

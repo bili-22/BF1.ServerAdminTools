@@ -1,4 +1,4 @@
-﻿namespace BF1.ServerAdminTools.Wpf.API.BF1Server.RespJson;
+﻿namespace BF1.ServerAdminTools.Common.API.BF1Server.RespJson;
 
 public record EnvIdViaAuthCode
 {

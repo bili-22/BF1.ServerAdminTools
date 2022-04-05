@@ -1,10 +1,8 @@
-﻿using BF1.ServerAdminTools.Wpf;
-using BF1.ServerAdminTools.Wpf.Helper;
-using BF1.ServerAdminTools.Wpf.Utils;
-using BF1.ServerAdminTools.Wpf.Utils;
+﻿using BF1.ServerAdminTools.Common.Helper;
+using BF1.ServerAdminTools.Common.Utils;
 using Microsoft.Web.WebView2.Core;
 
-namespace BF1.ServerAdminTools.Wpf.Windows
+namespace BF1.ServerAdminTools.Common.Windows
 {
     /// <summary>
     /// WebView2Window.xaml 的交互逻辑
@@ -23,9 +21,9 @@ namespace BF1.ServerAdminTools.Wpf.Windows
         {
             // 刷新DNS缓存
             CoreUtil.FlushDNSCache();
-            LoggerHelper.Info($"启动WebView2成功，已刷新DNS缓存");
+            Core.LogInfo($"启动WebView2成功，已刷新DNS缓存");
 
-            var env = await CoreWebView2Environment.CreateAsync(null, FileUtil.Cache, null);
+            var env = await CoreWebView2Environment.CreateAsync(null, ConfigLocal.Cache, null);
 
             await WebView2.EnsureCoreWebView2Async(env);
 
@@ -94,10 +92,10 @@ namespace BF1.ServerAdminTools.Wpf.Windows
                     $"是否现在就关闭此窗口？",
                     "提示", MessageBoxButton.YesNo, MessageBoxImage.Information) == MessageBoxResult.Yes)
                 {
-                    LoggerHelper.Info($"成功获取到 Remid {Globals.Config.Remid}");
-                    LoggerHelper.Info($"成功获取到 Sid {Globals.Config.Sid}");
-                    LoggerHelper.Info($"成功获取到 SessionId {Globals.Config.SessionId}");
-                    FileUtil.SaveConfig();
+                    Core.LogInfo($"成功获取到 Remid {Globals.Config.Remid}");
+                    Core.LogInfo($"成功获取到 Sid {Globals.Config.Sid}");
+                    Core.LogInfo($"成功获取到 SessionId {Globals.Config.SessionId}");
+                    Core.SaveConfig();
                     this.Close();
                 }
             }
@@ -117,14 +115,14 @@ namespace BF1.ServerAdminTools.Wpf.Windows
 
                 WebView2.Reload();
 
-                LoggerHelper.Info($"清空WebView2缓存成功");
+                Core.LogInfo($"清空WebView2缓存成功");
             }
         }
 
         private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
         {
             WebView2.CoreWebView2.Navigate(e.Uri.OriginalString);
-            LoggerHelper.Info($"导航到 {e.Uri.OriginalString} 成功");
+            Core.LogInfo($"导航到 {e.Uri.OriginalString} 成功");
         }
     }
 }

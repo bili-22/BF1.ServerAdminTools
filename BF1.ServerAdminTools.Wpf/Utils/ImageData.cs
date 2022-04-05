@@ -1,4 +1,4 @@
-﻿namespace BF1.ServerAdminTools.Wpf.Utils;
+﻿namespace BF1.ServerAdminTools.Common.Utils;
 
 public static class ImageData
 {
@@ -38,7 +38,7 @@ public static class ImageData
             case "classes":
                 return ClassesDict.ContainsKey(extension) ? ClassesDict[extension] : string.Empty;
             case "classes2":
-                return  Classes2Dict.ContainsKey(extension) ? Classes2Dict[extension] : string.Empty;
+                return Classes2Dict.ContainsKey(extension) ? Classes2Dict[extension] : string.Empty;
             default:
                 return string.Empty;
         }

@@ -1,19 +1,18 @@
-﻿using BF1.ServerAdminTools.Wpf.Data;
-using BF1.ServerAdminTools.Wpf.Utils;
+﻿using BF1.ServerAdminTools.Common.Data;
+using Dapper;
 using Microsoft.Data.Sqlite;
 using System.Data;
-using Dapper;
 
-namespace BF1.ServerAdminTools.Wpf.Helper;
+namespace BF1.ServerAdminTools.Common.Helper;
 
 public enum DataShell
-{ 
+{
     KICKOK, KICKFAIL
 }
 
 internal static class SQLiteHelper
 {
-    private static string kickDbFile = $"{ConfigHelper.Base }/AdminLog.db";
+    private static string kickDbFile = $"{ConfigLocal.Base}/AdminLog.db";
 
     private static SqliteConnection connection;
 

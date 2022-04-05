@@ -1,18 +1,18 @@
-﻿using BF1.ServerAdminTools.Wpf;
-using BF1.ServerAdminTools.Wpf.Utils;
+﻿using BF1.ServerAdminTools.Common.Utils;
 
-namespace BF1.ServerAdminTools.Wpf
+namespace BF1.ServerAdminTools.Common
 {
     /// <summary>
     /// App.xaml 的交互逻辑
     /// </summary>
     public partial class App : Application, IMsgCall
     {
+        public static Mutex AppMainMutex;
         protected override void OnStartup(StartupEventArgs e)
         {
             //初始化内核
             Core.Init(this);
-            new Mutex(true, ResourceAssembly.GetName().Name, out var createdNew);
+            AppMainMutex = new Mutex(true, ResourceAssembly.GetName().Name, out var createdNew);
 
             if (createdNew)
             {

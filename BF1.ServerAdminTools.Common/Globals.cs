@@ -1,6 +1,6 @@
-﻿using BF1.ServerAdminTools.Wpf.Data;
+﻿using BF1.ServerAdminTools.Common.Data;
 
-namespace BF1.ServerAdminTools.Wpf;
+namespace BF1.ServerAdminTools.Common;
 
 public static class Globals
 {
@@ -13,6 +13,26 @@ public static class Globals
     public static bool IsRuleSetRight = false;
 
     ///////////////////////////////////////////////////////
+
+    public static List<PlayerData> PlayerList_All { get; } = new();
+    public static List<PlayerData> PlayerList_Team0 { get; } = new();
+    public static List<PlayerData> PlayerList_Team1 { get; } = new();
+    public static List<PlayerData> PlayerList_Team2 { get; } = new();
+
+    public static Dictionary<long, PlayerData> PlayerDatas_Team1 { get; } = new();
+    public static Dictionary<long, PlayerData> PlayerDatas_Team2 { get; } = new();
+
+    public static ClientPlayer localPlayer;
+
+    public static ServerInfo serverInfo;
+
+    public static StatisticData statisticData_Team1;
+    public static StatisticData statisticData_Team2;
+
+    /// <summary>
+    /// 观战玩家列表
+    /// </summary>
+    public static List<SpectatorInfo> Server_SpectatorList { get; } = new();
 
     /// <summary>
     /// 服务器管理员

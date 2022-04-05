@@ -1,16 +1,12 @@
-﻿using BF1.ServerAdminTools.Wpf;
-using BF1.ServerAdminTools.Wpf.Helper;
-using BF1.ServerAdminTools.Wpf.Utils;
-using BF1.ServerAdminTools.Wpf.Utils;
-using BF1.ServerAdminTools.Wpf.Windows;
-using RestSharp;
+﻿using BF1.ServerAdminTools.Common.API.BF1Server;
+using BF1.ServerAdminTools.Common.API.BF1Server.RespJson;
+using BF1.ServerAdminTools.Common.API.GT;
+using BF1.ServerAdminTools.Common.API.GT.RespJson;
+using BF1.ServerAdminTools.Common.Utils;
+using BF1.ServerAdminTools.Common.Windows;
 using ScottPlot;
-using BF1.ServerAdminTools.Wpf.API.GT;
-using BF1.ServerAdminTools.Wpf.API.BF1Server;
-using BF1.ServerAdminTools.Wpf.API.BF1Server.RespJson;
-using BF1.ServerAdminTools.Wpf.API.GT.RespJson;
 
-namespace BF1.ServerAdminTools.Wpf.Views
+namespace BF1.ServerAdminTools.Common.Views
 {
     /// <summary>
     /// AuthView.xaml 的交互逻辑
@@ -227,11 +223,11 @@ namespace BF1.ServerAdminTools.Wpf.Views
 
         private void DeployCustomMenu1(object sender, EventArgs e)
         {
-            MenuItem updateDataMenuItem = new() 
+            MenuItem updateDataMenuItem = new()
             { Header = "更新表格数据" };
             updateDataMenuItem.Click += UpdateData1;
 
-            MenuItem defaultViewMenuItem = new() 
+            MenuItem defaultViewMenuItem = new()
             { Header = "恢复默认视图" };
             defaultViewMenuItem.Click += DefaultView1;
 

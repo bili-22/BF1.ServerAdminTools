@@ -1,4 +1,4 @@
-﻿namespace BF1.ServerAdminTools.Wpf.Extension;
+﻿namespace BF1.ServerAdminTools.Common.Extension;
 
 public static class ObservableExtension
 {

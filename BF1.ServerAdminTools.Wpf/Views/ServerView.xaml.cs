@@ -1,11 +1,10 @@
-﻿using BF1.ServerAdminTools.Wpf.API.GT;
-using BF1.ServerAdminTools.Wpf.API.GT.RespJson;
-using BF1.ServerAdminTools.Wpf.Utils;
-using BF1.ServerAdminTools.Wpf.Models;
-using BF1.ServerAdminTools.Wpf.Utils;
+﻿using BF1.ServerAdminTools.Common.API.GT;
+using BF1.ServerAdminTools.Common.API.GT.RespJson;
+using BF1.ServerAdminTools.Common.Models;
+using BF1.ServerAdminTools.Common.Utils;
 using Microsoft.Toolkit.Mvvm.Input;
 
-namespace BF1.ServerAdminTools.Wpf.Views
+namespace BF1.ServerAdminTools.Common.Views
 {
     /// <summary>
     /// ServerView.xaml 的交互逻辑

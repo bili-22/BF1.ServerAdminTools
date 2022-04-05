@@ -1,7 +1,7 @@
-﻿using BF1.ServerAdminTools.Wpf.API.BF1Server;
-using BF1.ServerAdminTools.Wpf.Utils;
+﻿using BF1.ServerAdminTools.Common.API.BF1Server;
+using BF1.ServerAdminTools.Common.Utils;
 
-namespace BF1.ServerAdminTools.Wpf.Windows
+namespace BF1.ServerAdminTools.Common.Windows
 {
     /// <summary>
     /// CustomKickWindow.xaml 的交互逻辑

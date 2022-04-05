@@ -1,4 +1,4 @@
-﻿namespace BF1.ServerAdminTools.Wpf.API.GT.RespJson;
+﻿namespace BF1.ServerAdminTools.Common.API.GT.RespJson;
 
 public record AllPlayerData
 {

@@ -1,4 +1,4 @@
-﻿namespace BF1.ServerAdminTools.Wpf.Windows
+﻿namespace BF1.ServerAdminTools.Common.Windows
 {
     /// <summary>
     /// InputWindow.xaml 的交互逻辑
@@ -18,7 +18,7 @@
             Value = value;
         }
 
-        public string Set() 
+        public string Set()
         {
             ShowDialog();
             return Value;

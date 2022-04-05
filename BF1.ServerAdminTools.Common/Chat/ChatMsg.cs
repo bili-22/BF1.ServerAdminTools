@@ -1,6 +1,6 @@
-﻿using BF1.ServerAdminTools.Wpf.Hook;
+﻿using BF1.ServerAdminTools.Common.Hook;
 
-namespace BF1.ServerAdminTools.Wpf.Chat;
+namespace BF1.ServerAdminTools.Common.Chat;
 
 internal static class ChatMsg
 {

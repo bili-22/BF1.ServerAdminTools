@@ -1,18 +1,16 @@
-﻿using BF1.ServerAdminTools.Wpf;
+﻿using BF1.ServerAdminTools.Common.Data;
+using BF1.ServerAdminTools.Common.Helper;
 using BF1.ServerAdminTools.Wpf.Data;
-using BF1.ServerAdminTools.Wpf.Helper;
-using BF1.ServerAdminTools.Wpf.Utils;
 
-namespace BF1.ServerAdminTools.Wpf.Utils;
+namespace BF1.ServerAdminTools.Common.Utils;
 
 internal static class ConfigUtil
 {
     public static string ServerRule { get; } = $"{ConfigLocal.Base}/ServerRule";
 
-    public static void Init() 
+    public static void Init()
     {
         Directory.CreateDirectory(ServerRule);
-        LoadAll();
     }
 
     public static void SaveAll()
@@ -23,7 +21,7 @@ internal static class ConfigUtil
         }
     }
 
-    public static void LoadAll() 
+    public static void LoadAll()
     {
         var dir = new DirectoryInfo(ServerRule);
         foreach (var item in dir.GetFiles())

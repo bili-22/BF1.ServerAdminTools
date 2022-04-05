@@ -1,7 +1,7 @@
-﻿using BF1.ServerAdminTools.Wpf.Helper;
-using BF1.ServerAdminTools.Wpf.Utils;
+﻿using BF1.ServerAdminTools.Common.Helper;
+using BF1.ServerAdminTools.Common.Utils;
 
-namespace BF1.ServerAdminTools.Wpf.Views
+namespace BF1.ServerAdminTools.Common.Views
 {
     /// <summary>
     /// HomeView.xaml 的交互逻辑
@@ -15,7 +15,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
             Task.Run(async () =>
             {
                 string notice = await HttpUtil.HttpClientGET(CoreUtil.Notice_Address);
-                string change = await  HttpUtil.HttpClientGET(CoreUtil.Change_Address);
+                string change = await HttpUtil.HttpClientGET(CoreUtil.Change_Address);
 
                 Dispatcher.Invoke(() =>
                 {

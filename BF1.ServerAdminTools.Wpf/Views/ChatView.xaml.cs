@@ -1,9 +1,6 @@
-﻿using BF1.ServerAdminTools.Wpf.Utils;
-using BF1.ServerAdminTools.Wpf;
-using BF1.ServerAdminTools.Wpf.Utils;
-using Microsoft.Toolkit.Mvvm.Input;
+﻿using BF1.ServerAdminTools.Common.Utils;
 
-namespace BF1.ServerAdminTools.Wpf.Views
+namespace BF1.ServerAdminTools.Common.Views
 {
     /// <summary>
     /// ChatView.xaml 的交互逻辑
@@ -83,7 +80,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
             if (!Globals.IsGameRun)
                 MsgBoxUtil.ErrorMsgBox("游戏还未启动");
 
-            if(!Globals.IsToolInit)
+            if (!Globals.IsToolInit)
                 MsgBoxUtil.ErrorMsgBox("工具还未正常初始化");
 
             SetIMEState();

@@ -1,4 +1,4 @@
-﻿namespace BF1.ServerAdminTools.Wpf.API;
+﻿namespace BF1.ServerAdminTools.Common.API;
 
 public record RespContent<T>
 {

@@ -1,6 +1,6 @@
-﻿using BF1.ServerAdminTools.Wpf.Data;
+﻿using BF1.ServerAdminTools.Common.Data;
 
-namespace BF1.ServerAdminTools.Wpf.Utils;
+namespace BF1.ServerAdminTools.Common.Utils;
 
 public static class PlayerUtil
 {
@@ -219,7 +219,7 @@ public static class PlayerUtil
     /// <returns></returns>
     public static string CheckAdminVIP(long personaId, List<long> list)
     {
-        return list.Contains(personaId)  ? "✔" : "";
+        return list.Contains(personaId) ? "✔" : "";
     }
 
     /// <summary>

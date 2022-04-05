@@ -1,13 +1,8 @@
-﻿using BF1.ServerAdminTools.Wpf.Chat;
-using BF1.ServerAdminTools.Wpf.Hook;
-using BF1.ServerAdminTools.Wpf;
-using BF1.ServerAdminTools.Wpf.Helper;
-using BF1.ServerAdminTools.Wpf.Utils;
-using BF1.ServerAdminTools.Wpf.Models;
-using BF1.ServerAdminTools.Wpf.Utils;
-using BF1.ServerAdminTools.Wpf.Views;
+﻿using BF1.ServerAdminTools.Common.Models;
+using BF1.ServerAdminTools.Common.Utils;
+using BF1.ServerAdminTools.Common.Views;
 
-namespace BF1.ServerAdminTools.Wpf
+namespace BF1.ServerAdminTools.Common
 {
     /// <summary>
     /// MainWindow.xaml 的交互逻辑

@@ -1,4 +1,4 @@
-﻿namespace BF1.ServerAdminTools.Wpf.Utils;
+﻿namespace BF1.ServerAdminTools.Common.Utils;
 
 public static class MsgBoxUtil
 {
@@ -31,7 +31,7 @@ public static class MsgBoxUtil
     /// </summary>
     public static void ErrorMsgBox(string msg, Exception e)
     {
-        MessageBox.Show(msg+ "\n\n" +
+        MessageBox.Show(msg + "\n\n" +
             "错误信息 : \n" + e.Message,
             "错误", MessageBoxButton.OK, MessageBoxImage.Error);
     }

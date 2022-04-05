@@ -1,4 +1,4 @@
-﻿namespace BF1.ServerAdminTools.Wpf.Utils;
+﻿namespace BF1.ServerAdminTools.Common.Utils;
 
 public static class ProcessUtil
 {

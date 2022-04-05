@@ -1,11 +1,6 @@
 ﻿using BF1.ServerAdminTools.Wpf.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace BF1.ServerAdminTools.Wpf.Data;
+namespace BF1.ServerAdminTools.Common.Data;
 
 public static class DataSave
 {
@@ -36,9 +31,4 @@ public static class DataSave
     /// 已经发送踢出的ID
     /// </summary>
     public static Dictionary<long, BreakRuleInfo> NowKick { get; } = new();
-
-    /// <summary>
-    /// 观战玩家列表
-    /// </summary>
-    public static List<SpectatorInfo> Server_SpectatorList { get; } = new();
 }

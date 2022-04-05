@@ -1,4 +1,4 @@
-﻿namespace BF1.ServerAdminTools.Wpf.Data;
+﻿namespace BF1.ServerAdminTools.Common.Data;
 
 public record PlayerData
 {
@@ -29,4 +29,13 @@ public record PlayerData
     public string WeaponS5 { get; set; }
     public string WeaponS6 { get; set; }
     public string WeaponS7 { get; set; }
+
+    public string WeaponS0CH { get; set; }
+    public string WeaponS1CH { get; set; }
+    public string WeaponS2CH { get; set; }
+    public string WeaponS3CH { get; set; }
+    public string WeaponS4CH { get; set; }
+    public string WeaponS5CH { get; set; }
+    public string WeaponS6CH { get; set; }
+    public string WeaponS7CH { get; set; }
 }

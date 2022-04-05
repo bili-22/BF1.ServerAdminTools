@@ -1,4 +1,4 @@
-﻿namespace BF1.ServerAdminTools.Wpf.Data;
+﻿namespace BF1.ServerAdminTools.Common.Data;
 
 public record ChangeTeamInfo
 {

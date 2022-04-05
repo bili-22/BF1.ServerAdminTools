@@ -1,8 +1,7 @@
-﻿using BF1.ServerAdminTools.Wpf.Utils;
+﻿using BF1.ServerAdminTools.Common.Utils;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
-using System.Windows.Media.Imaging;
 
-namespace BF1.ServerAdminTools.Wpf.Models;
+namespace BF1.ServerAdminTools.Common.Models;
 
 public class QueryModel : ObservableObject
 {
@@ -42,7 +41,7 @@ public class QueryModel : ObservableObject
             }
             return _avatar;
         }
-        set 
+        set
         {
             _avatar = value; OnPropertyChanged();
         }

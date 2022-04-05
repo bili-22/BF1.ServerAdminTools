@@ -1,13 +1,11 @@
-﻿using BF1.ServerAdminTools.Wpf;
-using BF1.ServerAdminTools.Wpf.Data;
-using BF1.ServerAdminTools.Wpf.Utils;
-using BF1.ServerAdminTools.Wpf.Models;
-using BF1.ServerAdminTools.Wpf.Utils;
-using BF1.ServerAdminTools.Wpf.Windows;
-using BF1.ServerAdminTools.Wpf.API.BF1Server;
-using BF1.ServerAdminTools.Wpf.API.BF1Server.RespJson;
+﻿using BF1.ServerAdminTools.Common.API.BF1Server;
+using BF1.ServerAdminTools.Common.API.BF1Server.RespJson;
+using BF1.ServerAdminTools.Common.Data;
+using BF1.ServerAdminTools.Common.Models;
+using BF1.ServerAdminTools.Common.Utils;
+using BF1.ServerAdminTools.Common.Windows;
 
-namespace BF1.ServerAdminTools.Wpf.Views
+namespace BF1.ServerAdminTools.Common.Views
 {
     /// <summary>
     /// DetailView.xaml 的交互逻辑
@@ -51,12 +49,12 @@ namespace BF1.ServerAdminTools.Wpf.Views
             MainWindow.ClosingDisposeEvent += MainWindow_ClosingDisposeEvent;
         }
 
-        public static Task SLoad() 
+        public static Task SLoad()
         {
             return ThisView.Load();
         }
 
-        public async Task Load() 
+        public async Task Load()
         {
             if (!string.IsNullOrEmpty(Globals.Config.SessionId))
             {
@@ -530,7 +528,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
                     if (result.IsSuccess)
                     {
                         MainWindow._SetOperatingState(1, $"更新服务器 {Globals.Config.ServerId} 数据成功  |  耗时: {result.ExecTime:0.00} 秒");
-                         Button_GetFullServerDetails_Click(sender, e);
+                        Button_GetFullServerDetails_Click(sender, e);
                     }
                     else
                     {

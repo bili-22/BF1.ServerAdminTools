@@ -1,4 +1,6 @@
-﻿namespace BF1.ServerAdminTools.Wpf.Helper;
+﻿using System.Net.Http;
+
+namespace BF1.ServerAdminTools.Common.Helper;
 
 public static class HttpUtil
 {

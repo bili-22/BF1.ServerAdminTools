@@ -1,12 +1,13 @@
-﻿using BF1.ServerAdminTools.Wpf.Data;
-using BF1.ServerAdminTools.Wpf.Utils;
-using BF1.ServerAdminTools.Wpf.Models;
-using BF1.ServerAdminTools.Wpf.Windows;
-using BF1.ServerAdminTools.Wpf.API.BF1Server;
-using BF1.ServerAdminTools.Wpf.API.BF1Server.RespJson;
-using BF1.ServerAdminTools.Wpf.Helper;
+﻿using BF1.ServerAdminTools.Common.API.BF1Server;
+using BF1.ServerAdminTools.Common.API.BF1Server.RespJson;
+using BF1.ServerAdminTools.Common.Data;
+using BF1.ServerAdminTools.Common.Helper;
+using BF1.ServerAdminTools.Common.Models;
+using BF1.ServerAdminTools.Common.Utils;
+using BF1.ServerAdminTools.Common.Windows;
+using BF1.ServerAdminTools.Wpf.Data;
 
-namespace BF1.ServerAdminTools.Wpf.Views
+namespace BF1.ServerAdminTools.Common.Views
 {
     /// <summary>
     /// RuleView.xaml 的交互逻辑
@@ -40,7 +41,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
 
             new Thread(AutoKickLifeBreakPlayer)
             {
-                Name= "AutoKickLifeThread",
+                Name = "AutoKickLifeThread",
                 IsBackground = true
             }.Start();
 
@@ -62,7 +63,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
             MainWindow.ClosingDisposeEvent += MainWindow_ClosingDisposeEvent;
         }
 
-        private void LoadRule() 
+        private void LoadRule()
         {
             NowName.Text = DataSave.NowRule.Name;
 
@@ -217,13 +218,13 @@ namespace BF1.ServerAdminTools.Wpf.Views
                         });
                     }
 
-                    lock (ScoreView.PlayerDatas_Team1)
+                    lock (Globals.PlayerDatas_Team1)
                     {
-                        players.AddRange(ScoreView.PlayerDatas_Team1.Values);
+                        players.AddRange(Globals.PlayerDatas_Team1.Values);
                     }
-                    lock (ScoreView.PlayerDatas_Team2)
+                    lock (Globals.PlayerDatas_Team2)
                     {
-                        players.AddRange(ScoreView.PlayerDatas_Team2.Values);
+                        players.AddRange(Globals.PlayerDatas_Team2.Values);
                     }
 
                     foreach (var item in players)
@@ -247,7 +248,7 @@ namespace BF1.ServerAdminTools.Wpf.Views
                 return;
 
             //已经不在服务器了
-            if (!ScoreView.PlayerDatas_Team1.ContainsKey(data.PersonaId) && !ScoreView.PlayerDatas_Team2.ContainsKey(data.PersonaId))
+            if (!Globals.PlayerDatas_Team1.ContainsKey(data.PersonaId) && !Globals.PlayerDatas_Team2.ContainsKey(data.PersonaId))
                 return;
 
             var resultTemp = await ServerAPI.GetCareerForOwnedGamesByPersonaId(data.PersonaId.ToString());
@@ -468,13 +469,13 @@ namespace BF1.ServerAdminTools.Wpf.Views
             TextBox_RuleLog.AppendText(msg + "\n");
         }
 
-        private void Add_Rule(object sender, RoutedEventArgs e) 
+        private void Add_Rule(object sender, RoutedEventArgs e)
         {
             var name = new InputWindow("新的规则名字", "请输入新的规则名字", "").Set().Trim();
             if (string.IsNullOrWhiteSpace(name))
                 return;
 
-            if(DataSave.Rules.ContainsKey(name))
+            if (DataSave.Rules.ContainsKey(name))
             {
                 MessageBox.Show("改名字已被占用");
                 return;
@@ -1149,13 +1150,13 @@ namespace BF1.ServerAdminTools.Wpf.Views
 
                 var team1Player = new List<PlayerData>();
 
-                lock (ScoreView.PlayerDatas_Team1) 
+                lock (Globals.PlayerDatas_Team1)
                 {
-                    team1Player.AddRange(ScoreView.PlayerDatas_Team1.Values);
+                    team1Player.AddRange(Globals.PlayerDatas_Team1.Values);
                 }
-                lock (ScoreView.PlayerDatas_Team2) 
+                lock (Globals.PlayerDatas_Team2)
                 {
-                    team1Player.AddRange(ScoreView.PlayerDatas_Team2.Values);
+                    team1Player.AddRange(Globals.PlayerDatas_Team2.Values);
                 }
 
                 foreach (var item in team1Player)
