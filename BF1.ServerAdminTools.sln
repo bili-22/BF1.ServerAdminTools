@@ -7,6 +7,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BF1.ServerAdminTools.Wpf", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BF1.ServerAdminTools.Common", "BF1.ServerAdminTools.Common\BF1.ServerAdminTools.Common.csproj", "{452246E2-DA48-4E8B-909F-14043D644DD0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BF1.ServerAdminTools.Netty", "BF1.ServerAdminTools.Netty\BF1.ServerAdminTools.Netty\BF1.ServerAdminTools.Netty.csproj", "{9516EAEF-139C-450A-8C5F-72B06956579A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BF1.ServerAdminTools.Asp", "BF1.ServerAdminTools.Asp\BF1.ServerAdminTools.Asp\BF1.ServerAdminTools.Asp.csproj", "{75180F02-21A8-4656-882B-572BDD034D11}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +35,22 @@ Global
 		{452246E2-DA48-4E8B-909F-14043D644DD0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{452246E2-DA48-4E8B-909F-14043D644DD0}.Release|x64.ActiveCfg = Release|Any CPU
 		{452246E2-DA48-4E8B-909F-14043D644DD0}.Release|x64.Build.0 = Release|Any CPU
+		{9516EAEF-139C-450A-8C5F-72B06956579A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9516EAEF-139C-450A-8C5F-72B06956579A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9516EAEF-139C-450A-8C5F-72B06956579A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{9516EAEF-139C-450A-8C5F-72B06956579A}.Debug|x64.Build.0 = Debug|Any CPU
+		{9516EAEF-139C-450A-8C5F-72B06956579A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9516EAEF-139C-450A-8C5F-72B06956579A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9516EAEF-139C-450A-8C5F-72B06956579A}.Release|x64.ActiveCfg = Release|Any CPU
+		{9516EAEF-139C-450A-8C5F-72B06956579A}.Release|x64.Build.0 = Release|Any CPU
+		{75180F02-21A8-4656-882B-572BDD034D11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75180F02-21A8-4656-882B-572BDD034D11}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75180F02-21A8-4656-882B-572BDD034D11}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{75180F02-21A8-4656-882B-572BDD034D11}.Debug|x64.Build.0 = Debug|Any CPU
+		{75180F02-21A8-4656-882B-572BDD034D11}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{75180F02-21A8-4656-882B-572BDD034D11}.Release|Any CPU.Build.0 = Release|Any CPU
+		{75180F02-21A8-4656-882B-572BDD034D11}.Release|x64.ActiveCfg = Release|Any CPU
+		{75180F02-21A8-4656-882B-572BDD034D11}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
