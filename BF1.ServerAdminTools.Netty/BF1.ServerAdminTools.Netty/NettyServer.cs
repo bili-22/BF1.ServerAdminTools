@@ -67,6 +67,21 @@ class ServerHandler : ChannelHandlerAdapter
                     buff.WriteByte(Core.IsGameRun() ? 0xff : 0x00);
                     buff.WriteByte(Core.HookInit() ? 0xff : 0x00);
                     break;
+                //获取用户信息
+                case 2:
+                    buff.WriteInt(Globals.Config.Remid.Length);
+                    buff.WriteString(Globals.Config.Remid, Encoding.UTF8);
+                    buff.WriteInt(Globals.Config.Sid.Length);
+                    buff.WriteString(Globals.Config.Sid, Encoding.UTF8);
+                    buff.WriteInt(Globals.Config.SessionId.Length);
+                    buff.WriteString(Globals.Config.SessionId, Encoding.UTF8);
+                    buff.WriteInt(Globals.Config.GameId.Length);
+                    buff.WriteString(Globals.Config.GameId, Encoding.UTF8);
+                    buff.WriteInt(Globals.Config.ServerId.Length);
+                    buff.WriteString(Globals.Config.ServerId, Encoding.UTF8);
+                    buff.WriteInt(Globals.Config.PersistedGameId.Length);
+                    buff.WriteString(Globals.Config.PersistedGameId, Encoding.UTF8);
+                    break;
             }
         }
     }
