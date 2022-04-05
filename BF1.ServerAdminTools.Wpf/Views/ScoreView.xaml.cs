@@ -54,7 +54,6 @@ namespace BF1.ServerAdminTools.Common.Views
         {
             while (true)
             {
-
                 if (!Globals.IsToolInit)
                 {
                     Thread.Sleep(1000);

@@ -9,28 +9,51 @@ namespace BF1.ServerAdminTools.Common;
 
 public interface IMsgCall
 {
+    /// <summary>
+    /// 普通日志
+    /// </summary>
+    /// <param name="data">内容</param>
     public void Info(string data);
+    /// <summary>
+    /// 错误日志
+    /// </summary>
+    /// <param name="data">内容</param>
+    /// <param name="e">错误内容</param>
     public void Error(string data, Exception e);
 }
 
 public static class Core
 {
-
     public static IMsgCall Msg;
 
+    /// <summary>
+    /// 初始化日志窗口
+    /// </summary>
+    /// <param name="call">对象</param>
     public static void Init(IMsgCall call)
     {
         Msg = call;
     }
 
+    /// <summary>
+    /// 检测游戏是否在运行
+    /// </summary>
+    /// <returns>运行结果</returns>
     public static bool IsGameRun()
     {
         return ProcessUtil.IsAppRun(Globals.TargetAppName);
     }
 
+    /// <summary>
+    /// 保存错误日志
+    /// </summary>
+    /// <param name="data">日志内容</param>
     public static void WriteErrorLog(string data)
         => ConfigHelper.WriteErrorLog(data);
 
+    /// <summary>
+    /// 初始化配置文件
+    /// </summary>
     public static void ConfigInit()
     {
         try
