@@ -1,15 +1,9 @@
-﻿using BF1.ServerAdminTools.Common;
-using DotNetty.Buffers;
+﻿using DotNetty.Buffers;
 using DotNetty.Codecs;
 using DotNetty.Handlers.Logging;
 using DotNetty.Transport.Bootstrapping;
 using DotNetty.Transport.Channels;
 using DotNetty.Transport.Channels.Sockets;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BF1.ServerAdminTools.Netty;
 
@@ -17,6 +11,8 @@ internal class NettyServer
 {
     private static IEventLoopGroup bossGroup;
     private static IEventLoopGroup workerGroup;
+    private static IChannel boundChannel;
+    public static bool State { get; private set; }
     public static async Task Start() 
     {
         bossGroup = new MultithreadEventLoopGroup(1);
@@ -36,7 +32,18 @@ internal class NettyServer
                 pipeline.AddLast(new ServerHandler());
             }));
 
-        IChannel boundChannel = await bootstrap.BindAsync(ConfigUtils.Config.Port);
+        boundChannel = await bootstrap.BindAsync(ConfigUtils.Config.Port);
+        State = true;
+    }
+
+    public static async Task Stop() 
+    {
+        if (boundChannel == null)
+            return;
+        boundChannel.Flush();
+        await boundChannel.CloseAsync();
+        await boundChannel.DisconnectAsync();
+        State = false;
     }
 }
 
@@ -53,8 +60,9 @@ class ServerHandler : ChannelHandlerAdapter
             {
                 buff.WriteByte(70);
                 context.WriteAndFlushAsync(buff);
+                return;
             }
-            var type = buff.ReadByte();
+            var type = buffer.ReadByte();
             switch (type)
             {
                 //获取状态
@@ -77,7 +85,13 @@ class ServerHandler : ChannelHandlerAdapter
                     buff.WriteByte(3);
                     BuildPack.ServerInfo(buff);
                     break;
+                //获取服务器数据
+                case 4:
+                    buff.WriteByte(4);
+                    BuildPack.ServerScore(buff);
+                    break;
             }
+            context.WriteAndFlushAsync(buff);
         }
     }
 

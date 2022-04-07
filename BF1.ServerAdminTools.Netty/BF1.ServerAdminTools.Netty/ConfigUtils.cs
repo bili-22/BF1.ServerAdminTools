@@ -6,7 +6,7 @@ namespace BF1.ServerAdminTools.Netty;
 internal class ConfigUtils
 {
     private static string FileLocal = $"{ConfigLocal.Base}/Netty/config.json";
-    public static ConfigObj Config { get; private set; }
+    public static ConfigNettyObj Config { get; private set; }
 
     public static void Init() 
         => Directory.CreateDirectory($"{ConfigLocal.Base}/Netty");
@@ -14,7 +14,7 @@ internal class ConfigUtils
     public static void Load()
     {
         if (File.Exists(FileLocal))
-            Config = JsonUtil.JsonDese<ConfigObj>(File.ReadAllText(FileLocal));
+            Config = JsonUtil.JsonDese<ConfigNettyObj>(File.ReadAllText(FileLocal));
         else
         {
             Save(Config = new()
@@ -25,7 +25,7 @@ internal class ConfigUtils
         }
     }
 
-    public static void Save(ConfigObj obj)
+    public static void Save(ConfigNettyObj obj)
     {
         Config = obj;
         FileUtil.WriteFile(FileLocal, JsonUtil.JsonSeri(Config));

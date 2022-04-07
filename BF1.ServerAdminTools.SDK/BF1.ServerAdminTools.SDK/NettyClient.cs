@@ -27,11 +27,11 @@ public class NettyClient
     public static async Task Start(string ip, int port) 
     {
         CallBack.Clear();
-        for (int a = 0; a < 3; a++)
+        for (int a = 0; a < 20; a++)
         {
             CallBack.Add(a, new(0, 5));
         }
-        for (int a = 0; a < 3; a++)
+        for (int a = 0; a < 20; a++)
         {
             ResBack.Add(a, null);
         }
@@ -112,6 +112,21 @@ public class NettyClient
         });
     }
 
+    public static async Task<ScoreInfoObj?> GetServerScore()
+    {
+        if (!IsConnect)
+            return null;
+        var pack = Unpooled.Buffer()
+            .WriteLong(Key)
+            .WriteByte(4);
+        await ClientChannel.WriteAndFlushAsync(pack);
+        return await Task.Run(() =>
+        {
+            CallBack[4].WaitOne();
+            return ResBack[4] as ScoreInfoObj;
+        });
+    }
+
     public class ClientHandler : SimpleChannelInboundHandler<IByteBuffer>
     {
         protected override void ChannelRead0(IChannelHandlerContext ctx, IByteBuffer buff)
@@ -135,8 +150,16 @@ public class NettyClient
                         CallBack[1].Release();
                         break;
                     case 2:
-                        ResBack[2] = DecodePack.ServerInfo(buff);
+                        ResBack[2] = DecodePack.Id(buff);
                         CallBack[2].Release();
+                        break;
+                    case 3:
+                        ResBack[3] = DecodePack.ServerInfo(buff);
+                        CallBack[3].Release();
+                        break;
+                    case 4:
+                        ResBack[4] = DecodePack.ServerScore(buff);
+                        CallBack[4].Release();
                         break;
                 }
             }

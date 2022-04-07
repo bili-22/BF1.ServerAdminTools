@@ -65,7 +65,7 @@ internal class BuildPack
         buff.WriteInt(Globals.StatisticData_Team2.AllDeadCount);
         if (Globals.ServerDetailed != null)
         {
-            buff.WriteBoolean(true);
+            buff.WriteByte(0xff);
             buff.WriteInt(Globals.ServerDetailed.currentMap.Length);
             buff.WriteString(Globals.ServerDetailed.currentMap, Encoding.UTF8);
             buff.WriteInt(Globals.ServerDetailed.currentMapImage.Length);
@@ -81,7 +81,7 @@ internal class BuildPack
         }
         else
         {
-            buff.WriteBoolean(false);
+            buff.WriteByte(0);
         }
     }
 
@@ -100,6 +100,52 @@ internal class BuildPack
         buff.WriteInt(player.SquadId.Length);
         buff.WriteString(player.SquadId, Encoding.UTF8);
         buff.WriteInt(player.Rank);
+        buff.WriteInt(player.Dead);
+        buff.WriteInt(player.Score);
+        buff.WriteFloat(player.KD);
+        buff.WriteFloat(player.KPM);
+        buff.WriteInt(player.WeaponS0CH.Length);
+        buff.WriteString(player.WeaponS0CH, Encoding.UTF8);
+    }
 
+    public static void PlayerList(IByteBuffer buff, List<PlayerData> list) 
+    {
+        buff.WriteInt(list.Count);
+        foreach (var item in list)
+        {
+            Player(buff, item);
+        }
+    }
+
+    public static void ServerScore(IByteBuffer buff) 
+    {
+        ServerInfo(buff);
+        if (Globals.PlayerList_Team1.Count != 0)
+        {
+            buff.WriteByte(value: 0xff);
+            PlayerList(buff, Globals.PlayerList_Team1);
+        }
+        else
+        {
+            buff.WriteByte(0);
+        }
+        if (Globals.PlayerList_Team2.Count != 0)
+        {
+            buff.WriteByte(0xff);
+            PlayerList(buff, Globals.PlayerList_Team2);
+        }
+        else
+        {
+            buff.WriteByte(0);
+        }
+        if (Globals.PlayerList_Team0.Count != 0)
+        {
+            buff.WriteByte(0xff);
+            PlayerList(buff, Globals.PlayerList_Team0);
+        }
+        else
+        {
+            buff.WriteByte(0);
+        }
     }
 }

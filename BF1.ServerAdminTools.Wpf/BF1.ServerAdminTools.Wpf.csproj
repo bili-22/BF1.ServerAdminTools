@@ -1035,6 +1035,7 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\BF1.ServerAdminTools.Common\BF1.ServerAdminTools.Common.csproj" />
+	  <ProjectReference Include="..\BF1.ServerAdminTools.Netty\BF1.ServerAdminTools.Netty\BF1.ServerAdminTools.Netty.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

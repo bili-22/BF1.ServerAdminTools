@@ -1,5 +1,6 @@
 ﻿using BF1.ServerAdminTools.Common.Data;
 using BF1.ServerAdminTools.Common.Helper;
+using BF1.ServerAdminTools.Netty;
 using BF1.ServerAdminTools.Wpf.Data;
 
 namespace BF1.ServerAdminTools.Common.Utils;
@@ -11,6 +12,7 @@ internal static class ConfigUtil
     public static void Init()
     {
         Directory.CreateDirectory(ServerRule);
+        NettyCore.InitConfig();
     }
 
     public static void SaveAll()
@@ -48,6 +50,8 @@ internal static class ConfigUtil
             DataSave.Rules.Add("default", rule);
             FileUtil.WriteFile($"{ServerRule}/default.json", JsonUtil.JsonSeri(rule));
         }
+
+        NettyCore.LoadConfig();
     }
 
     public static void DeleteRule(string name)

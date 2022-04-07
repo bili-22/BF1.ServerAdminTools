@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BF1.ServerAdminTools.SDK.Objs;
 
-public record SoreInfoObj
+public record ScoreInfoObj
 {
     /// <summary>
     /// 服务器信息

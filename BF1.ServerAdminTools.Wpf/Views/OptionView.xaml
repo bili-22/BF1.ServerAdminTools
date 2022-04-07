@@ -65,6 +65,48 @@
                         Style="{StaticResource ButtonStyle_Web}" />
                 </Grid>
             </GroupBox>
+            <GroupBox Header="Netty接口服务器">
+                <StackPanel>
+                    <Grid>
+                        <Label
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Content="服务器端口" />
+                        <TextBox
+                            Name="Server_Port"
+                            Width="60"
+                            Margin="70,0,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Text="" />
+                        <Label
+                            Margin="130,0,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Content="服务器密钥" />
+                        <TextBox
+                            Name="Server_Key"
+                            Width="301"
+                            Margin="200,0,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Text="" />
+                    </Grid>
+                    <UniformGrid Columns="2">
+                        <Button
+                            x:Name="Button_Server"
+                            VerticalAlignment="Center"
+                            Click="Button_Click_2"
+                            Content="启动"
+                            Style="{StaticResource ButtonStyle_Web}" />
+                        <Button
+                            VerticalAlignment="Center"
+                            Click="Button_Click_1"
+                            Content="设置"
+                            Style="{StaticResource ButtonStyle_Web}" />
+                    </UniformGrid>
+                </StackPanel>
+            </GroupBox>
         </StackPanel>
     </Grid>
 </UserControl>

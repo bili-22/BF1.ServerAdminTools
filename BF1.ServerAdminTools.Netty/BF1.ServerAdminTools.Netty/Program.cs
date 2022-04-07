@@ -18,26 +18,47 @@ public class NettyMain
         }
 
         Console.WriteLine("BF1.ServerAdminTools 正在读取配置文件");
-        InitConfig();
+        NettyCore.InitConfig();
 
         while (true)
         {
             string input = Console.ReadLine();
+            if (input == null)
+                return;
+            string[] arg = input.Split(" ");
+
         }
     }
 
-    public static void InitConfig() 
-    {
-        ConfigUtils.Init();
-        ConfigUtils.Load();
-    }
+    
+}
 
-    public static ConfigObj GetConfig() 
+public class NettyCore
+{
+    public static void InitConfig()
+        => ConfigUtils.Init();
+
+    public static void LoadConfig() 
+        => ConfigUtils.Load();
+
+    public static ConfigNettyObj GetConfig()
         => ConfigUtils.Config;
 
-    public static void SetConfig(ConfigObj obj) 
-    {
-        ConfigUtils.Save(obj);
+    public static void SetConfig(ConfigNettyObj obj)
+        => ConfigUtils.Save(obj);
+
+    public static Task StartServer()
+        => NettyServer.Start();
+
+    public static Task StopServer()
+         => NettyServer.Stop();
+
+    public static bool State 
+    { 
+        get 
+        {
+            return NettyServer.State;
+        } 
     }
 }
 

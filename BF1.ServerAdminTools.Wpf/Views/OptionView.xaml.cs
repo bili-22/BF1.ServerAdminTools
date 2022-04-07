@@ -1,4 +1,5 @@
 ﻿using BF1.ServerAdminTools.Common.Utils;
+using BF1.ServerAdminTools.Netty;
 
 namespace BF1.ServerAdminTools.Common.Views
 {
@@ -36,6 +37,10 @@ namespace BF1.ServerAdminTools.Common.Views
             }
 
             MainWindow.ClosingDisposeEvent += MainWindow_ClosingDisposeEvent;
+
+            var obj = NettyCore.GetConfig();
+            Server_Port.Text = obj.Port.ToString();
+            Server_Key.Text = obj.ServerKey.ToString();
         }
 
         private void MainWindow_ClosingDisposeEvent()
@@ -92,6 +97,77 @@ namespace BF1.ServerAdminTools.Common.Views
 
             Core.LogInfo("战地1内存模块初始化成功");
             MsgBoxUtil.InformationMsgBox("检测到游戏运行");
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(Server_Port.Text))
+            {
+                MsgBoxUtil.ErrorMsgBox("端口号为空");
+                return;
+            }
+            if (!int.TryParse(Server_Port.Text, out var port))
+            {
+                MsgBoxUtil.ErrorMsgBox("端口号错误");
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(Server_Key.Text))
+            {
+                MsgBoxUtil.ErrorMsgBox("服务器密钥为空");
+                return;
+            }
+            if (!long.TryParse(Server_Key.Text, out var key))
+            {
+                MsgBoxUtil.ErrorMsgBox("服务器密钥错误");
+                return;
+            }
+
+            NettyCore.SetConfig(new ConfigNettyObj
+            {
+                Port = port,
+                ServerKey = key
+            });
+            MainWindow._SetOperatingState(1, "设置成功");
+            if (NettyCore.State)
+                try
+                {
+                    NettyCore.StopServer();
+                }
+                catch (Exception ex)
+                {
+                    Core.LogError("Netty服务器关闭出错", ex);
+                    MsgBoxUtil.ErrorMsgBox("Netty服务器关闭出错", ex);
+                }
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            if (NettyCore.State)
+            {
+                try
+                {
+                    NettyCore.StopServer();
+                    Button_Server.Content = "启动";
+                }
+                catch (Exception ex)
+                {
+                    Core.LogError("Netty服务器关闭出错", ex);
+                    MsgBoxUtil.ErrorMsgBox("Netty服务器关闭出错", ex);
+                }
+            }
+            else
+            {
+                try
+                {
+                    NettyCore.StartServer();
+                    Button_Server.Content = "关闭";
+                }
+                catch (Exception ex)
+                {
+                    Core.LogError("Netty服务器启动出错", ex);
+                    MsgBoxUtil.ErrorMsgBox("Netty服务器启动出错", ex);
+                }
+            }
         }
     }
 }

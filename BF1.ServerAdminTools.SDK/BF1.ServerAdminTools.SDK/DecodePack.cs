@@ -19,7 +19,7 @@ internal class DecodePack
         };
     }
 
-    public static IdObj Id(IByteBuffer buff) 
+    public static IdObj Id(IByteBuffer buff)
     {
         return new IdObj()
         {
@@ -32,7 +32,7 @@ internal class DecodePack
         };
     }
 
-    public static ServerInfoObj ServerInfo(IByteBuffer buff) 
+    public static ServerInfoObj ServerInfo(IByteBuffer buff)
     {
         var obj = new ServerInfoObj()
         {
@@ -47,17 +47,17 @@ internal class DecodePack
             Team1FromeFlag = buff.ReadInt(),
             Team2FromeFlag = buff.ReadInt(),
             Team1MaxPlayerCount = buff.ReadInt(),
-            Team2MaxPlayerCount = buff.ReadInt(),
             Team1PlayerCount = buff.ReadInt(),
-            Team2PlayerCount = buff.ReadInt(),
             Team1Rank150PlayerCount = buff.ReadInt(),
-            Team2Rank150PlayerCount = buff.ReadInt(),
             Team1AllKillCount = buff.ReadInt(),
-            Team2AllKillCount = buff.ReadInt(),
             Team1AllDeadCount = buff.ReadInt(),
+            Team2MaxPlayerCount = buff.ReadInt(),
+            Team2PlayerCount = buff.ReadInt(),
+            Team2Rank150PlayerCount = buff.ReadInt(),
+            Team2AllKillCount = buff.ReadInt(),
             Team2AllDeadCount = buff.ReadInt()
         };
-        if (buff.ReadBoolean())
+        if (buff.ReadByte() == 0xff)
         {
             obj.MapName = buff.ReadString(buff.ReadInt(), Encoding.UTF8);
             obj.MapUrl = buff.ReadString(buff.ReadInt(), Encoding.UTF8);
@@ -68,5 +68,48 @@ internal class DecodePack
         }
 
         return obj;
+    }
+
+    public static PlayerDataObj Player(IByteBuffer buff) 
+    {
+        return new PlayerDataObj()
+        {
+            Admin = buff.ReadBoolean(),
+            VIP = buff.ReadBoolean(),
+            Mark = buff.ReadByte(),
+            TeamID = buff.ReadInt(),
+            Spectator = buff.ReadByte(),
+            Clan = buff.ReadString(buff.ReadInt(), Encoding.UTF8),
+            Name = buff.ReadString(buff.ReadInt(), Encoding.UTF8),
+            PersonaId = buff.ReadLong(),
+            SquadId = buff.ReadString(buff.ReadInt(), Encoding.UTF8),
+            Rank = buff.ReadInt(),
+            Dead = buff.ReadInt(),
+            Score = buff.ReadInt(),
+            KD = buff.ReadFloat(),
+            KPM = buff.ReadFloat(),
+            WeaponS0CH = buff.ReadString(buff.ReadInt(), Encoding.UTF8)
+        };
+    }
+
+    public static List<PlayerDataObj> PlayerList(IByteBuffer buff)
+    {
+        var list = new List<PlayerDataObj>();
+        for (int a = 0; a < buff.ReadInt(); a++)
+        {
+            list.Add(Player(buff));
+        }
+        return list;
+    }
+
+    public static ScoreInfoObj ServerScore(IByteBuffer buff) 
+    {
+        return new ScoreInfoObj()
+        {
+            Info = ServerInfo(buff),
+            Team1 = buff.ReadByte() == 0xff ? PlayerList(buff) : new(),
+            Team2 = buff.ReadByte() == 0xff ? PlayerList(buff) : new(),
+            Team3 = buff.ReadByte() == 0xff ? PlayerList(buff) : new()
+        };
     }
 }
