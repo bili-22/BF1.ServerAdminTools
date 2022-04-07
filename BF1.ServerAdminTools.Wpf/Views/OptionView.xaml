@@ -94,6 +94,7 @@
                         <CheckBox
                             Name="AutoRun"
                             Margin="433,0,10,0"
+                            HorizontalAlignment="Right"
                             VerticalAlignment="Center"
                             Content="自动启动" />
                     </Grid>

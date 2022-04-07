@@ -1,9 +1,13 @@
-﻿using DotNetty.Buffers;
+﻿using BF1.ServerAdminTools.Common;
+using BF1.ServerAdminTools.Common.API.BF1Server;
+using BF1.ServerAdminTools.Common.Data;
+using DotNetty.Buffers;
 using DotNetty.Codecs;
 using DotNetty.Handlers.Logging;
 using DotNetty.Transport.Bootstrapping;
 using DotNetty.Transport.Channels;
 using DotNetty.Transport.Channels.Sockets;
+using System.Text;
 
 namespace BF1.ServerAdminTools.Netty;
 
@@ -45,61 +49,96 @@ internal class NettyServer
         await boundChannel.DisconnectAsync();
         State = false;
     }
-}
 
-class ServerHandler : ChannelHandlerAdapter
-{
-    public override void ChannelRead(IChannelHandlerContext context, object message)
+    class ServerHandler : ChannelHandlerAdapter
     {
-        var buffer = message as IByteBuffer;
-        if (buffer != null)
+        public override void ChannelRead(IChannelHandlerContext context, object message)
         {
-            IByteBuffer buff = Unpooled.Buffer();
-            var key = buffer.ReadLong();
-            if (key != ConfigUtils.Config.ServerKey)
+            var buffer = message as IByteBuffer;
+            if (buffer != null)
             {
-                buff.WriteByte(70);
+                IByteBuffer buff = Unpooled.Buffer();
+                var key = buffer.ReadLong();
+                if (key != ConfigUtils.Config.ServerKey)
+                {
+                    buff.WriteByte(70);
+                    context.WriteAndFlushAsync(buff);
+                    return;
+                }
+                var type = buffer.ReadByte();
+                switch (type)
+                {
+                    //获取状态
+                    case 0:
+                        buff.WriteByte(0);
+                        EncodePack.State(buff);
+                        break;
+                    //刷新状态
+                    case 1:
+                        buff.WriteByte(1);
+                        EncodePack.Check(buff);
+                        break;
+                    //获取用户信息
+                    case 2:
+                        buff.WriteByte(2);
+                        EncodePack.Id(buff);
+                        break;
+                    //获取服务器信息
+                    case 3:
+                        buff.WriteByte(3);
+                        EncodePack.ServerInfo(buff);
+                        break;
+                    //获取服务器数据
+                    case 4:
+                        buff.WriteByte(4);
+                        EncodePack.ServerScore(buff);
+                        break;
+                    //获取服务器地图
+                    case 5:
+                        buff.WriteByte(5);
+                        EncodePack.ServerMap(buff);
+                        break;
+                    //切换地图
+                    case 6:
+                        var result = ServerAPI.ChangeServerMap(Globals.Config.PersistedGameId,
+                            buff.ReadInt().ToString()).Result;
+                        buff.WriteByte(6)
+                            .WriteBoolean(result.IsSuccess);
+                        break;
+                    //踢出玩家
+                    case 7:
+                        string name = buff.ReadString(buff.ReadInt(), Encoding.UTF8);
+                        string reason = buff.ReadString(buff.ReadInt(), Encoding.UTF8);
+                        IEnumerable<PlayerData> list;
+                        lock (Globals.PlayerList_All)
+                        {
+                            list = Globals.PlayerList_All.Where(item => item.Name == name);
+                        }
+                        buff.WriteByte(7);
+                        if (!list.Any())
+                        {
+                            buff.WriteBoolean(false);
+                            buff.WriteBoolean(false);
+                            break;
+                        }
+                        buff.WriteBoolean(true);
+                        var result1 = ServerAPI.AdminKickPlayer(list.First().PersonaId.ToString(), reason).Result;
+                        buff.WriteBoolean(result1.IsSuccess);
+                        break;
+                    //
+                    case 8:
+                        break;
+                }
                 context.WriteAndFlushAsync(buff);
-                return;
             }
-            var type = buffer.ReadByte();
-            switch (type)
-            {
-                //获取状态
-                case 0:
-                    buff.WriteByte(0);
-                    BuildPack.State(buff);
-                    break;
-                //刷新状态
-                case 1:
-                    buff.WriteByte(1);
-                    BuildPack.Check(buff);
-                    break;
-                //获取用户信息
-                case 2:
-                    buff.WriteByte(2);
-                    BuildPack.Id(buff);
-                    break;
-                //获取服务器信息
-                case 3:
-                    buff.WriteByte(3);
-                    BuildPack.ServerInfo(buff);
-                    break;
-                //获取服务器数据
-                case 4:
-                    buff.WriteByte(4);
-                    BuildPack.ServerScore(buff);
-                    break;
-            }
-            context.WriteAndFlushAsync(buff);
         }
-    }
 
-    public override void ChannelReadComplete(IChannelHandlerContext context) => context.Flush();
+        public override void ChannelReadComplete(IChannelHandlerContext context) => context.Flush();
 
-    public override void ExceptionCaught(IChannelHandlerContext context, Exception exception)
-    {
-        Console.WriteLine("Exception: " + exception);
-        context.CloseAsync();
+        public override void ExceptionCaught(IChannelHandlerContext context, Exception exception)
+        {
+            Console.WriteLine("Exception: " + exception);
+            context.CloseAsync();
+        }
     }
 }

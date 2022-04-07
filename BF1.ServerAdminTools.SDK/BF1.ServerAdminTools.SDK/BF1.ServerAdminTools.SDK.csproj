@@ -15,4 +15,8 @@
     <PackageReference Include="DotNetty.Transport" Version="0.7.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\BF1.ServerAdminTools.Common\BF1.ServerAdminTools.Common.csproj" />
+  </ItemGroup>
+
 </Project>

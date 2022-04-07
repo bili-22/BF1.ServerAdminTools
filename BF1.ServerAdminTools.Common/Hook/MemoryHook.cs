@@ -312,77 +312,80 @@ internal static class MemoryHook
                 }
             }
 
-            int index = Globals.PlayerList_All.FindIndex(val => val.Name == _tdCP.Name);
-            if (index == -1)
+            lock (Globals.PlayerList_All)
             {
-                Globals.PlayerList_All.Add(new PlayerData()
+                int index = Globals.PlayerList_All.FindIndex(val => val.Name == _tdCP.Name);
+                if (index == -1)
                 {
-                    Mark = _tdCP.Mark,
-                    TeamID = _tdCP.TeamID,
-                    Spectator = _tdCP.Spectator,
-                    Clan = PlayerUtil.GetPlayerTargetName(_tdCP.Name, true),
-                    Name = PlayerUtil.GetPlayerTargetName(_tdCP.Name, false),
-                    PersonaId = _tdCP.PersonaId,
-                    SquadId = PlayerUtil.GetSquadChsName(_tdCP.PartyId),
+                    Globals.PlayerList_All.Add(new PlayerData()
+                    {
+                        Mark = _tdCP.Mark,
+                        TeamID = _tdCP.TeamID,
+                        Spectator = _tdCP.Spectator,
+                        Clan = PlayerUtil.GetPlayerTargetName(_tdCP.Name, true),
+                        Name = PlayerUtil.GetPlayerTargetName(_tdCP.Name, false),
+                        PersonaId = _tdCP.PersonaId,
+                        SquadId = PlayerUtil.GetSquadChsName(_tdCP.PartyId),
 
-                    Rank = 0,
-                    Kill = 0,
-                    Dead = 0,
-                    Score = 0,
+                        Rank = 0,
+                        Kill = 0,
+                        Dead = 0,
+                        Score = 0,
 
-                    KD = 0,
-                    KPM = 0,
+                        KD = 0,
+                        KPM = 0,
 
-                    WeaponS0 = _tdCP.WeaponSlot[0],
-                    WeaponS1 = _tdCP.WeaponSlot[1],
-                    WeaponS2 = _tdCP.WeaponSlot[2],
-                    WeaponS3 = _tdCP.WeaponSlot[3],
-                    WeaponS4 = _tdCP.WeaponSlot[4],
-                    WeaponS5 = _tdCP.WeaponSlot[5],
-                    WeaponS6 = _tdCP.WeaponSlot[6],
-                    WeaponS7 = _tdCP.WeaponSlot[7],
+                        WeaponS0 = _tdCP.WeaponSlot[0],
+                        WeaponS1 = _tdCP.WeaponSlot[1],
+                        WeaponS2 = _tdCP.WeaponSlot[2],
+                        WeaponS3 = _tdCP.WeaponSlot[3],
+                        WeaponS4 = _tdCP.WeaponSlot[4],
+                        WeaponS5 = _tdCP.WeaponSlot[5],
+                        WeaponS6 = _tdCP.WeaponSlot[6],
+                        WeaponS7 = _tdCP.WeaponSlot[7],
 
-                    WeaponS0CH = PlayerUtil.GetWeaponChsName(_tdCP.WeaponSlot[0]),
-                    WeaponS1CH = PlayerUtil.GetWeaponChsName(_tdCP.WeaponSlot[1]),
-                    WeaponS2CH = PlayerUtil.GetWeaponChsName(_tdCP.WeaponSlot[2]),
-                    WeaponS3CH = PlayerUtil.GetWeaponChsName(_tdCP.WeaponSlot[3]),
-                    WeaponS4CH = PlayerUtil.GetWeaponChsName(_tdCP.WeaponSlot[4]),
-                    WeaponS5CH = PlayerUtil.GetWeaponChsName(_tdCP.WeaponSlot[5]),
-                    WeaponS6CH = PlayerUtil.GetWeaponChsName(_tdCP.WeaponSlot[6]),
-                    WeaponS7CH = PlayerUtil.GetWeaponChsName(_tdCP.WeaponSlot[7]),
-                });
+                        WeaponS0CH = PlayerUtil.GetWeaponChsName(_tdCP.WeaponSlot[0]),
+                        WeaponS1CH = PlayerUtil.GetWeaponChsName(_tdCP.WeaponSlot[1]),
+                        WeaponS2CH = PlayerUtil.GetWeaponChsName(_tdCP.WeaponSlot[2]),
+                        WeaponS3CH = PlayerUtil.GetWeaponChsName(_tdCP.WeaponSlot[3]),
+                        WeaponS4CH = PlayerUtil.GetWeaponChsName(_tdCP.WeaponSlot[4]),
+                        WeaponS5CH = PlayerUtil.GetWeaponChsName(_tdCP.WeaponSlot[5]),
+                        WeaponS6CH = PlayerUtil.GetWeaponChsName(_tdCP.WeaponSlot[6]),
+                        WeaponS7CH = PlayerUtil.GetWeaponChsName(_tdCP.WeaponSlot[7]),
+                    });
+                }
             }
-        }
 
-        //////////////////////////////// 得分板数据 ////////////////////////////////
+            //////////////////////////////// 得分板数据 ////////////////////////////////
 
-        var pClientScoreBA = Read<long>(GetBaseAddress() + 0x39EB8D8);
-        pClientScoreBA = Read<long>(pClientScoreBA + 0x68);
+            var pClientScoreBA = Read<long>(GetBaseAddress() + 0x39EB8D8);
+            pClientScoreBA = Read<long>(pClientScoreBA + 0x68);
 
-        for (int i = 0; i < MaxPlayer; i++)
-        {
-            pClientScoreBA = Read<long>(pClientScoreBA);
-            var pClientScoreOffset = Read<long>(pClientScoreBA + 0x10);
-            if (!IsValid(pClientScoreBA))
-                continue;
-
-            var Mark = Read<byte>(pClientScoreOffset + 0x300);
-            var Rank = Read<int>(pClientScoreOffset + 0x304);
-            if (Rank == 0)
-                continue;
-            var Kill = Read<int>(pClientScoreOffset + 0x308);
-            var Dead = Read<int>(pClientScoreOffset + 0x30C);
-            var Score = Read<int>(pClientScoreOffset + 0x314);
-
-            int index = Globals.PlayerList_All.FindIndex(val => val.Mark == Mark);
-            if (index != -1)
+            for (int b = 0; b < MaxPlayer; b++)
             {
-                Globals.PlayerList_All[index].Rank = Rank;
-                Globals.PlayerList_All[index].Kill = Kill;
-                Globals.PlayerList_All[index].Dead = Dead;
-                Globals.PlayerList_All[index].Score = Score;
-                Globals.PlayerList_All[index].KD = PlayerUtil.GetPlayerKD(Kill, Dead);
-                Globals.PlayerList_All[index].KPM = PlayerUtil.GetPlayerKPM(Kill, PlayerUtil.SecondsToMM(Globals.ServerHook.ServerTime));
+                pClientScoreBA = Read<long>(pClientScoreBA);
+                var pClientScoreOffset = Read<long>(pClientScoreBA + 0x10);
+                if (!IsValid(pClientScoreBA))
+                    continue;
+
+                var Mark = Read<byte>(pClientScoreOffset + 0x300);
+                var Rank = Read<int>(pClientScoreOffset + 0x304);
+                if (Rank == 0)
+                    continue;
+                var Kill = Read<int>(pClientScoreOffset + 0x308);
+                var Dead = Read<int>(pClientScoreOffset + 0x30C);
+                var Score = Read<int>(pClientScoreOffset + 0x314);
+
+                int index = Globals.PlayerList_All.FindIndex(val => val.Mark == Mark);
+                if (index != -1)
+                {
+                    Globals.PlayerList_All[index].Rank = Rank;
+                    Globals.PlayerList_All[index].Kill = Kill;
+                    Globals.PlayerList_All[index].Dead = Dead;
+                    Globals.PlayerList_All[index].Score = Score;
+                    Globals.PlayerList_All[index].KD = PlayerUtil.GetPlayerKD(Kill, Dead);
+                    Globals.PlayerList_All[index].KPM = PlayerUtil.GetPlayerKPM(Kill, PlayerUtil.SecondsToMM(Globals.ServerHook.ServerTime));
+                }
             }
         }
 

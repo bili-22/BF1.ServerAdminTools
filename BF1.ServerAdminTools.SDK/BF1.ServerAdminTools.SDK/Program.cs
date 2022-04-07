@@ -1,4 +1,6 @@
-﻿namespace BF1.ServerAdminTools.SDK;
+﻿using BF1.ServerAdminTools.Common.Utils;
+
+namespace BF1.ServerAdminTools.SDK;
 
 public class SDKTest
 {
@@ -18,19 +20,22 @@ public class SDKTest
                     switch (type)
                     {
                         case 0:
-                            Console.WriteLine(await NettyClient.GetState());
+                            Console.WriteLine(JsonUtil.JsonSeri(await NettyClient.GetState()));
                             break;
                         case 1:
-                            Console.WriteLine(await NettyClient.CheckState());
+                            Console.WriteLine(JsonUtil.JsonSeri(await NettyClient.CheckState()));
                             break;
                         case 2:
-                            Console.WriteLine(await NettyClient.GetId());
+                            Console.WriteLine(JsonUtil.JsonSeri(await NettyClient.GetId()));
                             break;
                         case 3:
-                            Console.WriteLine(await NettyClient.GetServerInfo());
+                            Console.WriteLine(JsonUtil.JsonSeri(await NettyClient.GetServerInfo()));
                             break;
                         case 4:
-                            Console.WriteLine(await NettyClient.GetServerScore());
+                            Console.WriteLine(JsonUtil.JsonSeri(await NettyClient.GetServerScore()));
+                            break;
+                        case 5:
+                            Console.WriteLine(JsonUtil.JsonSeri(await NettyClient.GetServerMap()));
                             break;
                     }
                 }
