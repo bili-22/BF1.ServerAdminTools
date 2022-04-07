@@ -1,9 +1,15 @@
-﻿namespace BF1.ServerAdminTools.Common.Data;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-public record PlayerData
+namespace BF1.ServerAdminTools.SDK.Objs;
+
+public record PlayerDataObj
 {
-    public bool Admin { get; set; }
-    public bool VIP { get; set; }
+    public string Admin { get; set; }
+    public string VIP { get; set; }
 
     public byte Mark { get; set; }
     public int TeamID { get; set; }

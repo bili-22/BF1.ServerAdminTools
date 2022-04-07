@@ -18,6 +18,7 @@ public struct ServerInfo
     public string ServerName;
     public long ServerID;
     public float ServerTime;
+    public string ServerTimeS;
 
     public int Team1Score;
     public int Team2Score;

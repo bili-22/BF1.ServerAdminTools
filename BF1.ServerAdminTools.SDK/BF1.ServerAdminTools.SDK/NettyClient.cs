@@ -18,7 +18,7 @@ public class NettyClient
 {
     private static MultithreadEventLoopGroup group = new ();
     private static Dictionary<int, Semaphore> CallBack = new();
-    private static Dictionary<int, object> ResBack = new();
+    private static Dictionary<int, object?> ResBack = new();
 
     public static IChannel ClientChannel { get; private set; }
     public static bool IsConnect { get; private set; }
@@ -30,6 +30,10 @@ public class NettyClient
         for (int a = 0; a < 3; a++)
         {
             CallBack.Add(a, new(0, 5));
+        }
+        for (int a = 0; a < 3; a++)
+        {
+            ResBack.Add(a, null);
         }
         var bootstrap = new Bootstrap();
         bootstrap
@@ -63,13 +67,106 @@ public class NettyClient
         });
     }
 
+    public static async Task<StateObj?> CheckState()
+    {
+        if (!IsConnect)
+            return null;
+        var pack = Unpooled.Buffer()
+            .WriteLong(Key)
+            .WriteByte(1);
+        await ClientChannel.WriteAndFlushAsync(pack);
+        return await Task.Run(() =>
+        {
+            CallBack[1].WaitOne();
+            return ResBack[1] as StateObj;
+        });
+    }
+
+    public static async Task<IdObj?> GetId() 
+    {
+        if (!IsConnect)
+            return null;
+        var pack = Unpooled.Buffer()
+            .WriteLong(Key)
+            .WriteByte(2);
+        await ClientChannel.WriteAndFlushAsync(pack);
+        return await Task.Run(() =>
+        {
+            CallBack[2].WaitOne();
+            return ResBack[2] as IdObj;
+        });
+    }
+
+    public static async Task<ServerInfoObj?> GetServerInfo()
+    {
+        if (!IsConnect)
+            return null;
+        var pack = Unpooled.Buffer()
+            .WriteLong(Key)
+            .WriteByte(3);
+        await ClientChannel.WriteAndFlushAsync(pack);
+        return await Task.Run(() =>
+        {
+            CallBack[3].WaitOne();
+            return ResBack[3] as ServerInfoObj;
+        });
+    }
+
     public class ClientHandler : SimpleChannelInboundHandler<IByteBuffer>
     {
         protected override void ChannelRead0(IChannelHandlerContext ctx, IByteBuffer msg)
         {
             if (msg != null)
             {
+                var res = msg.ReadByte();
+                if (res == 70)
+                {
+                    Console.WriteLine("Server key error");
+                    return;
+                }
+                switch (res)
+                {
+                    case 0:
+                        {
+                            var obj = new StateObj()
+                            {
+                                IsGameRun = msg.ReadByte() == 0xff,
+                                IsToolInit = msg.ReadByte() == 0xff
+                            };
 
+                            ResBack[0] = obj;
+                            CallBack[0].Release();
+                            break;
+                        }
+                    case 1:
+                        {
+                            var obj = new StateObj()
+                            {
+                                IsGameRun = msg.ReadByte() == 0xff,
+                                IsToolInit = msg.ReadByte() == 0xff
+                            };
+
+                            ResBack[1] = obj;
+                            CallBack[1].Release();
+                            break;
+                        }
+                    case 2:
+                        {
+                            var obj = new IdObj()
+                            {
+                                Remid = msg.ReadString(msg.ReadInt(), Encoding.UTF8),
+                                Sid = msg.ReadString(msg.ReadInt(), Encoding.UTF8),
+                                SessionId = msg.ReadString(msg.ReadInt(), Encoding.UTF8),
+                                GameId = msg.ReadString(msg.ReadInt(), Encoding.UTF8),
+                                ServerId = msg.ReadString(msg.ReadInt(), Encoding.UTF8),
+                                PersistedGameId = msg.ReadString(msg.ReadInt(), Encoding.UTF8)
+                            };
+
+                            ResBack[2] = obj;
+                            CallBack[2].Release();
+                        }
+                        break;
+                }
             }
         }
         public override void ChannelReadComplete(IChannelHandlerContext context)

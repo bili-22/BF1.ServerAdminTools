@@ -59,28 +59,23 @@ class ServerHandler : ChannelHandlerAdapter
             {
                 //获取状态
                 case 0:
-                    buff.WriteByte(Globals.IsGameRun ? 0xff : 0x00);
-                    buff.WriteByte(Globals.IsToolInit ? 0xff : 0x00);
+                    buff.WriteByte(0);
+                    BuildPack.State(buff);
                     break;
                 //刷新状态
                 case 1:
-                    buff.WriteByte(Core.IsGameRun() ? 0xff : 0x00);
-                    buff.WriteByte(Core.HookInit() ? 0xff : 0x00);
+                    buff.WriteByte(1);
+                    BuildPack.Check(buff);
                     break;
                 //获取用户信息
                 case 2:
-                    buff.WriteInt(Globals.Config.Remid.Length);
-                    buff.WriteString(Globals.Config.Remid, Encoding.UTF8);
-                    buff.WriteInt(Globals.Config.Sid.Length);
-                    buff.WriteString(Globals.Config.Sid, Encoding.UTF8);
-                    buff.WriteInt(Globals.Config.SessionId.Length);
-                    buff.WriteString(Globals.Config.SessionId, Encoding.UTF8);
-                    buff.WriteInt(Globals.Config.GameId.Length);
-                    buff.WriteString(Globals.Config.GameId, Encoding.UTF8);
-                    buff.WriteInt(Globals.Config.ServerId.Length);
-                    buff.WriteString(Globals.Config.ServerId, Encoding.UTF8);
-                    buff.WriteInt(Globals.Config.PersistedGameId.Length);
-                    buff.WriteString(Globals.Config.PersistedGameId, Encoding.UTF8);
+                    buff.WriteByte(2);
+                    BuildPack.Id(buff);
+                    break;
+                //获取服务器信息
+                case 3:
+                    buff.WriteByte(3);
+                    BuildPack.ServerInfo(buff);
                     break;
             }
         }

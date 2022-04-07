@@ -21,13 +21,13 @@ public static class Globals
 
     public static Dictionary<long, PlayerData> PlayerDatas_Team1 { get; } = new();
     public static Dictionary<long, PlayerData> PlayerDatas_Team2 { get; } = new();
+    public static Dictionary<long, PlayerData> PlayerDatas_Team3 { get; } = new();
 
-    public static ClientPlayer localPlayer;
+    public static ClientPlayer LocalPlayer;
+    public static ServerInfo ServerInfo;
 
-    public static ServerInfo serverInfo;
-
-    public static StatisticData statisticData_Team1;
-    public static StatisticData statisticData_Team2;
+    public static StatisticData StatisticData_Team1;
+    public static StatisticData StatisticData_Team2;
 
     /// <summary>
     /// 观战玩家列表

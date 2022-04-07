@@ -33,6 +33,35 @@ public static class Core
     public static void Init(IMsgCall call)
     {
         Msg = call;
+        Globals.LocalPlayer.BaseAddress = 0;
+        Globals.LocalPlayer.TeamID = 0;
+        Globals.LocalPlayer.Spectator = 0;
+        Globals.LocalPlayer.PersonaId = 0;
+        Globals.LocalPlayer.PlayerName = "";
+
+        Globals.ServerInfo.Offset0 = 0;
+        Globals.ServerInfo.ServerName = "";
+        Globals.ServerInfo.ServerID = 0;
+        Globals.ServerInfo.ServerTime = 0f;
+        Globals.ServerInfo.ServerTimeS = "";
+        Globals.ServerInfo.Team1Score = 0;
+        Globals.ServerInfo.Team2Score = 0;
+        Globals.ServerInfo.Team1FromeKill = 0;
+        Globals.ServerInfo.Team2FromeKill = 0;
+        Globals.ServerInfo.Team1FromeFlag = 0;
+        Globals.ServerInfo.Team2FromeFlag = 0;
+
+        Globals.StatisticData_Team1.MaxPlayerCount = 0;
+        Globals.StatisticData_Team1.PlayerCount = 0;
+        Globals.StatisticData_Team1.Rank150PlayerCount = 0;
+        Globals.StatisticData_Team1.AllKillCount = 0;
+        Globals.StatisticData_Team1.AllDeadCount = 0;
+
+        Globals.StatisticData_Team2.MaxPlayerCount = 0;
+        Globals.StatisticData_Team2.PlayerCount = 0;
+        Globals.StatisticData_Team2.Rank150PlayerCount = 0;
+        Globals.StatisticData_Team2.AllKillCount = 0;
+        Globals.StatisticData_Team2.AllDeadCount = 0;
     }
 
     /// <summary>

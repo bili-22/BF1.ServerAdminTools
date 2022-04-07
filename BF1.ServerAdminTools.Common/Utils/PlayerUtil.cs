@@ -217,9 +217,9 @@ public static class PlayerUtil
     /// <param name="personaId"></param>
     /// <param name="list"></param>
     /// <returns></returns>
-    public static string CheckAdminVIP(long personaId, List<long> list)
+    public static bool CheckAdminVIP(long personaId, List<long> list)
     {
-        return list.Contains(personaId) ? "✔" : "";
+        return list.Contains(personaId);
     }
 
     /// <summary>
