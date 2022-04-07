@@ -135,12 +135,8 @@ public class NettyClient
                         CallBack[1].Release();
                         break;
                     case 2:
-                        {
-                           
-
-                            ResBack[2] = obj;
-                            CallBack[2].Release();
-                        }
+                        ResBack[2] = DecodePack.ServerInfo(buff);
+                        CallBack[2].Release();
                         break;
                 }
             }

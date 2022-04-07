@@ -11,7 +11,7 @@ public struct ClientPlayer
     public string PlayerName;
 }
 
-public struct ServerInfo
+public struct ServerHook
 {
     public long Offset0;
 

@@ -28,4 +28,10 @@ public record ServerInfoObj
     public int Team2AllKillCount { get; set; }
     public int Team1AllDeadCount { get; set; }
     public int Team2AllDeadCount { get; set; }
+    public string MapName { get; set; }
+    public string MapUrl { get; set; }
+    public string TeamOne { get; set; }
+    public string TeamOneUrl { get; set; }
+    public string TeamTwo { get; set; }
+    public string TeamTwoUrl { get; set; }
 }

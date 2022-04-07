@@ -41,18 +41,18 @@ internal class BuildPack
 
     public static void ServerInfo(IByteBuffer buff) 
     {
-        buff.WriteInt(Globals.ServerInfo.ServerName.Length);
-        buff.WriteString(Globals.ServerInfo.ServerName, Encoding.UTF8);
-        buff.WriteLong(Globals.ServerInfo.ServerID);
-        buff.WriteFloat(Globals.ServerInfo.ServerTime);
-        buff.WriteInt(Globals.ServerInfo.ServerTimeS.Length);
-        buff.WriteString(Globals.ServerInfo.ServerTimeS, Encoding.UTF8);
-        buff.WriteInt(Globals.ServerInfo.Team1Score);
-        buff.WriteInt(Globals.ServerInfo.Team2Score);
-        buff.WriteInt(Globals.ServerInfo.Team1FromeKill);
-        buff.WriteInt(Globals.ServerInfo.Team2FromeKill);
-        buff.WriteInt(Globals.ServerInfo.Team1FromeFlag);
-        buff.WriteInt(Globals.ServerInfo.Team2FromeFlag);
+        buff.WriteInt(Globals.ServerHook.ServerName.Length);
+        buff.WriteString(Globals.ServerHook.ServerName, Encoding.UTF8);
+        buff.WriteLong(Globals.ServerHook.ServerID);
+        buff.WriteFloat(Globals.ServerHook.ServerTime);
+        buff.WriteInt(Globals.ServerHook.ServerTimeS.Length);
+        buff.WriteString(Globals.ServerHook.ServerTimeS, Encoding.UTF8);
+        buff.WriteInt(Globals.ServerHook.Team1Score);
+        buff.WriteInt(Globals.ServerHook.Team2Score);
+        buff.WriteInt(Globals.ServerHook.Team1FromeKill);
+        buff.WriteInt(Globals.ServerHook.Team2FromeKill);
+        buff.WriteInt(Globals.ServerHook.Team1FromeFlag);
+        buff.WriteInt(Globals.ServerHook.Team2FromeFlag);
         buff.WriteInt(Globals.StatisticData_Team1.MaxPlayerCount);
         buff.WriteInt(Globals.StatisticData_Team1.PlayerCount);
         buff.WriteInt(Globals.StatisticData_Team1.Rank150PlayerCount);
@@ -63,6 +63,26 @@ internal class BuildPack
         buff.WriteInt(Globals.StatisticData_Team2.Rank150PlayerCount);
         buff.WriteInt(Globals.StatisticData_Team2.AllKillCount);
         buff.WriteInt(Globals.StatisticData_Team2.AllDeadCount);
+        if (Globals.ServerDetailed != null)
+        {
+            buff.WriteBoolean(true);
+            buff.WriteInt(Globals.ServerDetailed.currentMap.Length);
+            buff.WriteString(Globals.ServerDetailed.currentMap, Encoding.UTF8);
+            buff.WriteInt(Globals.ServerDetailed.currentMapImage.Length);
+            buff.WriteString(Globals.ServerDetailed.currentMapImage, Encoding.UTF8);
+            buff.WriteInt(Globals.ServerDetailed.teams.teamOne.key.Length);
+            buff.WriteString(Globals.ServerDetailed.teams.teamOne.key, Encoding.UTF8);
+            buff.WriteInt(Globals.ServerDetailed.teams.teamOne.image.Length);
+            buff.WriteString(Globals.ServerDetailed.teams.teamOne.image, Encoding.UTF8);
+            buff.WriteInt(Globals.ServerDetailed.teams.teamTwo.key.Length);
+            buff.WriteString(Globals.ServerDetailed.teams.teamTwo.key, Encoding.UTF8);
+            buff.WriteInt(Globals.ServerDetailed.teams.teamTwo.image.Length);
+            buff.WriteString(Globals.ServerDetailed.teams.teamTwo.image, Encoding.UTF8);
+        }
+        else
+        {
+            buff.WriteBoolean(false);
+        }
     }
 
     public static void Player(IByteBuffer buff, PlayerData player) 

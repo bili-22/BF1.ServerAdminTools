@@ -1,4 +1,6 @@
-﻿using BF1.ServerAdminTools.Common.Data;
+﻿using BF1.ServerAdminTools.Common.API.GT.RespJson;
+using BF1.ServerAdminTools.Common.Data;
+using static BF1.ServerAdminTools.Common.API.BF1Server.RespJson.FullServerDetails.Result;
 
 namespace BF1.ServerAdminTools.Common;
 
@@ -24,7 +26,9 @@ public static class Globals
     public static Dictionary<long, PlayerData> PlayerDatas_Team3 { get; } = new();
 
     public static ClientPlayer LocalPlayer;
+    public static ServerHook ServerHook;
     public static ServerInfo ServerInfo;
+    public static ServerInfos.ServersItem ServerDetailed;
 
     public static StatisticData StatisticData_Team1;
     public static StatisticData StatisticData_Team2;

@@ -1,4 +1,5 @@
-﻿using BF1.ServerAdminTools.Common.Data;
+﻿using BF1.ServerAdminTools.Common.API.GT;
+using BF1.ServerAdminTools.Common.Data;
 using BF1.ServerAdminTools.Common.Helper;
 using BF1.ServerAdminTools.Common.Utils;
 
@@ -381,7 +382,7 @@ internal static class MemoryHook
                 Globals.PlayerList_All[index].Dead = Dead;
                 Globals.PlayerList_All[index].Score = Score;
                 Globals.PlayerList_All[index].KD = PlayerUtil.GetPlayerKD(Kill, Dead);
-                Globals.PlayerList_All[index].KPM = PlayerUtil.GetPlayerKPM(Kill, PlayerUtil.SecondsToMM(Globals.ServerInfo.ServerTime));
+                Globals.PlayerList_All[index].KPM = PlayerUtil.GetPlayerKPM(Kill, PlayerUtil.SecondsToMM(Globals.ServerHook.ServerTime));
             }
         }
 
@@ -477,62 +478,80 @@ internal static class MemoryHook
         ////////////////////////////////////////////////////////////////////////////////
 
         // 服务器名称
-        Globals.ServerInfo.ServerName = ReadString(GetBaseAddress() + Offsets.ServerName_Offset, Offsets.ServerName, 64);
-        Globals.ServerInfo.ServerName = Globals.ServerInfo.ServerName == "" ? "未知" : Globals.ServerInfo.ServerName;
+        Globals.ServerHook.ServerName = ReadString(GetBaseAddress() + Offsets.ServerName_Offset, Offsets.ServerName, 64);
+        Globals.ServerHook.ServerName = Globals.ServerHook.ServerName == "" ? "未知" : Globals.ServerHook.ServerName;
 
         // 如果玩家没有进入服务器，要进行一些数据清理
-        if (Globals.PlayerList_Team1.Count == 0 && Globals.PlayerList_Team2.Count == 0 && Globals.ServerInfo.ServerName == "未知")
+        if (Globals.PlayerList_Team1.Count == 0 && Globals.PlayerList_Team2.Count == 0 && Globals.ServerHook.ServerName == "未知")
         {
             // 清理服务器ID（GameID）
-            Globals.ServerInfo.ServerID = 0;
+            Globals.ServerHook.ServerID = 0;
             Globals.Config.GameId = string.Empty;
 
             Globals.Server_AdminList.Clear();
             Globals.Server_Admin2List.Clear();
             Globals.Server_VIPList.Clear();
+
+            Globals.ServerInfo = null;
+            Globals.ServerDetailed = null;
         }
         else
         {
             // 服务器数字ID
-            Globals.ServerInfo.ServerID = Read<long>(GetBaseAddress() + Offsets.ServerID_Offset, Offsets.ServerID);
-            Globals.Config.GameId = Globals.ServerInfo.ServerID.ToString();
+            Globals.ServerHook.ServerID = Read<long>(GetBaseAddress() + Offsets.ServerID_Offset, Offsets.ServerID);
+            Globals.Config.GameId = Globals.ServerHook.ServerID.ToString();
+
+            if (Globals.ServerInfo == null)
+            {
+                Core.InitServerInfo().Wait();
+            }
+
+            if (Globals.ServerDetailed == null)
+            {
+                var res = GTAPI.GetServerDetailed(Globals.Config.GameId).Result;
+                if (res.IsSuccess)
+                {
+                    Globals.ServerDetailed = res.Obj;
+                    Globals.ServerDetailed.currentMap = ChsUtil.ToSimplifiedChinese(Globals.ServerDetailed.currentMap);
+                }
+            }
         }
 
         // 服务器时间
-        Globals.ServerInfo.ServerTime = Read<float>(GetBaseAddress() + Offsets.ServerTime_Offset, Offsets.ServerTime);
+        Globals.ServerHook.ServerTime = Read<float>(GetBaseAddress() + Offsets.ServerTime_Offset, Offsets.ServerTime);
 
-        Globals.ServerInfo.Offset0 = Read<long>(GetBaseAddress() + Offsets.ServerScore_Offset, Offsets.ServerScoreTeam);
+        Globals.ServerHook.Offset0 = Read<long>(GetBaseAddress() + Offsets.ServerScore_Offset, Offsets.ServerScoreTeam);
 
         // 队伍1、队伍2分数
-        Globals.ServerInfo.Team1Score = Read<int>(Globals.ServerInfo.Offset0 + 0x2B0);
-        Globals.ServerInfo.Team2Score = Read<int>(Globals.ServerInfo.Offset0 + 0x2B0 + 0x08);
+        Globals.ServerHook.Team1Score = Read<int>(Globals.ServerHook.Offset0 + 0x2B0);
+        Globals.ServerHook.Team2Score = Read<int>(Globals.ServerHook.Offset0 + 0x2B0 + 0x08);
 
         // 队伍1、队伍2从击杀获取得分
-        Globals.ServerInfo.Team1FromeKill = Read<int>(Globals.ServerInfo.Offset0 + 0x2B0 + 0x60);
-        Globals.ServerInfo.Team2FromeKill = Read<int>(Globals.ServerInfo.Offset0 + 0x2B0 + 0x68);
+        Globals.ServerHook.Team1FromeKill = Read<int>(Globals.ServerHook.Offset0 + 0x2B0 + 0x60);
+        Globals.ServerHook.Team2FromeKill = Read<int>(Globals.ServerHook.Offset0 + 0x2B0 + 0x68);
 
         // 队伍1、队伍2从旗帜获取得分
-        Globals.ServerInfo.Team1FromeFlag = Read<int>(Globals.ServerInfo.Offset0 + 0x2B0 + 0x100);
-        Globals.ServerInfo.Team2FromeFlag = Read<int>(Globals.ServerInfo.Offset0 + 0x2B0 + 0x108);
+        Globals.ServerHook.Team1FromeFlag = Read<int>(Globals.ServerHook.Offset0 + 0x2B0 + 0x100);
+        Globals.ServerHook.Team2FromeFlag = Read<int>(Globals.ServerHook.Offset0 + 0x2B0 + 0x108);
 
-        if (Globals.ServerInfo.Team1FromeFlag < 0 || Globals.ServerInfo.Team1FromeFlag > 2000)
+        if (Globals.ServerHook.Team1FromeFlag < 0 || Globals.ServerHook.Team1FromeFlag > 2000)
         {
-            Globals.ServerInfo.Team1FromeFlag = 0;
+            Globals.ServerHook.Team1FromeFlag = 0;
         }
 
-        if (Globals.ServerInfo.Team1FromeKill < 0 || Globals.ServerInfo.Team1FromeKill > 2000)
+        if (Globals.ServerHook.Team1FromeKill < 0 || Globals.ServerHook.Team1FromeKill > 2000)
         {
-            Globals.ServerInfo.Team1FromeKill = 0;
+            Globals.ServerHook.Team1FromeKill = 0;
         }
 
-        if (Globals.ServerInfo.Team2FromeFlag < 0 || Globals.ServerInfo.Team2FromeFlag > 2000)
+        if (Globals.ServerHook.Team2FromeFlag < 0 || Globals.ServerHook.Team2FromeFlag > 2000)
         {
-            Globals.ServerInfo.Team2FromeFlag = 0;
+            Globals.ServerHook.Team2FromeFlag = 0;
         }
 
-        if (Globals.ServerInfo.Team2FromeKill < 0 || Globals.ServerInfo.Team2FromeKill > 2000)
+        if (Globals.ServerHook.Team2FromeKill < 0 || Globals.ServerHook.Team2FromeKill > 2000)
         {
-            Globals.ServerInfo.Team2FromeKill = 0;
+            Globals.ServerHook.Team2FromeKill = 0;
         }
 
         // 暴露给外部使用

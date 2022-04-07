@@ -1,4 +1,6 @@
-﻿using BF1.ServerAdminTools.Common.API.BF1Server.RespJson;
+﻿using BF1.ServerAdminTools.Common.API;
+using BF1.ServerAdminTools.Common.API.BF1Server;
+using BF1.ServerAdminTools.Common.API.BF1Server.RespJson;
 using BF1.ServerAdminTools.Common.Chat;
 using BF1.ServerAdminTools.Common.Data;
 using BF1.ServerAdminTools.Common.Helper;
@@ -39,17 +41,17 @@ public static class Core
         Globals.LocalPlayer.PersonaId = 0;
         Globals.LocalPlayer.PlayerName = "";
 
-        Globals.ServerInfo.Offset0 = 0;
-        Globals.ServerInfo.ServerName = "";
-        Globals.ServerInfo.ServerID = 0;
-        Globals.ServerInfo.ServerTime = 0f;
-        Globals.ServerInfo.ServerTimeS = "";
-        Globals.ServerInfo.Team1Score = 0;
-        Globals.ServerInfo.Team2Score = 0;
-        Globals.ServerInfo.Team1FromeKill = 0;
-        Globals.ServerInfo.Team2FromeKill = 0;
-        Globals.ServerInfo.Team1FromeFlag = 0;
-        Globals.ServerInfo.Team2FromeFlag = 0;
+        Globals.ServerHook.Offset0 = 0;
+        Globals.ServerHook.ServerName = "";
+        Globals.ServerHook.ServerID = 0;
+        Globals.ServerHook.ServerTime = 0f;
+        Globals.ServerHook.ServerTimeS = "";
+        Globals.ServerHook.Team1Score = 0;
+        Globals.ServerHook.Team2Score = 0;
+        Globals.ServerHook.Team1FromeKill = 0;
+        Globals.ServerHook.Team2FromeKill = 0;
+        Globals.ServerHook.Team1FromeFlag = 0;
+        Globals.ServerHook.Team2FromeFlag = 0;
 
         Globals.StatisticData_Team1.MaxPlayerCount = 0;
         Globals.StatisticData_Team1.PlayerCount = 0;
@@ -246,24 +248,39 @@ public static class Core
     public static void SetKeyPressDelay(int data)
         => ChatHelper.KeyPressDelay = data;
 
-    public static void InitServerInfo(FullServerDetails server)
+    public static async Task<RespContent<FullServerDetails>> InitServerInfo()
     {
-        Globals.Config.ServerId = server.result.rspInfo.server.serverId;
-        Globals.Config.PersistedGameId = server.result.rspInfo.server.persistedGameId;
+        if (string.IsNullOrEmpty(Globals.Config.GameId) ||
+            string.IsNullOrEmpty(Globals.Config.SessionId))
+            return null;
+        await ServerAPI.SetAPILocale();
+        var result = await ServerAPI.GetFullServerDetails();
 
-        Globals.Server_AdminList.Add(long.Parse(server.result.rspInfo.owner.personaId));
-        Globals.Server_Admin2List.Add(server.result.rspInfo.owner.displayName);
-
-        foreach (var item in server.result.rspInfo.adminList)
+        if (result.IsSuccess)
         {
-            Globals.Server_AdminList.Add(long.Parse(item.personaId));
-            Globals.Server_Admin2List.Add(item.displayName);
+            var server = result.Obj;
+
+            Globals.ServerInfo = server.result.serverInfo;
+
+            Globals.Config.ServerId = server.result.rspInfo.server.serverId;
+            Globals.Config.PersistedGameId = server.result.rspInfo.server.persistedGameId;
+
+            Globals.Server_AdminList.Add(long.Parse(server.result.rspInfo.owner.personaId));
+            Globals.Server_Admin2List.Add(server.result.rspInfo.owner.displayName);
+
+            foreach (var item in server.result.rspInfo.adminList)
+            {
+                Globals.Server_AdminList.Add(long.Parse(item.personaId));
+                Globals.Server_Admin2List.Add(item.displayName);
+            }
+
+            foreach (var item in server.result.rspInfo.vipList)
+            {
+                Globals.Server_VIPList.Add(long.Parse(item.personaId));
+            }
         }
 
-        foreach (var item in server.result.rspInfo.vipList)
-        {
-            Globals.Server_VIPList.Add(long.Parse(item.personaId));
-        }
+        return result;
     }
 
     public static void AddLog2SQLite(DataShell sheetName, BreakRuleInfo info)

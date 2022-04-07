@@ -77,27 +77,27 @@ namespace BF1.ServerAdminTools.Common.Views
 
                 ////////////////////////////////////////////////////////////////////////////////
 
-                ServerInfoModel.ServerName = $"服务器名称 : {Globals.ServerInfo.ServerName}  |  GameID : {Globals.ServerInfo.ServerID}";
+                ServerInfoModel.ServerName = $"服务器名称 : {Globals.ServerHook.ServerName}  |  GameID : {Globals.ServerHook.ServerID}";
 
-                ServerInfoModel.ServerTime = Globals.ServerInfo.ServerTimeS =  PlayerUtil.SecondsToMMSS(Globals.ServerInfo.ServerTime);
+                ServerInfoModel.ServerTime = Globals.ServerHook.ServerTimeS =  PlayerUtil.SecondsToMMSS(Globals.ServerHook.ServerTime);
 
-                if (Globals.ServerInfo.Team1Score >= 0 && Globals.ServerInfo.Team1Score <= 1000 &&
-                    Globals.ServerInfo.Team2Score >= 0 && Globals.ServerInfo.Team2Score <= 1000)
+                if (Globals.ServerHook.Team1Score >= 0 && Globals.ServerHook.Team1Score <= 1000 &&
+                    Globals.ServerHook.Team2Score >= 0 && Globals.ServerHook.Team2Score <= 1000)
                 {
-                    ServerInfoModel.Team1ScoreWidth = Globals.ServerInfo.Team1Score / 6.25;
-                    ServerInfoModel.Team2ScoreWidth = Globals.ServerInfo.Team2Score / 6.25;
+                    ServerInfoModel.Team1ScoreWidth = Globals.ServerHook.Team1Score / 6.25;
+                    ServerInfoModel.Team2ScoreWidth = Globals.ServerHook.Team2Score / 6.25;
 
-                    ServerInfoModel.Team1Score = $"{Globals.ServerInfo.Team1Score}";
-                    ServerInfoModel.Team2Score = $"{Globals.ServerInfo.Team2Score}";
+                    ServerInfoModel.Team1Score = $"{Globals.ServerHook.Team1Score}";
+                    ServerInfoModel.Team2Score = $"{Globals.ServerHook.Team2Score}";
                 }
-                else if (Globals.ServerInfo.Team1Score > 1000 && Globals.ServerInfo.Team1Score <= 2000 ||
-                    Globals.ServerInfo.Team2Score > 1000 && Globals.ServerInfo.Team2Score <= 2000)
+                else if (Globals.ServerHook.Team1Score > 1000 && Globals.ServerHook.Team1Score <= 2000 ||
+                    Globals.ServerHook.Team2Score > 1000 && Globals.ServerHook.Team2Score <= 2000)
                 {
-                    ServerInfoModel.Team1ScoreWidth = Globals.ServerInfo.Team1Score / 12.5;
-                    ServerInfoModel.Team2ScoreWidth = Globals.ServerInfo.Team2Score / 12.5;
+                    ServerInfoModel.Team1ScoreWidth = Globals.ServerHook.Team1Score / 12.5;
+                    ServerInfoModel.Team2ScoreWidth = Globals.ServerHook.Team2Score / 12.5;
 
-                    ServerInfoModel.Team1Score = $"{Globals.ServerInfo.Team1Score}";
-                    ServerInfoModel.Team2Score = $"{Globals.ServerInfo.Team2Score}";
+                    ServerInfoModel.Team1Score = $"{Globals.ServerHook.Team1Score}";
+                    ServerInfoModel.Team2Score = $"{Globals.ServerHook.Team2Score}";
                 }
                 else
                 {
@@ -108,11 +108,11 @@ namespace BF1.ServerAdminTools.Common.Views
                     ServerInfoModel.Team2Score = "0";
                 }
 
-                ServerInfoModel.Team1FromeFlag = $"从旗帜获取的得分 : {Globals.ServerInfo.Team1FromeFlag}";
-                ServerInfoModel.Team1FromeKill = $"从击杀获取的得分 : {Globals.ServerInfo.Team1FromeKill}";
+                ServerInfoModel.Team1FromeFlag = $"从旗帜获取的得分 : {Globals.ServerHook.Team1FromeFlag}";
+                ServerInfoModel.Team1FromeKill = $"从击杀获取的得分 : {Globals.ServerHook.Team1FromeKill}";
 
-                ServerInfoModel.Team2FromeFlag = $"从旗帜获取的得分 : {Globals.ServerInfo.Team2FromeFlag}";
-                ServerInfoModel.Team2FromeKill = $"从击杀获取的得分 : {Globals.ServerInfo.Team2FromeKill}";
+                ServerInfoModel.Team2FromeFlag = $"从旗帜获取的得分 : {Globals.ServerHook.Team2FromeFlag}";
+                ServerInfoModel.Team2FromeKill = $"从击杀获取的得分 : {Globals.ServerHook.Team2FromeKill}";
 
                 ServerInfoModel.Team1Info = $"已部署/队伍1人数 : {Globals.StatisticData_Team1.PlayerCount} / {Globals.StatisticData_Team1.MaxPlayerCount}  |  150等级人数 : {Globals.StatisticData_Team1.Rank150PlayerCount}  |  总击杀数 : {Globals.StatisticData_Team1.AllKillCount}  |  总死亡数 : {Globals.StatisticData_Team1.AllDeadCount}";
                 ServerInfoModel.Team2Info = $"已部署/队伍2人数 : {Globals.StatisticData_Team2.PlayerCount} / {Globals.StatisticData_Team2.MaxPlayerCount}  |  150等级人数 : {Globals.StatisticData_Team2.Rank150PlayerCount}  |  总击杀数 : {Globals.StatisticData_Team2.AllKillCount}  |  总死亡数 : {Globals.StatisticData_Team2.AllDeadCount}";

@@ -56,126 +56,128 @@ namespace BF1.ServerAdminTools.Common.Views
 
         public async Task Load()
         {
-            if (!string.IsNullOrEmpty(Globals.Config.SessionId))
+            if (string.IsNullOrEmpty(Globals.Config.SessionId))
             {
-                if (!string.IsNullOrEmpty(Globals.Config.GameId))
+                MainWindow._SetOperatingState(2, "请先获取玩家SessionID");
+                return;
+            }
+
+            if (string.IsNullOrEmpty(Globals.Config.GameId))
+            {
+                MainWindow._SetOperatingState(2, "请先进入服务器获取GameID");
+                return;
+            }
+
+            DetailModel.ServerName = "获取中...";
+            DetailModel.ServerDescription = "获取中...";
+            DetailModel.ServerOwnerName = "获取中...";
+            DetailModel.ServerOwnerPersonaId = "获取中...";
+            DetailModel.ServerID = "获取中...";
+            DetailModel.ServerGameID = "获取中...";
+
+            DetailModel.ServerOwnerImage = ImageData.NullImg;
+            DetailModel.ServerCurrentMap = ImageData.NullImg;
+
+            ListBox_Map.Items.Clear();
+            ListBox_Admin.Items.Clear();
+            ListBox_VIP.Items.Clear();
+            ListBox_BAN.Items.Clear();
+
+            Globals.Server_AdminList.Clear();
+            Globals.Server_Admin2List.Clear();
+            Globals.Server_VIPList.Clear();
+
+            /////////////////////////////////////////////////////////////////////////////////
+
+            MainWindow._SetOperatingState(2, $"正在获取服务器 {Globals.Config.GameId} 详细数据中...");
+
+            var result = await Core.InitServerInfo();
+
+            if (result == null)
+            {
+                MainWindow._SetOperatingState(3, "服务器详细数据获取失败");
+                return;
+            }
+
+            if (result.IsSuccess == true)
+            {
+                var server = result.Obj;
+
+                DetailModel.ServerName = server.result.serverInfo.name;
+                DetailModel.ServerDescription = server.result.serverInfo.description;
+
+                DetailModel.ServerID = server.result.rspInfo.server.serverId;
+                DetailModel.ServerGameID = server.result.rspInfo.server.persistedGameId;
+
+                DetailModel.ServerOwnerName = server.result.rspInfo.owner.displayName;
+                DetailModel.ServerOwnerPersonaId = server.result.rspInfo.owner.personaId;
+                DetailModel.ServerOwnerImage = server.result.rspInfo.owner.avatar;
+                DetailModel.ServerCurrentMap = ImageData.GetTempImagePath(server.result.serverInfo.mapImageUrl, "maps");
+
+                // 地图列表
+                foreach (var item in server.result.serverInfo.rotation)
                 {
-                    DetailModel.ServerName = "获取中...";
-                    DetailModel.ServerDescription = "获取中...";
-                    DetailModel.ServerOwnerName = "获取中...";
-                    DetailModel.ServerOwnerPersonaId = "获取中...";
-                    DetailModel.ServerID = "获取中...";
-                    DetailModel.ServerGameID = "获取中...";
-
-                    DetailModel.ServerOwnerImage = null;
-                    DetailModel.ServerCurrentMap = null;
-
-                    ListBox_Map.Items.Clear();
-                    ListBox_Admin.Items.Clear();
-                    ListBox_VIP.Items.Clear();
-                    ListBox_BAN.Items.Clear();
-
-                    Globals.Server_AdminList.Clear();
-                    Globals.Server_Admin2List.Clear();
-                    Globals.Server_VIPList.Clear();
-
-                    /////////////////////////////////////////////////////////////////////////////////
-
-                    MainWindow._SetOperatingState(2, $"正在获取服务器 {Globals.Config.GameId} 详细数据中...");
-
-                    await ServerAPI.SetAPILocale();
-                    var result = await ServerAPI.GetFullServerDetails();
-
-                    if (result.IsSuccess)
+                    ListBox_Map.Items.Add(new Map()
                     {
-                        var server = result.Obj as FullServerDetails;
-                        Core.InitServerInfo(server);
-
-                        DetailModel.ServerName = server.result.serverInfo.name;
-                        DetailModel.ServerDescription = server.result.serverInfo.description;
-
-                        DetailModel.ServerID = server.result.rspInfo.server.serverId;
-                        DetailModel.ServerGameID = server.result.rspInfo.server.persistedGameId;
-
-                        DetailModel.ServerOwnerName = server.result.rspInfo.owner.displayName;
-                        DetailModel.ServerOwnerPersonaId = server.result.rspInfo.owner.personaId;
-                        DetailModel.ServerOwnerImage = server.result.rspInfo.owner.avatar;
-                        DetailModel.ServerCurrentMap = ImageData.GetTempImagePath(server.result.serverInfo.mapImageUrl, "maps");
-
-                        // 地图列表
-                        foreach (var item in server.result.serverInfo.rotation)
-                        {
-                            ListBox_Map.Items.Add(new Map()
-                            {
-                                mapImage = ImageData.GetTempImagePath(item.mapImage, "maps"),
-                                mapPrettyName = ChsUtil.ToSimplifiedChinese(item.mapPrettyName),
-                                modePrettyName = ChsUtil.ToSimplifiedChinese(item.modePrettyName)
-                            });
-                        }
-
-                        // 服主
-                        int index = 0;
-                        ListBox_Admin.Items.Add(new ListItem()
-                        {
-                            Index = index++,
-                            avatar = server.result.rspInfo.owner.avatar,
-                            displayName = server.result.rspInfo.owner.displayName,
-                            personaId = server.result.rspInfo.owner.personaId
-                        });
-
-                        // 管理员列表
-                        foreach (var item in server.result.rspInfo.adminList)
-                        {
-                            ListBox_Admin.Items.Add(new ListItem()
-                            {
-                                Index = index++,
-                                avatar = item.avatar,
-                                displayName = item.displayName,
-                                personaId = item.personaId
-                            });
-                        }
-
-                        // VIP列表
-                        index = 1;
-                        foreach (var item in server.result.rspInfo.vipList)
-                        {
-                            ListBox_VIP.Items.Add(new ListItem()
-                            {
-                                Index = index++,
-                                avatar = item.avatar,
-                                displayName = item.displayName,
-                                personaId = item.personaId
-                            });
-                        }
-
-                        // BAN列表
-                        index = 1;
-                        foreach (var item in server.result.rspInfo.bannedList)
-                        {
-                            ListBox_BAN.Items.Add(new ListItem()
-                            {
-                                Index = index++,
-                                avatar = item.avatar,
-                                displayName = item.displayName,
-                                personaId = item.personaId
-                            });
-                        }
-
-                        MainWindow._SetOperatingState(1, $"获取服务器 {Globals.Config.GameId} 详细数据成功  |  耗时: {result.ExecTime:0.00} 秒");
-                    }
-                    else
-                    {
-                        MainWindow._SetOperatingState(3, $"获取服务器 {Globals.Config.GameId} 详细数据失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
-                    }
+                        mapImage = ImageData.GetTempImagePath(item.mapImage, "maps"),
+                        mapPrettyName = ChsUtil.ToSimplifiedChinese(item.mapPrettyName),
+                        modePrettyName = ChsUtil.ToSimplifiedChinese(item.modePrettyName)
+                    });
                 }
-                else
+
+                // 服主
+                int index = 0;
+                ListBox_Admin.Items.Add(new ListItem()
                 {
-                    MainWindow._SetOperatingState(2, "请先进入服务器获取GameID");
+                    Index = index++,
+                    avatar = server.result.rspInfo.owner.avatar,
+                    displayName = server.result.rspInfo.owner.displayName,
+                    personaId = server.result.rspInfo.owner.personaId
+                });
+
+                // 管理员列表
+                foreach (var item in server.result.rspInfo.adminList)
+                {
+                    ListBox_Admin.Items.Add(new ListItem()
+                    {
+                        Index = index++,
+                        avatar = item.avatar,
+                        displayName = item.displayName,
+                        personaId = item.personaId
+                    });
                 }
+
+                // VIP列表
+                index = 1;
+                foreach (var item in server.result.rspInfo.vipList)
+                {
+                    ListBox_VIP.Items.Add(new ListItem()
+                    {
+                        Index = index++,
+                        avatar = item.avatar,
+                        displayName = item.displayName,
+                        personaId = item.personaId
+                    });
+                }
+
+                // BAN列表
+                index = 1;
+                foreach (var item in server.result.rspInfo.bannedList)
+                {
+                    ListBox_BAN.Items.Add(new ListItem()
+                    {
+                        Index = index++,
+                        avatar = item.avatar,
+                        displayName = item.displayName,
+                        personaId = item.personaId
+                    });
+                }
+
+                MainWindow._SetOperatingState(1, $"获取服务器 {Globals.Config.GameId} 详细数据成功  |  耗时: {result.ExecTime:0.00} 秒");
             }
             else
             {
-                MainWindow._SetOperatingState(2, "请先获取玩家SessionID");
+                MainWindow._SetOperatingState(3, $"获取服务器 {Globals.Config.GameId} 详细数据失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
             }
         }
 

@@ -166,6 +166,53 @@ public static class GTAPI
     }
 
     /// <summary>
+    /// 获取服务器详细内容
+    /// </summary>
+    /// <param name="gameid">服务器ID</param>
+    /// <returns></returns>
+    public static async Task<RespContent<ServerInfos.ServersItem>> GetServerDetailed(string gameid)
+    {
+        Stopwatch sw = new();
+        sw.Start();
+
+        RespContent<ServerInfos.ServersItem> respContent = new();
+
+        try
+        {
+            respContent.IsSuccess = false;
+
+            var request = new RestRequest("/bf1/detailedserver")
+                .AddHeaders(headers)
+                .AddParameter("gameid", gameid)
+                .AddParameter("platform", "pc")
+                .AddParameter("lang", "zh-tw");
+
+            var response = await client.ExecuteGetAsync(request);
+
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                respContent.IsSuccess = true;
+                respContent.Message = response.Content;
+
+                respContent.Obj = JsonUtil.JsonDese<ServerInfos.ServersItem>(respContent.Message);
+            }
+            else
+            {
+                respContent.Message = $"{response.StatusCode} {response.Content}";
+            }
+        }
+        catch (Exception ex)
+        {
+            respContent.Message = ex.Message;
+        }
+
+        sw.Stop();
+        respContent.ExecTime = sw.Elapsed.TotalSeconds;
+
+        return respContent;
+    }
+
+    /// <summary>
     /// 获取最近天数在线人数
     /// </summary>
     /// <param name="days"></param>

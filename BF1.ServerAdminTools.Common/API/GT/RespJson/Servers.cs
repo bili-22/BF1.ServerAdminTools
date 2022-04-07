@@ -14,6 +14,7 @@ public record ServerInfos
         public string url { get; set; }
         public string mode { get; set; }
         public string currentMap { get; set; }
+        public string currentMapImage { get; set; }
         public string ownerId { get; set; }
         public string region { get; set; }
         public string platform { get; set; }
