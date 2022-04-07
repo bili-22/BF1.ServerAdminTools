@@ -1,5 +1,4 @@
-﻿using BF1.ServerAdminTools.SDK.Objs;
-using DotNetty.Buffers;
+﻿using DotNetty.Buffers;
 using DotNetty.Codecs;
 using DotNetty.Handlers.Logging;
 using DotNetty.Transport.Bootstrapping;
