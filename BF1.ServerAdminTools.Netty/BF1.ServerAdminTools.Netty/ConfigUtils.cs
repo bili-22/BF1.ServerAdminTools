@@ -8,7 +8,7 @@ internal class ConfigUtils
     private static string FileLocal = $"{ConfigLocal.Base}/Netty/config.json";
     public static ConfigNettyObj Config { get; private set; }
 
-    public static void Init() 
+    public static void Init()
         => Directory.CreateDirectory($"{ConfigLocal.Base}/Netty");
 
     public static void Load()

@@ -13,7 +13,7 @@ internal class NettyServer
     private static IEventLoopGroup workerGroup;
     private static IChannel boundChannel;
     public static bool State { get; private set; }
-    public static async Task Start() 
+    public static async Task Start()
     {
         bossGroup = new MultithreadEventLoopGroup(1);
         workerGroup = new MultithreadEventLoopGroup();
@@ -36,7 +36,7 @@ internal class NettyServer
         State = true;
     }
 
-    public static async Task Stop() 
+    public static async Task Stop()
     {
         if (boundChannel == null)
             return;

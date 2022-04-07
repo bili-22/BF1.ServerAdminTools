@@ -1,52 +1,46 @@
 ﻿using BF1.ServerAdminTools.Common;
 using BF1.ServerAdminTools.Common.Data;
 using DotNetty.Buffers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace BF1.ServerAdminTools.Netty;
 
-internal class BuildPack
+internal static class BuildPack
 {
-    public static void State(IByteBuffer buff) 
+    public static void WriteString(this IByteBuffer buff, string data)
+    {
+        byte[] temp = Encoding.UTF8.GetBytes(data);
+        buff.WriteInt(temp.Length);
+        buff.WriteBytes(temp);
+    }
+    public static void State(IByteBuffer buff)
     {
         buff.WriteByte(Globals.IsGameRun ? 0xff : 0x00);
         buff.WriteByte(Globals.IsToolInit ? 0xff : 0x00);
     }
 
-    public static void Check(IByteBuffer buff) 
+    public static void Check(IByteBuffer buff)
     {
         buff.WriteByte(Core.IsGameRun() ? 0xff : 0x00);
         buff.WriteByte(Core.HookInit() ? 0xff : 0x00);
     }
 
-    public static void Id(IByteBuffer buff) 
+    public static void Id(IByteBuffer buff)
     {
-        buff.WriteInt(Globals.Config.Remid.Length);
-        buff.WriteString(Globals.Config.Remid, Encoding.UTF8);
-        buff.WriteInt(Globals.Config.Sid.Length);
-        buff.WriteString(Globals.Config.Sid, Encoding.UTF8);
-        buff.WriteInt(Globals.Config.SessionId.Length);
-        buff.WriteString(Globals.Config.SessionId, Encoding.UTF8);
-        buff.WriteInt(Globals.Config.GameId.Length);
-        buff.WriteString(Globals.Config.GameId, Encoding.UTF8);
-        buff.WriteInt(Globals.Config.ServerId.Length);
-        buff.WriteString(Globals.Config.ServerId, Encoding.UTF8);
-        buff.WriteInt(Globals.Config.PersistedGameId.Length);
-        buff.WriteString(Globals.Config.PersistedGameId, Encoding.UTF8);
+        buff.WriteString(Globals.Config.Remid);
+        buff.WriteString(Globals.Config.Sid);
+        buff.WriteString(Globals.Config.SessionId);
+        buff.WriteString(Globals.Config.GameId);
+        buff.WriteString(Globals.Config.ServerId);
+        buff.WriteString(Globals.Config.PersistedGameId);
     }
 
-    public static void ServerInfo(IByteBuffer buff) 
+    public static void ServerInfo(IByteBuffer buff)
     {
-        buff.WriteInt(Globals.ServerHook.ServerName.Length);
-        buff.WriteString(Globals.ServerHook.ServerName, Encoding.UTF8);
+        buff.WriteString(Globals.ServerHook.ServerName);
         buff.WriteLong(Globals.ServerHook.ServerID);
         buff.WriteFloat(Globals.ServerHook.ServerTime);
-        buff.WriteInt(Globals.ServerHook.ServerTimeS.Length);
-        buff.WriteString(Globals.ServerHook.ServerTimeS, Encoding.UTF8);
+        buff.WriteString(Globals.ServerHook.ServerTimeS);
         buff.WriteInt(Globals.ServerHook.Team1Score);
         buff.WriteInt(Globals.ServerHook.Team2Score);
         buff.WriteInt(Globals.ServerHook.Team1FromeKill);
@@ -65,19 +59,13 @@ internal class BuildPack
         buff.WriteInt(Globals.StatisticData_Team2.AllDeadCount);
         if (Globals.ServerDetailed != null)
         {
-            buff.WriteByte(0xff);
-            buff.WriteInt(Globals.ServerDetailed.currentMap.Length);
-            buff.WriteString(Globals.ServerDetailed.currentMap, Encoding.UTF8);
-            buff.WriteInt(Globals.ServerDetailed.currentMapImage.Length);
-            buff.WriteString(Globals.ServerDetailed.currentMapImage, Encoding.UTF8);
-            buff.WriteInt(Globals.ServerDetailed.teams.teamOne.key.Length);
-            buff.WriteString(Globals.ServerDetailed.teams.teamOne.key, Encoding.UTF8);
-            buff.WriteInt(Globals.ServerDetailed.teams.teamOne.image.Length);
-            buff.WriteString(Globals.ServerDetailed.teams.teamOne.image, Encoding.UTF8);
-            buff.WriteInt(Globals.ServerDetailed.teams.teamTwo.key.Length);
-            buff.WriteString(Globals.ServerDetailed.teams.teamTwo.key, Encoding.UTF8);
-            buff.WriteInt(Globals.ServerDetailed.teams.teamTwo.image.Length);
-            buff.WriteString(Globals.ServerDetailed.teams.teamTwo.image, Encoding.UTF8);
+            buff.WriteBoolean(true);
+            buff.WriteString(Globals.ServerDetailed.currentMap);
+            buff.WriteString(Globals.ServerDetailed.currentMapImage);
+            buff.WriteString(Globals.ServerDetailed.teams.teamOne.key);
+            buff.WriteString(Globals.ServerDetailed.teams.teamOne.image);
+            buff.WriteString(Globals.ServerDetailed.teams.teamTwo.key);
+            buff.WriteString(Globals.ServerDetailed.teams.teamTwo.image);
         }
         else
         {
@@ -85,30 +73,26 @@ internal class BuildPack
         }
     }
 
-    public static void Player(IByteBuffer buff, PlayerData player) 
+    public static void Player(IByteBuffer buff, PlayerData player)
     {
         buff.WriteBoolean(player.Admin);
         buff.WriteBoolean(player.VIP);
         buff.WriteByte(player.Mark);
         buff.WriteInt(player.TeamID);
         buff.WriteByte(player.Spectator);
-        buff.WriteInt(player.Clan.Length);
-        buff.WriteString(player.Clan, Encoding.UTF8);
-        buff.WriteInt(player.Name.Length);
-        buff.WriteString(player.Name, Encoding.UTF8);
+        buff.WriteString(player.Clan);
+        buff.WriteString(player.Name);
         buff.WriteLong(player.PersonaId);
-        buff.WriteInt(player.SquadId.Length);
-        buff.WriteString(player.SquadId, Encoding.UTF8);
+        buff.WriteString(player.SquadId);
         buff.WriteInt(player.Rank);
         buff.WriteInt(player.Dead);
         buff.WriteInt(player.Score);
         buff.WriteFloat(player.KD);
         buff.WriteFloat(player.KPM);
-        buff.WriteInt(player.WeaponS0CH.Length);
-        buff.WriteString(player.WeaponS0CH, Encoding.UTF8);
+        buff.WriteString(player.WeaponS0CH);
     }
 
-    public static void PlayerList(IByteBuffer buff, List<PlayerData> list) 
+    public static void PlayerList(IByteBuffer buff, List<PlayerData> list)
     {
         buff.WriteInt(list.Count);
         foreach (var item in list)
@@ -117,35 +101,35 @@ internal class BuildPack
         }
     }
 
-    public static void ServerScore(IByteBuffer buff) 
+    public static void ServerScore(IByteBuffer buff)
     {
         ServerInfo(buff);
         if (Globals.PlayerList_Team1.Count != 0)
         {
-            buff.WriteByte(value: 0xff);
+            buff.WriteBoolean(true);
             PlayerList(buff, Globals.PlayerList_Team1);
         }
         else
         {
-            buff.WriteByte(0);
+            buff.WriteBoolean(false);
         }
         if (Globals.PlayerList_Team2.Count != 0)
         {
-            buff.WriteByte(0xff);
+            buff.WriteBoolean(true);
             PlayerList(buff, Globals.PlayerList_Team2);
         }
         else
         {
-            buff.WriteByte(0);
+            buff.WriteBoolean(value: false);
         }
         if (Globals.PlayerList_Team0.Count != 0)
         {
-            buff.WriteByte(0xff);
+            buff.WriteBoolean(true);
             PlayerList(buff, Globals.PlayerList_Team0);
         }
         else
         {
-            buff.WriteByte(0);
+            buff.WriteBoolean(value: false);
         }
     }
 }

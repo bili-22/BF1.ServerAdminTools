@@ -79,7 +79,7 @@ namespace BF1.ServerAdminTools.Common.Views
 
                 ServerInfoModel.ServerName = $"服务器名称 : {Globals.ServerHook.ServerName}  |  GameID : {Globals.ServerHook.ServerID}";
 
-                ServerInfoModel.ServerTime = Globals.ServerHook.ServerTimeS =  PlayerUtil.SecondsToMMSS(Globals.ServerHook.ServerTime);
+                ServerInfoModel.ServerTime = Globals.ServerHook.ServerTimeS = PlayerUtil.SecondsToMMSS(Globals.ServerHook.ServerTime);
 
                 if (Globals.ServerHook.Team1Score >= 0 && Globals.ServerHook.Team1Score <= 1000 &&
                     Globals.ServerHook.Team2Score >= 0 && Globals.ServerHook.Team2Score <= 1000)

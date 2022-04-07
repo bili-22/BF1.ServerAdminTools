@@ -41,6 +41,20 @@ namespace BF1.ServerAdminTools.Common.Views
             var obj = NettyCore.GetConfig();
             Server_Port.Text = obj.Port.ToString();
             Server_Key.Text = obj.ServerKey.ToString();
+            AutoRun.IsChecked = obj.AutoRun;
+            if (obj.AutoRun)
+            {
+                try
+                {
+                    NettyCore.StartServer();
+                    Button_Server.Content = "关闭";
+                }
+                catch (Exception ex)
+                {
+                    Core.LogError("Netty服务器启动出错", ex);
+                    MsgBoxUtil.ErrorMsgBox("Netty服务器启动出错", ex);
+                }
+            }
         }
 
         private void MainWindow_ClosingDisposeEvent()
@@ -125,7 +139,8 @@ namespace BF1.ServerAdminTools.Common.Views
             NettyCore.SetConfig(new ConfigNettyObj
             {
                 Port = port,
-                ServerKey = key
+                ServerKey = key,
+                AutoRun = AutoRun.IsChecked == true
             });
             MainWindow._SetOperatingState(1, "设置成功");
             if (NettyCore.State)

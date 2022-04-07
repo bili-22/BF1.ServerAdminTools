@@ -86,11 +86,16 @@
                             Content="服务器密钥" />
                         <TextBox
                             Name="Server_Key"
-                            Width="301"
+                            Width="233"
                             Margin="200,0,0,0"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             Text="" />
+                        <CheckBox
+                            Name="AutoRun"
+                            Margin="433,0,10,0"
+                            VerticalAlignment="Center"
+                            Content="自动启动" />
                     </Grid>
                     <UniformGrid Columns="2">
                         <Button

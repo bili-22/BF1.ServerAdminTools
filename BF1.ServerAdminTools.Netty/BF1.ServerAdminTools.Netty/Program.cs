@@ -30,7 +30,7 @@ public class NettyMain
         }
     }
 
-    
+
 }
 
 public class NettyCore
@@ -38,7 +38,7 @@ public class NettyCore
     public static void InitConfig()
         => ConfigUtils.Init();
 
-    public static void LoadConfig() 
+    public static void LoadConfig()
         => ConfigUtils.Load();
 
     public static ConfigNettyObj GetConfig()
@@ -53,12 +53,12 @@ public class NettyCore
     public static Task StopServer()
          => NettyServer.Stop();
 
-    public static bool State 
-    { 
-        get 
+    public static bool State
+    {
+        get
         {
             return NettyServer.State;
-        } 
+        }
     }
 }
 

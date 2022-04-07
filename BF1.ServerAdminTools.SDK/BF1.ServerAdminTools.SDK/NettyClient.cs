@@ -5,26 +5,21 @@ using DotNetty.Handlers.Logging;
 using DotNetty.Transport.Bootstrapping;
 using DotNetty.Transport.Channels;
 using DotNetty.Transport.Channels.Sockets;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BF1.ServerAdminTools.SDK;
 
 public class NettyClient
 {
-    private static MultithreadEventLoopGroup group = new ();
+    private static MultithreadEventLoopGroup group = new();
     private static Dictionary<int, Semaphore> CallBack = new();
     private static Dictionary<int, object?> ResBack = new();
 
     public static IChannel ClientChannel { get; private set; }
     public static bool IsConnect { get; private set; }
     public static long Key { get; set; }
-    
-    public static async Task Start(string ip, int port) 
+
+    public static async Task Start(string ip, int port)
     {
         CallBack.Clear();
         for (int a = 0; a < 20; a++)
@@ -45,7 +40,7 @@ public class NettyClient
             {
                 IChannelPipeline pipeline = channel.Pipeline;
                 pipeline.AddLast(new LoggingHandler("BF1.Pipe"));
-                pipeline.AddLast(new LengthFieldBasedFrameDecoder(1024 * 2000000, 0, 4, 0, 4));
+                pipeline.AddLast(new LengthFieldBasedFrameDecoder(1024 * 200, 0, 4, 0, 4));
                 pipeline.AddLast(new ClientHandler());
             }));
         ClientChannel = await bootstrap.ConnectAsync(new IPEndPoint(IPAddress.Parse(ip), port));
@@ -82,7 +77,7 @@ public class NettyClient
         });
     }
 
-    public static async Task<IdObj?> GetId() 
+    public static async Task<IdObj?> GetId()
     {
         if (!IsConnect)
             return null;

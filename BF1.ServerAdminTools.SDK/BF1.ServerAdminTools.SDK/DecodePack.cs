@@ -1,10 +1,6 @@
 ﻿using BF1.ServerAdminTools.SDK.Objs;
 using DotNetty.Buffers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace BF1.ServerAdminTools.SDK;
 
@@ -57,7 +53,7 @@ internal class DecodePack
             Team2AllKillCount = buff.ReadInt(),
             Team2AllDeadCount = buff.ReadInt()
         };
-        if (buff.ReadByte() == 0xff)
+        if (buff.ReadBoolean())
         {
             obj.MapName = buff.ReadString(buff.ReadInt(), Encoding.UTF8);
             obj.MapUrl = buff.ReadString(buff.ReadInt(), Encoding.UTF8);
@@ -70,7 +66,7 @@ internal class DecodePack
         return obj;
     }
 
-    public static PlayerDataObj Player(IByteBuffer buff) 
+    public static PlayerDataObj Player(IByteBuffer buff)
     {
         return new PlayerDataObj()
         {
@@ -102,14 +98,14 @@ internal class DecodePack
         return list;
     }
 
-    public static ScoreInfoObj ServerScore(IByteBuffer buff) 
+    public static ScoreInfoObj ServerScore(IByteBuffer buff)
     {
         return new ScoreInfoObj()
         {
             Info = ServerInfo(buff),
-            Team1 = buff.ReadByte() == 0xff ? PlayerList(buff) : new(),
-            Team2 = buff.ReadByte() == 0xff ? PlayerList(buff) : new(),
-            Team3 = buff.ReadByte() == 0xff ? PlayerList(buff) : new()
+            Team1 = buff.ReadBoolean() ? PlayerList(buff) : new(),
+            Team2 = buff.ReadBoolean() ? PlayerList(buff) : new(),
+            Team3 = buff.ReadBoolean() ? PlayerList(buff) : new()
         };
     }
 }

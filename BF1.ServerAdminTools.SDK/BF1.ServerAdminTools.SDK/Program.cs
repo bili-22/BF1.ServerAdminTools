@@ -35,7 +35,7 @@ public class SDKTest
                     }
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
 
             }

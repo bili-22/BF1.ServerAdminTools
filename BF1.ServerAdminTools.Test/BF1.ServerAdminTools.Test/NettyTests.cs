@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace BF1.ServerAdminTools.Test;
 
-public class Tests
+public class NettyTests
 {
     public static IEventLoopGroup bossGroup;
     public static IEventLoopGroup workerGroup;
@@ -51,7 +51,7 @@ public class Tests
             {
                 IChannelPipeline pipeline = channel.Pipeline;
                 pipeline.AddLast(new LoggingHandler("BF1.Pipe"));
-                pipeline.AddLast(new LengthFieldBasedFrameDecoder(1024 * 2000000, 0, 4, 0, 4));
+                pipeline.AddLast(new LengthFieldBasedFrameDecoder(1024 * 200, 0, 4, 0, 4));
                 pipeline.AddLast(new ClientHandler());
             })).ConnectAsync(new IPEndPoint(IPAddress.Parse("127.0.0.1"), 23333));
     }
@@ -73,11 +73,8 @@ class ClientHandler : SimpleChannelInboundHandler<IByteBuffer>
     {
         if (buff != null)
         {
-            int length = buff.ReadInt();
-            byte[] temp = new byte[length];
-            buff.ReadBytes(temp, 0, length);
-            Tests.Data = Encoding.UTF8.GetString(temp);
-            Tests.semaphore.Release();
+            NettyTests.Data = buff.ReadString(buff.ReadInt(), Encoding.UTF8);
+            NettyTests.semaphore.Release();
         }
     }
     public override void ChannelReadComplete(IChannelHandlerContext context)
@@ -106,9 +103,9 @@ class ServerHandler : ChannelHandlerAdapter
         if (buffer != null)
         {
             IByteBuffer buff = Unpooled.Buffer();
-            string test = "≤‚ ‘";
-            buff.WriteInt(test.Length);
-            buff.WriteString(test, Encoding.UTF8);
+            byte[] temp = Encoding.UTF8.GetBytes("≤‚ ‘");
+            buff.WriteInt(temp.Length);
+            buff.WriteBytes(temp);
             context.WriteAndFlushAsync(buff);
         }
     }
