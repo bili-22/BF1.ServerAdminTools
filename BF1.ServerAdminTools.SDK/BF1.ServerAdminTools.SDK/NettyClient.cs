@@ -114,11 +114,11 @@ public class NettyClient
 
     public class ClientHandler : SimpleChannelInboundHandler<IByteBuffer>
     {
-        protected override void ChannelRead0(IChannelHandlerContext ctx, IByteBuffer msg)
+        protected override void ChannelRead0(IChannelHandlerContext ctx, IByteBuffer buff)
         {
-            if (msg != null)
+            if (buff != null)
             {
-                var res = msg.ReadByte();
+                var res = buff.ReadByte();
                 if (res == 70)
                 {
                     Console.WriteLine("Server key error");
@@ -127,40 +127,16 @@ public class NettyClient
                 switch (res)
                 {
                     case 0:
-                        {
-                            var obj = new StateObj()
-                            {
-                                IsGameRun = msg.ReadByte() == 0xff,
-                                IsToolInit = msg.ReadByte() == 0xff
-                            };
-
-                            ResBack[0] = obj;
-                            CallBack[0].Release();
-                            break;
-                        }
+                        ResBack[0] = DecodePack.State(buff);
+                        CallBack[0].Release();
+                        break;
                     case 1:
-                        {
-                            var obj = new StateObj()
-                            {
-                                IsGameRun = msg.ReadByte() == 0xff,
-                                IsToolInit = msg.ReadByte() == 0xff
-                            };
-
-                            ResBack[1] = obj;
-                            CallBack[1].Release();
-                            break;
-                        }
+                        ResBack[1] = DecodePack.State(buff);
+                        CallBack[1].Release();
+                        break;
                     case 2:
                         {
-                            var obj = new IdObj()
-                            {
-                                Remid = msg.ReadString(msg.ReadInt(), Encoding.UTF8),
-                                Sid = msg.ReadString(msg.ReadInt(), Encoding.UTF8),
-                                SessionId = msg.ReadString(msg.ReadInt(), Encoding.UTF8),
-                                GameId = msg.ReadString(msg.ReadInt(), Encoding.UTF8),
-                                ServerId = msg.ReadString(msg.ReadInt(), Encoding.UTF8),
-                                PersistedGameId = msg.ReadString(msg.ReadInt(), Encoding.UTF8)
-                            };
+                           
 
                             ResBack[2] = obj;
                             CallBack[2].Release();
