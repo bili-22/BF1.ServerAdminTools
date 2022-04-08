@@ -88,6 +88,7 @@ public record ServerInfoObj
     public string TeamOneUrl { get; set; }
     public string TeamTwo { get; set; }
     public string TeamTwoUrl { get; set; }
+    public string Mode { get; set; }
 }
 public record ScoreInfoObj
 {
@@ -177,6 +178,7 @@ internal class DecodePack
             obj.TeamOneUrl = buff.ReadString(buff.ReadInt(), Encoding.UTF8);
             obj.TeamTwo = buff.ReadString(buff.ReadInt(), Encoding.UTF8);
             obj.TeamTwoUrl = buff.ReadString(buff.ReadInt(), Encoding.UTF8);
+            obj.Mode = buff.ReadString(buff.ReadInt(), Encoding.UTF8);
         }
 
         return obj;
@@ -198,6 +200,7 @@ internal class DecodePack
             Rank = buff.ReadInt(),
             Dead = buff.ReadInt(),
             Score = buff.ReadInt(),
+            Kill = buff.ReadInt(),
             KD = buff.ReadFloat(),
             KPM = buff.ReadFloat(),
             WeaponS0CH = buff.ReadString(buff.ReadInt(), Encoding.UTF8)
@@ -294,6 +297,7 @@ public class NettyClient
         {
             CallBack.Add(a, new(0, 5));
         }
+        ResBack.Clear();
         for (int a = 0; a < 20; a++)
         {
             ResBack.Add(a, null);
@@ -448,6 +452,7 @@ public class NettyClient
                 if (res == 70)
                 {
                     Console.WriteLine("Server key error");
+                    CallBack[0].Release();
                     return;
                 }
                 switch (res)

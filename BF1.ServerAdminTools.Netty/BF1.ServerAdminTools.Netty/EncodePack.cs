@@ -67,7 +67,8 @@ internal static class EncodePack
                 .WriteString(Globals.ServerDetailed.teams.teamOne.key)
                 .WriteString(Globals.ServerDetailed.teams.teamOne.image)
                 .WriteString(Globals.ServerDetailed.teams.teamTwo.key)
-                .WriteString(Globals.ServerDetailed.teams.teamTwo.image);
+                .WriteString(Globals.ServerDetailed.teams.teamTwo.image)
+                .WriteString(ChsUtil.ToSimplifiedChinese(Globals.ServerDetailed.mode));
         }
         else
         {
@@ -89,6 +90,7 @@ internal static class EncodePack
             .WriteInt(player.Rank)
             .WriteInt(player.Dead)
             .WriteInt(player.Score)
+            .WriteInt(player.Kill)
             .WriteFloat(player.KD)
             .WriteFloat(player.KPM)
             .WriteString(player.WeaponS0CH);
@@ -112,28 +114,41 @@ internal static class EncodePack
         }
         buff.WriteBoolean(true);
         ServerInfo(buff);
-        if (Globals.PlayerList_Team1.Count != 0)
+        List<PlayerData> list;
+        lock (Globals.PlayerDatas_Team1)
+        {
+            list = new(Globals.PlayerDatas_Team1.Values);
+        }
+        if (list.Count != 0)
         {
             buff.WriteBoolean(true);
-            PlayerList(buff, Globals.PlayerList_Team1);
+            PlayerList(buff, list);
         }
         else
         {
             buff.WriteBoolean(false);
         }
-        if (Globals.PlayerList_Team2.Count != 0)
+        lock (Globals.PlayerDatas_Team2)
+        {
+            list = new(Globals.PlayerDatas_Team2.Values);
+        }
+        if (list.Count != 0)
         {
             buff.WriteBoolean(true);
-            PlayerList(buff, Globals.PlayerList_Team2);
+            PlayerList(buff, list);
         }
         else
         {
             buff.WriteBoolean(value: false);
         }
-        if (Globals.PlayerList_Team0.Count != 0)
+        lock (Globals.PlayerDatas_Team3)
+        {
+            list = new(Globals.PlayerDatas_Team3.Values);
+        }
+        if (list.Count != 0)
         {
             buff.WriteBoolean(true);
-            PlayerList(buff, Globals.PlayerList_Team0);
+            PlayerList(buff, list);
         }
         else
         {
