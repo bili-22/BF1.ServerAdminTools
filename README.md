@@ -7,6 +7,10 @@
 `BF1.ServerAdminTools.SDK`是一个C#的简单netty接口客户端
 
 ## 更新日志
+### 2022.4.8
+- 修复接口bug
+- 新增对接[BotBattlefield](https://github.com/Coloryr/BotBattlefield)
+
 ### 2022.4.7
 - 完成Netty接口
 - 拆分核心
