@@ -54,83 +54,86 @@ internal class NettyServer
     {
         public override void ChannelRead(IChannelHandlerContext context, object message)
         {
-            var buffer = message as IByteBuffer;
-            if (buffer != null)
+            Task.Run(async() =>
             {
-                IByteBuffer buff = Unpooled.Buffer();
-                var key = buffer.ReadLong();
-                if (key != ConfigUtils.Config.ServerKey)
+                var buffer = message as IByteBuffer;
+                if (buffer != null)
                 {
-                    buff.WriteByte(70);
-                    context.WriteAndFlushAsync(buff);
-                    return;
-                }
-                var type = buffer.ReadByte();
-                switch (type)
-                {
-                    //获取状态
-                    case 0:
-                        buff.WriteByte(0);
-                        EncodePack.State(buff);
-                        break;
-                    //刷新状态
-                    case 1:
-                        buff.WriteByte(1);
-                        EncodePack.Check(buff);
-                        break;
-                    //获取用户信息
-                    case 2:
-                        buff.WriteByte(2);
-                        EncodePack.Id(buff);
-                        break;
-                    //获取服务器信息
-                    case 3:
-                        buff.WriteByte(3);
-                        EncodePack.ServerInfo(buff);
-                        break;
-                    //获取服务器数据
-                    case 4:
-                        buff.WriteByte(4);
-                        EncodePack.ServerScore(buff);
-                        break;
-                    //获取服务器地图
-                    case 5:
-                        buff.WriteByte(5);
-                        EncodePack.ServerMap(buff);
-                        break;
-                    //切换地图
-                    case 6:
-                        var result = ServerAPI.ChangeServerMap(Globals.Config.PersistedGameId,
-                            buff.ReadInt().ToString()).Result;
-                        buff.WriteByte(6)
-                            .WriteBoolean(result.IsSuccess);
-                        break;
-                    //踢出玩家
-                    case 7:
-                        string name = buff.ReadString(buff.ReadInt(), Encoding.UTF8);
-                        string reason = buff.ReadString(buff.ReadInt(), Encoding.UTF8);
-                        IEnumerable<PlayerData> list;
-                        lock (Globals.PlayerList_All)
-                        {
-                            list = Globals.PlayerList_All.Where(item => item.Name == name);
-                        }
-                        buff.WriteByte(7);
-                        if (!list.Any())
-                        {
-                            buff.WriteBoolean(false);
-                            buff.WriteBoolean(false);
+                    IByteBuffer buff = Unpooled.Buffer();
+                    var key = buffer.ReadLong();
+                    if (key != ConfigUtils.Config.ServerKey)
+                    {
+                        buff.WriteByte(70);
+                        context.WriteAndFlushAsync(buff);
+                        return;
+                    }
+                    var type = buffer.ReadByte();
+                    switch (type)
+                    {
+                        //获取状态
+                        case 0:
+                            buff.WriteByte(0);
+                            EncodePack.State(buff);
                             break;
-                        }
-                        buff.WriteBoolean(true);
-                        var result1 = ServerAPI.AdminKickPlayer(list.First().PersonaId.ToString(), reason).Result;
-                        buff.WriteBoolean(result1.IsSuccess);
-                        break;
-                    //
-                    case 8:
-                        break;
+                        //刷新状态
+                        case 1:
+                            buff.WriteByte(1);
+                            EncodePack.Check(buff);
+                            break;
+                        //获取用户信息
+                        case 2:
+                            buff.WriteByte(2);
+                            EncodePack.Id(buff);
+                            break;
+                        //获取服务器信息
+                        case 3:
+                            buff.WriteByte(3);
+                            EncodePack.ServerInfo(buff);
+                            break;
+                        //获取服务器数据
+                        case 4:
+                            buff.WriteByte(4);
+                            EncodePack.ServerScore(buff);
+                            break;
+                        //获取服务器地图
+                        case 5:
+                            buff.WriteByte(5);
+                            EncodePack.ServerMap(buff);
+                            break;
+                        //切换地图
+                        case 6:
+                            var res = await ServerAPI.ChangeServerMap(Globals.Config.PersistedGameId,
+                                buffer.ReadInt().ToString());
+                            buff.WriteByte(6)
+                                .WriteBoolean(res.IsSuccess);
+                            break;
+                        //踢出玩家
+                        case 7:
+                            string name = buffer.ReadString(buffer.ReadInt(), Encoding.UTF8);
+                            string reason = buffer.ReadString(buffer.ReadInt(), Encoding.UTF8);
+                            IEnumerable<PlayerData> list;
+                            lock (Globals.PlayerList_All)
+                            {
+                                list = Globals.PlayerList_All.Where(item => item.Name == name);
+                            }
+                            buff.WriteByte(7);
+                            if (!list.Any())
+                            {
+                                buff.WriteBoolean(false);
+                                buff.WriteBoolean(false);
+                                break;
+                            }
+                            buff.WriteBoolean(true);
+                            var result1 = await ServerAPI.AdminKickPlayer(list.First().PersonaId.ToString(), reason);
+                            buff.WriteBoolean(result1.IsSuccess);
+                            break;
+                        //
+                        case 8:
+                            break;
+                    }
+                    await context.WriteAndFlushAsync(buff);
                 }
-                context.WriteAndFlushAsync(buff);
-            }
+            });
         }
 
         public override void ChannelReadComplete(IChannelHandlerContext context) => context.Flush();
