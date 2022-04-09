@@ -494,30 +494,36 @@ internal static class MemoryHook
             Globals.Server_AdminList.Clear();
             Globals.Server_Admin2List.Clear();
             Globals.Server_VIPList.Clear();
-
             Globals.ServerInfo = null;
             Globals.ServerDetailed = null;
         }
         else
         {
+            if (Globals.PlayerList_Team1.Count == 0 && Globals.PlayerList_Team2.Count == 0)
+            {
+                Globals.ServerInfo = null;
+                Globals.ServerDetailed = null;
+            }
+            else
+            {
+                if (Globals.ServerInfo == null)
+                {
+                    Core.InitServerInfo().Wait();
+                }
+
+                if (Globals.ServerDetailed == null)
+                {
+                    var res = GTAPI.GetServerDetailed(Globals.Config.GameId).Result;
+                    if (res.IsSuccess)
+                    {
+                        Globals.ServerDetailed = res.Obj;
+                        Globals.ServerDetailed.currentMap = ChsUtil.ToSimplifiedChinese(Globals.ServerDetailed.currentMap);
+                    }
+                }
+            }
             // 服务器数字ID
             Globals.ServerHook.ServerID = Read<long>(GetBaseAddress() + Offsets.ServerID_Offset, Offsets.ServerID);
             Globals.Config.GameId = Globals.ServerHook.ServerID.ToString();
-
-            if (Globals.ServerInfo == null)
-            {
-                Core.InitServerInfo().Wait();
-            }
-
-            if (Globals.ServerDetailed == null)
-            {
-                var res = GTAPI.GetServerDetailed(Globals.Config.GameId).Result;
-                if (res.IsSuccess)
-                {
-                    Globals.ServerDetailed = res.Obj;
-                    Globals.ServerDetailed.currentMap = ChsUtil.ToSimplifiedChinese(Globals.ServerDetailed.currentMap);
-                }
-            }
         }
 
         // 服务器时间
