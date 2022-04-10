@@ -62,6 +62,8 @@ namespace BF1.ServerAdminTools.Common.Views
 
                 Core.Tick();
 
+                LogView.Semaphore.Release();
+
                 //////////////////////////////// 自己数据 ////////////////////////////////
 
                 PlayerOtherModel.MySelfTeamID = $"队伍ID : { Globals.LocalPlayer.TeamID}";
@@ -131,12 +133,9 @@ namespace BF1.ServerAdminTools.Common.Views
                 });
 
                 ////////////////////////////////////////////////////////////////////////////////
+                //检查违规玩家
+                DataSave.BreakRuleInfo_PlayerList.Clear();
 
-                LogView.Semaphore.Release();
-
-                ////////////////////////////////////////////////////////////////////////////////
-
-                // 检查违规玩家
                 foreach (var item in Globals.PlayerDatas_Team1.Values)
                 {
                     CheckPlayerIsBreakRule(item);
@@ -157,46 +156,53 @@ namespace BF1.ServerAdminTools.Common.Views
         // 更新 DataGrid 队伍1
         private void UpdateDataGridTeam1()
         {
-            if (Globals.PlayerList_Team1.Count == 0 && DataGrid_PlayerList_Team1.Count != 0)
+            if (Globals.PlayerDatas_Team1.Count == 0 && DataGrid_PlayerList_Team1.Count != 0)
             {
                 DataGrid_PlayerList_Team1.Clear();
             }
 
-            if (Globals.PlayerList_Team1.Count != 0)
+            if (Globals.PlayerDatas_Team1.Count != 0)
             {
                 // 更新DataGrid中现有的玩家数据，并把DataGrid中已经不在服务器的玩家清除
                 List<PlayerListModel> list = new();
                 foreach (var item in DataGrid_PlayerList_Team1)
                 {
-                    int index = Globals.PlayerList_Team1.FindIndex(val => val.Name == item.Name);
-                    if (index != -1)
+                    if (Globals.PlayerDatas_Team1.ContainsKey(item.PersonaId))
                     {
-                        item.Rank = Globals.PlayerList_Team1[index].Rank;
-                        item.Clan = Globals.PlayerList_Team1[index].Clan;
-                        item.Admin = Globals.PlayerList_Team1[index].Admin ? "✔" : "";
-                        item.VIP = Globals.PlayerList_Team1[index].VIP ? "✔" : "";
-                        item.SquadId = Globals.PlayerList_Team1[index].SquadId;
-                        item.Kill = Globals.PlayerList_Team1[index].Kill;
-                        item.Dead = Globals.PlayerList_Team1[index].Dead;
-                        item.KD = Globals.PlayerList_Team1[index].KD.ToString("0.00");
-                        item.KPM = Globals.PlayerList_Team1[index].KPM.ToString("0.00");
-                        item.Score = Globals.PlayerList_Team1[index].Score;
+                        item.Rank = Globals.PlayerDatas_Team1[item.PersonaId].Rank;
+                        item.Clan = Globals.PlayerDatas_Team1[item.PersonaId].Clan;
+                        item.Admin = Globals.PlayerDatas_Team1[item.PersonaId].Admin ? "✔" : "";
+                        item.VIP = Globals.PlayerDatas_Team1[item.PersonaId].VIP ? "✔" : "";
+                        item.SquadId = Globals.PlayerDatas_Team1[item.PersonaId].SquadId;
+                        item.Kill = Globals.PlayerDatas_Team1[item.PersonaId].Kill;
+                        item.Dead = Globals.PlayerDatas_Team1[item.PersonaId].Dead;
+                        item.KD = Globals.PlayerDatas_Team1[item.PersonaId].KD.ToString("0.00");
+                        item.KPM = Globals.PlayerDatas_Team1[item.PersonaId].KPM.ToString("0.00");
+                        item.Score = Globals.PlayerDatas_Team1[item.PersonaId].Score;
                         item.WeaponS0 = DataSave.IsShowCHSWeaponName ?
-                           Globals.PlayerList_Team1[index].WeaponS0CH : Globals.PlayerList_Team1[index].WeaponS0;
+                           Globals.PlayerDatas_Team1[item.PersonaId].WeaponS0CH : 
+                           Globals.PlayerDatas_Team1[item.PersonaId].WeaponS0;
                         item.WeaponS1 = DataSave.IsShowCHSWeaponName ?
-                           Globals.PlayerList_Team1[index].WeaponS1CH : Globals.PlayerList_Team1[index].WeaponS1;
+                           Globals.PlayerDatas_Team1[item.PersonaId].WeaponS1CH : 
+                           Globals.PlayerDatas_Team1[item.PersonaId].WeaponS1;
                         item.WeaponS2 = DataSave.IsShowCHSWeaponName ?
-                           Globals.PlayerList_Team1[index].WeaponS2CH : Globals.PlayerList_Team1[index].WeaponS2;
+                           Globals.PlayerDatas_Team1[item.PersonaId].WeaponS2CH :
+                           Globals.PlayerDatas_Team1[item.PersonaId].WeaponS2;
                         item.WeaponS3 = DataSave.IsShowCHSWeaponName ?
-                           Globals.PlayerList_Team1[index].WeaponS3CH : Globals.PlayerList_Team1[index].WeaponS3;
+                           Globals.PlayerDatas_Team1[item.PersonaId].WeaponS3CH : 
+                           Globals.PlayerDatas_Team1[item.PersonaId].WeaponS3;
                         item.WeaponS4 = DataSave.IsShowCHSWeaponName ?
-                           Globals.PlayerList_Team1[index].WeaponS4CH : Globals.PlayerList_Team1[index].WeaponS4;
+                           Globals.PlayerDatas_Team1[item.PersonaId].WeaponS4CH : 
+                           Globals.PlayerDatas_Team1[item.PersonaId].WeaponS4;
                         item.WeaponS5 = DataSave.IsShowCHSWeaponName ?
-                           Globals.PlayerList_Team1[index].WeaponS5CH : Globals.PlayerList_Team1[index].WeaponS5;
+                           Globals.PlayerDatas_Team1[item.PersonaId].WeaponS5CH : 
+                           Globals.PlayerDatas_Team1[item.PersonaId].WeaponS5;
                         item.WeaponS6 = DataSave.IsShowCHSWeaponName ?
-                           Globals.PlayerList_Team1[index].WeaponS6CH : Globals.PlayerList_Team1[index].WeaponS6;
+                           Globals.PlayerDatas_Team1[item.PersonaId].WeaponS6CH : 
+                           Globals.PlayerDatas_Team1[item.PersonaId].WeaponS6;
                         item.WeaponS7 = DataSave.IsShowCHSWeaponName ?
-                           Globals.PlayerList_Team1[index].WeaponS7CH : Globals.PlayerList_Team1[index].WeaponS7;
+                           Globals.PlayerDatas_Team1[item.PersonaId].WeaponS7CH : 
+                           Globals.PlayerDatas_Team1[item.PersonaId].WeaponS7;
                     }
                     else
                     {
@@ -207,7 +213,7 @@ namespace BF1.ServerAdminTools.Common.Views
                 list.ForEach(item => DataGrid_PlayerList_Team1.Remove(item));
 
                 // 增加DataGrid没有的玩家数据
-                foreach (var item in Globals.PlayerList_Team1)
+                foreach (var item in Globals.PlayerDatas_Team1.Values)
                 {
                     if (!DataGrid_PlayerList_Team1.Where(val => val.Name == item.Name).Any())
                     {
@@ -248,46 +254,53 @@ namespace BF1.ServerAdminTools.Common.Views
         // 更新 DataGrid 队伍2
         private void UpdateDataGridTeam2()
         {
-            if (Globals.PlayerList_Team2.Count == 0 && DataGrid_PlayerList_Team2.Count != 0)
+            if (Globals.PlayerDatas_Team2.Count == 0 && DataGrid_PlayerList_Team2.Count != 0)
             {
                 DataGrid_PlayerList_Team2.Clear();
             }
 
-            if (Globals.PlayerList_Team2.Count != 0)
+            if (Globals.PlayerDatas_Team2.Count != 0)
             {
                 // 更新DataGrid中现有的玩家数据，并把DataGrid中已经不在服务器的玩家清除
                 List<PlayerListModel> list = new();
                 foreach (var item in DataGrid_PlayerList_Team2)
                 {
-                    int index = Globals.PlayerList_Team2.FindIndex(val => val.Name == item.Name);
-                    if (index != -1)
+                    if (Globals.PlayerDatas_Team2.ContainsKey(item.PersonaId))
                     {
-                        item.Rank = Globals.PlayerList_Team2[index].Rank;
-                        item.Clan = Globals.PlayerList_Team2[index].Clan;
-                        item.Admin = Globals.PlayerList_Team2[index].Admin ? "✔" : "";
-                        item.VIP = Globals.PlayerList_Team2[index].VIP ? "✔" : "";
-                        item.SquadId = Globals.PlayerList_Team2[index].SquadId;
-                        item.Kill = Globals.PlayerList_Team2[index].Kill;
-                        item.Dead = Globals.PlayerList_Team2[index].Dead;
-                        item.KD = Globals.PlayerList_Team2[index].KD.ToString("0.00");
-                        item.KPM = Globals.PlayerList_Team2[index].KPM.ToString("0.00");
-                        item.Score = Globals.PlayerList_Team2[index].Score;
+                        item.Rank = Globals.PlayerDatas_Team2[item.PersonaId].Rank;
+                        item.Clan = Globals.PlayerDatas_Team2[item.PersonaId].Clan;
+                        item.Admin = Globals.PlayerDatas_Team2[item.PersonaId].Admin ? "✔" : "";
+                        item.VIP = Globals.PlayerDatas_Team2[item.PersonaId].VIP ? "✔" : "";
+                        item.SquadId = Globals.PlayerDatas_Team2[item.PersonaId].SquadId;
+                        item.Kill = Globals.PlayerDatas_Team2[item.PersonaId].Kill;
+                        item.Dead = Globals.PlayerDatas_Team2[item.PersonaId].Dead;
+                        item.KD = Globals.PlayerDatas_Team2[item.PersonaId].KD.ToString("0.00");
+                        item.KPM = Globals.PlayerDatas_Team2[item.PersonaId].KPM.ToString("0.00");
+                        item.Score = Globals.PlayerDatas_Team2[item.PersonaId].Score;
                         item.WeaponS0 = DataSave.IsShowCHSWeaponName ?
-                           Globals.PlayerList_Team2[index].WeaponS0CH : Globals.PlayerList_Team2[index].WeaponS0;
+                           Globals.PlayerDatas_Team2[item.PersonaId].WeaponS0CH :
+                           Globals.PlayerDatas_Team2[item.PersonaId].WeaponS0;
                         item.WeaponS1 = DataSave.IsShowCHSWeaponName ?
-                           Globals.PlayerList_Team2[index].WeaponS1CH : Globals.PlayerList_Team2[index].WeaponS1;
+                           Globals.PlayerDatas_Team2[item.PersonaId].WeaponS1CH :
+                           Globals.PlayerDatas_Team2[item.PersonaId].WeaponS1;
                         item.WeaponS2 = DataSave.IsShowCHSWeaponName ?
-                           Globals.PlayerList_Team2[index].WeaponS2CH : Globals.PlayerList_Team2[index].WeaponS2;
+                           Globals.PlayerDatas_Team2[item.PersonaId].WeaponS2CH :
+                           Globals.PlayerDatas_Team2[item.PersonaId].WeaponS2;
                         item.WeaponS3 = DataSave.IsShowCHSWeaponName ?
-                           Globals.PlayerList_Team2[index].WeaponS3CH : Globals.PlayerList_Team2[index].WeaponS3;
+                           Globals.PlayerDatas_Team2[item.PersonaId].WeaponS3CH :
+                           Globals.PlayerDatas_Team2[item.PersonaId].WeaponS3;
                         item.WeaponS4 = DataSave.IsShowCHSWeaponName ?
-                           Globals.PlayerList_Team2[index].WeaponS4CH : Globals.PlayerList_Team2[index].WeaponS4;
+                           Globals.PlayerDatas_Team2[item.PersonaId].WeaponS4CH :
+                           Globals.PlayerDatas_Team2[item.PersonaId].WeaponS4;
                         item.WeaponS5 = DataSave.IsShowCHSWeaponName ?
-                           Globals.PlayerList_Team2[index].WeaponS5CH : Globals.PlayerList_Team2[index].WeaponS5;
+                           Globals.PlayerDatas_Team2[item.PersonaId].WeaponS5CH :
+                           Globals.PlayerDatas_Team2[item.PersonaId].WeaponS5;
                         item.WeaponS6 = DataSave.IsShowCHSWeaponName ?
-                           Globals.PlayerList_Team2[index].WeaponS6CH : Globals.PlayerList_Team2[index].WeaponS6;
+                           Globals.PlayerDatas_Team2[item.PersonaId].WeaponS6CH :
+                           Globals.PlayerDatas_Team2[item.PersonaId].WeaponS6;
                         item.WeaponS7 = DataSave.IsShowCHSWeaponName ?
-                           Globals.PlayerList_Team2[index].WeaponS7CH : Globals.PlayerList_Team2[index].WeaponS7;
+                           Globals.PlayerDatas_Team2[item.PersonaId].WeaponS7CH :
+                           Globals.PlayerDatas_Team2[item.PersonaId].WeaponS7;
                     }
                     else
                     {
@@ -298,7 +311,7 @@ namespace BF1.ServerAdminTools.Common.Views
                 list.ForEach(item => DataGrid_PlayerList_Team2.Remove(item));
 
                 // 增加DataGrid没有的玩家数据
-                foreach (var item in Globals.PlayerList_Team2)
+                foreach (var item in Globals.PlayerDatas_Team2.Values)
                 {
                     if (!DataGrid_PlayerList_Team2.Where(val => val.Name == item.Name).Any())
                     {
@@ -344,8 +357,6 @@ namespace BF1.ServerAdminTools.Common.Views
 
             if (DataSave.BreakRuleInfo_PlayerList.ContainsKey(playerData.PersonaId))
                 return;
-
-            DataSave.BreakRuleInfo_PlayerList.Clear();
 
             // 限制玩家击杀
             if (playerData.Kill > DataSave.NowRule.MaxKill && DataSave.NowRule.MaxKill != 0)
@@ -606,8 +617,7 @@ namespace BF1.ServerAdminTools.Common.Views
                     // 如果超过15秒还在服务器
                     if (CoreUtil.DiffSeconds(item.Value.Time, DateTime.Now) > 15)
                     {
-                        DataSave.BreakRuleInfo_PlayerList.Add(item.Key, item.Value);
-                        break;
+                        remove.Add(item.Key);
                     }
                 }
 

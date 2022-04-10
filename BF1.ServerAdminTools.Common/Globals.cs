@@ -16,13 +16,22 @@ public static class Globals
 
     ///////////////////////////////////////////////////////
 
-    public static List<PlayerData> PlayerList_All { get; } = new();
-    public static List<PlayerData> PlayerList_Team0 { get; } = new();
-    public static List<PlayerData> PlayerList_Team1 { get; } = new();
-    public static List<PlayerData> PlayerList_Team2 { get; } = new();
+    /// <summary>
+    /// 所有玩家列表
+    /// </summary>
+    public static Dictionary<long, PlayerData> PlayerList_All { get; } = new();
 
+    /// <summary>
+    /// 队伍1列表
+    /// </summary>
     public static Dictionary<long, PlayerData> PlayerDatas_Team1 { get; } = new();
+    /// <summary>
+    /// 队伍2列表
+    /// </summary>
     public static Dictionary<long, PlayerData> PlayerDatas_Team2 { get; } = new();
+    /// <summary>
+    /// 观战列表
+    /// </summary>
     public static Dictionary<long, PlayerData> PlayerDatas_Team3 { get; } = new();
 
     public static ClientPlayer LocalPlayer;
@@ -32,11 +41,6 @@ public static class Globals
 
     public static StatisticData StatisticData_Team1;
     public static StatisticData StatisticData_Team2;
-
-    /// <summary>
-    /// 观战玩家列表
-    /// </summary>
-    public static List<SpectatorInfo> Server_SpectatorList { get; } = new();
 
     /// <summary>
     /// 服务器管理员

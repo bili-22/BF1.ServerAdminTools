@@ -114,7 +114,7 @@ internal class NettyServer
                             IEnumerable<PlayerData> list;
                             lock (Globals.PlayerList_All)
                             {
-                                list = Globals.PlayerList_All.Where(item => item.Name == name);
+                                list = Globals.PlayerList_All.Values.Where(item => item.Name == name);
                             }
                             buff.WriteByte(7);
                             if (!list.Any())

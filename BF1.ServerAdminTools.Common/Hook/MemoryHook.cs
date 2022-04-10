@@ -224,9 +224,13 @@ internal static class MemoryHook
 
     private static TempData.ClientPlayer _tdCP;
     private static TempData.ClientSoldierEntity _tdCSE;
-
+    private static Dictionary<long, PlayerData> TempData = new();
+    private static Dictionary<long, PlayerData> MarkData = new();
+    private static List<long> Remove = new();
 
     private const int MaxPlayer = 74;
+    private static bool IsGet;
+    private static bool NeedClear;
 
     static MemoryHook()
     {
@@ -249,13 +253,6 @@ internal static class MemoryHook
         Globals.StatisticData_Team2.AllKillCount = 0;
         Globals.StatisticData_Team2.AllDeadCount = 0;
 
-        Globals.PlayerList_All.Clear();
-        Globals.PlayerList_Team0.Clear();
-        Globals.PlayerList_Team1.Clear();
-        Globals.PlayerList_Team2.Clear();
-
-        Globals.Server_SpectatorList.Clear();
-
         Array.Clear(_tdCP.WeaponSlot, 0, _tdCP.WeaponSlot.Length);
 
         Globals.LocalPlayer.BaseAddress = Player.GetLocalPlayer();
@@ -265,7 +262,57 @@ internal static class MemoryHook
         Globals.LocalPlayer.PersonaId = Read<long>(Globals.LocalPlayer.BaseAddress + 0x38);
         Globals.LocalPlayer.PlayerName = ReadString(Globals.LocalPlayer.BaseAddress + 0x2156, 64);
 
+        ////////////////////////////////////////////////////////////////////////////////
+
+        // 服务器名称
+        Globals.ServerHook.ServerName = ReadString(GetBaseAddress() + Offsets.ServerName_Offset, Offsets.ServerName, 64);
+        Globals.ServerHook.ServerName = Globals.ServerHook.ServerName == "" ? "未知" : Globals.ServerHook.ServerName;
+
+        // 服务器时间
+        Globals.ServerHook.ServerTime = Read<float>(GetBaseAddress() + Offsets.ServerTime_Offset, Offsets.ServerTime);
+
+        Globals.ServerHook.Offset0 = Read<long>(GetBaseAddress() + Offsets.ServerScore_Offset, Offsets.ServerScoreTeam);
+
+        // 队伍1、队伍2分数
+        Globals.ServerHook.Team1Score = Read<int>(Globals.ServerHook.Offset0 + 0x2B0);
+        Globals.ServerHook.Team2Score = Read<int>(Globals.ServerHook.Offset0 + 0x2B0 + 0x08);
+
+        // 队伍1、队伍2从击杀获取得分
+        Globals.ServerHook.Team1FromeKill = Read<int>(Globals.ServerHook.Offset0 + 0x2B0 + 0x60);
+        Globals.ServerHook.Team2FromeKill = Read<int>(Globals.ServerHook.Offset0 + 0x2B0 + 0x68);
+
+        // 队伍1、队伍2从旗帜获取得分
+        Globals.ServerHook.Team1FromeFlag = Read<int>(Globals.ServerHook.Offset0 + 0x2B0 + 0x100);
+        Globals.ServerHook.Team2FromeFlag = Read<int>(Globals.ServerHook.Offset0 + 0x2B0 + 0x108);
+
+        if (Globals.ServerHook.Team1FromeFlag < 0 || Globals.ServerHook.Team1FromeFlag > 2000)
+        {
+            Globals.ServerHook.Team1FromeFlag = 0;
+        }
+
+        if (Globals.ServerHook.Team1FromeKill < 0 || Globals.ServerHook.Team1FromeKill > 2000)
+        {
+            Globals.ServerHook.Team1FromeKill = 0;
+        }
+
+        if (Globals.ServerHook.Team2FromeFlag < 0 || Globals.ServerHook.Team2FromeFlag > 2000)
+        {
+            Globals.ServerHook.Team2FromeFlag = 0;
+        }
+
+        if (Globals.ServerHook.Team2FromeKill < 0 || Globals.ServerHook.Team2FromeKill > 2000)
+        {
+            Globals.ServerHook.Team2FromeKill = 0;
+        }
+
         //////////////////////////////// 玩家数据 ////////////////////////////////
+
+        TempData.Clear();
+        MarkData.Clear();
+        Remove.Clear();
+
+        string clan;
+        string name;
 
         for (int i = 0; i < MaxPlayer; i++)
         {
@@ -312,116 +359,203 @@ internal static class MemoryHook
                 }
             }
 
-            lock (Globals.PlayerList_All)
+            name = PlayerUtil.GetPlayerTargetName(_tdCP.Name, out clan);
+
+            var player = new PlayerData()
             {
-                int index = Globals.PlayerList_All.FindIndex(val => val.Name == _tdCP.Name);
-                if (index == -1)
-                {
-                    Globals.PlayerList_All.Add(new PlayerData()
-                    {
-                        Mark = _tdCP.Mark,
-                        TeamID = _tdCP.TeamID,
-                        Spectator = _tdCP.Spectator,
-                        Clan = PlayerUtil.GetPlayerTargetName(_tdCP.Name, true),
-                        Name = PlayerUtil.GetPlayerTargetName(_tdCP.Name, false),
-                        PersonaId = _tdCP.PersonaId,
-                        SquadId = PlayerUtil.GetSquadChsName(_tdCP.PartyId),
+                Mark = _tdCP.Mark,
+                TeamID = _tdCP.TeamID,
+                Spectator = _tdCP.Spectator,
+                Clan = clan,
+                Name = name,
+                PersonaId = _tdCP.PersonaId,
+                SquadId = PlayerUtil.GetSquadChsName(_tdCP.PartyId),
 
-                        Rank = 0,
-                        Kill = 0,
-                        Dead = 0,
-                        Score = 0,
+                Rank = 0,
+                Kill = 0,
+                Dead = 0,
+                Score = 0,
 
-                        KD = 0,
-                        KPM = 0,
+                KD = 0,
+                KPM = 0,
 
-                        WeaponS0 = _tdCP.WeaponSlot[0],
-                        WeaponS1 = _tdCP.WeaponSlot[1],
-                        WeaponS2 = _tdCP.WeaponSlot[2],
-                        WeaponS3 = _tdCP.WeaponSlot[3],
-                        WeaponS4 = _tdCP.WeaponSlot[4],
-                        WeaponS5 = _tdCP.WeaponSlot[5],
-                        WeaponS6 = _tdCP.WeaponSlot[6],
-                        WeaponS7 = _tdCP.WeaponSlot[7],
+                WeaponS0 = _tdCP.WeaponSlot[0],
+                WeaponS1 = _tdCP.WeaponSlot[1],
+                WeaponS2 = _tdCP.WeaponSlot[2],
+                WeaponS3 = _tdCP.WeaponSlot[3],
+                WeaponS4 = _tdCP.WeaponSlot[4],
+                WeaponS5 = _tdCP.WeaponSlot[5],
+                WeaponS6 = _tdCP.WeaponSlot[6],
+                WeaponS7 = _tdCP.WeaponSlot[7],
 
-                        WeaponS0CH = PlayerUtil.GetWeaponChsName(_tdCP.WeaponSlot[0]),
-                        WeaponS1CH = PlayerUtil.GetWeaponChsName(_tdCP.WeaponSlot[1]),
-                        WeaponS2CH = PlayerUtil.GetWeaponChsName(_tdCP.WeaponSlot[2]),
-                        WeaponS3CH = PlayerUtil.GetWeaponChsName(_tdCP.WeaponSlot[3]),
-                        WeaponS4CH = PlayerUtil.GetWeaponChsName(_tdCP.WeaponSlot[4]),
-                        WeaponS5CH = PlayerUtil.GetWeaponChsName(_tdCP.WeaponSlot[5]),
-                        WeaponS6CH = PlayerUtil.GetWeaponChsName(_tdCP.WeaponSlot[6]),
-                        WeaponS7CH = PlayerUtil.GetWeaponChsName(_tdCP.WeaponSlot[7]),
-                    });
-                }
+                WeaponS0CH = PlayerUtil.GetWeaponChsName(_tdCP.WeaponSlot[0]),
+                WeaponS1CH = PlayerUtil.GetWeaponChsName(_tdCP.WeaponSlot[1]),
+                WeaponS2CH = PlayerUtil.GetWeaponChsName(_tdCP.WeaponSlot[2]),
+                WeaponS3CH = PlayerUtil.GetWeaponChsName(_tdCP.WeaponSlot[3]),
+                WeaponS4CH = PlayerUtil.GetWeaponChsName(_tdCP.WeaponSlot[4]),
+                WeaponS5CH = PlayerUtil.GetWeaponChsName(_tdCP.WeaponSlot[5]),
+                WeaponS6CH = PlayerUtil.GetWeaponChsName(_tdCP.WeaponSlot[6]),
+                WeaponS7CH = PlayerUtil.GetWeaponChsName(_tdCP.WeaponSlot[7]),
+            };
+
+            if (!TempData.ContainsKey(player.PersonaId))
+            {
+                TempData.Add(player.PersonaId, player);
             }
 
-            //////////////////////////////// 得分板数据 ////////////////////////////////
-
-            var pClientScoreBA = Read<long>(GetBaseAddress() + 0x39EB8D8);
-            pClientScoreBA = Read<long>(pClientScoreBA + 0x68);
-
-            for (int b = 0; b < MaxPlayer; b++)
+            if (!MarkData.ContainsKey(player.Mark))
             {
-                pClientScoreBA = Read<long>(pClientScoreBA);
-                var pClientScoreOffset = Read<long>(pClientScoreBA + 0x10);
-                if (!IsValid(pClientScoreBA))
-                    continue;
+                MarkData.Add(player.Mark, player);
+            }
+        }
 
-                var Mark = Read<byte>(pClientScoreOffset + 0x300);
-                var Rank = Read<int>(pClientScoreOffset + 0x304);
-                if (Rank == 0)
-                    continue;
-                var Kill = Read<int>(pClientScoreOffset + 0x308);
-                var Dead = Read<int>(pClientScoreOffset + 0x30C);
-                var Score = Read<int>(pClientScoreOffset + 0x314);
+        //////////////////////////////// 得分板数据 ////////////////////////////////
 
-                int index = Globals.PlayerList_All.FindIndex(val => val.Mark == Mark);
-                if (index != -1)
-                {
-                    Globals.PlayerList_All[index].Rank = Rank;
-                    Globals.PlayerList_All[index].Kill = Kill;
-                    Globals.PlayerList_All[index].Dead = Dead;
-                    Globals.PlayerList_All[index].Score = Score;
-                    Globals.PlayerList_All[index].KD = PlayerUtil.GetPlayerKD(Kill, Dead);
-                    Globals.PlayerList_All[index].KPM = PlayerUtil.GetPlayerKPM(Kill, PlayerUtil.SecondsToMM(Globals.ServerHook.ServerTime));
-                }
+        var pClientScoreBA = Read<long>(GetBaseAddress() + 0x39EB8D8);
+        pClientScoreBA = Read<long>(pClientScoreBA + 0x68);
+
+        for (int b = 0; b < MaxPlayer; b++)
+        {
+            pClientScoreBA = Read<long>(pClientScoreBA);
+            var pClientScoreOffset = Read<long>(pClientScoreBA + 0x10);
+            if (!IsValid(pClientScoreBA))
+                continue;
+
+            var Mark = Read<byte>(pClientScoreOffset + 0x300);
+            var Rank = Read<int>(pClientScoreOffset + 0x304);
+            if (Rank == 0)
+                continue;
+            var Kill = Read<int>(pClientScoreOffset + 0x308);
+            var Dead = Read<int>(pClientScoreOffset + 0x30C);
+            var Score = Read<int>(pClientScoreOffset + 0x314);
+
+            if (MarkData.ContainsKey(Mark))
+            {
+                MarkData[Mark].Rank = Rank;
+                MarkData[Mark].Kill = Kill;
+                MarkData[Mark].Dead = Dead;
+                MarkData[Mark].Score = Score;
+                MarkData[Mark].KD = PlayerUtil.GetPlayerKD(Kill, Dead);
+                MarkData[Mark].KPM = PlayerUtil.GetPlayerKPM(Kill, PlayerUtil.SecondsToMM(Globals.ServerHook.ServerTime));
             }
         }
 
         //////////////////////////////// 队伍数据整理 ////////////////////////////////
 
-        foreach (var item in Globals.PlayerList_All)
+        lock (Globals.PlayerList_All)
         {
-            item.Admin = PlayerUtil.CheckAdminVIP(item.PersonaId, Globals.Server_AdminList);
-            item.VIP = PlayerUtil.CheckAdminVIP(item.PersonaId, Globals.Server_VIPList);
+            foreach (var item in Globals.PlayerList_All)
+            {
+                if (!TempData.ContainsKey(item.Key))
+                {
+                    Remove.Add(item.Key);
+                }
+            }
 
-            if (item.TeamID == 0)
+            Remove.ForEach(a => Globals.PlayerList_All.Remove(a));
+            foreach (var item in TempData)
             {
-                Globals.PlayerList_Team0.Add(item);
-            }
-            if (item.TeamID == 1)
-            {
-                Globals.PlayerList_Team1.Add(item);
-            }
-            else if (item.TeamID == 2)
-            {
-                Globals.PlayerList_Team2.Add(item);
+                if (Globals.PlayerList_All.ContainsKey(item.Key))
+                {
+                    Globals.PlayerList_All[item.Key] = item.Value;
+                }
+                else
+                {
+                    Globals.PlayerList_All.Add(item.Key, item.Value);
+                }
             }
         }
 
-        // 观战玩家信息
-        foreach (var item in Globals.PlayerList_Team0)
+        // 如果玩家没有进入服务器，要进行一些数据清理
+        if (Globals.ServerHook.ServerName == "未知")
         {
-            Globals.Server_SpectatorList.Add(new SpectatorInfo()
+            // 清理服务器ID（GameID）
+            Globals.ServerHook.ServerID = 0;
+            Globals.Config.GameId = string.Empty;
+
+            Globals.Server_AdminList.Clear();
+            Globals.Server_Admin2List.Clear();
+            Globals.Server_VIPList.Clear();
+        }
+        else
+        {
+            // 服务器数字ID
+            Globals.ServerHook.ServerID = Read<long>(GetBaseAddress() + Offsets.ServerID_Offset, Offsets.ServerID);
+            Globals.Config.GameId = Globals.ServerHook.ServerID.ToString();
+
+            lock (Globals.PlayerDatas_Team1)
             {
-                Name = item.Name,
-                PersonaId = item.PersonaId.ToString(),
-            });
+                lock (Globals.PlayerDatas_Team2)
+                {
+                    lock (Globals.PlayerDatas_Team3)
+                    {
+                        Globals.PlayerDatas_Team3.Clear();
+                        Globals.PlayerDatas_Team2.Clear();
+                        Globals.PlayerDatas_Team1.Clear();
+                        foreach (var item in Globals.PlayerList_All)
+                        {
+                            item.Value.Admin = PlayerUtil.CheckAdminVIP(item.Key, Globals.Server_AdminList);
+                            item.Value.VIP = PlayerUtil.CheckAdminVIP(item.Key, Globals.Server_VIPList);
+
+                            if (item.Value.TeamID == 0)
+                            {
+                                Globals.PlayerDatas_Team3.Add(item.Key, item.Value);
+                            }
+                            if (item.Value.TeamID == 1)
+                            {
+                                Globals.PlayerDatas_Team1.Add(item.Key, item.Value);
+                            }
+                            else if (item.Value.TeamID == 2)
+                            {
+                                Globals.PlayerDatas_Team2.Add(item.Key, item.Value);
+                            }
+                        }
+                    }
+                }
+            }
+
+            if(NeedClear && !IsGet)
+            {
+                Globals.ServerInfo = null;
+                Globals.ServerDetailed = null;
+                NeedClear = false;
+            }
+
+            if (Globals.PlayerDatas_Team1.Count == 0 && Globals.PlayerDatas_Team2.Count == 0)
+            {
+                Globals.ServerInfo = null;
+                Globals.ServerDetailed = null;
+                if (IsGet)
+                {
+                    NeedClear = true;
+                }
+            }
+            else if (!IsGet)
+            {
+                IsGet = true;
+                Task.Run(async () =>
+                {
+                    if (Globals.ServerInfo == null)
+                    {
+                        await Core.InitServerInfo();
+                    }
+
+                    if (Globals.ServerDetailed == null)
+                    {
+                        var res = await GTAPI.GetServerDetailed(Globals.Config.GameId);
+                        if (res.IsSuccess)
+                        {
+                            Globals.ServerDetailed = res.Obj;
+                            Globals.ServerDetailed.currentMap = ChsUtil.ToSimplifiedChinese(Globals.ServerDetailed.currentMap);
+                        }
+                    }
+                    IsGet = false;
+                });
+            }
         }
 
         // 队伍1数据统计
-        foreach (var item in Globals.PlayerList_Team1)
+        foreach (var item in Globals.PlayerDatas_Team1.Values)
         {
             // 统计当前服务器玩家数量
             if (item.Rank != 0)
@@ -430,7 +564,14 @@ internal static class MemoryHook
             }
 
             // 统计当前服务器存活玩家数量
-            if (item.WeaponS0 != "")
+            if (item.WeaponS0 != "" ||
+                item.WeaponS1 != "" ||
+                item.WeaponS2 != "" ||
+                item.WeaponS3 != "" ||
+                item.WeaponS4 != "" ||
+                item.WeaponS5 != "" ||
+                item.WeaponS6 != "" ||
+                item.WeaponS7 != "")
             {
                 Globals.StatisticData_Team1.PlayerCount++;
             }
@@ -447,7 +588,7 @@ internal static class MemoryHook
         }
 
         // 队伍2数据统计
-        foreach (var item in Globals.PlayerList_Team2)
+        foreach (var item in Globals.PlayerDatas_Team2.Values)
         {
             // 统计当前服务器玩家数量
             if (item.Rank != 0)
@@ -476,127 +617,6 @@ internal static class MemoryHook
 
             Globals.StatisticData_Team2.AllKillCount += item.Kill;
             Globals.StatisticData_Team2.AllDeadCount += item.Dead;
-        }
-
-        ////////////////////////////////////////////////////////////////////////////////
-
-        // 服务器名称
-        Globals.ServerHook.ServerName = ReadString(GetBaseAddress() + Offsets.ServerName_Offset, Offsets.ServerName, 64);
-        Globals.ServerHook.ServerName = Globals.ServerHook.ServerName == "" ? "未知" : Globals.ServerHook.ServerName;
-
-        // 如果玩家没有进入服务器，要进行一些数据清理
-        if (Globals.PlayerList_Team1.Count == 0 && Globals.PlayerList_Team2.Count == 0 && Globals.ServerHook.ServerName == "未知")
-        {
-            // 清理服务器ID（GameID）
-            Globals.ServerHook.ServerID = 0;
-            Globals.Config.GameId = string.Empty;
-
-            Globals.Server_AdminList.Clear();
-            Globals.Server_Admin2List.Clear();
-            Globals.Server_VIPList.Clear();
-            Globals.ServerInfo = null;
-            Globals.ServerDetailed = null;
-        }
-        else
-        {
-            if (Globals.PlayerList_Team1.Count == 0 && Globals.PlayerList_Team2.Count == 0)
-            {
-                Globals.ServerInfo = null;
-                Globals.ServerDetailed = null;
-            }
-            else
-            {
-                if (Globals.ServerInfo == null)
-                {
-                    Core.InitServerInfo().Wait();
-                }
-
-                if (Globals.ServerDetailed == null)
-                {
-                    var res = GTAPI.GetServerDetailed(Globals.Config.GameId).Result;
-                    if (res.IsSuccess)
-                    {
-                        Globals.ServerDetailed = res.Obj;
-                        Globals.ServerDetailed.currentMap = ChsUtil.ToSimplifiedChinese(Globals.ServerDetailed.currentMap);
-                    }
-                }
-            }
-            // 服务器数字ID
-            Globals.ServerHook.ServerID = Read<long>(GetBaseAddress() + Offsets.ServerID_Offset, Offsets.ServerID);
-            Globals.Config.GameId = Globals.ServerHook.ServerID.ToString();
-        }
-
-        // 服务器时间
-        Globals.ServerHook.ServerTime = Read<float>(GetBaseAddress() + Offsets.ServerTime_Offset, Offsets.ServerTime);
-
-        Globals.ServerHook.Offset0 = Read<long>(GetBaseAddress() + Offsets.ServerScore_Offset, Offsets.ServerScoreTeam);
-
-        // 队伍1、队伍2分数
-        Globals.ServerHook.Team1Score = Read<int>(Globals.ServerHook.Offset0 + 0x2B0);
-        Globals.ServerHook.Team2Score = Read<int>(Globals.ServerHook.Offset0 + 0x2B0 + 0x08);
-
-        // 队伍1、队伍2从击杀获取得分
-        Globals.ServerHook.Team1FromeKill = Read<int>(Globals.ServerHook.Offset0 + 0x2B0 + 0x60);
-        Globals.ServerHook.Team2FromeKill = Read<int>(Globals.ServerHook.Offset0 + 0x2B0 + 0x68);
-
-        // 队伍1、队伍2从旗帜获取得分
-        Globals.ServerHook.Team1FromeFlag = Read<int>(Globals.ServerHook.Offset0 + 0x2B0 + 0x100);
-        Globals.ServerHook.Team2FromeFlag = Read<int>(Globals.ServerHook.Offset0 + 0x2B0 + 0x108);
-
-        if (Globals.ServerHook.Team1FromeFlag < 0 || Globals.ServerHook.Team1FromeFlag > 2000)
-        {
-            Globals.ServerHook.Team1FromeFlag = 0;
-        }
-
-        if (Globals.ServerHook.Team1FromeKill < 0 || Globals.ServerHook.Team1FromeKill > 2000)
-        {
-            Globals.ServerHook.Team1FromeKill = 0;
-        }
-
-        if (Globals.ServerHook.Team2FromeFlag < 0 || Globals.ServerHook.Team2FromeFlag > 2000)
-        {
-            Globals.ServerHook.Team2FromeFlag = 0;
-        }
-
-        if (Globals.ServerHook.Team2FromeKill < 0 || Globals.ServerHook.Team2FromeKill > 2000)
-        {
-            Globals.ServerHook.Team2FromeKill = 0;
-        }
-
-        // 暴露给外部使用
-        lock (Globals.PlayerDatas_Team1)
-        {
-            Globals.PlayerDatas_Team1.Clear();
-            foreach (var item in Globals.PlayerList_Team1)
-            {
-                if (Globals.PlayerDatas_Team1.ContainsKey(item.PersonaId))
-                    Globals.PlayerDatas_Team1[item.PersonaId] = item;
-                else
-                    Globals.PlayerDatas_Team1.Add(item.PersonaId, item);
-            }
-        }
-        lock (Globals.PlayerDatas_Team2)
-        {
-            Globals.PlayerDatas_Team2.Clear();
-            foreach (var item in Globals.PlayerList_Team2)
-            {
-                if (Globals.PlayerDatas_Team2.ContainsKey(item.PersonaId))
-                    Globals.PlayerDatas_Team2[item.PersonaId] = item;
-                else
-                    Globals.PlayerDatas_Team2.Add(item.PersonaId, item);
-            }
-        }
-
-        lock (Globals.PlayerList_Team0)
-        {
-            Globals.PlayerDatas_Team3.Clear();
-            foreach (var item in Globals.PlayerList_Team2)
-            {
-                if (Globals.PlayerDatas_Team3.ContainsKey(item.PersonaId))
-                    Globals.PlayerDatas_Team3[item.PersonaId] = item;
-                else
-                    Globals.PlayerDatas_Team3.Add(item.PersonaId, item);
-            }
         }
     }
 }

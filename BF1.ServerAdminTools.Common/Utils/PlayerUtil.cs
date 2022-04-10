@@ -155,16 +155,14 @@ public static class PlayerUtil
     /// <summary>
     /// 获取玩家ID或队标
     /// </summary>
-    public static string GetPlayerTargetName(string originalName, bool isClan)
+    public static string GetPlayerTargetName(string originalName, out string clan)
     {
+        clan = "";
         if (string.IsNullOrEmpty(originalName))
             return "";
 
         int index = originalName.IndexOf("]");
-
-        string clan = string.Empty;
-        string name = string.Empty;
-
+        string name;
         if (index != -1)
         {
             clan = originalName.Substring(1, index - 1);
@@ -176,10 +174,7 @@ public static class PlayerUtil
             name = originalName;
         }
 
-        if (isClan)
-            return clan;
-        else
-            return name;
+        return name;
     }
 
     /// <summary>

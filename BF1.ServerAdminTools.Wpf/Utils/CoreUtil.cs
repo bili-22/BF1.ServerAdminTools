@@ -9,14 +9,14 @@ public static class CoreUtil
     /// </summary>
     public const string MainAppWindowName = "战地1服务器管理工具 v";
 
-    public const string WebSite_Address = "https://battlefield.vip";
+    public const string WebSite_Address = "https://github.com/CrazyZhang666/BF1.ServerAdminTools/tree/preview";
 
-    public const string Config_Address = "https://battlefield.vip/server/config.json";
+    public const string Config_Address = "http://175.178.108.122:8082/WebAPI/bf1";
 
-    public static string Notice_Address = "https://battlefield.vip/server/notice.txt";
-    public static string Change_Address = "https://battlefield.vip/server/change.txt";
+    public static string Notice_Address = "http://175.178.108.122:8082/WebAPI/bf1/notice";
+    public static string Change_Address = "http://175.178.108.122:8082/WebAPI/bf1/change";
 
-    public static string Update_Address = "https://github.com/CrazyZhang666/BF1.ServerAdminTools/releases/download/update/BF1.ServerAdminTools.exe";
+    public static string Update_Address = "http://175.178.108.122:8082/BF1.ServerAdminTools.Wpf.exe";
 
     /// <summary>
     /// 正在更新时的文件名
@@ -43,8 +43,8 @@ public static class CoreUtil
     /// </summary>
     public static string ExecDateDiff(DateTime dateBegin, DateTime dateEnd)
     {
-        TimeSpan ts1 = new TimeSpan(dateBegin.Ticks);
-        TimeSpan ts2 = new TimeSpan(dateEnd.Ticks);
+        TimeSpan ts1 = new(dateBegin.Ticks);
+        TimeSpan ts2 = new(dateEnd.Ticks);
 
         return ts1.Subtract(ts2).Duration().ToString("c").Substring(0, 8);
     }

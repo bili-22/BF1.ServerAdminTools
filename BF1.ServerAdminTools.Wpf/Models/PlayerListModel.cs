@@ -4,6 +4,8 @@ namespace BF1.ServerAdminTools.Common.Models;
 
 public class PlayerListModel : ObservableObject, IComparable<PlayerListModel>
 {
+    public long PersionID;
+
     private int _index;
     /// <summary>
     /// 序号

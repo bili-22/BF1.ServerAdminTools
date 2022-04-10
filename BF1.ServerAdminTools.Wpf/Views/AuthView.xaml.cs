@@ -156,7 +156,7 @@ namespace BF1.ServerAdminTools.Common.Views
 
             if (result.IsSuccess)
             {
-                var statusArray = result.Obj as StatusArray;
+                var statusArray = result.Obj;
 
                 int count = statusArray.timeStamps.Count;
 

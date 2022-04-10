@@ -71,7 +71,7 @@ namespace BF1.ServerAdminTools.Common.Windows
             }
             else
             {
-                CoreUtil.Update_Address = "https://github.com/CrazyZhang666/BF1.ServerAdminTools/releases/download/update/BF1.ServerAdminTools.exe";
+                CoreUtil.Update_Address = "https://175.178.108.122:8082/BF1.ServerAdminTools.Wpf.exe";
             }
 
             // 下载临时文件完整路径
@@ -103,7 +103,7 @@ namespace BF1.ServerAdminTools.Common.Windows
             TextBlock_Percentage.Text = "0KB / 0MB";
         }
 
-        private void DownloadProgressChanged(object sender, Downloader.DownloadProgressChangedEventArgs e)
+        private void DownloadProgressChanged(object? sender, Downloader.DownloadProgressChangedEventArgs e)
         {
             Dispatcher.BeginInvoke(new Action(delegate
             {
@@ -119,7 +119,7 @@ namespace BF1.ServerAdminTools.Common.Windows
             }));
         }
 
-        private void DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
+        private void DownloadFileCompleted(object? sender, AsyncCompletedEventArgs e)
         {
             Dispatcher.BeginInvoke(new Action(delegate
             {
@@ -144,6 +144,10 @@ namespace BF1.ServerAdminTools.Common.Windows
                         string OldPath = FileUtil.GetCurrFullPath(CoreUtil.HalfwayAppName);
                         // 下载完成后文件真正路径
                         string NewPath = FileUtil.GetCurrFullPath(CoreUtil.FinalAppName());
+                        if (File.Exists(NewPath))
+                        {
+                            FileUtil.FileReName(NewPath, NewPath + ".old");
+                        }
                         // 下载完成后新文件重命名
                         FileUtil.FileReName(OldPath, NewPath);
 

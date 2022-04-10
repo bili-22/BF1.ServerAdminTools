@@ -398,14 +398,14 @@ namespace BF1.ServerAdminTools.Common.Views
             ListBox_Spectator.Items.Clear();
 
             int index = 1;
-            foreach (var item in Globals.Server_SpectatorList)
+            foreach (var item in Globals.PlayerDatas_Team3.Values)
             {
                 ListBox_Spectator.Items.Add(new SpectatorInfo()
                 {
                     Index = index++,
                     Avatar = @"\Assets\Images\Other\Avatar.jpg",
                     Name = item.Name,
-                    PersonaId = item.PersonaId
+                    PersonaId = item.PersonaId.ToString()
                 });
             }
         }
@@ -424,7 +424,7 @@ namespace BF1.ServerAdminTools.Common.Views
 
                     if (result.IsSuccess)
                     {
-                        serverDetails = result.Obj as ServerDetails;
+                        serverDetails = result.Obj;
 
                         TextBox_ServerName.Text = serverDetails.result.serverSettings.name;
                         TextBox_ServerDescription.Text = serverDetails.result.serverSettings.description;

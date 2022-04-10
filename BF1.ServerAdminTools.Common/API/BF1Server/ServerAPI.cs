@@ -729,12 +729,12 @@ public static class ServerAPI
     /// <summary>
     /// 获取服务器RSP信息
     /// </summary>
-    public static async Task<RespContent<object>> GetServerDetails()
+    public static async Task<RespContent<ServerDetails>> GetServerDetails()
     {
         Stopwatch sw = new();
         sw.Start();
 
-        RespContent<object> respContent = new();
+        RespContent<ServerDetails> respContent = new();
 
         try
         {
