@@ -8,8 +8,8 @@
 		<Platforms>x64</Platforms>
 		<DebugType>full</DebugType>
 		<StartupObject>BF1.ServerAdminTools.App</StartupObject>
-		<FileVersion>1.0.1.4</FileVersion>
-		<AssemblyVersion>1.0.1.4</AssemblyVersion>
+		<FileVersion>1.0.1.5</FileVersion>
+		<AssemblyVersion>1.0.1.5</AssemblyVersion>
 		<ApplicationIcon>Assets\Images\Battlefield-1-Favicon.ico</ApplicationIcon>
 		<ApplicationManifest>Properties\app.manifest</ApplicationManifest>
 		<SignAssembly>False</SignAssembly>

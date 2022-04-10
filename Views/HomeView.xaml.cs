@@ -12,35 +12,35 @@ namespace BF1.ServerAdminTools.Views
         {
             InitializeComponent();
 
-            Task.Run(() =>
-            {
-                string notice = HttpHelper.HttpClientGET(CoreUtil.Notice_Address).Result;
-                string change = HttpHelper.HttpClientGET(CoreUtil.Change_Address).Result;
+            //Task.Run(() =>
+            //{
+            //    string notice = HttpHelper.HttpClientGET(CoreUtil.Notice_Address).Result;
+            //    string change = HttpHelper.HttpClientGET(CoreUtil.Change_Address).Result;
 
-                this.Dispatcher.Invoke(() =>
-                {
-                    TextBox_Notice.Text = notice;
-                    TextBox_Change.Text = change;
-                });
-            });
+            //    this.Dispatcher.Invoke(() =>
+            //    {
+            //        TextBox_Notice.Text = notice;
+            //        TextBox_Change.Text = change;
+            //    });
+            //});
         }
 
         private void MenuItem_RefushNotice_Click(object sender, RoutedEventArgs e)
         {
-            Task.Run(() =>
-            {
-                this.Dispatcher.Invoke(() =>
-                {
-                    TextBox_Notice.Text = "加载中...";
-                });
+            //Task.Run(() =>
+            //{
+            //    this.Dispatcher.Invoke(() =>
+            //    {
+            //        TextBox_Notice.Text = "加载中...";
+            //    });
 
-                string notice = HttpHelper.HttpClientGET(CoreUtil.Notice_Address).Result;
+            //    string notice = HttpHelper.HttpClientGET(CoreUtil.Notice_Address).Result;
 
-                this.Dispatcher.Invoke(() =>
-                {
-                    TextBox_Notice.Text = notice;
-                });
-            });
+            //    this.Dispatcher.Invoke(() =>
+            //    {
+            //        TextBox_Notice.Text = notice;
+            //    });
+            //});
         }
     }
 }

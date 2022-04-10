@@ -45,14 +45,14 @@
                                 &#xe604;
                             </Hyperlink>
                         </TextBlock>
-                        <TextBlock
+                        <!--<TextBlock
                             Margin="10,0,0,0"
                             Style="{StaticResource TextBlockStyle_IconFontAbout}"
                             ToolTip="官方网站">
                             <Hyperlink NavigateUri="https://bfkits.neocities.org" RequestNavigate="Hyperlink_RequestNavigate">
                                 &#xe65b;
                             </Hyperlink>
-                        </TextBlock>
+                        </TextBlock>-->
                         <TextBlock
                             Margin="10,0,0,0"
                             Style="{StaticResource TextBlockStyle_IconFontAbout}"

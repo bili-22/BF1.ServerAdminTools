@@ -41,67 +41,67 @@ namespace BF1.ServerAdminTools
                     CoreUtil.FlushDNSCache();
                     LoggerHelper.Info("刷新DNS缓存成功");
 
-                    UpdateState("正在检测版本更新...");
-                    LoggerHelper.Info($"正在检测版本更新...");
+                    //UpdateState("正在检测版本更新...");
+                    //LoggerHelper.Info($"正在检测版本更新...");
 
                     // 获取版本更新
-                    var webConfig = HttpHelper.HttpClientGET(CoreUtil.Config_Address).Result;
-                    if (string.IsNullOrEmpty(webConfig))
+                    //var webConfig = HttpHelper.HttpClientGET(CoreUtil.Config_Address).Result;
+                    //if (string.IsNullOrEmpty(webConfig))
+                    //{
+                    //    UpdateState("获取新版本信息失败！程序即将关闭");
+                    //    LoggerHelper.Error($"获取新版本信息失败");
+                    //    Task.Delay(2000).Wait();
+
+                    //    this.Dispatcher.Invoke(() =>
+                    //    {
+                    //        Application.Current.Shutdown();
+                    //    });
+
+                    //    return;
+                    //}
+
+                    //var updateInfo = JsonUtil.JsonDese<UpdateInfo>(webConfig);
+
+                    //CoreUtil.ServerVersionInfo = new Version(updateInfo.Version);
+
+                    //if (CoreUtil.ServerVersionInfo > CoreUtil.ClientVersionInfo)
+                    //{
+                    //    LoggerHelper.Info($"发现新版本 {CoreUtil.ServerVersionInfo}");
+
+                    //    CoreUtil.Notice_Address = updateInfo.Address.Notice;
+                    //    CoreUtil.Change_Address = updateInfo.Address.Change;
+
+                    //    this.Dispatcher.Invoke(() =>
+                    //    {
+                    //        this.Hide();
+                    //    });
+
+                    //    if (MessageBox.Show($"检测到新版本已发布，是否立即前往更新？                                        " +
+                    //        $"\n\n{updateInfo.Latest.Date}\n{updateInfo.Latest.Change}\n\n强烈建议大家使用最新版本！点否退出程序",
+                    //        "发现新版本", MessageBoxButton.YesNo, MessageBoxImage.Information) == MessageBoxResult.Yes)
+                    //    {
+                    //        this.Dispatcher.Invoke(() =>
+                    //        {
+                    //            var UpdateWindow = new UpdateWindow(updateInfo);
+                    //            UpdateWindow.Owner = MainWindow.ThisMainWindow;
+                    //            UpdateWindow.ShowDialog();
+
+                    //            this.Close();
+                    //        });
+                    //    }
+                    //    else
+                    //    {
+                    //        // 强制更新版本，否则退出程序
+                    //        this.Dispatcher.Invoke(() =>
+                    //        {
+                    //            Application.Current.Shutdown();
+                    //            return;
+                    //        });
+                    //    }
+                    //}
+                    //else
                     {
-                        UpdateState("获取新版本信息失败！程序即将关闭");
-                        LoggerHelper.Error($"获取新版本信息失败");
-                        Task.Delay(2000).Wait();
-
-                        this.Dispatcher.Invoke(() =>
-                        {
-                            Application.Current.Shutdown();
-                        });
-
-                        return;
-                    }
-
-                    var updateInfo = JsonUtil.JsonDese<UpdateInfo>(webConfig);
-
-                    CoreUtil.ServerVersionInfo = new Version(updateInfo.Version);
-
-                    if (CoreUtil.ServerVersionInfo > CoreUtil.ClientVersionInfo)
-                    {
-                        LoggerHelper.Info($"发现新版本 {CoreUtil.ServerVersionInfo}");
-
-                        CoreUtil.Notice_Address = updateInfo.Address.Notice;
-                        CoreUtil.Change_Address = updateInfo.Address.Change;
-
-                        this.Dispatcher.Invoke(() =>
-                        {
-                            this.Hide();
-                        });
-
-                        if (MessageBox.Show($"检测到新版本已发布，是否立即前往更新？                                        " +
-                            $"\n\n{updateInfo.Latest.Date}\n{updateInfo.Latest.Change}\n\n强烈建议大家使用最新版本！点否退出程序",
-                            "发现新版本", MessageBoxButton.YesNo, MessageBoxImage.Information) == MessageBoxResult.Yes)
-                        {
-                            this.Dispatcher.Invoke(() =>
-                            {
-                                var UpdateWindow = new UpdateWindow(updateInfo);
-                                UpdateWindow.Owner = MainWindow.ThisMainWindow;
-                                UpdateWindow.ShowDialog();
-
-                                this.Close();
-                            });
-                        }
-                        else
-                        {
-                            // 强制更新版本，否则退出程序
-                            this.Dispatcher.Invoke(() =>
-                            {
-                                Application.Current.Shutdown();
-                                return;
-                            });
-                        }
-                    }
-                    else
-                    {
-                        LoggerHelper.Info($"当前已是最新版本 {CoreUtil.ServerVersionInfo}");
+                        //LoggerHelper.Info($"当前已是最新版本 {CoreUtil.ServerVersionInfo}");
 
                         UpdateState("正在为您营造个性化体验...");
 
