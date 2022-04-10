@@ -10,8 +10,8 @@
     d:DesignWidth="1600"
     mc:Ignorable="d">
 
-    <Grid>
-        <UniformGrid Columns="3">
+    <Grid Background="#77FFFFFF">
+        <UniformGrid Columns="2">
             <StackPanel>
                 <TextBlock
                     x:Name="TextBlock_TxtLength"

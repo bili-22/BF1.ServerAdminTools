@@ -9,9 +9,12 @@
     d:DesignWidth="1600"
     mc:Ignorable="d">
 
-    <Grid>
-        <ScrollViewer Style="{StaticResource ScrollViewerStyle_VAHD}">
-            <StackPanel Margin="10" Orientation="Vertical">
+    <Grid Background="Transparent">
+        <ScrollViewer Background="Transparent" Style="{StaticResource ScrollViewerStyle_VAHD}">
+            <StackPanel
+                Margin="10"
+                Background="Transparent"
+                Orientation="Vertical">
                 <StackPanel.Resources>
                     <Style TargetType="{x:Type Image}">
                         <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality" />
@@ -25,18 +28,21 @@
                 <TextBlock
                     Margin="5,10,5,5"
                     HorizontalAlignment="Center"
+                    Background="#AAFFFFFF"
                     FontFamily="等线"
                     FontSize="38"
                     Text="战地1服务器管理工具" />
                 <TextBlock
                     Margin="10"
                     HorizontalAlignment="Center"
+                    Background="#AAFFFFFF"
                     FontSize="14"
                     Text="Copyright© 2020-2022 DS By CrazyZhang666,Color_yr" />
                 <Border
                     Margin="0,10,0,5"
                     Padding="10,0,10,0"
                     HorizontalAlignment="Center"
+                    Background="#AAFFFFFF"
                     BorderBrush="Gray"
                     BorderThickness="0,1,0,1">
                     <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">

@@ -1,4 +1,5 @@
-﻿using BF1.ServerAdminTools.Common.Utils;
+﻿using BF1.ServerAdminTools.Common.Data;
+using BF1.ServerAdminTools.Common.Utils;
 using BF1.ServerAdminTools.Netty;
 
 namespace BF1.ServerAdminTools.Common.Views
@@ -183,6 +184,18 @@ namespace BF1.ServerAdminTools.Common.Views
                     MsgBoxUtil.ErrorMsgBox("Netty服务器启动出错", ex);
                 }
             }
+        }
+
+        private void Button_Click_3(object sender, RoutedEventArgs e)
+        {
+            var file = FileSelectUtil.FileSelectPic();
+            if (file == null)
+                return;
+
+            DataSave.Config.Bg = file;
+            ConfigUtil.SaveConfig();
+
+            MainWindow.BG();
         }
     }
 }

@@ -11,7 +11,7 @@
     d:DesignWidth="1600"
     mc:Ignorable="d">
 
-    <Grid>
+    <Grid Background="#77FFFFFF">
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
             <ColumnDefinition Width="0.6*" />
@@ -21,6 +21,7 @@
         <TabControl
             Grid.Column="0"
             Margin="5"
+            Background="Transparent"
             Style="{StaticResource TabControlStyle_Main}">
             <TabControl.Resources>
                 <Style BasedOn="{StaticResource TabItemStyle_Main}" TargetType="{x:Type TabItem}" />
@@ -110,6 +111,7 @@
                     <ListView
                         Name="Rule_List"
                         Margin="5,600,5,5"
+                        Background="Transparent"
                         ScrollViewer.VerticalScrollBarVisibility="Visible"
                         SelectionMode="Single">
                         <ListView.View>
@@ -375,6 +377,7 @@
                 x:Name="TextBox_RuleLog"
                 Margin="0,5,5,5"
                 Padding="5"
+                Background="Transparent"
                 Cursor="Arrow"
                 DockPanel.Dock="Bottom"
                 HorizontalScrollBarVisibility="Disabled"

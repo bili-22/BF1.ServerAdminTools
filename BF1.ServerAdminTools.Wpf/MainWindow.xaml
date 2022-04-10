@@ -15,7 +15,7 @@
     WindowState="Maximized"
     mc:Ignorable="d">
 
-    <Grid>
+    <Grid Background="Transparent">
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition Height="40" />
@@ -30,6 +30,7 @@
             x:Name="TabControl_Main"
             Grid.Row="0"
             Margin="5"
+            Background="Transparent"
             Style="{StaticResource TabControlStyle_Main}">
             <TabControl.Resources>
                 <Style TargetType="{x:Type TabPanel}">
@@ -100,6 +101,7 @@
             Margin="5,0,5,5"
             LastChildFill="True">
             <Border
+                Background="#FFFFFF"
                 BorderBrush="{Binding ElementName=Border_OperateState, Path=Background}"
                 BorderThickness="1"
                 DockPanel.Dock="Right">

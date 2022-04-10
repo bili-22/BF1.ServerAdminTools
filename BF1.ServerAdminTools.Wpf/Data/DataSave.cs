@@ -31,4 +31,6 @@ public static class DataSave
     /// 已经发送踢出的ID
     /// </summary>
     public static Dictionary<long, BreakRuleInfo> NowKick { get; } = new();
+
+    public static WpfConfigObj Config { get; set; }
 }

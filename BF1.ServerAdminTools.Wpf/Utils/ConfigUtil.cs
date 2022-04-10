@@ -8,10 +8,13 @@ namespace BF1.ServerAdminTools.Common.Utils;
 internal static class ConfigUtil
 {
     public static string ServerRule { get; } = $"{ConfigLocal.Base}/ServerRule";
+    public static string Wpf { get; } = $"{ConfigLocal.Base}/Wpf";
+    public static string Self { get; } = $"{Wpf}/config.json";
 
     public static void Init()
     {
         Directory.CreateDirectory(ServerRule);
+        Directory.CreateDirectory(Wpf);
         NettyCore.InitConfig();
     }
 
@@ -51,7 +54,22 @@ internal static class ConfigUtil
             FileUtil.WriteFile($"{ServerRule}/default.json", JsonUtil.JsonSeri(rule));
         }
 
+        if (File.Exists(Self))
+        {
+            DataSave.Config = JsonUtil.JsonDese<WpfConfigObj>(File.ReadAllText(Self));
+        }
+        if (DataSave.Config == null)
+        {
+            DataSave.Config = new();
+            FileUtil.WriteFile(Self, JsonUtil.JsonSeri(DataSave.NowRule));
+        }
+
         NettyCore.LoadConfig();
+    }
+
+    public static void SaveConfig()
+    {
+        FileUtil.WriteFile(Self, JsonUtil.JsonSeri(DataSave.Config));
     }
 
     public static void DeleteRule(string name)

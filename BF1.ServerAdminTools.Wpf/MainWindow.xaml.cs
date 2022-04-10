@@ -1,6 +1,8 @@
-﻿using BF1.ServerAdminTools.Common.Models;
+﻿using BF1.ServerAdminTools.Common.Data;
+using BF1.ServerAdminTools.Common.Models;
 using BF1.ServerAdminTools.Common.Utils;
 using BF1.ServerAdminTools.Common.Views;
+using System.Windows.Media.Imaging;
 
 namespace BF1.ServerAdminTools.Common
 {
@@ -33,12 +35,27 @@ namespace BF1.ServerAdminTools.Common
 
         public MainWindow()
         {
+            ThisMainWindow = this;
             InitializeComponent();
 
             // 提示信息委托
             _SetOperatingState = SetOperatingState;
             // TabControl 选择切换委托
             _TabControlSelect = TabControlSelect;
+
+            BG();
+        }
+
+        public static void BG() 
+        {
+            if (!string.IsNullOrWhiteSpace(DataSave.Config.Bg) && File.Exists(DataSave.Config.Bg))
+            {
+                var image = new ImageBrush(new BitmapImage(new(@"C:\Users\40206\Desktop\illust_94899568_20220104_002837.png")))
+                {
+                    Stretch = Stretch.UniformToFill
+                };
+                ThisMainWindow.Background = image;
+            }
         }
 
         private void Window_Main_Loaded(object sender, RoutedEventArgs e)
@@ -46,8 +63,6 @@ namespace BF1.ServerAdminTools.Common
             MainModel = new MainModel();
 
             MainModel.AppRunTime = "运行时间 : Loading...";
-
-            ThisMainWindow = this;
 
             ////////////////////////////////
 
