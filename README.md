@@ -2,7 +2,7 @@
 
 一个方便服主和管理员管理服务器的工具
 
-* [官方网站](https://battlefield.vip/)  
+* [官方网站](https://bfkits.neocities.org/)  
 * [交流群：710801277](https://jq.qq.com/?_wv=1027&amp;k=ajEymecs)  
 * [爱发电](https://afdian.net/@crazyzhang)
 
