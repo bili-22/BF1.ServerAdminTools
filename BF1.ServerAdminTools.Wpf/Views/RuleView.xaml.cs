@@ -206,6 +206,7 @@ namespace BF1.ServerAdminTools.Common.Views
             List<PlayerData> players = new();
             while (true)
             {
+                Thread.Sleep(5000);
                 // 自动踢出违规玩家
                 if (DataSave.AutoKickBreakPlayer)
                 {
@@ -217,6 +218,9 @@ namespace BF1.ServerAdminTools.Common.Views
                             CheckBox_RunAutoKick.IsChecked = false;
                         });
                     }
+                    if (DataSave.NowRule.LifeMaxKD == 0 && DataSave.NowRule.LifeMaxKPM == 0
+                        && DataSave.NowRule.LifeMaxWeaponStar == 0 && DataSave.NowRule.LifeMaxVehicleStar == 0)
+                        continue;
 
                     lock (Globals.PlayerDatas_Team1)
                     {
@@ -232,8 +236,6 @@ namespace BF1.ServerAdminTools.Common.Views
                         CheckBreakLifePlayer(item);
                     }
                 }
-
-                Thread.Sleep(5000);
             }
         }
 
@@ -247,9 +249,18 @@ namespace BF1.ServerAdminTools.Common.Views
             if (DataSave.NowRule.Custom_WhiteList.Contains(data.Name))
                 return;
 
-            //已经不在服务器了
-            if (!Globals.PlayerDatas_Team1.ContainsKey(data.PersonaId) && !Globals.PlayerDatas_Team2.ContainsKey(data.PersonaId))
+            if (DataSave.NowKick.ContainsKey(data.PersonaId))
                 return;
+
+            lock (Globals.PlayerDatas_Team1)
+            {
+                lock (Globals.PlayerDatas_Team2) 
+                {
+                    //已经不在服务器了
+                    if (!Globals.PlayerDatas_Team1.ContainsKey(data.PersonaId) && !Globals.PlayerDatas_Team2.ContainsKey(data.PersonaId))
+                        return;
+                }
+            }
 
             var resultTemp = await ServerAPI.GetCareerForOwnedGamesByPersonaId(data.PersonaId.ToString());
 

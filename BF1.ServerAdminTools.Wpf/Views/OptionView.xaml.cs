@@ -42,8 +42,8 @@ namespace BF1.ServerAdminTools.Common.Views
             var obj = NettyCore.GetConfig();
             Server_Port.Text = obj.Port.ToString();
             Server_Key.Text = obj.ServerKey.ToString();
-            AutoRun.IsChecked = obj.AutoRun;
-            if (obj.AutoRun)
+            AutoRun.IsChecked = DataSave.Config.AutoRun;
+            if (DataSave.Config.AutoRun)
             {
                 try
                 {
@@ -140,9 +140,12 @@ namespace BF1.ServerAdminTools.Common.Views
             NettyCore.SetConfig(new ConfigNettyObj
             {
                 Port = port,
-                ServerKey = key,
-                AutoRun = AutoRun.IsChecked == true
+                ServerKey = key
             });
+
+            DataSave.Config.AutoRun = AutoRun.IsChecked == true;
+            ConfigUtil.SaveConfig();
+
             MainWindow._SetOperatingState(1, "设置成功");
             if (NettyCore.State)
                 try

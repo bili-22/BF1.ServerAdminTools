@@ -165,24 +165,30 @@
                         <TextBlock Text="{Binding ElementName=Slider_KeyPressDelay, Path=Value, StringFormat=按键间隔时间 : {0} 毫秒, FallbackValue='按键间隔时间 : NULL 毫秒'}" />
                         <Slider
                             x:Name="Slider_KeyPressDelay"
+                            Margin="5,0,5,0"
                             Maximum="500"
                             Minimum="50"
+                            Style="{StaticResource Slider}"
                             TickFrequency="10"
                             TickPlacement="None" />
                         <!--  ########  -->
                         <TextBlock Text="{Binding ElementName=Slider_AutoSendMsgSleep, Path=Value, StringFormat=文本间隔时间 : {0:0} 秒, FallbackValue='文本间隔时间 : NULL 秒'}" />
                         <Slider
                             x:Name="Slider_AutoSendMsgSleep"
+                            Margin="5,0,5,0"
                             Maximum="5"
                             Minimum="1"
+                            Style="{StaticResource Slider}"
                             TickFrequency="1"
                             TickPlacement="None" />
                         <!--  ########  -->
                         <TextBlock Text="{Binding ElementName=Slider_AutoSendMsg, Path=Value, StringFormat=定时器周期 : {0:0} 分钟, FallbackValue='定时器周期 : NULL 分钟'}" />
                         <Slider
                             x:Name="Slider_AutoSendMsg"
+                            Margin="5,0,5,5"
                             Maximum="10"
                             Minimum="3"
+                            Style="{StaticResource Slider}"
                             TickFrequency="1"
                             TickPlacement="None" />
                     </StackPanel>
