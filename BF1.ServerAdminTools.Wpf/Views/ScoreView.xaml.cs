@@ -137,14 +137,15 @@ namespace BF1.ServerAdminTools.Common.Views
                 //检查违规玩家
                 DataSave.BreakRuleInfo_PlayerList.Clear();
                 bool other = false;
-                if (DataSave.NowRule.SocreOtherRule != 0)
+                ServerRule rule = DataSave.NowRule;
+                if (DataSave.NowRule.ScoreOtherRule != 0 &&
+                    Math.Abs(Globals.ServerHook.Team1Score - Globals.ServerHook.Team2Score)
+                        > DataSave.NowRule.ScoreOtherRule)
                 {
-                    other = Math.Abs(Globals.ServerHook.Team1Score - Globals.ServerHook.Team2Score)
-                        > DataSave.NowRule.SocreOtherRule;
+                    other = DataSave.Rules.TryGetValue(DataSave.NowRule.OtherRule.ToLower(), out rule);
                 }
 
-                if (other && Globals.ServerHook.Team1Score < Globals.ServerHook.Team2Score
-                    && DataSave.Rules.TryGetValue(DataSave.NowRule.OtherRule, out var rule))
+                if (other && Globals.ServerHook.Team1Score < Globals.ServerHook.Team2Score)
                 {
                     foreach (var item in Globals.PlayerDatas_Team1.Values)
                     {
@@ -159,10 +160,8 @@ namespace BF1.ServerAdminTools.Common.Views
                     }
                 }
 
-                if (other && Globals.ServerHook.Team1Score > Globals.ServerHook.Team2Score
-                    && DataSave.Rules.TryGetValue(DataSave.NowRule.OtherRule, out rule))
+                if (other && Globals.ServerHook.Team1Score > Globals.ServerHook.Team2Score)
                 {
-
                     foreach (var item in Globals.PlayerDatas_Team2.Values)
                     {
                         CheckPlayerIsBreakRule(item, rule);

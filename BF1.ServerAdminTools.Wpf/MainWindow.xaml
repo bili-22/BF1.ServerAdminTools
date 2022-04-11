@@ -127,7 +127,8 @@
             VerticalAlignment="Top"
             Background="#22FFFFFF"
             Content="该版本为测试版"
-            FontSize="20" />
+            FontSize="20"
+            Visibility="Collapsed" />
         <StackPanel
             HorizontalAlignment="Right"
             VerticalAlignment="Top"

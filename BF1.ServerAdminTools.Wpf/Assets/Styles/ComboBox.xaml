@@ -6,7 +6,7 @@
                     <!--  下拉按钮内部背景色  -->
                     <Border
                         x:Name="Back"
-                        Background="#22898989"
+                        Background="Transparent"
                         BorderBrush="Transparent"
                         BorderThickness="1">
                         <!--  下拉按钮内边框  -->
@@ -137,7 +137,7 @@
                             <ColumnDefinition Width="0.3*" MaxWidth="30" />
                         </Grid.ColumnDefinitions>
                         <!--  文字区域背景和边线样式  -->
-                        <Rectangle Fill="#22898989" />
+                        <Rectangle Fill="Transparent" />
                         <TextBox
                             Grid.Column="0"
                             VerticalAlignment="Center"

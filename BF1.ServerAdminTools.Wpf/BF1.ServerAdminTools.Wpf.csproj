@@ -14,6 +14,8 @@
 		<ApplicationManifest>Properties\app.manifest</ApplicationManifest>
 		<SignAssembly>False</SignAssembly>
 		<DelaySign>False</DelaySign>
+		<ImplicitUsings>disable</ImplicitUsings>
+		<AssemblyName>BF1服管工具</AssemblyName>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

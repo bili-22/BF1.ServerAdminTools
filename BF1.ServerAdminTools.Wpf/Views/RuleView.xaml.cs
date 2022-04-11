@@ -102,7 +102,7 @@ namespace BF1.ServerAdminTools.Common.Views
             Slider_ScoreNotSwitchMap.Value = DataSave.NowRule.ScoreNotSwitchMap;
             CheckBox_SwitchMap.IsChecked = DataSave.NowRule.RandomSwitchMap;
 
-            Slider_SocreOtherRule.Value = DataSave.NowRule.SocreOtherRule;
+            Slider_SocreOtherRule.Value = DataSave.NowRule.ScoreOtherRule;
 
             Combo_Rule.Items.Add("");
 
@@ -747,6 +747,22 @@ namespace BF1.ServerAdminTools.Common.Views
                     AppendLog($"且分数差距达到{DataSave.NowRule.ScoreNotSwitchMap}不再自动换图");
                     AppendLog("\n");
                 }
+            }
+
+            if (DataSave.NowRule.ScoreOtherRule != 0)
+            {
+                AppendLog($"========== 劣势方规则 ==========");
+                AppendLog("");
+                AppendLog($"分数差距达到{DataSave.NowRule.ScoreOtherRule}劣势方使用规则{DataSave.NowRule.OtherRule}");
+                AppendLog("\n");
+                var rule = DataSave.Rules[DataSave.NowRule.OtherRule.ToLower()];
+
+                AppendLog($"玩家最高击杀限制 : {rule.MaxKill}");
+                AppendLog("");
+
+                AppendLog($"计算玩家KD的最低击杀数 : {rule.KDFlag}");
+                AppendLog($"玩家最高KD限制 : {rule.MaxKD}");
+                AppendLog("\n");
             }
 
             MainWindow._SetOperatingState(1, $"查询当前规则成功，请点击<检查违规玩家>测试是否正确");
