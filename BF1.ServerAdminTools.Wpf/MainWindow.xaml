@@ -24,28 +24,6 @@
             <RowDefinition />
             <RowDefinition Height="40" />
         </Grid.RowDefinitions>
-        <Label
-            Margin="0,0,5,0"
-            HorizontalAlignment="Left"
-            Content="该版本为预览版"
-            FontSize="20" />
-        <StackPanel
-            HorizontalAlignment="Right"
-            VerticalAlignment="Top"
-            Orientation="Horizontal">
-            <Button
-                Width="30"
-                Height="30"
-                Padding="5"
-                Content="—"
-                Style="{StaticResource ButtonStyle_Web}" />
-            <Button
-                Width="30"
-                Height="30"
-                Padding="5"
-                Content="X"
-                Style="{StaticResource ButtonStyle_Web}" />
-        </StackPanel>
         <!--  #############################################################################  -->
         <TabControl
             x:Name="TabControl_Main"
@@ -143,5 +121,30 @@
                     ToolTip="{Binding ElementName=TextBlock_OperateState, Path=Text}" />
             </Border>
         </DockPanel>
+        <Label
+            Margin="0,0,5,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Background="#22FFFFFF"
+            Content="该版本为预览版"
+            FontSize="20" />
+        <StackPanel
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Orientation="Horizontal">
+            <Button
+                Width="30"
+                Height="30"
+                Padding="5"
+                Content="—"
+                Style="{StaticResource ButtonStyle_Web}" Click="Button_Click_1" />
+            <Button
+                Width="30"
+                Height="30"
+                Padding="5"
+                Click="Button_Click"
+                Content="X"
+                Style="{StaticResource ButtonStyle_Web}" />
+        </StackPanel>
     </Grid>
 </Window>

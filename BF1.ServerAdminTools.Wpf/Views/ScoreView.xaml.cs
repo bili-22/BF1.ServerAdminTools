@@ -4,6 +4,7 @@ using BF1.ServerAdminTools.Common.Extension;
 using BF1.ServerAdminTools.Common.Models;
 using BF1.ServerAdminTools.Common.Utils;
 using BF1.ServerAdminTools.Common.Windows;
+using BF1.ServerAdminTools.Wpf.Data;
 
 namespace BF1.ServerAdminTools.Common.Views
 {
@@ -135,14 +136,46 @@ namespace BF1.ServerAdminTools.Common.Views
                 ////////////////////////////////////////////////////////////////////////////////
                 //检查违规玩家
                 DataSave.BreakRuleInfo_PlayerList.Clear();
-
-                foreach (var item in Globals.PlayerDatas_Team1.Values)
+                bool other = false;
+                if (DataSave.NowRule.SocreOtherRule != 0)
                 {
-                    CheckPlayerIsBreakRule(item);
+                    other = Math.Abs(Globals.ServerHook.Team1Score - Globals.ServerHook.Team2Score)
+                        > DataSave.NowRule.SocreOtherRule;
                 }
-                foreach (var item in Globals.PlayerDatas_Team2.Values)
+
+                if (other && Globals.ServerHook.Team1Score < Globals.ServerHook.Team2Score
+                    && DataSave.Rules.TryGetValue(DataSave.NowRule.OtherRule, out var rule))
                 {
-                    CheckPlayerIsBreakRule(item);
+                    foreach (var item in Globals.PlayerDatas_Team1.Values)
+                    {
+                        CheckPlayerIsBreakRule(item, rule);
+                    }
+                }
+                else
+                {
+                    foreach (var item in Globals.PlayerDatas_Team1.Values)
+                    {
+                        CheckPlayerIsBreakRule(item, DataSave.NowRule);
+                    }
+                }
+
+                if (other && Globals.ServerHook.Team1Score > Globals.ServerHook.Team2Score
+                    && DataSave.Rules.TryGetValue(DataSave.NowRule.OtherRule, out rule))
+                {
+
+                    foreach (var item in Globals.PlayerDatas_Team2.Values)
+                    {
+                        CheckPlayerIsBreakRule(item, rule);
+                    }
+                }
+                else
+                {
+                    foreach (var item in Globals.PlayerDatas_Team2.Values)
+                    {
+
+                        CheckPlayerIsBreakRule(item, DataSave.NowRule);
+                    }
+
                 }
                 // 自动踢出违规玩家
                 AutoKickBreakPlayer();
@@ -416,22 +449,22 @@ namespace BF1.ServerAdminTools.Common.Views
         }
 
         #region 检查玩家是否违规
-        private void CheckPlayerIsBreakRule(PlayerData playerData)
+        private void CheckPlayerIsBreakRule(PlayerData playerData, ServerRule rule)
         {
-            if (DataSave.NowRule == null)
+            if (rule == null || DataSave.NowRule == null)
                 return;
 
             if (DataSave.BreakRuleInfo_PlayerList.ContainsKey(playerData.PersonaId))
                 return;
 
             // 限制玩家击杀
-            if (playerData.Kill > DataSave.NowRule.MaxKill && DataSave.NowRule.MaxKill != 0)
+            if (playerData.Kill > rule.MaxKill && rule.MaxKill != 0)
             {
                 DataSave.BreakRuleInfo_PlayerList.Add(playerData.PersonaId, new BreakRuleInfo
                 {
                     Name = playerData.Name,
                     PersonaId = playerData.PersonaId,
-                    Reason = $"Kill Limit {DataSave.NowRule.MaxKill:0}",
+                    Reason = $"Kill Limit {rule.MaxKill:0}",
                     Type = BreakType.Kill_Limit
                 });
 
@@ -439,16 +472,16 @@ namespace BF1.ServerAdminTools.Common.Views
             }
 
             // 计算玩家KD最低击杀数
-            if (playerData.Kill > DataSave.NowRule.KDFlag && DataSave.NowRule.KDFlag != 0)
+            if (playerData.Kill > rule.KDFlag && rule.KDFlag != 0)
             {
                 // 限制玩家KD
-                if (playerData.KD > DataSave.NowRule.MaxKD && DataSave.NowRule.MaxKD != 0.00f)
+                if (playerData.KD > rule.MaxKD && rule.MaxKD != 0.00f)
                 {
                     DataSave.BreakRuleInfo_PlayerList.Add(playerData.PersonaId, new BreakRuleInfo
                     {
                         Name = playerData.Name,
                         PersonaId = playerData.PersonaId,
-                        Reason = $"KD Limit {DataSave.NowRule.MaxKD:0.00}",
+                        Reason = $"KD Limit {rule.MaxKD:0.00}",
                         Type = BreakType.KD_Limit
                     });
                 }
@@ -457,16 +490,16 @@ namespace BF1.ServerAdminTools.Common.Views
             }
 
             // 计算玩家KPM比条件
-            if (playerData.Kill > DataSave.NowRule.KPMFlag && DataSave.NowRule.KPMFlag != 0)
+            if (playerData.Kill > rule.KPMFlag && rule.KPMFlag != 0)
             {
                 // 限制玩家KPM
-                if (playerData.KPM > DataSave.NowRule.MaxKPM && DataSave.NowRule.MaxKPM != 0.00f)
+                if (playerData.KPM > rule.MaxKPM && rule.MaxKPM != 0.00f)
                 {
                     DataSave.BreakRuleInfo_PlayerList.Add(playerData.PersonaId, new BreakRuleInfo
                     {
                         Name = playerData.Name,
                         PersonaId = playerData.PersonaId,
-                        Reason = $"KPM Limit {DataSave.NowRule.MaxKPM:0.00}",
+                        Reason = $"KPM Limit {rule.MaxKPM:0.00}",
                         Type = BreakType.KPM_Limit
                     });
                 }
@@ -475,13 +508,14 @@ namespace BF1.ServerAdminTools.Common.Views
             }
 
             // 限制玩家最低等级
-            if (playerData.Rank < DataSave.NowRule.MinRank && DataSave.NowRule.MinRank != 0 && playerData.Rank != 0)
+            if (playerData.Rank < DataSave.NowRule.MinRank 
+                && DataSave.NowRule.MinRank != 0 && playerData.Rank != 0)
             {
                 DataSave.BreakRuleInfo_PlayerList.Add(playerData.PersonaId, new BreakRuleInfo
                 {
                     Name = playerData.Name,
                     PersonaId = playerData.PersonaId,
-                    Reason = $"Min Rank Limit {DataSave.NowRule.MinRank:0}",
+                    Reason = $"Min Rank Limit {rule.MinRank:0}",
                     Type = BreakType.Min_Rank_Limit
                 });
 
@@ -489,13 +523,14 @@ namespace BF1.ServerAdminTools.Common.Views
             }
 
             // 限制玩家最高等级
-            if (playerData.Rank > DataSave.NowRule.MaxRank && DataSave.NowRule.MaxRank != 0 && playerData.Rank != 0)
+            if (playerData.Rank > DataSave.NowRule.MaxRank 
+                && DataSave.NowRule.MaxRank != 0 && playerData.Rank != 0)
             {
                 DataSave.BreakRuleInfo_PlayerList.Add(playerData.PersonaId, new BreakRuleInfo
                 {
                     Name = playerData.Name,
                     PersonaId = playerData.PersonaId,
-                    Reason = $"Max Rank Limit {DataSave.NowRule.MaxRank:0}",
+                    Reason = $"Max Rank Limit {rule.MaxRank:0}",
                     Type = BreakType.Max_Rank_Limit
                 });
 

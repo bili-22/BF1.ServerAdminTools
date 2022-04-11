@@ -189,5 +189,15 @@ namespace BF1.ServerAdminTools.Common
         {
             TabControl_Main.SelectedIndex = index;
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            WindowState = WindowState.Minimized;
+        }
     }
 }

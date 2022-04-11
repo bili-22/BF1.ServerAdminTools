@@ -14,7 +14,7 @@ public static class ServerAPI
     /// <summary>
     /// 初始化RestSharp
     /// </summary>
-    public static void Init()
+    static ServerAPI()
     {
         if (client == null)
         {

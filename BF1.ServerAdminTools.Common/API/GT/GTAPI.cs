@@ -14,7 +14,7 @@ public static class GTAPI
     /// <summary>
     /// 初始化RestSharp
     /// </summary>
-    public static void Init()
+    static GTAPI()
     {
         if (client == null)
         {

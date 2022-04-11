@@ -115,18 +115,16 @@ namespace BF1.ServerAdminTools.Common.Views
                 }
             }
 
-            if (!string.IsNullOrWhiteSpace(DataSave.NowRule.OtherRule))
+            if (!string.IsNullOrEmpty(DataSave.NowRule.OtherRule))
             {
                 var temp = DataSave.NowRule.OtherRule.ToLower();
                 if (!DataSave.Rules.ContainsKey(temp) || DataSave.NowRule.OtherRule == DataSave.NowRule.Name)
                 {
                     DataSave.NowRule.OtherRule = "";
                 }
-                else
-                {
-                    ListBox_BreakWeaponInfo.SelectedItem = DataSave.NowRule.OtherRule;
-                }
             }
+
+            ListBox_BreakWeaponInfo.SelectedItem = DataSave.NowRule.OtherRule;
 
             ListBox_BreakWeaponInfo.Items.Clear();
             foreach (var item in DataSave.NowRule.Custom_WeaponList)
@@ -575,8 +573,9 @@ namespace BF1.ServerAdminTools.Common.Views
             if (DataSave.NowRule == item)
             {
                 DataSave.NowRule = DataSave.Rules["default"];
-                LoadRule();
             }
+
+            LoadRule();
 
             var name = item.Name.ToLower().Trim();
 

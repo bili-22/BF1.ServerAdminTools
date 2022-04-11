@@ -242,6 +242,9 @@
                         Height="24"
                         Margin="5,5,5,0"
                         IsReadOnly="True" />
+                    <TextBlock Foreground="Green" TextWrapping="Wrap">
+                        说明：其他规则只会生效 击杀，KD，KPM
+                    </TextBlock>
                 </StackPanel>
             </TabItem>
             <!--  ################################  -->

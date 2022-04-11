@@ -51,12 +51,6 @@ namespace BF1.ServerAdminTools.Common
                 ConfigUtil.LoadAll();
                 Core.SQLInit();
 
-                ServerAPI.Init();
-                Core.LogInfo("战地1ServerAPI模块初始化成功");
-
-                GTAPI.Init();
-                Core.LogInfo("GameToolsAPI模块初始化成功");
-
                 ImageData.InitDict();
                 Core.LogInfo("本地图片缓存库初始化成功");
 
