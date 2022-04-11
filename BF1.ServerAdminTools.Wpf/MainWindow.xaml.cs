@@ -2,6 +2,7 @@
 using BF1.ServerAdminTools.Common.Models;
 using BF1.ServerAdminTools.Common.Utils;
 using BF1.ServerAdminTools.Common.Views;
+using BF1.ServerAdminTools.Wpf.Utils;
 using System.Windows.Media.Imaging;
 
 namespace BF1.ServerAdminTools.Common
@@ -26,6 +27,8 @@ namespace BF1.ServerAdminTools.Common
 
         public static MainWindow ThisMainWindow;
 
+        public BlurUtil blur; 
+
         public MainModel MainModel { get; set; }
 
         // 声明一个变量，用于存储软件开始运行的时间
@@ -43,23 +46,30 @@ namespace BF1.ServerAdminTools.Common
             // TabControl 选择切换委托
             _TabControlSelect = TabControlSelect;
 
+            blur = new BlurUtil(this);
             BG();
         }
 
-        public static void BG() 
+        public static void BG()
         {
             if (!string.IsNullOrWhiteSpace(DataSave.Config.Bg) && File.Exists(DataSave.Config.Bg))
             {
                 var image = new ImageBrush(new BitmapImage(new(DataSave.Config.Bg)))
                 {
-                    Stretch = Stretch.UniformToFill
+                    Stretch = Stretch.UniformToFill,
+                    Opacity = DataSave.Config.Window_O ? (double)DataSave.Config.Bg_O / 100 : 1
                 };
                 ThisMainWindow.Background = image;
             }
             else
             {
-                ThisMainWindow.Background = Brushes.White;
+                if (DataSave.Config.Window_O)
+                    ThisMainWindow.Background = Brushes.Transparent;
+                else
+                    ThisMainWindow.Background = Brushes.White;
             }
+
+            ThisMainWindow.blur.Composite(Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFF), DataSave.Config.Window_O);
         }
 
         private void Window_Main_Loaded(object sender, RoutedEventArgs e)
@@ -95,6 +105,7 @@ namespace BF1.ServerAdminTools.Common
                 Core.LogInfo($"中文聊天指针分配成功 0x{Core.MsgGetAllocateMemoryAddress():x}");
             else
                 Core.LogError($"中文聊天指针分配失败");
+
         }
 
         private void Window_Main_Closing(object sender, CancelEventArgs e)

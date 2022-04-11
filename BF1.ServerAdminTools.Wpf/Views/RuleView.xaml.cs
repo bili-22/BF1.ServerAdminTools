@@ -65,6 +65,9 @@ namespace BF1.ServerAdminTools.Common.Views
 
         private void LoadRule()
         {
+            Combo_Rule.SelectedItem = null;
+            Combo_Rule.Items.Clear();
+
             NowName.Text = DataSave.NowRule.Name;
 
             if (DataSave.NowRule.Custom_WeaponList == null)
@@ -94,9 +97,36 @@ namespace BF1.ServerAdminTools.Common.Views
             Slider_LifeMaxKPM.Value = DataSave.NowRule.LifeMaxKPM;
             Slider_LifeMaxWeaponStar.Value = DataSave.NowRule.LifeMaxWeaponStar;
             Slider_LifeMaxVehicleStar.Value = DataSave.NowRule.LifeMaxVehicleStar;
+
             Slider_ScoreSwitchMap.Value = DataSave.NowRule.ScoreSwitchMap;
             Slider_ScoreNotSwitchMap.Value = DataSave.NowRule.ScoreNotSwitchMap;
             CheckBox_SwitchMap.IsChecked = DataSave.NowRule.RandomSwitchMap;
+
+            Slider_SocreOtherRule.Value = DataSave.NowRule.SocreOtherRule;
+
+            Combo_Rule.Items.Add("");
+
+            var self = DataSave.NowRule.Name.ToLower();
+            foreach (var item in DataSave.Rules)
+            {
+                if (item.Key != self)
+                {
+                    Combo_Rule.Items.Add(item.Value.Name);
+                }
+            }
+
+            if (!string.IsNullOrWhiteSpace(DataSave.NowRule.OtherRule))
+            {
+                var temp = DataSave.NowRule.OtherRule.ToLower();
+                if (!DataSave.Rules.ContainsKey(temp) || DataSave.NowRule.OtherRule == DataSave.NowRule.Name)
+                {
+                    DataSave.NowRule.OtherRule = "";
+                }
+                else
+                {
+                    ListBox_BreakWeaponInfo.SelectedItem = DataSave.NowRule.OtherRule;
+                }
+            }
 
             ListBox_BreakWeaponInfo.Items.Clear();
             foreach (var item in DataSave.NowRule.Custom_WeaponList)
@@ -506,6 +536,8 @@ namespace BF1.ServerAdminTools.Common.Views
             DataSave.Rules.Add(name.ToLower(), rule);
             Rule_List.Items.Add(rule);
             ConfigUtil.SaveRule(rule);
+
+            LoadRule();
 
             Rule_List.SelectedItem = null;
         }

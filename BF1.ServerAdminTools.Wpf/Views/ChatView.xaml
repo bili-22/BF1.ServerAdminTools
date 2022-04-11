@@ -122,7 +122,6 @@
                     </Image.ToolTip>
                 </Image>
             </StackPanel>
-            <!--  ################################  -->
             <StackPanel>
                 <TextBlock Style="{StaticResource TextBlockStyle_Title}" Text="定时发送指定文本" />
                 <GroupBox
@@ -161,7 +160,6 @@
                                 <Setter Property="IsSnapToTickEnabled" Value="True" />
                             </Style>
                         </StackPanel.Resources>
-                        <!--  ########  -->
                         <TextBlock Text="{Binding ElementName=Slider_KeyPressDelay, Path=Value, StringFormat=按键间隔时间 : {0} 毫秒, FallbackValue='按键间隔时间 : NULL 毫秒'}" />
                         <Slider
                             x:Name="Slider_KeyPressDelay"
@@ -171,7 +169,6 @@
                             Style="{StaticResource Slider}"
                             TickFrequency="10"
                             TickPlacement="None" />
-                        <!--  ########  -->
                         <TextBlock Text="{Binding ElementName=Slider_AutoSendMsgSleep, Path=Value, StringFormat=文本间隔时间 : {0:0} 秒, FallbackValue='文本间隔时间 : NULL 秒'}" />
                         <Slider
                             x:Name="Slider_AutoSendMsgSleep"
@@ -181,7 +178,6 @@
                             Style="{StaticResource Slider}"
                             TickFrequency="1"
                             TickPlacement="None" />
-                        <!--  ########  -->
                         <TextBlock Text="{Binding ElementName=Slider_AutoSendMsg, Path=Value, StringFormat=定时器周期 : {0:0} 分钟, FallbackValue='定时器周期 : NULL 分钟'}" />
                         <Slider
                             x:Name="Slider_AutoSendMsg"
@@ -209,7 +205,6 @@
                     Foreground="Green"
                     Text="说明：上述设置如果调整了需要重新勾选《启用定时发送指定文本》才会生效"
                     TextWrapping="Wrap" />
-                <!--  ################  -->
                 <TextBlock Style="{StaticResource TextBlockStyle_Title}" Text="挂机防踢" />
                 <CheckBox
                     x:Name="CheckBox_ActiveNoAFK"
@@ -223,8 +218,6 @@
                     Text="原理：每隔30秒自动按一次Tab键持续3秒并把游戏窗口置前"
                     TextWrapping="Wrap" />
             </StackPanel>
-            <!--  ################################  -->
-            <StackPanel />
         </UniformGrid>
     </Grid>
 </UserControl>

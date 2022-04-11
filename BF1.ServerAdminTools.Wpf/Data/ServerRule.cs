@@ -23,6 +23,9 @@ public record ServerRule
     public int ScoreNotSwitchMap { get; set; }
     public bool RandomSwitchMap { get; set; }
 
+    public int SocreOtherRule { get; set; }
+    public string OtherRule { get; set; }
+
     /// <summary>
     /// 保存限制武器名称列表
     /// </summary>

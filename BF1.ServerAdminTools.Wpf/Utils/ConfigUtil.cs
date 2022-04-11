@@ -60,7 +60,12 @@ internal static class ConfigUtil
         }
         if (DataSave.Config == null)
         {
-            DataSave.Config = new();
+            DataSave.Config = new()
+            { 
+                AutoRun = true,
+                Bg_O = 20,
+                Window_O = true
+            };
             FileUtil.WriteFile(Self, JsonUtil.JsonSeri(DataSave.NowRule));
         }
 

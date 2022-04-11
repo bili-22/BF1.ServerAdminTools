@@ -109,7 +109,7 @@
                                 <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource Self}}" Value="false" />
                                 <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Top" />
                             </MultiDataTrigger.Conditions>
-                            <Setter TargetName="mainBorder" Property="Background" Value="White" />
+                            <Setter TargetName="mainBorder" Property="Background" Value="#55FFFFFF" />
                             <Setter TargetName="mainBorder" Property="BorderThickness" Value="0,0,0,1" />
                         </MultiDataTrigger>
                         <MultiDataTrigger>
@@ -118,7 +118,7 @@
                                 <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Top" />
                             </MultiDataTrigger.Conditions>
                             <Setter Property="Panel.ZIndex" Value="1" />
-                            <Setter TargetName="mainBorder" Property="Background" Value="White" />
+                            <Setter TargetName="mainBorder" Property="Background" Value="#99FFFFFF" />
                             <Setter TargetName="mainBorder" Property="BorderThickness" Value="1,1,1,0" />
                             <Setter TargetName="secondBorder" Property="Margin" Value="-1" />
                             <Setter TargetName="secondBorder" Property="BorderBrush" Value="#0078d4" />

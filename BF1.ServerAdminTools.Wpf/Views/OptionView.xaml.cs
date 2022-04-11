@@ -43,6 +43,8 @@ namespace BF1.ServerAdminTools.Common.Views
             Server_Port.Text = obj.Port.ToString();
             Server_Key.Text = obj.ServerKey.ToString();
             AutoRun.IsChecked = DataSave.Config.AutoRun;
+            Slider_BG_O.Value = DataSave.Config.Bg_O;
+            Window_O.IsChecked = DataSave.Config.Window_O;
             if (DataSave.Config.AutoRun)
             {
                 try
@@ -204,6 +206,15 @@ namespace BF1.ServerAdminTools.Common.Views
         private void Button_Click_4(object sender, RoutedEventArgs e)
         {
             DataSave.Config.Bg = "";
+            ConfigUtil.SaveConfig();
+
+            MainWindow.BG();
+        }
+
+        private void Button_Click_5(object sender, RoutedEventArgs e)
+        {
+            DataSave.Config.Window_O = Window_O.IsChecked == true;
+            DataSave.Config.Bg_O = (int)Slider_BG_O.Value;
             ConfigUtil.SaveConfig();
 
             MainWindow.BG();

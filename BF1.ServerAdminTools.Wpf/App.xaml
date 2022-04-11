@@ -28,6 +28,7 @@
                 <ResourceDictionary Source="Assets/Styles/Slider.xaml" />
 
                 <ResourceDictionary Source="Assets/Styles/ListBoxStyle.xaml" />
+                <ResourceDictionary Source="Assets/Styles/ComboBox.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

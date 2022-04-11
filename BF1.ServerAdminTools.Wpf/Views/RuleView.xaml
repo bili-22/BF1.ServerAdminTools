@@ -227,6 +227,21 @@
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         Content="随机换图" />
+                    <TextBlock />
+                    <TextBlock Text="{Binding ElementName=Slider_SocreOtherRule, Path=Value, StringFormat=分差达到 : {0:0} 后劣势方使用其他规则, FallbackValue='分差达到 : 后劣势方使用其他规则'}" />
+                    <Slider
+                        x:Name="Slider_SocreOtherRule"
+                        Margin="5,0,5,0"
+                        Maximum="300"
+                        Minimum="0"
+                        Style="{StaticResource Slider}"
+                        TickFrequency="1"
+                        TickPlacement="None" />
+                    <ComboBox
+                        Name="Combo_Rule"
+                        Height="24"
+                        Margin="5,5,5,0"
+                        IsReadOnly="True" />
                 </StackPanel>
             </TabItem>
             <!--  ################################  -->

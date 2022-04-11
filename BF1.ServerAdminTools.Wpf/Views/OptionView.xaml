@@ -112,18 +112,50 @@
                     </UniformGrid>
                 </StackPanel>
             </GroupBox>
-            <GroupBox Margin="0,-2,0,0" Header="换老婆">
-                <UniformGrid Columns="2">
-                    <Button
-                        VerticalAlignment="Center"
-                        Click="Button_Click_3"
-                        Content="选择"
-                        Style="{StaticResource ButtonStyle_Web}" />
-                    <Button
-                        VerticalAlignment="Center"
-                        Content="删除"
-                        Style="{StaticResource ButtonStyle_Web}" Click="Button_Click_4" />
-                </UniformGrid>
+            <GroupBox Margin="0,-2,0,0" Header="背景图">
+                <StackPanel>
+                    <UniformGrid Columns="2">
+                        <Button
+                            VerticalAlignment="Center"
+                            Click="Button_Click_3"
+                            Content="选择"
+                            Style="{StaticResource ButtonStyle_Web}" />
+                        <Button
+                            VerticalAlignment="Center"
+                            Click="Button_Click_4"
+                            Content="删除"
+                            Style="{StaticResource ButtonStyle_Web}" />
+                    </UniformGrid>
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox
+                            x:Name="Window_O"
+                            Margin="5,0,20,0"
+                            VerticalAlignment="Center"
+                            Content="启用窗口虚化" />
+                        <TextBlock
+                            Width="120"
+                            Margin="0,0,5,0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Block.TextAlignment="Left"
+                            Text="{Binding ElementName=Slider_BG_O, Path=Value, StringFormat=背景透明度 : {0:0}, FallbackValue='背景透明度 : '}" />
+                        <Slider
+                            x:Name="Slider_BG_O"
+                            Width="200"
+                            LargeChange="10"
+                            Maximum="100"
+                            Minimum="0"
+                            SmallChange="1"
+                            Style="{StaticResource Slider}"
+                            Value="20" />
+                        <Button
+                            Margin="10,5,5,5"
+                            HorizontalAlignment="Right"
+                            Click="Button_Click_5"
+                            Content="保存"
+                            Style="{StaticResource ButtonStyle_Web}" />
+                    </StackPanel>
+                </StackPanel>
             </GroupBox>
         </StackPanel>
     </Grid>

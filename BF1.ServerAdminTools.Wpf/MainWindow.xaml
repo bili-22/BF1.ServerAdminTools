@@ -9,22 +9,43 @@
     Title="战地1服务器管理工具-预览版"
     Width="1920"
     Height="1080"
+    Background="Transparent"
     Closing="Window_Main_Closing"
     Loaded="Window_Main_Loaded"
     WindowStartupLocation="CenterScreen"
-    WindowState="Maximized"
     mc:Ignorable="d">
 
-    <Grid Background="Transparent">
+    <WindowChrome.WindowChrome>
+        <WindowChrome GlassFrameThickness="0 1 0 0" />
+    </WindowChrome.WindowChrome>
+
+    <Grid Margin="5,15,5,5" Background="Transparent">
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition Height="40" />
         </Grid.RowDefinitions>
         <Label
             Margin="0,0,5,0"
-            HorizontalAlignment="Right"
+            HorizontalAlignment="Left"
             Content="该版本为预览版"
             FontSize="20" />
+        <StackPanel
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Orientation="Horizontal">
+            <Button
+                Width="30"
+                Height="30"
+                Padding="5"
+                Content="—"
+                Style="{StaticResource ButtonStyle_Web}" />
+            <Button
+                Width="30"
+                Height="30"
+                Padding="5"
+                Content="X"
+                Style="{StaticResource ButtonStyle_Web}" />
+        </StackPanel>
         <!--  #############################################################################  -->
         <TabControl
             x:Name="TabControl_Main"
