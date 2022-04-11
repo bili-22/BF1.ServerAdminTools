@@ -50,11 +50,15 @@ namespace BF1.ServerAdminTools.Common
         {
             if (!string.IsNullOrWhiteSpace(DataSave.Config.Bg) && File.Exists(DataSave.Config.Bg))
             {
-                var image = new ImageBrush(new BitmapImage(new(@"C:\Users\40206\Desktop\illust_94899568_20220104_002837.png")))
+                var image = new ImageBrush(new BitmapImage(new(DataSave.Config.Bg)))
                 {
                     Stretch = Stretch.UniformToFill
                 };
                 ThisMainWindow.Background = image;
+            }
+            else
+            {
+                ThisMainWindow.Background = Brushes.White;
             }
         }
 

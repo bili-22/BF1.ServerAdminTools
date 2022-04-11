@@ -200,5 +200,13 @@ namespace BF1.ServerAdminTools.Common.Views
 
             MainWindow.BG();
         }
+
+        private void Button_Click_4(object sender, RoutedEventArgs e)
+        {
+            DataSave.Config.Bg = "";
+            ConfigUtil.SaveConfig();
+
+            MainWindow.BG();
+        }
     }
 }

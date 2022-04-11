@@ -16,8 +16,32 @@ namespace BF1.ServerAdminTools.Common.Views
 
         private int queueMsgSleep = 1;
 
+        public ICommand SendChsMessageCommand { get; set; } 
+
+        public class Comm : ICommand
+        {
+            public ChatView ChatView;
+
+            public Comm(ChatView view) 
+            {
+                ChatView = view;
+            }
+            public event EventHandler? CanExecuteChanged;
+
+            public bool CanExecute(object? parameter)
+            {
+                return true;
+            }
+
+            public void Execute(object? parameter)
+            {
+                ChatView.SendChsMessage(null,null);
+            }
+        }
+
         public ChatView()
         {
+            SendChsMessageCommand = new Comm(this);
             InitializeComponent();
 
             this.DataContext = this;

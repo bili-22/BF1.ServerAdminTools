@@ -113,12 +113,17 @@
                 </StackPanel>
             </GroupBox>
             <GroupBox Margin="0,-2,0,0" Header="换老婆">
-                <Grid Margin="5">
+                <UniformGrid Columns="2">
                     <Button
+                        VerticalAlignment="Center"
                         Click="Button_Click_3"
-                        Content="选择老婆"
+                        Content="选择"
                         Style="{StaticResource ButtonStyle_Web}" />
-                </Grid>
+                    <Button
+                        VerticalAlignment="Center"
+                        Content="删除"
+                        Style="{StaticResource ButtonStyle_Web}" Click="Button_Click_4" />
+                </UniformGrid>
             </GroupBox>
         </StackPanel>
     </Grid>
