@@ -126,7 +126,7 @@
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Background="#22FFFFFF"
-            Content="该版本为预览版"
+            Content="该版本为测试版"
             FontSize="20" />
         <StackPanel
             HorizontalAlignment="Right"
@@ -136,8 +136,9 @@
                 Width="30"
                 Height="30"
                 Padding="5"
+                Click="Button_Click_1"
                 Content="—"
-                Style="{StaticResource ButtonStyle_Web}" Click="Button_Click_1" />
+                Style="{StaticResource ButtonStyle_Web}" />
             <Button
                 Width="30"
                 Height="30"
