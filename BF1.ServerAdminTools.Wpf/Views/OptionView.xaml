@@ -142,6 +142,7 @@
                         <Slider
                             x:Name="Slider_BG_O"
                             Width="200"
+                            IsEnabled="{Binding ElementName=Window_O, Path=IsChecked}"
                             LargeChange="10"
                             Maximum="100"
                             Minimum="0"

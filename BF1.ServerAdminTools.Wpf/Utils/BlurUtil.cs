@@ -18,25 +18,14 @@ public class BlurUtil
     /// <param name="window">要创建模糊特效的窗口实例。</param>
     public BlurUtil(Window window) => _window = window ?? throw new ArgumentNullException(nameof(window));
 
-    public void Composite(Color color, bool open)
+    public void Composite(bool open)
     {
         Window window = _window;
         var handle = new WindowInteropHelper(window).EnsureHandle();
-
-        var gradientColor =
-            // 组装红色分量。
-            color.R << 0 |
-            // 组装绿色分量。
-            color.G << 8 |
-            // 组装蓝色分量。
-            color.B << 16 |
-            // 组装透明分量。
-            color.A << 24;
-
-        Composite(handle, gradientColor, open ? AccentState.ACCENT_ENABLE_BLURBEHIND : AccentState.ACCENT_DISABLED);
+        Composite(handle, open ? AccentState.ACCENT_ENABLE_BLURBEHIND : AccentState.ACCENT_DISABLED);
     }
 
-    private void Composite(IntPtr handle, int color, AccentState state)
+    private void Composite(IntPtr handle, AccentState state)
     {
         // 创建 AccentPolicy 对象。
         var accent = new AccentPolicy

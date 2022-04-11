@@ -69,7 +69,7 @@ namespace BF1.ServerAdminTools.Common
                     ThisMainWindow.Background = Brushes.White;
             }
 
-            ThisMainWindow.blur.Composite(Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFF), DataSave.Config.Window_O);
+            ThisMainWindow.blur.Composite(DataSave.Config.Window_O);
         }
 
         private void Window_Main_Loaded(object sender, RoutedEventArgs e)
