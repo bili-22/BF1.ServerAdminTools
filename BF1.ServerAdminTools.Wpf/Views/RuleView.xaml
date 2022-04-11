@@ -203,6 +203,30 @@
                     <TextBlock Foreground="Green" TextWrapping="Wrap">
                         提示：生涯KD和KPM是玩家只要进入服务器就开始查询计算
                     </TextBlock>
+                    <TextBlock Text="{Binding ElementName=Slider_ScoreSwitchMap, Path=Value, StringFormat=分差达到 : {0:0} 后自动换图, FallbackValue='分差达到 : 后自动换图'}" />
+                    <Slider
+                        x:Name="Slider_ScoreSwitchMap"
+                        Margin="5,0,5,0"
+                        Maximum="300"
+                        Minimum="0"
+                        Style="{StaticResource Slider}"
+                        TickFrequency="1"
+                        TickPlacement="None" />
+                    <TextBlock Text="{Binding ElementName=Slider_ScoreNotSwitchMap, Path=Value, StringFormat=分数达到 : {0:0} 后不再换图, FallbackValue='分数达到 : 后不再换图'}" />
+                    <Slider
+                        x:Name="Slider_ScoreNotSwitchMap"
+                        Margin="5,0,5,0"
+                        Maximum="900"
+                        Minimum="0"
+                        Style="{StaticResource Slider}"
+                        TickFrequency="1"
+                        TickPlacement="None" />
+                    <CheckBox
+                        Name="CheckBox_SwitchMap"
+                        Margin="5,5,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Content="随机换图" />
                 </StackPanel>
             </TabItem>
             <!--  ################################  -->

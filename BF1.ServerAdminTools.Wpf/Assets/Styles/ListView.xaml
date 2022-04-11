@@ -239,7 +239,7 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="HeaderBorder" Property="Background" Value="#FF1E88E5" />
-                            <Setter TargetName="PART_HeaderGripper" Property="Background" Value="Transparent" />
+                            <Setter TargetName="PART_HeaderGripper" Property="Background" Value="#991E88E5" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
                             <Setter TargetName="HeaderBorder" Property="Background" Value="#CC1E88E5" />

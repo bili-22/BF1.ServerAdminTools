@@ -146,11 +146,77 @@ namespace BF1.ServerAdminTools.Common.Views
                 }
                 // 自动踢出违规玩家
                 AutoKickBreakPlayer();
-
+                AutoSwitchMap();
                 ////////////////////////////////////////////////////////////////////////////////
 
                 Thread.Sleep(100);
             }
+        }
+
+        private bool IsSwitching;
+        private Random Random = new();
+
+        private void AutoSwitchMap()
+        {
+            if (!DataSave.AutoKickBreakPlayer)
+                return;
+            if (IsSwitching)
+                return;
+            if (DataSave.NowRule.ScoreSwitchMap != 0)
+            {
+                if (Math.Abs(Globals.ServerHook.Team1Score - Globals.ServerHook.Team2Score) > DataSave.NowRule.ScoreSwitchMap)
+                {
+                    if (DataSave.NowRule.ScoreNotSwitchMap != 0)
+                    {
+                        if (Globals.ServerHook.Team1Score > DataSave.NowRule.ScoreNotSwitchMap
+                            || Globals.ServerHook.Team2Score > DataSave.NowRule.ScoreSwitchMap)
+                            return;
+                    }
+
+                    StartSwitchMap();
+                }
+            }
+        }
+
+        private void StartSwitchMap()
+        {
+            IsSwitching = true;
+            Task.Run(async () =>
+            {
+                if (Globals.ServerInfo == null)
+                {
+                    await Core.InitServerInfo();
+                }
+                if (Globals.ServerInfo == null)
+                {
+                    IsSwitching = false;
+                    return;
+                }
+                var nowMap = Globals.ServerInfo.mapNamePretty;
+                var list = Globals.ServerInfo.rotation;
+
+                int index = list.FindIndex(item => item.mapPrettyName == nowMap);
+                int a;
+                if (DataSave.NowRule.RandomSwitchMap)
+                {
+                    do
+                    {
+                        a = Random.Next(0, list.Count - 1);
+                    }
+                    while (a != index);
+                }
+                else
+                {
+                    a = index + 1;
+                    if (a >= list.Count || a < 0)
+                    {
+                        a = 0;
+                    }
+                }
+                await ServerAPI.ChangeServerMap(Globals.Config.PersistedGameId, a.ToString());
+                await Task.Delay(30000);
+                IsSwitching = false;
+            });
         }
 
         // 更新 DataGrid 队伍1

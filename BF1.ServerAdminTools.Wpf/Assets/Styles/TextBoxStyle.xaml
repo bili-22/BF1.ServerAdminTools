@@ -3,7 +3,6 @@
     <Style x:Key="TextBoxNormalStyle" TargetType="{x:Type TextBox}">
         <Setter Property="Margin" Value="5" />
         <Setter Property="Padding" Value="10" />
-        <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="TextWrapping" Value="NoWrap" />
     </Style>
 

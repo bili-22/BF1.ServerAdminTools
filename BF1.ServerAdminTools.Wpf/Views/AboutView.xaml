@@ -10,150 +10,148 @@
     mc:Ignorable="d">
 
     <Grid Background="Transparent">
-        <ScrollViewer Background="Transparent" Style="{StaticResource ScrollViewerStyle_VAHD}">
-            <StackPanel
+        <StackPanel
+            Margin="10"
+            Background="Transparent"
+            Orientation="Vertical">
+            <StackPanel.Resources>
+                <Style TargetType="{x:Type Image}">
+                    <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality" />
+                </Style>
+            </StackPanel.Resources>
+            <Image
+                Height="150"
+                Margin="5"
+                Source="/Assets/Images/Battlefield-1-256.png"
+                Style="{StaticResource ImageStyle_HQ}" />
+            <TextBlock
+                Margin="5,10,5,5"
+                HorizontalAlignment="Center"
+                Background="#AAFFFFFF"
+                FontFamily="等线"
+                FontSize="38"
+                Text="战地1服务器管理工具" />
+            <TextBlock
                 Margin="10"
-                Background="Transparent"
-                Orientation="Vertical">
-                <StackPanel.Resources>
-                    <Style TargetType="{x:Type Image}">
-                        <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality" />
-                    </Style>
-                </StackPanel.Resources>
-                <Image
-                    Height="150"
+                HorizontalAlignment="Center"
+                Background="#AAFFFFFF"
+                FontSize="14"
+                Text="Copyright© 2020-2022 DS By CrazyZhang666,Color_yr" />
+            <Border
+                Margin="0,10,0,5"
+                Padding="10,0,10,0"
+                HorizontalAlignment="Center"
+                Background="#AAFFFFFF"
+                BorderBrush="Gray"
+                BorderThickness="0,1,0,1">
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                    <TextBlock Style="{StaticResource TextBlockStyle_IconFontAbout}" ToolTip="QQ群 : 710801277">
+                        <Hyperlink NavigateUri="https://jq.qq.com/?_wv=1027&amp;k=ajEymecs" RequestNavigate="Hyperlink_RequestNavigate">
+                            &#xe604;
+                        </Hyperlink>
+                    </TextBlock>
+                    <TextBlock
+                        Margin="10,0,0,0"
+                        Style="{StaticResource TextBlockStyle_IconFontAbout}"
+                        ToolTip="官方网站">
+                        <Hyperlink NavigateUri="https://battlefield.vip/" RequestNavigate="Hyperlink_RequestNavigate">
+                            &#xe65b;
+                        </Hyperlink>
+                    </TextBlock>
+                    <TextBlock
+                        Margin="10,0,0,0"
+                        Style="{StaticResource TextBlockStyle_IconFontAbout}"
+                        ToolTip="GitHub">
+                        <Hyperlink NavigateUri="https://github.com/CrazyZhang666/BF1.ServerAdminTools" RequestNavigate="Hyperlink_RequestNavigate">
+                            &#xe677;
+                        </Hyperlink>
+                    </TextBlock>
+                    <!--  ################################  -->
+                    <Border
+                        Margin="15,10,15,10"
+                        BorderBrush="Gray"
+                        BorderThickness="0.5,0,0.5,0" />
+                    <!--  ################################  -->
+                    <TextBlock
+                        Padding="0,0,10,0"
+                        VerticalAlignment="Center"
+                        Cursor="Hand"
+                        FontSize="18"
+                        FontWeight="Bold"
+                        Foreground="#8563dd"
+                        MouseLeftButtonDown="TextBlock_MouseLeftButtonDown"
+                        Text="支持作者"
+                        ToolTip="https://afdian.net/@crazyzhang" />
+                    <Image
+                        Height="50"
+                        Cursor="Hand"
+                        MouseLeftButtonDown="TextBlock_MouseLeftButtonDown"
+                        Source="/Assets/Images/afdian-logo.png"
+                        Style="{StaticResource ImageStyle_HQ}"
+                        ToolTip="https://afdian.net/@crazyzhang" />
+                    <TextBlock
+                        Padding="10,0,0,0"
+                        VerticalAlignment="Center"
+                        Cursor="Hand"
+                        FontSize="24"
+                        FontWeight="Bold"
+                        Foreground="#8563dd"
+                        MouseLeftButtonDown="TextBlock_MouseLeftButtonDown"
+                        Text="爱发电"
+                        ToolTip="https://afdian.net/@crazyzhang" />
+                </StackPanel>
+            </Border>
+            <!--  ################################  -->
+            <Border
+                Margin="0"
+                Padding="10"
+                HorizontalAlignment="Center"
+                BorderBrush="Gray"
+                BorderThickness="0">
+                <StackPanel
                     Margin="5"
-                    Source="/Assets/Images/Battlefield-1-256.png"
-                    Style="{StaticResource ImageStyle_HQ}" />
-                <TextBlock
-                    Margin="5,10,5,5"
                     HorizontalAlignment="Center"
-                    Background="#AAFFFFFF"
-                    FontFamily="等线"
-                    FontSize="38"
-                    Text="战地1服务器管理工具" />
-                <TextBlock
-                    Margin="10"
-                    HorizontalAlignment="Center"
-                    Background="#AAFFFFFF"
-                    FontSize="14"
-                    Text="Copyright© 2020-2022 DS By CrazyZhang666,Color_yr" />
-                <Border
-                    Margin="0,10,0,5"
-                    Padding="10,0,10,0"
-                    HorizontalAlignment="Center"
-                    Background="#AAFFFFFF"
-                    BorderBrush="Gray"
-                    BorderThickness="0,1,0,1">
-                    <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                        <TextBlock Style="{StaticResource TextBlockStyle_IconFontAbout}" ToolTip="QQ群 : 710801277">
-                            <Hyperlink NavigateUri="https://jq.qq.com/?_wv=1027&amp;k=ajEymecs" RequestNavigate="Hyperlink_RequestNavigate">
-                                &#xe604;
-                            </Hyperlink>
-                        </TextBlock>
-                        <TextBlock
-                            Margin="10,0,0,0"
-                            Style="{StaticResource TextBlockStyle_IconFontAbout}"
-                            ToolTip="官方网站">
-                            <Hyperlink NavigateUri="https://battlefield.vip/" RequestNavigate="Hyperlink_RequestNavigate">
-                                &#xe65b;
-                            </Hyperlink>
-                        </TextBlock>
-                        <TextBlock
-                            Margin="10,0,0,0"
-                            Style="{StaticResource TextBlockStyle_IconFontAbout}"
-                            ToolTip="GitHub">
-                            <Hyperlink NavigateUri="https://github.com/CrazyZhang666/BF1.ServerAdminTools" RequestNavigate="Hyperlink_RequestNavigate">
-                                &#xe677;
-                            </Hyperlink>
-                        </TextBlock>
-                        <!--  ################################  -->
-                        <Border
-                            Margin="15,10,15,10"
-                            BorderBrush="Gray"
-                            BorderThickness="0.5,0,0.5,0" />
-                        <!--  ################################  -->
-                        <TextBlock
-                            Padding="0,0,10,0"
-                            VerticalAlignment="Center"
-                            Cursor="Hand"
-                            FontSize="18"
-                            FontWeight="Bold"
-                            Foreground="#8563dd"
-                            MouseLeftButtonDown="TextBlock_MouseLeftButtonDown"
-                            Text="支持作者"
-                            ToolTip="https://afdian.net/@crazyzhang" />
-                        <Image
-                            Height="50"
-                            Cursor="Hand"
-                            MouseLeftButtonDown="TextBlock_MouseLeftButtonDown"
-                            Source="/Assets/Images/afdian-logo.png"
-                            Style="{StaticResource ImageStyle_HQ}"
-                            ToolTip="https://afdian.net/@crazyzhang" />
-                        <TextBlock
-                            Padding="10,0,0,0"
-                            VerticalAlignment="Center"
-                            Cursor="Hand"
-                            FontSize="24"
-                            FontWeight="Bold"
-                            Foreground="#8563dd"
-                            MouseLeftButtonDown="TextBlock_MouseLeftButtonDown"
-                            Text="爱发电"
-                            ToolTip="https://afdian.net/@crazyzhang" />
-                    </StackPanel>
-                </Border>
-                <!--  ################################  -->
-                <Border
-                    Margin="0"
-                    Padding="10"
-                    HorizontalAlignment="Center"
-                    BorderBrush="Gray"
-                    BorderThickness="0">
-                    <StackPanel
-                        Margin="5"
-                        HorizontalAlignment="Center"
-                        Orientation="Horizontal">
-                        <StackPanel.Resources>
-                            <Style TargetType="Image">
-                                <Setter Property="Margin" Value="3" />
-                                <Setter Property="MaxWidth" Value="115" />
-                                <Setter Property="MaxHeight" Value="163" />
-                                <Setter Property="Stretch" Value="UniformToFill" />
-                            </Style>
-                        </StackPanel.Resources>
-                        <Image Source="/Assets/Images/DLC/bf1_00.png">
-                            <Image.ToolTip>
-                                <Image Source="/Assets/Images/DLC/bf1_00.png" />
-                            </Image.ToolTip>
-                        </Image>
-                        <Image Source="/Assets/Images/DLC/bf1_01.jpg">
-                            <Image.ToolTip>
-                                <Image Source="/Assets/Images/DLC/bf1_01.jpg" />
-                            </Image.ToolTip>
-                        </Image>
-                        <Image Source="/Assets/Images/DLC/bf1_02.jpg">
-                            <Image.ToolTip>
-                                <Image Source="/Assets/Images/DLC/bf1_02.jpg" />
-                            </Image.ToolTip>
-                        </Image>
-                        <Image Source="/Assets/Images/DLC/bf1_03.jpg">
-                            <Image.ToolTip>
-                                <Image Source="/Assets/Images/DLC/bf1_03.jpg" />
-                            </Image.ToolTip>
-                        </Image>
-                        <Image Source="/Assets/Images/DLC/bf1_04.jpg">
-                            <Image.ToolTip>
-                                <Image Source="/Assets/Images/DLC/bf1_04.jpg" />
-                            </Image.ToolTip>
-                        </Image>
-                        <Image Source="/Assets/Images/DLC/bf1_05.jpg">
-                            <Image.ToolTip>
-                                <Image Source="/Assets/Images/DLC/bf1_05.jpg" />
-                            </Image.ToolTip>
-                        </Image>
-                    </StackPanel>
-                </Border>
-            </StackPanel>
-        </ScrollViewer>
+                    Orientation="Horizontal">
+                    <StackPanel.Resources>
+                        <Style TargetType="Image">
+                            <Setter Property="Margin" Value="3" />
+                            <Setter Property="MaxWidth" Value="115" />
+                            <Setter Property="MaxHeight" Value="163" />
+                            <Setter Property="Stretch" Value="UniformToFill" />
+                        </Style>
+                    </StackPanel.Resources>
+                    <Image Source="/Assets/Images/DLC/bf1_00.png">
+                        <Image.ToolTip>
+                            <Image Source="/Assets/Images/DLC/bf1_00.png" />
+                        </Image.ToolTip>
+                    </Image>
+                    <Image Source="/Assets/Images/DLC/bf1_01.jpg">
+                        <Image.ToolTip>
+                            <Image Source="/Assets/Images/DLC/bf1_01.jpg" />
+                        </Image.ToolTip>
+                    </Image>
+                    <Image Source="/Assets/Images/DLC/bf1_02.jpg">
+                        <Image.ToolTip>
+                            <Image Source="/Assets/Images/DLC/bf1_02.jpg" />
+                        </Image.ToolTip>
+                    </Image>
+                    <Image Source="/Assets/Images/DLC/bf1_03.jpg">
+                        <Image.ToolTip>
+                            <Image Source="/Assets/Images/DLC/bf1_03.jpg" />
+                        </Image.ToolTip>
+                    </Image>
+                    <Image Source="/Assets/Images/DLC/bf1_04.jpg">
+                        <Image.ToolTip>
+                            <Image Source="/Assets/Images/DLC/bf1_04.jpg" />
+                        </Image.ToolTip>
+                    </Image>
+                    <Image Source="/Assets/Images/DLC/bf1_05.jpg">
+                        <Image.ToolTip>
+                            <Image Source="/Assets/Images/DLC/bf1_05.jpg" />
+                        </Image.ToolTip>
+                    </Image>
+                </StackPanel>
+            </Border>
+        </StackPanel>
     </Grid>
 </UserControl>

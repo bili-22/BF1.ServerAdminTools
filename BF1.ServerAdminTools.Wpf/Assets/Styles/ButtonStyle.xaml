@@ -110,8 +110,8 @@
                             <Setter TargetName="border" Property="BorderBrush" Value="#1976D2" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
-                            <Setter TargetName="border" Property="Background" Value="#eeeeee" />
-                            <Setter TargetName="border" Property="BorderBrush" Value="#eeeeee" />
+                            <Setter TargetName="border" Property="Background" Value="#BB1E88E5" />
+                            <Setter TargetName="border" Property="BorderBrush" Value="#1E88E5" />
                             <Setter TargetName="contentPresenter" Property="TextElement.Foreground" Value="Black" />
                         </Trigger>
                     </ControlTemplate.Triggers>

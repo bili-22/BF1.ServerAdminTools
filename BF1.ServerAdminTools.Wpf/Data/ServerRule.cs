@@ -19,6 +19,10 @@ public record ServerRule
     public int LifeMaxWeaponStar { get; set; }
     public int LifeMaxVehicleStar { get; set; }
 
+    public int ScoreSwitchMap { get; set; }
+    public int ScoreNotSwitchMap { get; set; }
+    public bool RandomSwitchMap { get; set; }
+
     /// <summary>
     /// 保存限制武器名称列表
     /// </summary>

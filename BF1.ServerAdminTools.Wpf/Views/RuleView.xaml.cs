@@ -94,6 +94,9 @@ namespace BF1.ServerAdminTools.Common.Views
             Slider_LifeMaxKPM.Value = DataSave.NowRule.LifeMaxKPM;
             Slider_LifeMaxWeaponStar.Value = DataSave.NowRule.LifeMaxWeaponStar;
             Slider_LifeMaxVehicleStar.Value = DataSave.NowRule.LifeMaxVehicleStar;
+            Slider_ScoreSwitchMap.Value = DataSave.NowRule.ScoreSwitchMap;
+            Slider_ScoreNotSwitchMap.Value = DataSave.NowRule.ScoreNotSwitchMap;
+            CheckBox_SwitchMap.IsChecked = DataSave.NowRule.RandomSwitchMap;
 
             ListBox_BreakWeaponInfo.Items.Clear();
             foreach (var item in DataSave.NowRule.Custom_WeaponList)
@@ -154,6 +157,9 @@ namespace BF1.ServerAdminTools.Common.Views
             DataSave.NowRule.LifeMaxKPM = (float)Slider_LifeMaxKPM.Value;
             DataSave.NowRule.LifeMaxWeaponStar = (int)Slider_LifeMaxWeaponStar.Value;
             DataSave.NowRule.LifeMaxVehicleStar = (int)Slider_LifeMaxVehicleStar.Value;
+            DataSave.NowRule.ScoreSwitchMap = (int)Slider_ScoreSwitchMap.Value;
+            DataSave.NowRule.ScoreNotSwitchMap = (int)Slider_ScoreNotSwitchMap.Value;
+            DataSave.NowRule.RandomSwitchMap = CheckBox_SwitchMap.IsChecked == true;
 
             DataSave.NowRule.Custom_WeaponList.Clear();
             foreach (WeaponInfoModel item in ListBox_BreakWeaponInfo.Items)
@@ -574,8 +580,13 @@ namespace BF1.ServerAdminTools.Common.Views
             DataSave.NowRule.LifeMaxKD = (float)Slider_LifeMaxKD.Value;
             DataSave.NowRule.LifeMaxKPM = (float)Slider_LifeMaxKPM.Value;
 
-            DataSave.NowRule.LifeMaxWeaponStar = Convert.ToInt32(Slider_LifeMaxWeaponStar.Value);
-            DataSave.NowRule.LifeMaxVehicleStar = Convert.ToInt32(Slider_LifeMaxVehicleStar.Value);
+            DataSave.NowRule.LifeMaxWeaponStar = (int)Slider_LifeMaxWeaponStar.Value;
+            DataSave.NowRule.LifeMaxVehicleStar = (int)Slider_LifeMaxVehicleStar.Value;
+
+            DataSave.NowRule.ScoreSwitchMap = (int)Slider_ScoreSwitchMap.Value;
+            DataSave.NowRule.ScoreNotSwitchMap = (int)Slider_ScoreNotSwitchMap.Value;
+
+            DataSave.NowRule.RandomSwitchMap = CheckBox_SwitchMap.IsChecked == true;
 
             if (DataSave.NowRule.MinRank >= DataSave.NowRule.MaxRank && DataSave.NowRule.MinRank != 0 && DataSave.NowRule.MaxRank != 0)
             {
@@ -693,6 +704,19 @@ namespace BF1.ServerAdminTools.Common.Views
                 AppendLog($"玩家ID {DataSave.NowRule.Custom_WhiteList.IndexOf(item) + 1} : {item}");
             }
             AppendLog("\n");
+
+            if (DataSave.NowRule.ScoreSwitchMap != 0)
+            {
+                AppendLog($"========== 自动切图 ==========");
+                AppendLog("");
+                AppendLog($"分数差距达到{DataSave.NowRule.ScoreSwitchMap}自动换图");
+                AppendLog("\n");
+                if (DataSave.NowRule.ScoreNotSwitchMap != 0)
+                {
+                    AppendLog($"且分数差距达到{DataSave.NowRule.ScoreNotSwitchMap}不再自动换图");
+                    AppendLog("\n");
+                }
+            }
 
             MainWindow._SetOperatingState(1, $"查询当前规则成功，请点击<检查违规玩家>测试是否正确");
         }

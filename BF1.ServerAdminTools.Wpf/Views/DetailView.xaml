@@ -27,6 +27,7 @@
             <TabItem Header="地图">
                 <ListBox
                     x:Name="ListBox_Map"
+                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                     SelectionChanged="ListBox_Map_SelectionChanged"
                     Style="{StaticResource ListBoxStyle_Map}" />
             </TabItem>
