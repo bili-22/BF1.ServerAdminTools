@@ -99,10 +99,22 @@ namespace BF1.ServerAdminTools.Common.Views
             Slider_LifeMaxVehicleStar.Value = DataSave.NowRule.LifeMaxVehicleStar;
 
             Slider_ScoreSwitchMap.Value = DataSave.NowRule.ScoreSwitchMap;
+            Slider_ScoreStartSwitchMap.Value = DataSave.NowRule.ScoreStartSwitchMap;
             Slider_ScoreNotSwitchMap.Value = DataSave.NowRule.ScoreNotSwitchMap;
-            CheckBox_SwitchMap.IsChecked = DataSave.NowRule.RandomSwitchMap;
-
             Slider_SocreOtherRule.Value = DataSave.NowRule.ScoreOtherRule;
+
+            if (DataSave.NowRule.SwitchMapType == 0)
+            {
+                RadioButton_SwitchMapSelect0.IsChecked = true;
+            }
+            else if (DataSave.NowRule.SwitchMapType == 1)
+            {
+                RadioButton_SwitchMapSelect1.IsChecked = true;
+            }
+            else if (DataSave.NowRule.SwitchMapType == 2)
+            {
+                RadioButton_SwitchMapSelect2.IsChecked = true;
+            }
 
             Combo_Rule.Items.Add("");
 
@@ -124,7 +136,7 @@ namespace BF1.ServerAdminTools.Common.Views
                 }
             }
 
-            ListBox_BreakWeaponInfo.SelectedItem = DataSave.NowRule.OtherRule;
+            Combo_Rule.SelectedItem = DataSave.NowRule.OtherRule;
 
             ListBox_BreakWeaponInfo.Items.Clear();
             foreach (var item in DataSave.NowRule.Custom_WeaponList)
@@ -187,7 +199,21 @@ namespace BF1.ServerAdminTools.Common.Views
             DataSave.NowRule.LifeMaxVehicleStar = (int)Slider_LifeMaxVehicleStar.Value;
             DataSave.NowRule.ScoreSwitchMap = (int)Slider_ScoreSwitchMap.Value;
             DataSave.NowRule.ScoreNotSwitchMap = (int)Slider_ScoreNotSwitchMap.Value;
-            DataSave.NowRule.RandomSwitchMap = CheckBox_SwitchMap.IsChecked == true;
+            DataSave.NowRule.ScoreStartSwitchMap = (int)Slider_ScoreStartSwitchMap.Value;
+            if (RadioButton_SwitchMapSelect0.IsChecked == true)
+            {
+                DataSave.NowRule.SwitchMapType = 0;
+            }
+            else if (RadioButton_SwitchMapSelect1.IsChecked == true)
+            {
+                DataSave.NowRule.SwitchMapType = 1;
+            }
+            else if (RadioButton_SwitchMapSelect2.IsChecked == true)
+            {
+                DataSave.NowRule.SwitchMapType = 2;
+            }
+            DataSave.NowRule.OtherRule = Combo_Rule.SelectedItem as string;
+            DataSave.NowRule.ScoreOtherRule = (int)Slider_SocreOtherRule.Value;
 
             DataSave.NowRule.Custom_WeaponList.Clear();
             foreach (WeaponInfoModel item in ListBox_BreakWeaponInfo.Items)
@@ -616,8 +642,23 @@ namespace BF1.ServerAdminTools.Common.Views
 
             DataSave.NowRule.ScoreSwitchMap = (int)Slider_ScoreSwitchMap.Value;
             DataSave.NowRule.ScoreNotSwitchMap = (int)Slider_ScoreNotSwitchMap.Value;
+            DataSave.NowRule.ScoreStartSwitchMap = (int)Slider_ScoreStartSwitchMap.Value;
 
-            DataSave.NowRule.RandomSwitchMap = CheckBox_SwitchMap.IsChecked == true;
+            if (RadioButton_SwitchMapSelect0.IsChecked == true)
+            {
+                DataSave.NowRule.SwitchMapType = 0;
+            }
+            else if (RadioButton_SwitchMapSelect1.IsChecked == true)
+            {
+                DataSave.NowRule.SwitchMapType = 1;
+            }
+            else if(RadioButton_SwitchMapSelect2.IsChecked == true)
+            {
+                DataSave.NowRule.SwitchMapType = 2;
+            }
+
+            DataSave.NowRule.OtherRule = Combo_Rule.SelectedItem as string;
+            DataSave.NowRule.ScoreOtherRule = (int)Slider_SocreOtherRule.Value;
 
             if (DataSave.NowRule.MinRank >= DataSave.NowRule.MaxRank && DataSave.NowRule.MinRank != 0 && DataSave.NowRule.MaxRank != 0)
             {
@@ -741,15 +782,15 @@ namespace BF1.ServerAdminTools.Common.Views
                 AppendLog($"========== 自动切图 ==========");
                 AppendLog("");
                 AppendLog($"分数差距达到{DataSave.NowRule.ScoreSwitchMap}自动换图");
-                AppendLog("\n");
+                AppendLog($"劣势方分数达到{DataSave.NowRule.ScoreStartSwitchMap}才生效");
                 if (DataSave.NowRule.ScoreNotSwitchMap != 0)
                 {
-                    AppendLog($"且分数差距达到{DataSave.NowRule.ScoreNotSwitchMap}不再自动换图");
+                    AppendLog($"且一方分数达到{DataSave.NowRule.ScoreNotSwitchMap}不再自动换图");
                     AppendLog("\n");
                 }
             }
 
-            if (DataSave.NowRule.ScoreOtherRule != 0)
+            if (DataSave.NowRule.ScoreOtherRule != 0 && !string.IsNullOrWhiteSpace(DataSave.NowRule.OtherRule))
             {
                 AppendLog($"========== 劣势方规则 ==========");
                 AppendLog("");
@@ -1248,6 +1289,21 @@ namespace BF1.ServerAdminTools.Common.Views
 
                 MainWindow._SetOperatingState(1, "执行手动踢人操作成功，请查看日志了解执行结果");
             }
+        }
+
+        private void RadioButton_SwitchMapSelect0_Checked(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+        private void RadioButton_SwitchMapSelect1_Checked(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+        private void RadioButton_SwitchMapSelect2_Checked(object sender, RoutedEventArgs e)
+        {
+            
         }
     }
 }

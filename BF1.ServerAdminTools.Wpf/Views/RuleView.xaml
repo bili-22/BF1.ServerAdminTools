@@ -221,12 +221,35 @@
                         Style="{StaticResource Slider}"
                         TickFrequency="1"
                         TickPlacement="None" />
-                    <CheckBox
-                        Name="CheckBox_SwitchMap"
-                        Margin="5,5,0,0"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Top"
-                        Content="随机换图" />
+                    <TextBlock Text="{Binding ElementName=Slider_ScoreStartSwitchMap, Path=Value, StringFormat=劣势方分数达到 : {0:0} 后开始判断, FallbackValue='劣势方分数达到 : 后开始判断'}" />
+                    <Slider
+                        x:Name="Slider_ScoreStartSwitchMap"
+                        Margin="5,0,5,0"
+                        Maximum="900"
+                        Minimum="0"
+                        Style="{StaticResource Slider}"
+                        TickFrequency="1"
+                        TickPlacement="None" />
+                    <WrapPanel>
+                        <RadioButton
+                            x:Name="RadioButton_SwitchMapSelect0"
+                            Margin="5"
+                            Checked="RadioButton_SwitchMapSelect0_Checked"
+                            Content="顺序换图"
+                            GroupName="SwitchMapSelect" />
+                        <RadioButton
+                            x:Name="RadioButton_SwitchMapSelect1"
+                            Margin="5"
+                            Checked="RadioButton_SwitchMapSelect1_Checked"
+                            Content="随机换图"
+                            GroupName="SwitchMapSelect" />
+                        <RadioButton
+                            x:Name="RadioButton_SwitchMapSelect2"
+                            Margin="5"
+                            Checked="RadioButton_SwitchMapSelect2_Checked"
+                            Content="重开原图"
+                            GroupName="SwitchMapSelect" />
+                    </WrapPanel>
                     <TextBlock />
                     <TextBlock Text="{Binding ElementName=Slider_SocreOtherRule, Path=Value, StringFormat=分差达到 : {0:0} 后劣势方使用其他规则, FallbackValue='分差达到 : 后劣势方使用其他规则'}" />
                     <Slider

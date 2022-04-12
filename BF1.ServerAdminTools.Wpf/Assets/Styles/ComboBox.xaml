@@ -140,6 +140,7 @@
                         <Rectangle Fill="Transparent" />
                         <TextBox
                             Grid.Column="0"
+                            Margin="5,0,0,0"
                             VerticalAlignment="Center"
                             Background="Transparent"
                             BorderBrush="#5EBDD300"

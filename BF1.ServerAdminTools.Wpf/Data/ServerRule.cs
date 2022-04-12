@@ -20,8 +20,9 @@ public record ServerRule
     public int LifeMaxVehicleStar { get; set; }
 
     public int ScoreSwitchMap { get; set; }
+    public int ScoreStartSwitchMap { get; set; }
     public int ScoreNotSwitchMap { get; set; }
-    public bool RandomSwitchMap { get; set; }
+    public int SwitchMapType { get; set; }
 
     public int ScoreOtherRule { get; set; }
     public string OtherRule { get; set; }

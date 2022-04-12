@@ -29,6 +29,8 @@ namespace BF1.ServerAdminTools.Common.Views
         }
 
         private static DataGridSelcContent _dataGridSelcContent;
+        private bool IsSwitching;
+        private readonly Random Random = new();
 
         ///////////////////////////////////////////////////////
 
@@ -185,29 +187,27 @@ namespace BF1.ServerAdminTools.Common.Views
             }
         }
 
-        private bool IsSwitching;
-        private Random Random = new();
-
         private void AutoSwitchMap()
         {
             if (!DataSave.AutoKickBreakPlayer)
                 return;
             if (IsSwitching)
                 return;
-            if (DataSave.NowRule.ScoreSwitchMap != 0)
-            {
-                if (Math.Abs(Globals.ServerHook.Team1Score - Globals.ServerHook.Team2Score) > DataSave.NowRule.ScoreSwitchMap)
-                {
-                    if (DataSave.NowRule.ScoreNotSwitchMap != 0)
-                    {
-                        if (Globals.ServerHook.Team1Score > DataSave.NowRule.ScoreNotSwitchMap
-                            || Globals.ServerHook.Team2Score > DataSave.NowRule.ScoreSwitchMap)
-                            return;
-                    }
+            if (DataSave.NowRule.ScoreSwitchMap == 0)
+                return;
+            if (Math.Min(Globals.ServerHook.Team1Score, Globals.ServerHook.Team2Score) > DataSave.NowRule.ScoreStartSwitchMap)
+                return;
+            if (Math.Abs(Globals.ServerHook.Team1Score - Globals.ServerHook.Team2Score) <= DataSave.NowRule.ScoreSwitchMap)
+                return;
 
-                    StartSwitchMap();
-                }
+            if (DataSave.NowRule.ScoreNotSwitchMap != 0)
+            {
+                if (Globals.ServerHook.Team1Score > DataSave.NowRule.ScoreNotSwitchMap
+                    || Globals.ServerHook.Team2Score > DataSave.NowRule.ScoreSwitchMap)
+                    return;
             }
+
+            StartSwitchMap();
         }
 
         private void StartSwitchMap()
@@ -229,21 +229,28 @@ namespace BF1.ServerAdminTools.Common.Views
 
                 int index = list.FindIndex(item => item.mapPrettyName == nowMap);
                 int a;
-                if (DataSave.NowRule.RandomSwitchMap)
+                switch (DataSave.NowRule.SwitchMapType) 
                 {
-                    do
-                    {
-                        a = Random.Next(0, list.Count - 1);
-                    }
-                    while (a != index);
-                }
-                else
-                {
-                    a = index + 1;
-                    if (a >= list.Count || a < 0)
-                    {
+                    case 0:
+                        a = index + 1;
+                        if (a >= list.Count || a < 0)
+                        {
+                            a = 0;
+                        }
+                        break;
+                    case 1:
+                        do
+                        {
+                            a = Random.Next(0, list.Count - 1);
+                        }
+                        while (a != index);
+                        break;
+                    case 2:
+                        a = index;
+                        break;
+                    default:
                         a = 0;
-                    }
+                        break;
                 }
                 await ServerAPI.ChangeServerMap(Globals.Config.PersistedGameId, a.ToString());
                 await Task.Delay(30000);
