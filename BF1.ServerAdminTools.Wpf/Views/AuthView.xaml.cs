@@ -1,7 +1,6 @@
 ﻿using BF1.ServerAdminTools.Common.API.BF1Server;
 using BF1.ServerAdminTools.Common.API.BF1Server.RespJson;
 using BF1.ServerAdminTools.Common.API.GT;
-using BF1.ServerAdminTools.Common.API.GT.RespJson;
 using BF1.ServerAdminTools.Common.Utils;
 using BF1.ServerAdminTools.Common.Windows;
 using ScottPlot;

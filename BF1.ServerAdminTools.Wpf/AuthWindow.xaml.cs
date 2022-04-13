@@ -1,6 +1,4 @@
-﻿using BF1.ServerAdminTools.Common.API.BF1Server;
-using BF1.ServerAdminTools.Common.API.GT;
-using BF1.ServerAdminTools.Common.Data;
+﻿using BF1.ServerAdminTools.Common.Data;
 using BF1.ServerAdminTools.Common.Helper;
 using BF1.ServerAdminTools.Common.Utils;
 using BF1.ServerAdminTools.Common.Windows;
@@ -116,7 +114,7 @@ namespace BF1.ServerAdminTools.Common
                         UpdateState("获取新版本信息失败！");
                     }
 
-                   
+
                 }
                 catch (Exception ex)
                 {

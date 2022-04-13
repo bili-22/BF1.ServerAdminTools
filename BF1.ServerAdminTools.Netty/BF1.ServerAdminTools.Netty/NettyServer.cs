@@ -54,7 +54,7 @@ internal class NettyServer
     {
         public override void ChannelRead(IChannelHandlerContext context, object message)
         {
-            Task.Run(async() =>
+            Task.Run(async () =>
             {
                 var buffer = message as IByteBuffer;
                 if (buffer != null)

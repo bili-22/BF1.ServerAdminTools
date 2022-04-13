@@ -41,7 +41,7 @@ internal static class ConfigHelper
         {
             string path = ConfigLocal.Log + @"\ErrorLog";
             Directory.CreateDirectory(path);
-            path += $@"\#ErrorLog# { DateTime.Now:yyyyMMdd_HH-mm-ss_ffff}.log";
+            path += $@"\#ErrorLog# {DateTime.Now:yyyyMMdd_HH-mm-ss_ffff}.log";
             File.WriteAllText(path, logContent);
         }
         catch (Exception) { }

@@ -16,13 +16,13 @@ namespace BF1.ServerAdminTools.Common.Views
 
         private int queueMsgSleep = 1;
 
-        public ICommand SendChsMessageCommand { get; set; } 
+        public ICommand SendChsMessageCommand { get; set; }
 
         public class Comm : ICommand
         {
             public ChatView ChatView;
 
-            public Comm(ChatView view) 
+            public Comm(ChatView view)
             {
                 ChatView = view;
             }
@@ -35,7 +35,7 @@ namespace BF1.ServerAdminTools.Common.Views
 
             public void Execute(object? parameter)
             {
-                ChatView.SendChsMessage(null,null);
+                ChatView.SendChsMessage(null, null);
             }
         }
 

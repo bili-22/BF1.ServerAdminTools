@@ -61,7 +61,7 @@ internal static class ConfigUtil
         if (DataSave.Config == null)
         {
             DataSave.Config = new()
-            { 
+            {
                 AutoRun = true,
                 Bg_O = 20,
                 Window_O = true

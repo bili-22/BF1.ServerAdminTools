@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BF1.ServerAdminTools.Wpf.Extension;
+﻿namespace BF1.ServerAdminTools.Wpf.Extension;
 
 [ValueConversion(typeof(bool), typeof(bool))]
 public class InverseBooleanConverter : IValueConverter

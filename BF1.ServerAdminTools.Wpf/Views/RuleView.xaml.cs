@@ -314,10 +314,10 @@ namespace BF1.ServerAdminTools.Common.Views
                 if (DataSave.NowKick.ContainsKey(data.PersonaId))
                     return;
             }
-            
+
             lock (Globals.PlayerDatas_Team1)
             {
-                lock (Globals.PlayerDatas_Team2) 
+                lock (Globals.PlayerDatas_Team2)
                 {
                     //已经不在服务器了
                     if (!Globals.PlayerDatas_Team1.ContainsKey(data.PersonaId) && !Globals.PlayerDatas_Team2.ContainsKey(data.PersonaId))
@@ -1288,17 +1288,17 @@ namespace BF1.ServerAdminTools.Common.Views
 
         private void RadioButton_SwitchMapSelect0_Checked(object sender, RoutedEventArgs e)
         {
-            
+
         }
 
         private void RadioButton_SwitchMapSelect1_Checked(object sender, RoutedEventArgs e)
         {
-            
+
         }
 
         private void RadioButton_SwitchMapSelect2_Checked(object sender, RoutedEventArgs e)
         {
-            
+
         }
     }
 }

@@ -514,7 +514,7 @@ internal static class MemoryHook
                 }
             }
 
-            if(NeedClear && !IsGet)
+            if (NeedClear && !IsGet)
             {
                 Globals.ServerInfo = null;
                 Globals.ServerDetailed = null;

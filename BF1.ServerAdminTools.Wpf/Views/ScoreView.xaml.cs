@@ -69,7 +69,7 @@ namespace BF1.ServerAdminTools.Common.Views
 
                 //////////////////////////////// 自己数据 ////////////////////////////////
 
-                PlayerOtherModel.MySelfTeamID = $"队伍ID : { Globals.LocalPlayer.TeamID}";
+                PlayerOtherModel.MySelfTeamID = $"队伍ID : {Globals.LocalPlayer.TeamID}";
 
                 if (string.IsNullOrWhiteSpace(Globals.LocalPlayer.PlayerName))
                 {
@@ -229,7 +229,7 @@ namespace BF1.ServerAdminTools.Common.Views
 
                 int index = list.FindIndex(item => item.mapPrettyName == nowMap);
                 int a;
-                switch (DataSave.NowRule.SwitchMapType) 
+                switch (DataSave.NowRule.SwitchMapType)
                 {
                     case 0:
                         a = index + 1;
@@ -285,28 +285,28 @@ namespace BF1.ServerAdminTools.Common.Views
                         item.KPM = Globals.PlayerDatas_Team1[item.PersonaId].KPM.ToString("0.00");
                         item.Score = Globals.PlayerDatas_Team1[item.PersonaId].Score;
                         item.WeaponS0 = DataSave.IsShowCHSWeaponName ?
-                           Globals.PlayerDatas_Team1[item.PersonaId].WeaponS0CH : 
+                           Globals.PlayerDatas_Team1[item.PersonaId].WeaponS0CH :
                            Globals.PlayerDatas_Team1[item.PersonaId].WeaponS0;
                         item.WeaponS1 = DataSave.IsShowCHSWeaponName ?
-                           Globals.PlayerDatas_Team1[item.PersonaId].WeaponS1CH : 
+                           Globals.PlayerDatas_Team1[item.PersonaId].WeaponS1CH :
                            Globals.PlayerDatas_Team1[item.PersonaId].WeaponS1;
                         item.WeaponS2 = DataSave.IsShowCHSWeaponName ?
                            Globals.PlayerDatas_Team1[item.PersonaId].WeaponS2CH :
                            Globals.PlayerDatas_Team1[item.PersonaId].WeaponS2;
                         item.WeaponS3 = DataSave.IsShowCHSWeaponName ?
-                           Globals.PlayerDatas_Team1[item.PersonaId].WeaponS3CH : 
+                           Globals.PlayerDatas_Team1[item.PersonaId].WeaponS3CH :
                            Globals.PlayerDatas_Team1[item.PersonaId].WeaponS3;
                         item.WeaponS4 = DataSave.IsShowCHSWeaponName ?
-                           Globals.PlayerDatas_Team1[item.PersonaId].WeaponS4CH : 
+                           Globals.PlayerDatas_Team1[item.PersonaId].WeaponS4CH :
                            Globals.PlayerDatas_Team1[item.PersonaId].WeaponS4;
                         item.WeaponS5 = DataSave.IsShowCHSWeaponName ?
-                           Globals.PlayerDatas_Team1[item.PersonaId].WeaponS5CH : 
+                           Globals.PlayerDatas_Team1[item.PersonaId].WeaponS5CH :
                            Globals.PlayerDatas_Team1[item.PersonaId].WeaponS5;
                         item.WeaponS6 = DataSave.IsShowCHSWeaponName ?
-                           Globals.PlayerDatas_Team1[item.PersonaId].WeaponS6CH : 
+                           Globals.PlayerDatas_Team1[item.PersonaId].WeaponS6CH :
                            Globals.PlayerDatas_Team1[item.PersonaId].WeaponS6;
                         item.WeaponS7 = DataSave.IsShowCHSWeaponName ?
-                           Globals.PlayerDatas_Team1[item.PersonaId].WeaponS7CH : 
+                           Globals.PlayerDatas_Team1[item.PersonaId].WeaponS7CH :
                            Globals.PlayerDatas_Team1[item.PersonaId].WeaponS7;
                     }
                     else
@@ -514,7 +514,7 @@ namespace BF1.ServerAdminTools.Common.Views
             }
 
             // 限制玩家最低等级
-            if (playerData.Rank < DataSave.NowRule.MinRank 
+            if (playerData.Rank < DataSave.NowRule.MinRank
                 && DataSave.NowRule.MinRank != 0 && playerData.Rank != 0)
             {
                 DataSave.BreakRuleInfo_PlayerList.Add(playerData.PersonaId, new BreakRuleInfo
@@ -529,7 +529,7 @@ namespace BF1.ServerAdminTools.Common.Views
             }
 
             // 限制玩家最高等级
-            if (playerData.Rank > DataSave.NowRule.MaxRank 
+            if (playerData.Rank > DataSave.NowRule.MaxRank
                 && DataSave.NowRule.MaxRank != 0 && playerData.Rank != 0)
             {
                 DataSave.BreakRuleInfo_PlayerList.Add(playerData.PersonaId, new BreakRuleInfo
