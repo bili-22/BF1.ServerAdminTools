@@ -27,7 +27,7 @@ namespace BF1.ServerAdminTools.Common
 
         public static MainWindow ThisMainWindow;
 
-        public BlurUtil blur; 
+        public BlurUtil blur;
 
         public MainModel MainModel { get; set; }
 
@@ -198,6 +198,14 @@ namespace BF1.ServerAdminTools.Common
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             WindowState = WindowState.Minimized;
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            if (WindowState != WindowState.Maximized)
+                WindowState = WindowState.Maximized;
+            else
+                WindowState = WindowState.Normal;
         }
     }
 }

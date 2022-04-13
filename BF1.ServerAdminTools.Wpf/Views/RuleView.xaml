@@ -124,7 +124,7 @@
                     </StackPanel>
                     <ListView
                         Name="Rule_List"
-                        Margin="5,600,5,5"
+                        Margin="5,520,5,5"
                         Background="Transparent"
                         BorderBrush="#1E88E5"
                         ScrollViewer.VerticalScrollBarVisibility="Visible"

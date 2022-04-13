@@ -103,7 +103,8 @@ namespace BF1.ServerAdminTools.Common.Views
         private async void Button_RefreshPlayerSessionId_Click(object sender, RoutedEventArgs e)
         {
             AudioUtil.ClickSound();
-            MainWindow._SetOperatingState(2, await Core.Login());
+            string data = await Core.Login();
+            MainWindow._SetOperatingState(2, data);
         }
 
         private async void Button_VerifyPlayerSessionId_Click(object sender, RoutedEventArgs e)
