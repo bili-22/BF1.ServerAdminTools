@@ -730,7 +730,10 @@ namespace BF1.ServerAdminTools.Common.Views
 
                 foreach (var item in remove)
                 {
-                    DataSave.NowKick.Remove(item);
+                    lock (DataSave.NowKick)
+                    {
+                        DataSave.NowKick.Remove(item);
+                    }
                 }
             }
         }
@@ -738,7 +741,10 @@ namespace BF1.ServerAdminTools.Common.Views
         // 自动踢出违规玩家
         private async void AutoKickPlayer(BreakRuleInfo info)
         {
-            DataSave.NowKick.Add(info.PersonaId, info);
+            lock (DataSave.NowKick)
+            {
+                DataSave.NowKick.Add(info.PersonaId, info);
+            }
             var result = await ServerAPI.AdminKickPlayer(info.PersonaId.ToString(), info.Reason);
 
             if (result.IsSuccess)

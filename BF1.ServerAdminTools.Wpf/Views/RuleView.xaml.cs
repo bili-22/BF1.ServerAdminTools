@@ -186,20 +186,20 @@ namespace BF1.ServerAdminTools.Common.Views
 
         private void MainWindow_ClosingDisposeEvent()
         {
-            DataSave.NowRule.MaxKill = (int)Slider_MaxKill.Value;
-            DataSave.NowRule.KDFlag = (int)Slider_KDFlag.Value;
-            DataSave.NowRule.MaxKD = (float)Slider_MaxKD.Value;
-            DataSave.NowRule.KPMFlag = (int)Slider_KPMFlag.Value;
-            DataSave.NowRule.MaxKPM = (float)Slider_MaxKPM.Value;
-            DataSave.NowRule.MinRank = (int)Slider_MinRank.Value;
-            DataSave.NowRule.MaxRank = (int)Slider_MaxRank.Value;
-            DataSave.NowRule.LifeMaxKD = (float)Slider_LifeMaxKD.Value;
-            DataSave.NowRule.LifeMaxKPM = (float)Slider_LifeMaxKPM.Value;
-            DataSave.NowRule.LifeMaxWeaponStar = (int)Slider_LifeMaxWeaponStar.Value;
-            DataSave.NowRule.LifeMaxVehicleStar = (int)Slider_LifeMaxVehicleStar.Value;
-            DataSave.NowRule.ScoreSwitchMap = (int)Slider_ScoreSwitchMap.Value;
-            DataSave.NowRule.ScoreNotSwitchMap = (int)Slider_ScoreNotSwitchMap.Value;
-            DataSave.NowRule.ScoreStartSwitchMap = (int)Slider_ScoreStartSwitchMap.Value;
+            DataSave.NowRule.MaxKill = Convert.ToInt32(Slider_MaxKill.Value);
+            DataSave.NowRule.KDFlag = Convert.ToInt32(Slider_KDFlag.Value);
+            DataSave.NowRule.MaxKD = Convert.ToSingle(Slider_MaxKD.Value);
+            DataSave.NowRule.KPMFlag = Convert.ToInt32(Slider_KPMFlag.Value);
+            DataSave.NowRule.MaxKPM = Convert.ToSingle(Slider_MaxKPM.Value);
+            DataSave.NowRule.MinRank = Convert.ToInt32(Slider_MinRank.Value);
+            DataSave.NowRule.MaxRank = Convert.ToInt32(Slider_MaxRank.Value);
+            DataSave.NowRule.LifeMaxKD = Convert.ToSingle(Slider_LifeMaxKD.Value);
+            DataSave.NowRule.LifeMaxKPM = Convert.ToSingle(Slider_LifeMaxKPM.Value);
+            DataSave.NowRule.LifeMaxWeaponStar = Convert.ToInt32(Slider_LifeMaxWeaponStar.Value);
+            DataSave.NowRule.LifeMaxVehicleStar = Convert.ToInt32(Slider_LifeMaxVehicleStar.Value);
+            DataSave.NowRule.ScoreSwitchMap = Convert.ToInt32(Slider_ScoreSwitchMap.Value);
+            DataSave.NowRule.ScoreNotSwitchMap = Convert.ToInt32(Slider_ScoreNotSwitchMap.Value);
+            DataSave.NowRule.ScoreStartSwitchMap = Convert.ToInt32(Slider_ScoreStartSwitchMap.Value);
             if (RadioButton_SwitchMapSelect0.IsChecked == true)
             {
                 DataSave.NowRule.SwitchMapType = 0;
@@ -213,7 +213,7 @@ namespace BF1.ServerAdminTools.Common.Views
                 DataSave.NowRule.SwitchMapType = 2;
             }
             DataSave.NowRule.OtherRule = Combo_Rule.SelectedItem as string;
-            DataSave.NowRule.ScoreOtherRule = (int)Slider_SocreOtherRule.Value;
+            DataSave.NowRule.ScoreOtherRule = Convert.ToInt32(Slider_SocreOtherRule.Value);
 
             DataSave.NowRule.Custom_WeaponList.Clear();
             foreach (WeaponInfoModel item in ListBox_BreakWeaponInfo.Items)
@@ -309,9 +309,12 @@ namespace BF1.ServerAdminTools.Common.Views
             if (DataSave.NowRule.Custom_WhiteList.Contains(data.Name))
                 return;
 
-            if (DataSave.NowKick.ContainsKey(data.PersonaId))
-                return;
-
+            lock (DataSave.NowKick)
+            {
+                if (DataSave.NowKick.ContainsKey(data.PersonaId))
+                    return;
+            }
+            
             lock (Globals.PlayerDatas_Team1)
             {
                 lock (Globals.PlayerDatas_Team2) 
@@ -623,27 +626,20 @@ namespace BF1.ServerAdminTools.Common.Views
             AppendLog($"{DateTime.Now:yyyy/MM/dd HH:mm:ss}");
             AppendLog("");
 
-            DataSave.NowRule.MaxKill = (int)Slider_MaxKill.Value;
-
-            DataSave.NowRule.KDFlag = (int)Slider_KDFlag.Value;
-            DataSave.NowRule.MaxKD = (float)Slider_MaxKD.Value;
-
-            DataSave.NowRule.KPMFlag = (int)Slider_KPMFlag.Value;
-            DataSave.NowRule.MaxKPM = (float)Slider_MaxKPM.Value;
-
-            DataSave.NowRule.MinRank = (int)Slider_MinRank.Value;
-            DataSave.NowRule.MaxRank = (int)Slider_MaxRank.Value;
-
-            DataSave.NowRule.LifeMaxKD = (float)Slider_LifeMaxKD.Value;
-            DataSave.NowRule.LifeMaxKPM = (float)Slider_LifeMaxKPM.Value;
-
-            DataSave.NowRule.LifeMaxWeaponStar = (int)Slider_LifeMaxWeaponStar.Value;
-            DataSave.NowRule.LifeMaxVehicleStar = (int)Slider_LifeMaxVehicleStar.Value;
-
-            DataSave.NowRule.ScoreSwitchMap = (int)Slider_ScoreSwitchMap.Value;
-            DataSave.NowRule.ScoreNotSwitchMap = (int)Slider_ScoreNotSwitchMap.Value;
-            DataSave.NowRule.ScoreStartSwitchMap = (int)Slider_ScoreStartSwitchMap.Value;
-
+            DataSave.NowRule.MaxKill = Convert.ToInt32(Slider_MaxKill.Value);
+            DataSave.NowRule.KDFlag = Convert.ToInt32(Slider_KDFlag.Value);
+            DataSave.NowRule.MaxKD = Convert.ToSingle(Slider_MaxKD.Value);
+            DataSave.NowRule.KPMFlag = Convert.ToInt32(Slider_KPMFlag.Value);
+            DataSave.NowRule.MaxKPM = Convert.ToSingle(Slider_MaxKPM.Value);
+            DataSave.NowRule.MinRank = Convert.ToInt32(Slider_MinRank.Value);
+            DataSave.NowRule.MaxRank = Convert.ToInt32(Slider_MaxRank.Value);
+            DataSave.NowRule.LifeMaxKD = Convert.ToSingle(Slider_LifeMaxKD.Value);
+            DataSave.NowRule.LifeMaxKPM = Convert.ToSingle(Slider_LifeMaxKPM.Value);
+            DataSave.NowRule.LifeMaxWeaponStar = Convert.ToInt32(Slider_LifeMaxWeaponStar.Value);
+            DataSave.NowRule.LifeMaxVehicleStar = Convert.ToInt32(Slider_LifeMaxVehicleStar.Value);
+            DataSave.NowRule.ScoreSwitchMap = Convert.ToInt32(Slider_ScoreSwitchMap.Value);
+            DataSave.NowRule.ScoreNotSwitchMap = Convert.ToInt32(Slider_ScoreNotSwitchMap.Value);
+            DataSave.NowRule.ScoreStartSwitchMap = Convert.ToInt32(Slider_ScoreStartSwitchMap.Value);
             if (RadioButton_SwitchMapSelect0.IsChecked == true)
             {
                 DataSave.NowRule.SwitchMapType = 0;
@@ -652,13 +648,12 @@ namespace BF1.ServerAdminTools.Common.Views
             {
                 DataSave.NowRule.SwitchMapType = 1;
             }
-            else if(RadioButton_SwitchMapSelect2.IsChecked == true)
+            else if (RadioButton_SwitchMapSelect2.IsChecked == true)
             {
                 DataSave.NowRule.SwitchMapType = 2;
             }
-
             DataSave.NowRule.OtherRule = Combo_Rule.SelectedItem as string;
-            DataSave.NowRule.ScoreOtherRule = (int)Slider_SocreOtherRule.Value;
+            DataSave.NowRule.ScoreOtherRule = Convert.ToInt32(Slider_SocreOtherRule.Value);
 
             if (DataSave.NowRule.MinRank >= DataSave.NowRule.MaxRank && DataSave.NowRule.MinRank != 0 && DataSave.NowRule.MaxRank != 0)
             {
