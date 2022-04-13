@@ -37,6 +37,7 @@ public static class Globals
     public static ClientPlayer LocalPlayer;
     public static ServerHook ServerHook;
     public static ServerInfo ServerInfo;
+    public static RspInfo RspInfo;
     public static ServerInfos.ServersItem ServerDetailed;
 
     public static StatisticData StatisticData_Team1;

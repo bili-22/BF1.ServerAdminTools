@@ -27,7 +27,6 @@
 
                 <ResourceDictionary Source="Assets/Styles/ListView.xaml" />
                 <ResourceDictionary Source="Assets/Styles/GroupBox.xaml" />
-                <ResourceDictionary Source="Assets/Styles/Slider.xaml" />
 
                 <ResourceDictionary Source="Assets/Styles/ListBoxStyle.xaml" />
                 <ResourceDictionary Source="Assets/Styles/ComboBox.xaml" />

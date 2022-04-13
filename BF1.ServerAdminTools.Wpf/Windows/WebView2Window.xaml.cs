@@ -58,7 +58,7 @@ namespace BF1.ServerAdminTools.Common.Windows
         private async void Button_GetPlayerAccountInfo_Click(object sender, RoutedEventArgs e)
         {
             // 获取remid、sid、sessionId
-            var cookies = await WebView2.CoreWebView2.CookieManager.GetCookiesAsync(null);
+            var cookies = await WebView2.CoreWebView2?.CookieManager?.GetCookiesAsync(null);
             if (cookies != null && cookies.Count >= 3)
             {
                 foreach (var item in cookies)
@@ -110,8 +110,8 @@ namespace BF1.ServerAdminTools.Common.Windows
             if (MessageBox.Show("你确认要清空本地缓存吗，这一般会在 玩家账号信息 失效的情况下使用，你可能需要重新登录小帮手", "警告",
                 MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
             {
-                await WebView2.CoreWebView2.ExecuteScriptAsync("localStorage.clear()");
-                WebView2.CoreWebView2.CookieManager.DeleteAllCookies();
+                await WebView2.CoreWebView2?.ExecuteScriptAsync("localStorage.clear()");
+                WebView2.CoreWebView2?.CookieManager.DeleteAllCookies();
 
                 WebView2.Reload();
 
@@ -121,7 +121,7 @@ namespace BF1.ServerAdminTools.Common.Windows
 
         private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
         {
-            WebView2.CoreWebView2.Navigate(e.Uri.OriginalString);
+            WebView2.CoreWebView2?.Navigate(e.Uri.OriginalString);
             Core.LogInfo($"导航到 {e.Uri.OriginalString} 成功");
         }
     }

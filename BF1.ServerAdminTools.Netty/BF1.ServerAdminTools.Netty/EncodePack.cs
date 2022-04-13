@@ -178,4 +178,52 @@ internal static class EncodePack
             buff.WriteString(ChsUtil.ToSimplifiedChinese(item.mapPrettyName));
         }
     }
+
+    internal static void AdminList(IByteBuffer buff)
+    {
+        if (Globals.ServerInfo == null)
+        {
+            buff.WriteBoolean(false);
+            return;
+        }
+
+        buff.WriteBoolean(true);
+        var list = Globals.RspInfo.adminList;
+        if (list.Count == 0)
+        {
+            buff.WriteBoolean(false);
+            return;
+        }
+        buff.WriteBoolean(true)
+            .WriteInt(list.Count);
+
+        foreach (var item in list)
+        {
+            buff.WriteString(item.displayName);
+        }
+    }
+
+    internal static void VipList(IByteBuffer buff)
+    {
+        if (Globals.ServerInfo == null)
+        {
+            buff.WriteBoolean(false);
+            return;
+        }
+
+        buff.WriteBoolean(true);
+        var list = Globals.RspInfo.vipList;
+        if (list.Count == 0)
+        {
+            buff.WriteBoolean(false);
+            return;
+        }
+        buff.WriteBoolean(true)
+            .WriteInt(list.Count);
+
+        foreach (var item in list)
+        {
+            buff.WriteString(item.displayName);
+        }
+    }
 }

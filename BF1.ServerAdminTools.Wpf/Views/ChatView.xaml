@@ -166,7 +166,6 @@
                             Margin="5,0,5,0"
                             Maximum="500"
                             Minimum="50"
-                            Style="{StaticResource Slider}"
                             TickFrequency="10"
                             TickPlacement="None" />
                         <TextBlock Text="{Binding ElementName=Slider_AutoSendMsgSleep, Path=Value, StringFormat=文本间隔时间 : {0:0} 秒, FallbackValue='文本间隔时间 : NULL 秒'}" />
@@ -175,7 +174,6 @@
                             Margin="5,0,5,0"
                             Maximum="5"
                             Minimum="1"
-                            Style="{StaticResource Slider}"
                             TickFrequency="1"
                             TickPlacement="None" />
                         <TextBlock Text="{Binding ElementName=Slider_AutoSendMsg, Path=Value, StringFormat=定时器周期 : {0:0} 分钟, FallbackValue='定时器周期 : NULL 分钟'}" />
@@ -184,7 +182,6 @@
                             Margin="5,0,5,5"
                             Maximum="10"
                             Minimum="3"
-                            Style="{StaticResource Slider}"
                             TickFrequency="1"
                             TickPlacement="None" />
                     </StackPanel>

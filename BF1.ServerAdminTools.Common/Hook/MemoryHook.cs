@@ -517,12 +517,14 @@ internal static class MemoryHook
             if (NeedClear && !IsGet)
             {
                 Globals.ServerInfo = null;
+                Globals.RspInfo = null;
                 Globals.ServerDetailed = null;
                 NeedClear = false;
             }
 
             if (Globals.PlayerDatas_Team1.Count == 0 && Globals.PlayerDatas_Team2.Count == 0)
             {
+                Globals.RspInfo = null;
                 Globals.ServerInfo = null;
                 Globals.ServerDetailed = null;
                 if (IsGet)

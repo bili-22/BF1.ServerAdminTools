@@ -127,8 +127,18 @@ internal class NettyServer
                             var result1 = await ServerAPI.AdminKickPlayer(list.First().PersonaId.ToString(), reason);
                             buff.WriteBoolean(result1.IsSuccess);
                             break;
-                        //
+                        //获取VIP列表
                         case 8:
+                            buff.WriteByte(8);
+                            EncodePack.VipList(buff);
+                            break;
+                        //获取管理列表
+                        case 9:
+                            buff.WriteByte(9);
+                            EncodePack.AdminList(buff);
+                            break;
+                        //
+                        case 10:
                             break;
                     }
                     await context.WriteAndFlushAsync(buff);

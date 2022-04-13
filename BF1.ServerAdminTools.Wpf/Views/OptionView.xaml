@@ -142,12 +142,11 @@
                         <Slider
                             x:Name="Slider_BG_O"
                             Width="200"
+                            VerticalAlignment="Center"
                             IsEnabled="{Binding ElementName=Window_O, Path=IsChecked}"
                             LargeChange="10"
                             Maximum="100"
                             Minimum="0"
-                            SmallChange="1"
-                            Style="{StaticResource Slider}"
                             Value="20" />
                         <Button
                             Margin="10,5,5,5"

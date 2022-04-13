@@ -261,6 +261,7 @@ public static class Core
             var server = result.Obj;
 
             Globals.ServerInfo = server.result.serverInfo;
+            Globals.RspInfo = server.result.rspInfo;
 
             Globals.Config.ServerId = server.result.rspInfo.server.serverId;
             Globals.Config.PersistedGameId = server.result.rspInfo.server.persistedGameId;

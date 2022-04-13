@@ -49,7 +49,6 @@
                             Margin="5,0,5,0"
                             Maximum="100"
                             Minimum="0"
-                            Style="{StaticResource Slider}"
                             TickFrequency="1"
                             TickPlacement="None" />
                         <TextBlock />
@@ -60,7 +59,6 @@
                             Margin="5,0,5,0"
                             Maximum="100"
                             Minimum="0"
-                            Style="{StaticResource Slider}"
                             TickFrequency="1"
                             TickPlacement="None" />
                         <TextBlock Text="{Binding ElementName=Slider_MaxKD, Path=Value, StringFormat=玩家最高KD : {0:0.00}, FallbackValue='玩家最高KD :'}" />
@@ -69,7 +67,6 @@
                             Margin="5,0,5,0"
                             Maximum="10"
                             Minimum="0"
-                            Style="{StaticResource Slider}"
                             TickFrequency="0.01"
                             TickPlacement="None" />
                         <TextBlock />
@@ -80,7 +77,6 @@
                             Margin="5,0,5,0"
                             Maximum="100"
                             Minimum="0"
-                            Style="{StaticResource Slider}"
                             TickFrequency="1"
                             TickPlacement="None" />
                         <TextBlock Text="{Binding ElementName=Slider_MaxKPM, Path=Value, StringFormat=玩家最高KPM : {0:0.00}, FallbackValue='玩家最高KPM :'}" />
@@ -89,7 +85,6 @@
                             Margin="5,0,5,0"
                             Maximum="10"
                             Minimum="0"
-                            Style="{StaticResource Slider}"
                             TickFrequency="0.01"
                             TickPlacement="None" />
                         <TextBlock />
@@ -100,7 +95,6 @@
                             Margin="5,0,5,0"
                             Maximum="150"
                             Minimum="0"
-                            Style="{StaticResource Slider}"
                             TickFrequency="1"
                             TickPlacement="None" />
                         <TextBlock Text="{Binding ElementName=Slider_MaxRank, Path=Value, StringFormat=玩家最高等级 : {0:0}, FallbackValue='玩家最高等级 :'}" />
@@ -109,7 +103,6 @@
                             Margin="5,0,5,0"
                             Maximum="150"
                             Minimum="0"
-                            Style="{StaticResource Slider}"
                             TickFrequency="1"
                             TickPlacement="None" />
                         <TextBlock />
@@ -166,7 +159,6 @@
                         Margin="5,0,5,0"
                         Maximum="10"
                         Minimum="0"
-                        Style="{StaticResource Slider}"
                         TickFrequency="0.01"
                         TickPlacement="None" />
                     <TextBlock Text="{Binding ElementName=Slider_LifeMaxKPM, Path=Value, StringFormat=最高生涯KPM : {0:0.00}, FallbackValue='最高生涯KPM :'}" />
@@ -175,7 +167,6 @@
                         Margin="5,0,5,0"
                         Maximum="10"
                         Minimum="0"
-                        Style="{StaticResource Slider}"
                         TickFrequency="0.01"
                         TickPlacement="None" />
                     <TextBlock />
@@ -186,7 +177,6 @@
                         Margin="5,0,5,0"
                         Maximum="100"
                         Minimum="0"
-                        Style="{StaticResource Slider}"
                         TickFrequency="1"
                         TickPlacement="None" />
                     <TextBlock Text="{Binding ElementName=Slider_LifeMaxVehicleStar, Path=Value, StringFormat=最高生涯载具星数 : {0:0}, FallbackValue='最高生涯载具星数 :'}" />
@@ -195,7 +185,6 @@
                         Margin="5,0,5,0"
                         Maximum="100"
                         Minimum="0"
-                        Style="{StaticResource Slider}"
                         TickFrequency="1"
                         TickPlacement="None" />
                     <!--  ################################  -->
@@ -209,7 +198,6 @@
                         Margin="5,0,5,0"
                         Maximum="300"
                         Minimum="0"
-                        Style="{StaticResource Slider}"
                         TickFrequency="1"
                         TickPlacement="None" />
                     <TextBlock Text="{Binding ElementName=Slider_ScoreNotSwitchMap, Path=Value, StringFormat=分数达到 : {0:0} 后不再换图, FallbackValue='分数达到 : 后不再换图'}" />
@@ -218,7 +206,6 @@
                         Margin="5,0,5,0"
                         Maximum="900"
                         Minimum="0"
-                        Style="{StaticResource Slider}"
                         TickFrequency="1"
                         TickPlacement="None" />
                     <TextBlock Text="{Binding ElementName=Slider_ScoreStartSwitchMap, Path=Value, StringFormat=劣势方分数达到 : {0:0} 后开始判断, FallbackValue='劣势方分数达到 : 后开始判断'}" />
@@ -227,7 +214,6 @@
                         Margin="5,0,5,0"
                         Maximum="900"
                         Minimum="0"
-                        Style="{StaticResource Slider}"
                         TickFrequency="1"
                         TickPlacement="None" />
                     <WrapPanel>
@@ -257,7 +243,6 @@
                         Margin="5,0,5,0"
                         Maximum="300"
                         Minimum="0"
-                        Style="{StaticResource Slider}"
                         TickFrequency="1"
                         TickPlacement="None" />
                     <ComboBox
