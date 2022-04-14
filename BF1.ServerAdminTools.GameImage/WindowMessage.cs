@@ -1,11 +1,6 @@
 ﻿using BF1.ServerAdminTools.Common;
 using BF1.ServerAdminTools.Common.Hook;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BF1.ServerAdminTools.GameImage;
 
@@ -57,7 +52,7 @@ public static class WindowMessage
         mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, 0);
     }
 
-    public static void ToMain() 
+    public static void ToMain()
     {
         Core.SetForegroundWindow();
         for (int a = 0; a < 5; a++)
@@ -89,7 +84,7 @@ public static class WindowMessage
     {
         Click(400, 290);
     }
-    public static void Ok() 
+    public static void Ok()
     {
         Click(650, 440);
     }

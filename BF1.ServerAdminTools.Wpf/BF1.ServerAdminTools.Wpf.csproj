@@ -18,6 +18,14 @@
 		<BaseOutputPath>..\build_out\wpf</BaseOutputPath>
 	</PropertyGroup>
 
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+	  <DebugType>embedded</DebugType>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+	  <DebugType>embedded</DebugType>
+	</PropertyGroup>
+
 	<ItemGroup>
 	  <Compile Remove="Assets\Styles\Attached\**" />
 	  <EmbeddedResource Remove="Assets\Styles\Attached\**" />

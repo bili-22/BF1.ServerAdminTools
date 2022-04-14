@@ -255,6 +255,16 @@ internal class WindowImgTests : IMsgCall
             Thread.Sleep(1000);
         } while (a < 5);
     }
+    [Test]
+    public async Task TestCV8()
+    {
+        Core.Init(this);
+        var res = Core.HookInit();
+        Assert.IsTrue(res);
+        if (!res)
+            return;
+        WindowOpenCV.Info1();
+    }
 
     [Test]
     public async Task TestCheck() 

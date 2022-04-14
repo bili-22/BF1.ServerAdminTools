@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BF1.ServerAdminTools.Common;
+﻿using BF1.ServerAdminTools.Common;
 using OpenCvSharp;
 using OpenCvSharp.Extensions;
+using System.Drawing;
 
 namespace BF1.ServerAdminTools.GameImage;
 
@@ -91,5 +86,11 @@ public static class WindowOpenCV
         if (!Globals.IsToolInit)
             return false;
         return FindPicFromImage(WindowImg.GetWindow(), Resource1.error4);
+    }
+    public static bool Info1()
+    {
+        if (!Globals.IsToolInit)
+            return false;
+        return FindPicFromImage(WindowImg.GetWindow(), Resource1.info1);
     }
 }
