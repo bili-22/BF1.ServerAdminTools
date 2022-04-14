@@ -1,5 +1,6 @@
 ﻿using BF1.ServerAdminTools.Common.Data;
 using BF1.ServerAdminTools.Common.Utils;
+using BF1.ServerAdminTools.GameImage;
 using BF1.ServerAdminTools.Netty;
 
 namespace BF1.ServerAdminTools.Common.Views
@@ -45,6 +46,7 @@ namespace BF1.ServerAdminTools.Common.Views
             AutoRun.IsChecked = DataSave.Config.AutoRun;
             Slider_BG_O.Value = DataSave.Config.Bg_O;
             Window_O.IsChecked = DataSave.Config.Window_O;
+            Window_A.IsChecked = DataSave.Config.Window_A;
             if (DataSave.Config.AutoRun)
             {
                 try
@@ -57,6 +59,10 @@ namespace BF1.ServerAdminTools.Common.Views
                     Core.LogError("Netty服务器启动出错", ex);
                     MsgBoxUtil.ErrorMsgBox("Netty服务器启动出错", ex);
                 }
+            }
+            if (DataSave.Config.Window_A)
+            {
+                GameWindow.Start();
             }
         }
 
@@ -218,6 +224,20 @@ namespace BF1.ServerAdminTools.Common.Views
             ConfigUtil.SaveConfig();
 
             MainWindow.BG();
+        }
+
+        private void Button_Click_6(object sender, RoutedEventArgs e)
+        {
+            DataSave.Config.Window_A = Window_A.IsChecked == true;
+            ConfigUtil.SaveConfig();
+            if (DataSave.Config.Window_A)
+            {
+                GameWindow.Start();
+            }
+            else
+            {
+                GameWindow.Pause();
+            }
         }
     }
 }

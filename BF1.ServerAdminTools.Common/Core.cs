@@ -292,4 +292,7 @@ public static class Core
 
     public static void Tick()
         => MemoryHook.Tick();
+
+    public static IntPtr GetWindowHandle()
+        => MemoryHook.GetWindowHandle();
 }

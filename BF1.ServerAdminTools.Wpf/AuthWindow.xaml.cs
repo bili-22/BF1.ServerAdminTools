@@ -118,7 +118,7 @@ namespace BF1.ServerAdminTools.Common
                 }
                 catch (Exception ex)
                 {
-                    UpdateState("软件联网失败");
+                    UpdateState("软件更新服务器链接失败");
                     Task.Delay(2000).Wait();
                 }
 

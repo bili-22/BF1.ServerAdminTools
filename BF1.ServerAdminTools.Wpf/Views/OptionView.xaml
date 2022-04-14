@@ -57,6 +57,28 @@
                 </WrapPanel>
             </GroupBox>
             <GroupBox Margin="0,-2,0,0" Header="检测游戏">
+                <Grid>
+                    <StackPanel Margin="5" Orientation="Horizontal">
+                        <CheckBox
+                            x:Name="Window_A"
+                            Margin="5,0,20,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Content="启用短线自动重连" />
+                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
+                            注意：若要启动，需要将游戏设置窗口化运行，且分辨率为1280X720
+                        </TextBlock>
+
+                    </StackPanel>
+                    <Button
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Click="Button_Click_6"
+                        Content="设置"
+                        Style="{StaticResource ButtonStyle_Web}" />
+                </Grid>
+            </GroupBox>
+            <GroupBox Margin="0,-2,0,0" Header="断线重连">
                 <Grid Margin="5">
                     <Button
                         Click="Button_Click"

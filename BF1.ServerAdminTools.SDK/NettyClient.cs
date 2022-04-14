@@ -259,6 +259,20 @@ internal class DecodePack
             Success = buff.ReadBoolean()
         };
     }
+
+    public static List<string>? List(IByteBuffer buff) 
+    {
+        if (!buff.ReadBoolean())
+            return null;
+        if (!buff.ReadBoolean())
+            return new();
+        var list = new List<string>();
+        for (int a = 0; a < buff.ReadInt(); a++)
+        {
+            list.Add(buff.ReadString(buff.ReadInt(), Encoding.UTF8));
+        }
+        return list;
+    }
 }
 
 
@@ -442,6 +456,36 @@ public class NettyClient
         });
     }
 
+    public static async Task<List<string>?> GetVipList()
+    {
+        if (!IsConnect)
+            return null;
+        var pack = Unpooled.Buffer()
+            .WriteLong(Key)
+            .WriteByte(8);
+        await ClientChannel.WriteAndFlushAsync(pack);
+        return await Task.Run(() =>
+        {
+            CallBack[8].WaitOne();
+            return ResBack[8] as List<string>;
+        });
+    }
+
+    public static async Task<List<string>?> GetAdminList()
+    {
+        if (!IsConnect)
+            return null;
+        var pack = Unpooled.Buffer()
+            .WriteLong(Key)
+            .WriteByte(9);
+        await ClientChannel.WriteAndFlushAsync(pack);
+        return await Task.Run(() =>
+        {
+            CallBack[9].WaitOne();
+            return ResBack[9] as List<string>;
+        });
+    }
+
     class ClientHandler : SimpleChannelInboundHandler<IByteBuffer>
     {
         protected override void ChannelRead0(IChannelHandlerContext ctx, IByteBuffer buff)
@@ -488,6 +532,14 @@ public class NettyClient
                     case 7:
                         ResBack[7] = DecodePack.KickPlayer(buff);
                         CallBack[7].Release();
+                        break;
+                    case 8:
+                        ResBack[8] = DecodePack.List(buff);
+                        CallBack[8].Release();
+                        break;
+                    case 9:
+                        ResBack[9] = DecodePack.List(buff);
+                        CallBack[9].Release();
                         break;
                 }
             }
