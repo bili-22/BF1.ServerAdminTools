@@ -102,9 +102,9 @@ namespace BF1.ServerAdminTools.Common.Views
         private async void Button_RefreshPlayerSessionId_Click(object sender, RoutedEventArgs e)
         {
             AudioUtil.ClickSound();
-            MainWindow._SetOperatingState(2, $"正在刷新SessionID");
+            MainWindow._SetOperatingState(1, $"正在刷新SessionID");
             string data = await Core.Login();
-            MainWindow._SetOperatingState(3, data);
+            MainWindow._SetOperatingState(1, data);
         }
 
         private async void Button_VerifyPlayerSessionId_Click(object sender, RoutedEventArgs e)
@@ -115,7 +115,7 @@ namespace BF1.ServerAdminTools.Common.Views
             {
                 TextBlock_CheckSessionIdStatus.Text = "正在验证中，请等待...";
                 TextBlock_CheckSessionIdStatus.Background = Brushes.Gray;
-                MainWindow._SetOperatingState(2, "正在验证中，请等待...");
+                MainWindow._SetOperatingState(1, "正在验证中，请等待...");
 
                 await ServerAPI.SetAPILocale();
                 var result = await ServerAPI.GetWelcomeMessage();

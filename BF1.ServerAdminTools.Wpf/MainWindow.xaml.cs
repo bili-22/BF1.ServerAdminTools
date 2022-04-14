@@ -161,12 +161,12 @@ namespace BF1.ServerAdminTools.Common
         {
             if (index == 1)
             {
-                Border_OperateState.Background = Brushes.Green;
+                Border_OperateState.Background = Brushes.Gray;
                 TextBlock_OperateState.Text = $"信息 : {str}";
             }
             else if (index == 2)
             {
-                Border_OperateState.Background = Brushes.Gray;
+                Border_OperateState.Background = Brushes.LightSalmon;
                 TextBlock_OperateState.Text = $"警告 : {str}";
             }
             else if (index == 3)

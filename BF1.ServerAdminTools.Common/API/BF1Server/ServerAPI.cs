@@ -25,16 +25,18 @@ public static class ServerAPI
 
             client = new RestClient(options);
 
-            headers = new Dictionary<string, string>();
-            headers["User-Agent"] = "ProtoHttp 1.3/DS 15.1.2.1.0 (Windows)";
-            headers["X-GatewaySession"] = Globals.Config.SessionId;
-            headers["X-ClientVersion"] = "release-bf1-lsu35_26385_ad7bf56a_tunguska_all_prod";
-            headers["X-DbId"] = "Tunguska.Shipping2PC.Win32";
-            headers["X-CodeCL"] = "3779779";
-            headers["X-DataCL"] = "3779779";
-            headers["X-SaveGameVersion"] = "26";
-            headers["X-HostingGameId"] = "tunguska";
-            headers["X-Sparta-Info"] = "tenancyRootEnv=unknown; tenancyBlazeEnv=unknown";
+            headers = new Dictionary<string, string>
+            {
+                ["User-Agent"] = "ProtoHttp 1.3/DS 15.1.2.1.0 (Windows)",
+                ["X-GatewaySession"] = Globals.Config.SessionId,
+                ["X-ClientVersion"] = "release-bf1-lsu35_26385_ad7bf56a_tunguska_all_prod",
+                ["X-DbId"] = "Tunguska.Shipping2PC.Win32",
+                ["X-CodeCL"] = "3779779",
+                ["X-DataCL"] = "3779779",
+                ["X-SaveGameVersion"] = "26",
+                ["X-HostingGameId"] = "tunguska",
+                ["X-Sparta-Info"] = "tenancyRootEnv=unknown; tenancyBlazeEnv=unknown"
+            };
         }
     }
 

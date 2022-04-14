@@ -263,10 +263,11 @@ namespace BF1.ServerAdminTools.Common.Views
 
         private void AutoKickLifeBreakPlayer()
         {
+            int a = 0;
             List<PlayerData> players = new();
             while (true)
             {
-                Thread.Sleep(5000);
+                Thread.Sleep(100);
                 // 自动踢出违规玩家
                 if (DataSave.AutoKickBreakPlayer)
                 {
@@ -295,11 +296,12 @@ namespace BF1.ServerAdminTools.Common.Views
                     {
                         CheckBreakLifePlayer(item);
                     }
+                    Thread.Sleep(20000);
                 }
             }
         }
 
-        private async void CheckBreakLifePlayer(PlayerData data)
+        private void CheckBreakLifePlayer(PlayerData data)
         {
             // 跳过管理员
             if (Globals.Server_AdminList.Contains(data.PersonaId))
@@ -325,80 +327,81 @@ namespace BF1.ServerAdminTools.Common.Views
                 }
             }
 
-            var resultTemp = await ServerAPI.GetCareerForOwnedGamesByPersonaId(data.PersonaId.ToString());
-
-            if (resultTemp.IsSuccess)
+            var resultTemp = ServerAPI.GetCareerForOwnedGamesByPersonaId(data.PersonaId.ToString()).Result;
+            if (!resultTemp.IsSuccess)
             {
-                var career = resultTemp.Obj;
+                return;
+            }
 
-                // 拿到该玩家的生涯数据
-                int kills = career.result.gameStats.tunguska.kills;
-                int deaths = career.result.gameStats.tunguska.deaths;
+            var career = resultTemp.Obj;
 
-                float kd = (float)Math.Round((double)kills / deaths, 2);
-                float kpm = career.result.gameStats.tunguska.kpm;
+            // 拿到该玩家的生涯数据
+            int kills = career.result.gameStats.tunguska.kills;
+            int deaths = career.result.gameStats.tunguska.deaths;
 
-                int weaponStar = (int)career.result.gameStats.tunguska.highlightsByType.weapon[0].highlightDetails.stats.values.kills;
-                int vehicleStar = (int)career.result.gameStats.tunguska.highlightsByType.vehicle[0].highlightDetails.stats.values.kills;
+            float kd = (float)Math.Round((double)kills / deaths, 2);
+            float kpm = career.result.gameStats.tunguska.kpm;
 
-                weaponStar = weaponStar / 100;
-                vehicleStar = vehicleStar / 100;
+            int weaponStar = (int)career.result.gameStats.tunguska.highlightsByType.weapon[0].highlightDetails.stats.values.kills;
+            int vehicleStar = (int)career.result.gameStats.tunguska.highlightsByType.vehicle[0].highlightDetails.stats.values.kills;
 
-                // 限制玩家生涯KD
-                if (DataSave.NowRule.LifeMaxKD != 0 && kd > DataSave.NowRule.LifeMaxKD)
+            weaponStar = weaponStar / 100;
+            vehicleStar = vehicleStar / 100;
+
+            // 限制玩家生涯KD
+            if (DataSave.NowRule.LifeMaxKD != 0 && kd > DataSave.NowRule.LifeMaxKD)
+            {
+                AutoKickPlayer(new BreakRuleInfo
                 {
-                    AutoKickPlayer(new BreakRuleInfo
-                    {
-                        Name = data.Name,
-                        PersonaId = data.PersonaId,
-                        Reason = $"Life KD Limit {DataSave.NowRule.LifeMaxKD:0.00}",
-                        Type = BreakType.Life_KD_Limit
-                    });
+                    Name = data.Name,
+                    PersonaId = data.PersonaId,
+                    Reason = $"Life KD Limit {DataSave.NowRule.LifeMaxKD:0.00}",
+                    Type = BreakType.Life_KD_Limit
+                });
 
-                    return;
-                }
+                return;
+            }
 
-                // 限制玩家生涯KPM
-                if (DataSave.NowRule.LifeMaxKPM != 0 && kpm > DataSave.NowRule.LifeMaxKPM)
+            // 限制玩家生涯KPM
+            if (DataSave.NowRule.LifeMaxKPM != 0 && kpm > DataSave.NowRule.LifeMaxKPM)
+            {
+                AutoKickPlayer(new BreakRuleInfo
                 {
-                    AutoKickPlayer(new BreakRuleInfo
-                    {
-                        Name = data.Name,
-                        PersonaId = data.PersonaId,
-                        Reason = $"Life KPM Limit {DataSave.NowRule.LifeMaxKPM:0.00}",
-                        Type = BreakType.Life_KPM_Limit
-                    });
+                    Name = data.Name,
+                    PersonaId = data.PersonaId,
+                    Reason = $"Life KPM Limit {DataSave.NowRule.LifeMaxKPM:0.00}",
+                    Type = BreakType.Life_KPM_Limit
+                });
 
-                    return;
-                }
+                return;
+            }
 
-                // 限制玩家武器星级
-                if (DataSave.NowRule.LifeMaxWeaponStar != 0 && weaponStar > DataSave.NowRule.LifeMaxWeaponStar)
+            // 限制玩家武器星级
+            if (DataSave.NowRule.LifeMaxWeaponStar != 0 && weaponStar > DataSave.NowRule.LifeMaxWeaponStar)
+            {
+                AutoKickPlayer(new BreakRuleInfo
                 {
-                    AutoKickPlayer(new BreakRuleInfo
-                    {
-                        Name = data.Name,
-                        PersonaId = data.PersonaId,
-                        Reason = $"Life Weapon Star Limit {DataSave.NowRule.LifeMaxWeaponStar:0}",
-                        Type = BreakType.Life_Weapon_Star_Limit
-                    });
+                    Name = data.Name,
+                    PersonaId = data.PersonaId,
+                    Reason = $"Life Weapon Star Limit {DataSave.NowRule.LifeMaxWeaponStar:0}",
+                    Type = BreakType.Life_Weapon_Star_Limit
+                });
 
-                    return;
-                }
+                return;
+            }
 
-                // 限制玩家载具星级
-                if (DataSave.NowRule.LifeMaxVehicleStar != 0 && vehicleStar > DataSave.NowRule.LifeMaxVehicleStar)
+            // 限制玩家载具星级
+            if (DataSave.NowRule.LifeMaxVehicleStar != 0 && vehicleStar > DataSave.NowRule.LifeMaxVehicleStar)
+            {
+                AutoKickPlayer(new BreakRuleInfo
                 {
-                    AutoKickPlayer(new BreakRuleInfo
-                    {
-                        Name = data.Name,
-                        PersonaId = data.PersonaId,
-                        Reason = $"Life Vehicle Star Limit {DataSave.NowRule.LifeMaxVehicleStar:0}",
-                        Type = BreakType.Life_Vehicle_Star_Limit
-                    });
+                    Name = data.Name,
+                    PersonaId = data.PersonaId,
+                    Reason = $"Life Vehicle Star Limit {DataSave.NowRule.LifeMaxVehicleStar:0}",
+                    Type = BreakType.Life_Vehicle_Star_Limit
+                });
 
-                    return;
-                }
+                return;
             }
         }
 
