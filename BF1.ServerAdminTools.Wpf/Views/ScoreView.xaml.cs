@@ -195,9 +195,13 @@ namespace BF1.ServerAdminTools.Common.Views
                 return;
             if (DataSave.NowRule.ScoreSwitchMap == 0)
                 return;
-            if (Math.Min(Globals.ServerHook.Team1Score, Globals.ServerHook.Team2Score) > DataSave.NowRule.ScoreStartSwitchMap)
+            if (DataSave.NowRule.ScoreStartSwitchMap!=0 && 
+                Math.Min(Globals.ServerHook.Team1Score, Globals.ServerHook.Team2Score) > DataSave.NowRule.ScoreStartSwitchMap)
                 return;
-            if (Math.Abs(Globals.ServerHook.Team1Score - Globals.ServerHook.Team2Score) <= DataSave.NowRule.ScoreSwitchMap)
+            if (DataSave.NowRule.ScoreSwitchMap!=0 && 
+                Math.Abs(Globals.ServerHook.Team1Score - Globals.ServerHook.Team2Score) <= DataSave.NowRule.ScoreSwitchMap)
+                return;
+            if (Globals.ServerHook.Team1Score == 0 || Globals.ServerHook.Team2Score == 0)
                 return;
 
             if (DataSave.NowRule.ScoreNotSwitchMap != 0)

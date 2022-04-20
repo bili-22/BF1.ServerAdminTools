@@ -292,9 +292,17 @@ namespace BF1.ServerAdminTools.Common.Views
                         players.AddRange(Globals.PlayerDatas_Team2.Values);
                     }
 
-                    foreach (var item in players)
+                    try
                     {
-                        CheckBreakLifePlayer(item);
+                        foreach (var item in players)
+                        {
+                            CheckBreakLifePlayer(item);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Core.LogError("生涯数据获取错误", e);
+                        MsgBoxUtil.ErrorMsgBox("生涯数据获取错误", e);
                     }
                     Thread.Sleep(20000);
                 }
@@ -327,7 +335,7 @@ namespace BF1.ServerAdminTools.Common.Views
                 }
             }
 
-            var resultTemp = ServerAPI.GetCareerForOwnedGamesByPersonaId(data.PersonaId.ToString()).Result;
+            var resultTemp = ServerAPI.DetailedStatsByPersonaId(data.PersonaId.ToString()).Result;
             if (!resultTemp.IsSuccess)
             {
                 return;
@@ -336,14 +344,24 @@ namespace BF1.ServerAdminTools.Common.Views
             var career = resultTemp.Obj;
 
             // 拿到该玩家的生涯数据
-            int kills = career.result.gameStats.tunguska.kills;
-            int deaths = career.result.gameStats.tunguska.deaths;
+            int kills = career.result.basicStats.kills;
+            int deaths = career.result.basicStats.deaths;
 
             float kd = (float)Math.Round((double)kills / deaths, 2);
-            float kpm = career.result.gameStats.tunguska.kpm;
+            float kpm = career.result.basicStats.kpm;
+            int weaponStar =0;
+            int vehicleStar=0;
+            foreach (var item in career.result.kitStats)
+            {
+                if (weaponStar < (int)item.kills)
+                    weaponStar = (int)item.kills;
+            }
 
-            int weaponStar = (int)career.result.gameStats.tunguska.highlightsByType.weapon[0].highlightDetails.stats.values.kills;
-            int vehicleStar = (int)career.result.gameStats.tunguska.highlightsByType.vehicle[0].highlightDetails.stats.values.kills;
+            foreach (var item in career.result.vehicleStats)
+            {
+                if (vehicleStar < (int)item.killsAs)
+                    vehicleStar = (int)item.killsAs;
+            }
 
             weaponStar = weaponStar / 100;
             vehicleStar = vehicleStar / 100;
