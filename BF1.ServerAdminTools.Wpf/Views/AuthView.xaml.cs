@@ -125,6 +125,9 @@ namespace BF1.ServerAdminTools.Common.Views
                     Globals.Config.Sid = response.Cookies["sid"].Value;
                 }
 
+                TextBox_Remid.Text = "";
+                TextBox_Sid.Text = "";
+
                 var result = await ServerAPI.GetEnvIdViaAuthCode(code);
 
                 if (result.IsSuccess)
